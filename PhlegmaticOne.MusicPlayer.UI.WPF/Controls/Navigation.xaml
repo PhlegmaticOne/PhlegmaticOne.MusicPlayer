@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Navigation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
+             xmlns:nav="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Navigation"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" 
+             d:DesignWidth="315">
+    <Grid Width="315" Background="{StaticResource NavigationBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Row="0">
+            <DockPanel>
+                <Image Source="../Images/icon.png" DockPanel.Dock="Left" Stretch="Uniform"/>
+                <TextBlock Background="Transparent" Text="Music player"
+                           Foreground="{StaticResource FontColorBrush}" VerticalAlignment="Center"
+                           Padding="20 0"/>
+            </DockPanel>
+        </Grid>
+        <Grid Row="1">
+            <StackPanel Orientation="Horizontal">
+                <Button Width="60"/>
+            </StackPanel>
+        </Grid>
+        <Grid Row="2">
+            <ScrollViewer>
+                <StackPanel>
+                    <RadioButton Content="Add new" Foreground="{StaticResource FontColorBrush}"/>
+                    <RadioButton Content="Home" Foreground="{StaticResource FontColorBrush}"
+                                 Command="{Binding NavigateCommand}" CommandParameter="{x:Static nav:ViewType.Home}"/>
+                    <RadioButton Content="Tracks" Foreground="{StaticResource FontColorBrush}"/>
+                    <RadioButton Content="Artists" Foreground="{StaticResource FontColorBrush}"/>
+                    <RadioButton Content="Albums" Foreground="{StaticResource FontColorBrush}"/>
+                    <RadioButton Content="Playlists" Foreground="{StaticResource FontColorBrush}"/>
+                    <RadioButton Content="Downloaded tracks" Foreground="{StaticResource FontColorBrush}"/>
+                    <RadioButton Content="Settings" Foreground="{StaticResource FontColorBrush}"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>
