@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
@@ -11,7 +12,7 @@ public class Navigator : ObservableObject, INavigator
     private readonly DelegateCommand _navigationCommand;
     public Navigator()
     {
-        CurrentViewModel = new SettingsViewModel();
+        CurrentViewModel = new HomeViewModel();
         _navigationCommand = new((o) =>
         {
             switch (o)
@@ -21,6 +22,9 @@ public class Navigator : ObservableObject, INavigator
                     {
                         case ViewType.Home:
                             CurrentViewModel = new HomeViewModel();
+                            break;
+                        case ViewType.AddingNewAlbum:
+                            CurrentViewModel = new AddingNewAlbumViewModel();
                             break;
                         default: break;
                     }

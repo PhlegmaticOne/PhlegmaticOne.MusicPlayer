@@ -9,6 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\album.png" />
+    <None Remove="Images\artist.png" />
+    <None Remove="Images\downloaded.png" />
+    <None Remove="Images\home.png" />
+    <None Remove="Images\logo.png" />
+    <None Remove="Images\menu.png" />
+    <None Remove="Images\new.png" />
+    <None Remove="Images\playlist.png" />
+    <None Remove="Images\setting.png" />
+    <None Remove="Images\tracks.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Calabonga.UnitOfWork" Version="3.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
@@ -16,6 +29,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data\PhlegmaticOne.MusicPlayer.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\album.png" />
+    <Resource Include="Images\artist.png" />
+    <Resource Include="Images\downloaded.png" />
+    <Resource Include="Images\home.png" />
+    <Resource Include="Images\logo.png" />
+    <Resource Include="Images\menu.png" />
+    <Resource Include="Images\new.png" />
+    <Resource Include="Images\playlist.png" />
+    <Resource Include="Images\setting.png" />
+    <Resource Include="Images\tracks.png" />
   </ItemGroup>
 
   <ItemGroup>

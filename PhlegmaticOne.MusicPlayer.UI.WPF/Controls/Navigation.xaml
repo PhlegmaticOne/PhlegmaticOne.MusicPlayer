@@ -8,6 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="315">
+
     <Grid Width="315" Background="{StaticResource NavigationBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -15,30 +16,60 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Row="0">
-            <DockPanel>
-                <Image Source="../Images/icon.png" DockPanel.Dock="Left" Stretch="Uniform"/>
+            <DockPanel VerticalAlignment="Center">
+                <Image Source="../Images/logo.png" DockPanel.Dock="Left" Height="24" Margin="10 0 0 0"/>
                 <TextBlock Background="Transparent" Text="Music player"
-                           Foreground="{StaticResource FontColorBrush}" VerticalAlignment="Center"
+                           Foreground="{StaticResource FontColorBrush}"
+                           VerticalAlignment="Center"
                            Padding="20 0"/>
             </DockPanel>
         </Grid>
         <Grid Row="1">
             <StackPanel Orientation="Horizontal">
-                <Button Width="60"/>
+                <Button Background="Transparent" BorderBrush="Transparent" Style="{StaticResource ExpandButtonStyle}">
+                    <Image Source="../Images/menu.png"/>
+                </Button>
             </StackPanel>
         </Grid>
         <Grid Row="2">
-            <ScrollViewer>
+            <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
                 <StackPanel>
-                    <RadioButton Content="Add new" Foreground="{StaticResource FontColorBrush}"/>
-                    <RadioButton Content="Home" Foreground="{StaticResource FontColorBrush}"
-                                 Command="{Binding NavigateCommand}" CommandParameter="{x:Static nav:ViewType.Home}"/>
-                    <RadioButton Content="Tracks" Foreground="{StaticResource FontColorBrush}"/>
-                    <RadioButton Content="Artists" Foreground="{StaticResource FontColorBrush}"/>
-                    <RadioButton Content="Albums" Foreground="{StaticResource FontColorBrush}"/>
-                    <RadioButton Content="Playlists" Foreground="{StaticResource FontColorBrush}"/>
-                    <RadioButton Content="Downloaded tracks" Foreground="{StaticResource FontColorBrush}"/>
-                    <RadioButton Content="Settings" Foreground="{StaticResource FontColorBrush}"/>
+                    <StackPanel.Resources>
+                        <Style TargetType="RadioButton" BasedOn="{StaticResource NavigationButton}"/>
+                    </StackPanel.Resources>
+
+                    <RadioButton Content="Add new" Command="{Binding NavigateCommand}" 
+                                 CommandParameter="{x:Static nav:ViewType.AddingNewAlbum}"
+                                 Name="AddNew"/>
+
+                    <RadioButton Content="Home" IsChecked="True" Command="{Binding NavigateCommand}" 
+                                 CommandParameter="{x:Static nav:ViewType.Home}"
+                                 Name="Home"/>
+
+                    <RadioButton Content="Tracks" Command="{Binding NavigateCommand}" 
+                                 CommandParameter="{x:Static nav:ViewType.Tracks}"
+                                 Name="Tracks"/>
+
+                    <RadioButton Content="Artists" Command="{Binding NavigateCommand}" 
+                                 CommandParameter="{x:Static nav:ViewType.Artists}"
+                                 Name="Artists"/>
+
+                    <RadioButton Content="Albums" Command="{Binding NavigateCommand}"
+                                 CommandParameter="{x:Static nav:ViewType.Collection}"
+                                 Name="Albums"/>
+
+                    <RadioButton Content="Playlists" Command="{Binding NavigateCommand}" 
+                                 CommandParameter="{x:Static nav:ViewType.Playlists}"
+                                 Name="Playlists"/>
+
+                    <RadioButton Content="Downloaded tracks" Command="{Binding NavigateCommand}" 
+                                 CommandParameter="{x:Static nav:ViewType.DownloadedTracks}"
+                                 Name="Downloaded"/>
+
+                    <RadioButton Content="Settings" Command="{Binding NavigateCommand}" 
+                                 CommandParameter="{x:Static nav:ViewType.Settings}"
+                                 Name="Settings"/>
+
                 </StackPanel>
             </ScrollViewer>
         </Grid>

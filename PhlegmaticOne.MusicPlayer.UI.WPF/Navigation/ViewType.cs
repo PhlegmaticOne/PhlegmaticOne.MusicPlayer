@@ -2,5 +2,12 @@
 
 public enum ViewType
 {
-    Home
+    Home,
+    AddingNewAlbum,
+    Artists,
+    Collection,
+    DownloadedTracks,
+    Playlists,
+    Settings,
+    Tracks
 }

@@ -5,10 +5,10 @@ namespace PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
 
 public class DelegateCommand : ICommand
 {
-    private readonly Action<object> _action;
+    private readonly Action<object?> _action;
     private readonly Predicate<object?>? _canExecute;
 
-    public DelegateCommand(Action<object> action, Predicate<object?>? canExecute = null)
+    public DelegateCommand(Action<object?> action, Predicate<object?>? canExecute = null)
     {
         _action = action;
         _canExecute = canExecute;

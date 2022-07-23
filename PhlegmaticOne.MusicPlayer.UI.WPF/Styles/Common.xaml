@@ -3,8 +3,13 @@
 
     <Color x:Key="NavigationBackgroundColor">#141414</Color>
     <Color x:Key="MainFontColor">#f0f0f0</Color>
+    <Color x:Key="NavigationHoverColor">#2b2b2b</Color>
+    <Color x:Key="ScrollBarColor">#858585</Color>
+
 
 
     <SolidColorBrush x:Key="NavigationBackgroundBrush" Color="{StaticResource NavigationBackgroundColor}"/>
     <SolidColorBrush x:Key="FontColorBrush" Color="{StaticResource MainFontColor}"/>
+    <SolidColorBrush x:Key="NavigationHoverBrush" Color="{StaticResource NavigationHoverColor}"/>
+    <SolidColorBrush x:Key="ScrollBarBrush" Color="{StaticResource ScrollBarColor}"/>
 </ResourceDictionary>
