@@ -1,8 +1,8 @@
-﻿using PhlegmaticOne.MusicPlayer.UI.WPF.Base;
+﻿using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
-public class TracksViewModel : ObservableObject
+public class TracksViewModel : BaseViewModel
 {
 
 }

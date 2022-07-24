@@ -1,23 +1,12 @@
-﻿using System;
-using PhlegmaticOne.MusicPlayer.Data.Context;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
+﻿using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
 public partial class MainWindow
 {
-    private readonly ApplicationDbContext _dbContext;
-    public INavigator Navigator { get; set; } = new Navigator();
-    public MainWindow(ApplicationDbContext dbContext)
+    public MainWindow(MainViewModel mainViewModel)
     {
-        _dbContext = dbContext;
         InitializeComponent();
-        App.LanguageChanged += AppOnLanguageChanged;
-        DataContext = this;
-    }
-
-    private void AppOnLanguageChanged(object? sender, EventArgs e)
-    {
-
+        DataContext = mainViewModel;
     }
 }

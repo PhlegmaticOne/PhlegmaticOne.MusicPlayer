@@ -9,8 +9,12 @@ using Calabonga.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PhlegmaticOne.DependencyInjectionFactoryExtension;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ConfigurationSections.SupportedCulturesSection;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
+using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
+using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -20,7 +24,6 @@ public partial class App
 
     public static readonly IList<CultureInfo> SupportedCultures = new List<CultureInfo>();
     public static event EventHandler? LanguageChanged;
-
     public static CultureInfo Language
     {
         get => Thread.CurrentThread.CurrentUICulture;
@@ -68,12 +71,23 @@ public partial class App
 
     private static IHostBuilder ConfigureServices()
     {
-        var connectionString = ConfigurationManager.ConnectionStrings["sql-connection-string"].ConnectionString;
+       // var connectionString = ConfigurationManager.ConnectionStrings["sql-connection-string"].ConnectionString;
         var hostBuilder = new HostBuilder()
             .ConfigureServices((builder, services) =>
             {
-                services.AddDbContext<ApplicationDbContext>(b => b.UseSqlServer(connectionString));
+                services.AddDbContext<ApplicationDbContext>(b => b.UseInMemoryDatabase("MEMORY"));
                 services.AddUnitOfWork<ApplicationDbContext>();
+                services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
+                services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
+                services.AddDependencyFactory<ArtistsViewModel>(ServiceLifetime.Singleton);
+                services.AddDependencyFactory<CollectionViewModel>(ServiceLifetime.Singleton);
+                services.AddDependencyFactory<DownloadedTracksViewModel>(ServiceLifetime.Singleton);
+                services.AddDependencyFactory<MainViewModel>(ServiceLifetime.Singleton);
+                services.AddDependencyFactory<PlaylistsViewModel>(ServiceLifetime.Singleton);
+                services.AddDependencyFactory<SettingsViewModel>(ServiceLifetime.Singleton);
+                services.AddDependencyFactory<TracksViewModel>(ServiceLifetime.Singleton);
+                services.AddScoped<INavigator, Navigator>();
+                services.AddSingleton<IViewModelFactory, ViewModelFactory>();
                 services.AddSingleton<MainWindow>();
             });
         return hostBuilder;
@@ -86,6 +100,5 @@ public partial class App
         {
             SupportedCultures.Add(new CultureInfo(cultureElement.Name));
         }
-        
     }
 }
