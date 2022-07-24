@@ -22,6 +22,7 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
         var (artist, title, yearReleased) = GetRepresentationInfo(domDocument);
         var artists = new List<Artist>() {artist};
         var cover = await GetAlbumCover(domDocument);
+        var albumCover = new AlbumCover() {Cover = cover};
         var albumType = GetAlbumType(domDocument);
 
         var songs = GetSongs(domDocument).ToList();
@@ -35,7 +36,7 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
             AlbumType = albumType,
             Songs = songs,
             Genres = genres,
-            Cover = cover
+            AlbumCover = albumCover
         };
     }
 
