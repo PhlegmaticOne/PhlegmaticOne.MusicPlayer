@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="Resources/lang.xaml"/>
                 <ResourceDictionary Source="Styles/Common.xaml"/>
                 <ResourceDictionary Source="Styles/Navigation.xaml"/>
+                <ResourceDictionary Source="Styles/WindowActionButtonStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
              <DataTemplate DataType="{x:Type vm:HomeViewModel}">
