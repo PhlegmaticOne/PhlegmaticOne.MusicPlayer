@@ -13,7 +13,6 @@ public class AlbumCoverConfiguration : IEntityTypeConfiguration<AlbumCover>
         builder.HasKey(x => x.Id);
         builder.Property(p => p.Cover).HasConversion(
             from => (byte[])new ImageConverter().ConvertTo(from, typeof(byte[]))!,
-            to => (Bitmap)Image.FromStream(new MemoryStream(to))!
-        );
+            to => (Bitmap)Image.FromStream(new MemoryStream(to))!).IsRequired();
     }
 }

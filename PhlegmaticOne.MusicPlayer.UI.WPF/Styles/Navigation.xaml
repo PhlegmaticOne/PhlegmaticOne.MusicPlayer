@@ -18,6 +18,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
                     <StackPanel Orientation="Horizontal" Background="{TemplateBinding Background}">
+                        <Border Height="40" Width="5" Background="{StaticResource SelectedBrush}" 
+                                CornerRadius="3" Margin="5 0 0 0" VerticalAlignment="Center"
+                                Name="SelectedBorder"/>
                         <Grid Height="60" VerticalAlignment="Center" Margin="10 0 0 0">
                             <Image Source="{Binding Path=Name, Converter={StaticResource PathConverter}, 
                             RelativeSource={RelativeSource TemplatedParent}}" Height="30"/>
@@ -25,6 +28,16 @@
                         <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"
                                    Padding="20 5" VerticalAlignment="Center"/>
                     </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource SelectedBrush}"/>
+                            <Setter TargetName="SelectedBorder" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
+                            <Setter TargetName="SelectedBorder" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

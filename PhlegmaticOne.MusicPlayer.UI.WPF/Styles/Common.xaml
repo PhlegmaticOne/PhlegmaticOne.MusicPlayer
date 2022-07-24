@@ -5,6 +5,7 @@
     <Color x:Key="MainFontColor">#f0f0f0</Color>
     <Color x:Key="NavigationHoverColor">#2b2b2b</Color>
     <Color x:Key="ScrollBarColor">#858585</Color>
+    <Color x:Key="SelectedColor">DarkOrange</Color>
 
 
 
@@ -12,4 +13,5 @@
     <SolidColorBrush x:Key="FontColorBrush" Color="{StaticResource MainFontColor}"/>
     <SolidColorBrush x:Key="NavigationHoverBrush" Color="{StaticResource NavigationHoverColor}"/>
     <SolidColorBrush x:Key="ScrollBarBrush" Color="{StaticResource ScrollBarColor}"/>
+    <SolidColorBrush x:Key="SelectedBrush" Color="{StaticResource SelectedColor}"/>
 </ResourceDictionary>

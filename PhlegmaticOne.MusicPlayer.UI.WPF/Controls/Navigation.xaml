@@ -5,9 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
              xmlns:nav="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Navigation"
+             xmlns:conv="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
+             xmlns:vm="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="315">
+    
+    <UserControl.Resources>
+        <conv:EqualValueToParameterConverter x:Key="EqualValueToParameterConverter"/>
+    </UserControl.Resources>
 
     <Grid Width="315" Background="{StaticResource NavigationBackgroundBrush}">
         <Grid.RowDefinitions>
@@ -40,36 +46,59 @@
 
                     <RadioButton Content="Add new" Command="{Binding NavigateCommand}" 
                                  CommandParameter="{x:Static nav:ViewType.AddingNewAlbum}"
-                                 Name="AddNew"/>
+                                 Name="AddNew"
+                                 IsChecked="{Binding CurrentViewModel,
+                        Converter={StaticResource EqualValueToParameterConverter},
+                        ConverterParameter={x:Type vm:AddingNewAlbumViewModel}}"/>
 
-                    <RadioButton Content="Home" IsChecked="True" Command="{Binding NavigateCommand}" 
+                    <RadioButton Content="Home" Command="{Binding NavigateCommand}" 
                                  CommandParameter="{x:Static nav:ViewType.Home}"
-                                 Name="Home"/>
+                                 Name="Home"
+                                 IsChecked="{Binding CurrentViewModel,
+                        Converter={StaticResource EqualValueToParameterConverter},
+                        ConverterParameter={x:Type vm:HomeViewModel}}"/>
 
                     <RadioButton Content="Tracks" Command="{Binding NavigateCommand}" 
                                  CommandParameter="{x:Static nav:ViewType.Tracks}"
-                                 Name="Tracks"/>
+                                 Name="Tracks"
+                                 IsChecked="{Binding CurrentViewModel,
+                        Converter={StaticResource EqualValueToParameterConverter},
+                        ConverterParameter={x:Type vm:TracksViewModel}}"/>
 
                     <RadioButton Content="Artists" Command="{Binding NavigateCommand}" 
                                  CommandParameter="{x:Static nav:ViewType.Artists}"
-                                 Name="Artists"/>
+                                 Name="Artists"
+                                 IsChecked="{Binding CurrentViewModel,
+                        Converter={StaticResource EqualValueToParameterConverter},
+                        ConverterParameter={x:Type vm:ArtistsViewModel}}"/>
 
                     <RadioButton Content="Albums" Command="{Binding NavigateCommand}"
                                  CommandParameter="{x:Static nav:ViewType.Collection}"
-                                 Name="Albums"/>
+                                 Name="Albums"
+                                 IsChecked="{Binding CurrentViewModel,
+                        Converter={StaticResource EqualValueToParameterConverter},
+                        ConverterParameter={x:Type vm:CollectionViewModel}}"/>
 
                     <RadioButton Content="Playlists" Command="{Binding NavigateCommand}" 
                                  CommandParameter="{x:Static nav:ViewType.Playlists}"
-                                 Name="Playlists"/>
+                                 Name="Playlists"
+                                 IsChecked="{Binding CurrentViewModel,
+                        Converter={StaticResource EqualValueToParameterConverter},
+                        ConverterParameter={x:Type vm:PlaylistsViewModel}}"/>
 
                     <RadioButton Content="Downloaded tracks" Command="{Binding NavigateCommand}" 
                                  CommandParameter="{x:Static nav:ViewType.DownloadedTracks}"
-                                 Name="Downloaded"/>
+                                 Name="Downloaded"
+                                 IsChecked="{Binding CurrentViewModel,
+                        Converter={StaticResource EqualValueToParameterConverter},
+                        ConverterParameter={x:Type vm:DownloadedTracksViewModel}}"/>
 
                     <RadioButton Content="Settings" Command="{Binding NavigateCommand}" 
                                  CommandParameter="{x:Static nav:ViewType.Settings}"
-                                 Name="Settings"/>
-
+                                 Name="Settings"
+                                 IsChecked="{Binding CurrentViewModel,
+                        Converter={StaticResource EqualValueToParameterConverter},
+                        ConverterParameter={x:Type vm:SettingsViewModel}}"/>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

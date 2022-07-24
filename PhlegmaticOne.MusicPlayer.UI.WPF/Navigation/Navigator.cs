@@ -22,6 +22,6 @@ public class Navigator : ObservableObject, INavigator
             }, 
             _ => true);
     }
-    public ObservableObject CurrentViewModel { get; private set; }
+    public ObservableObject CurrentViewModel { get; set; }
     public ICommand NavigateCommand => _navigationCommand;
 }
