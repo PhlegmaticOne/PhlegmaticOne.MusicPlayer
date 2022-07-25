@@ -14,4 +14,10 @@
     <v:String x:Key="PlaylistsMenuItemText">Плейлисты</v:String>
     <v:String x:Key="SettingsMenuItemText">Настройки</v:String>
     <v:String x:Key="TracksMenuItemText">Треки</v:String>
+
+    <v:String x:Key="SettingsTitleText">Настройки</v:String>
+
+    <v:String x:Key="OsBasedLanguageSelectText">Язык ОС</v:String>
+    <v:String x:Key="ApplicationLanguageMenuTitle">Язык приложения</v:String>
+    <v:String x:Key="LanguageMenuSelectionTitle">Язык</v:String>
 </ResourceDictionary>

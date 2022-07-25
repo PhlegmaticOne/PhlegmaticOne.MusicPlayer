@@ -15,4 +15,8 @@
     <v:String x:Key="SettingsMenuItemText">Settings</v:String>
     <v:String x:Key="TracksMenuItemText">Tracks</v:String>
 
+    <v:String x:Key="SettingsTitleText">Settings</v:String>
+    <v:String x:Key="OsBasedLanguageSelectText">From OS settings</v:String>
+    <v:String x:Key="ApplicationLanguageMenuTitle">App language</v:String>
+    <v:String x:Key="LanguageMenuSelectionTitle">Language</v:String>
 </ResourceDictionary>

@@ -9,12 +9,11 @@
         xmlns:attachedProperties="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.AttachedProperties"
         mc:Ignorable="d"
         Title="MainWindow" 
-        Height="450"
+        Height="500"
         Width="800" 
         MinHeight="300"
         MinWidth="300"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen"
         ResizeMode="CanResizeWithGrip"
         Style="{DynamicResource MainWindowStyle}">
 

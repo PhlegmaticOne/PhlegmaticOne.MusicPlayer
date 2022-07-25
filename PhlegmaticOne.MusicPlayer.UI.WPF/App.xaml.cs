@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
 using System.Threading;
 using System.Windows;
 using Calabonga.UnitOfWork;
@@ -12,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using PhlegmaticOne.DependencyInjectionFactoryExtension;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ConfigurationSections.SupportedCulturesSection;
+using PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
@@ -24,7 +29,8 @@ public partial class App
 
     public static readonly IList<CultureInfo> SupportedCultures = new List<CultureInfo>();
     public static event EventHandler? LanguageChanged;
-    public static CultureInfo Language
+    internal static ResourceDictionary CurrentResourceDictionary { get; private set; } = null!;
+    internal static CultureInfo Language
     {
         get => Thread.CurrentThread.CurrentUICulture;
         set
@@ -57,13 +63,15 @@ public partial class App
             {
                 Current.Resources.MergedDictionaries.Add(resourceDictionary);
             }
+
+            CurrentResourceDictionary = resourceDictionary;
             LanguageChanged?.Invoke(Current, EventArgs.Empty);
         }
     }
 
     protected override void OnStartup(StartupEventArgs e)
     {
-        AddSupportedCultures();
+        SetResourceDictionary();
         _host = ConfigureServices().Build();
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
         mainWindow.Show();
@@ -77,6 +85,8 @@ public partial class App
             {
                 services.AddDbContext<ApplicationDbContext>(b => b.UseInMemoryDatabase("MEMORY"));
                 services.AddUnitOfWork<ApplicationDbContext>();
+                services.AddSingleton<ILanguageProvider, LanguageProvider>();
+                services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();
                 services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<ArtistsViewModel>(ServiceLifetime.Singleton);
@@ -93,12 +103,15 @@ public partial class App
         return hostBuilder;
     }
 
-    private static void AddSupportedCultures()
+    private void SetResourceDictionary()
     {
-        var supportedCultures = (CultureConfigurationSection)ConfigurationManager.GetSection("supportedCultures");
-        foreach (CultureElement cultureElement in supportedCultures.CultureCollection)
+        var culture = Thread.CurrentThread.CurrentUICulture;
+        var resourceDictionary = new ResourceDictionary
         {
-            SupportedCultures.Add(new CultureInfo(cultureElement.Name));
-        }
+            Source = culture.Name == "en-US" ?
+                new Uri("Resources/lang.xaml", UriKind.Relative) :
+                new Uri($"Resources/lang.{culture.Name}.xaml", UriKind.Relative)
+        };
+        CurrentResourceDictionary = resourceDictionary;
     }
 }

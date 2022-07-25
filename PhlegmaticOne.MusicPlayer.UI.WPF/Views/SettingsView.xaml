@@ -6,7 +6,40 @@
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
-        <TextBlock Height="100">Settings</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <Grid Row="0">
+            <TextBlock Text="{DynamicResource SettingsTitleText}" FontFamily="{StaticResource ViewTitleFontFamily}"
+                       FontSize="{StaticResource ViewTitleFontSize}" FontWeight="{StaticResource ViewTitleFontWeight}"
+                       Foreground="{StaticResource ViewTitleFontBrush}"
+                       Padding="30" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Row="0">
+                <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="50 20">
+                    <TextBlock Text="{DynamicResource ApplicationLanguageMenuTitle}" FontSize="30" Foreground="White" HorizontalAlignment="Center"/>
+                    <Menu Margin="0 20 0 0" Background="Transparent" HorizontalAlignment="Center">
+                        <MenuItem Header="{DynamicResource LanguageMenuSelectionTitle}" Height="34" MinWidth="340"
+                                  ItemsSource="{Binding SupportedLanguages}"
+                                  Style="{StaticResource DropdownMenuItem}">
+                            <MenuItem.ItemContainerStyle>
+                                <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItemStyle}"/>
+                            </MenuItem.ItemContainerStyle>
+                            
+                        </MenuItem>
+                    </Menu>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>
