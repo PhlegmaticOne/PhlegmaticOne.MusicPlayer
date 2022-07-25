@@ -36,7 +36,7 @@ public class ContentToPathConverter : MarkupExtension, IValueConverter
         var image = new System.Windows.Controls.Image
         {
             Source = new BitmapImage(
-                new Uri($@"/{_assemblyName};component/Images/{_contentToPath[path.ToLower()]}.png", UriKind.Relative))
+                new Uri($@"/{_assemblyName};component/Images/{_contentToPath[path.ToLower()]}.png", UriKind.Relative)),
         };
         return image.Source;
 

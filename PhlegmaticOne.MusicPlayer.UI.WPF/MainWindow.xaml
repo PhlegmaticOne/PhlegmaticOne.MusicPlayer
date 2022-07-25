@@ -24,8 +24,7 @@
                     <ControlTemplate TargetType="{x:Type Window}">
 
                         <DockPanel>
-                            <controls:Navigation DockPanel.Dock="Left" DataContext="{Binding Navigator}"
-                                                 attachedProperties:Windows.IsActive="{TemplateBinding IsActive}"/>
+                            <controls:Navigation DockPanel.Dock="Left" DataContext="{Binding Navigator}"/>
                             <Border Background="{StaticResource MainAreaBrush}">
                                 <Grid>
                                     <Grid.RowDefinitions>

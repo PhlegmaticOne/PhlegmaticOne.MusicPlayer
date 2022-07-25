@@ -15,7 +15,7 @@
         <conv:EqualValueToParameterConverter x:Key="EqualValueToParameterConverter"/>
     </UserControl.Resources>
 
-    <Grid Width="315" Background="{StaticResource NavigationBackgroundBrush}">
+    <Grid Width="315" Background="{StaticResource NavigationBackgroundBrush}" x:Name="NavigationPanel">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="60"/>
@@ -27,14 +27,47 @@
                 <TextBlock Background="Transparent" Text="Music player"
                            Foreground="{StaticResource FontColorBrush}"
                            VerticalAlignment="Center"
-                           Padding="20 0"/>
+                           Padding="20 0"
+                           Name="PlayerTitle"/>
             </DockPanel>
         </Grid>
         <Grid Row="1">
             <StackPanel Orientation="Horizontal">
-                <Button Background="Transparent" BorderBrush="Transparent" Style="{StaticResource ExpandMenuButtonStyle}">
+                <ToggleButton Style="{StaticResource ExpandMenuButtonStyle}" IsChecked="True">
+                    <ToggleButton.Triggers>
+                        <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="HideStackPanel">
+                                    <DoubleAnimation    
+                                        Storyboard.TargetName="NavigationPanel"
+                                        Storyboard.TargetProperty="Width"
+                                        BeginTime="0:0:0"
+                                        From="315" To="60"
+                                        Duration="0:0:0.2">
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="PlayerTitle" Storyboard.TargetProperty="Opacity" 
+                                                     BeginTime="0:0:0" From="1" To="0" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="ToggleButton.Checked">
+                            <BeginStoryboard>
+                                <Storyboard x:Name="ShowStackPanel">
+                                    <DoubleAnimation
+                                        Storyboard.TargetName="NavigationPanel"
+                                        Storyboard.TargetProperty="Width"
+                                        BeginTime="0:0:0"
+                                        From="60" To="315"
+                                        Duration="0:0:0.3">
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetName="PlayerTitle" Storyboard.TargetProperty="Opacity" 
+                                                     BeginTime="0:0:0" From="0" To="1" Duration="0:0:0.1"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ToggleButton.Triggers>
                     <Image Source="../Images/menu.png"/>
-                </Button>
+                </ToggleButton>
             </StackPanel>
         </Grid>
         <Grid Row="2">

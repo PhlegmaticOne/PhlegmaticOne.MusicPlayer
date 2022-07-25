@@ -65,7 +65,6 @@ public partial class App
     {
         AddSupportedCultures();
         _host = ConfigureServices().Build();
-        Language = new CultureInfo("ru-RU");
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
         mainWindow.Show();
     }
