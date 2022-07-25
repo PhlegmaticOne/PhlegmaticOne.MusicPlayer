@@ -42,7 +42,7 @@
                                         Storyboard.TargetName="NavigationPanel"
                                         Storyboard.TargetProperty="Width"
                                         BeginTime="0:0:0"
-                                        From="315" To="60"
+                                        From="315" To="70"
                                         Duration="0:0:0.2">
                                     </DoubleAnimation>
                                     <DoubleAnimation Storyboard.TargetName="PlayerTitle" Storyboard.TargetProperty="Opacity" 
@@ -57,7 +57,7 @@
                                         Storyboard.TargetName="NavigationPanel"
                                         Storyboard.TargetProperty="Width"
                                         BeginTime="0:0:0"
-                                        From="60" To="315"
+                                        From="70" To="315"
                                         Duration="0:0:0.3">
                                     </DoubleAnimation>
                                     <DoubleAnimation Storyboard.TargetName="PlayerTitle" Storyboard.TargetProperty="Opacity" 
