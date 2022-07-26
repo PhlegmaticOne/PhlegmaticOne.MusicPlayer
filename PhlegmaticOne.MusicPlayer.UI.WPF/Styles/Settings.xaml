@@ -79,18 +79,7 @@
                                               Margin="{TemplateBinding Padding}" 
                                               ContentSource="Header"
                                               RecognizesAccessKey="True"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                                <ContentPresenter.Content>
-                                    <TextBlock Text="{Binding DisplayName}">
-                                        <b:Interaction.Triggers>
-                                            <b:EventTrigger EventName="MouseLeftButtonDown">
-                                                <b:InvokeCommandAction CommandParameter="{Binding Code}" Command="{Binding Path=DataContext.ChangeLanguageCommand,
-                                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ui:SettingsView}}}"/>
-                                            </b:EventTrigger>
-                                        </b:Interaction.Triggers>
-                                    </TextBlock>
-                                </ContentPresenter.Content>
-                            </ContentPresenter>
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -103,5 +92,44 @@
         </Setter>
     </Style>
 
+
+
+    <Style x:Key="DirectorySettingsButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="#AAAAAA"/>
+        <Setter Property="Foreground" Value="#AAAAAA"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            SnapsToDevicePixels="true"
+                            CornerRadius="10">
+                        <ContentPresenter x:Name="contentPresenter" Focusable="False" 
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          Margin="{TemplateBinding Padding}" 
+                                          RecognizesAccessKey="True" 
+                                          SnapsToDevicePixels="{TemplateBinding 
+                            SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="BorderBrush" Value="White"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource WindowIsNotActiveBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource WindowIsNotActiveBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

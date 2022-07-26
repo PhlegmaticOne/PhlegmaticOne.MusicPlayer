@@ -11,13 +11,16 @@ using System.Windows;
 using Calabonga.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using PhlegmaticOne.DependencyInjectionFactoryExtension;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ConfigurationSections.SupportedCulturesSection;
+using PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
 using PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
 
@@ -65,16 +68,20 @@ public partial class App
             }
 
             CurrentResourceDictionary = resourceDictionary;
+            Settings.Default.DefaultLanguage = value.Name;
+            Settings.Default.Save();
             LanguageChanged?.Invoke(Current, EventArgs.Empty);
         }
     }
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        Language = new CultureInfo(Settings.Default.DefaultLanguage);
         SetResourceDictionary();
         _host = ConfigureServices().Build();
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
         mainWindow.Show();
+        
     }
 
     private static IHostBuilder ConfigureServices()
@@ -87,6 +94,7 @@ public partial class App
                 services.AddUnitOfWork<ApplicationDbContext>();
                 services.AddSingleton<ILanguageProvider, LanguageProvider>();
                 services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();
+                services.AddSingleton<IDownloadSettings, DownloadSettings>();
                 services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<ArtistsViewModel>(ServiceLifetime.Singleton);

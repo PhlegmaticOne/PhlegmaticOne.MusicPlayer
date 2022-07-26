@@ -18,5 +18,5 @@ public class DelegateCommand : ICommand
     public void Execute(object? parameter) => _action.Invoke(parameter);
 
     public event EventHandler? CanExecuteChanged;
-    public void RaiseCanExecute(object? parameter) => CanExecuteChanged?.Invoke(parameter, EventArgs.Empty);
+    public void RaiseCanExecute() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);
 }

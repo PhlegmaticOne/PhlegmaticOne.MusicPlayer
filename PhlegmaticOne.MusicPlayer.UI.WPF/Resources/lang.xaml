@@ -19,4 +19,11 @@
     <v:String x:Key="OsBasedLanguageSelectText">From OS settings</v:String>
     <v:String x:Key="ApplicationLanguageMenuTitle">App language</v:String>
     <v:String x:Key="LanguageMenuSelectionTitle">Language</v:String>
+
+    <v:String x:Key="Current">Current</v:String>
+    <v:String x:Key="SavedTracksText">Saved tracks</v:String>
+    <v:String x:Key="Size">Size</v:String>
+    <v:String x:Key="MB">MB</v:String>
+    <v:String x:Key="DeleteTracksFromDeviceText">Delete tracks from device</v:String>
+    <v:String x:Key="SetNewDirectoryText">Set new directory</v:String>
 </ResourceDictionary>

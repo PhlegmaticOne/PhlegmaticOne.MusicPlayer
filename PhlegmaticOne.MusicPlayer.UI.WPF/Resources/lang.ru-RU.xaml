@@ -20,4 +20,12 @@
     <v:String x:Key="OsBasedLanguageSelectText">Язык ОС</v:String>
     <v:String x:Key="ApplicationLanguageMenuTitle">Язык приложения</v:String>
     <v:String x:Key="LanguageMenuSelectionTitle">Язык</v:String>
+
+    <v:String x:Key="Current">Текущий</v:String>
+
+    <v:String x:Key="SavedTracksText">Скачанные треки</v:String>
+    <v:String x:Key="Size">Размер</v:String>
+    <v:String x:Key="MB">МБ</v:String>
+    <v:String x:Key="DeleteTracksFromDeviceText">Удалить с устройства</v:String>
+    <v:String x:Key="SetNewDirectoryText">Изменить папку для скачивания</v:String>
 </ResourceDictionary>
