@@ -22,7 +22,7 @@
     <v:String x:Key="LanguageMenuSelectionTitle">Язык</v:String>
 
     <v:String x:Key="Current">Текущий</v:String>
-
+    <v:String x:Key="CurrentPathText">Текущая папка</v:String>
     <v:String x:Key="SavedTracksText">Скачанные треки</v:String>
     <v:String x:Key="Size">Размер</v:String>
     <v:String x:Key="MB">МБ</v:String>

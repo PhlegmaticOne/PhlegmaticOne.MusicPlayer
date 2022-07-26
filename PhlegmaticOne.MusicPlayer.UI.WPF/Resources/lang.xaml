@@ -21,6 +21,7 @@
     <v:String x:Key="LanguageMenuSelectionTitle">Language</v:String>
 
     <v:String x:Key="Current">Current</v:String>
+    <v:String x:Key="CurrentPathText">Current path</v:String>
     <v:String x:Key="SavedTracksText">Saved tracks</v:String>
     <v:String x:Key="Size">Size</v:String>
     <v:String x:Key="MB">MB</v:String>

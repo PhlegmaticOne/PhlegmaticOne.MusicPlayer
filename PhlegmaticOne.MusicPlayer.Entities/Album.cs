@@ -12,5 +12,5 @@ public class Album : EntityBase
     public string OnlineUrl { get; set; } = null!;
     public int YearReleased { get; set; }
     public AlbumType AlbumType { get; init; }
-    public override string ToString() => $"{string.Join("/", Artists)} - {Title}";
+    public override string ToString() => $"{string.Join("/", Artists.Select(x => x.Name))} - {Title} ({YearReleased})";
 }

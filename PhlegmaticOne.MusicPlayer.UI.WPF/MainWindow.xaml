@@ -14,16 +14,17 @@
         MinHeight="300"
         MinWidth="300"
         WindowStyle="None"
+        WindowState="Maximized"
         ResizeMode="CanResizeWithGrip"
         Style="{DynamicResource MainWindowStyle}">
 
     <Window.Resources>
         <Style TargetType="{x:Type Window}" x:Key="MainWindowStyle">
-            <Setter Property="WindowChrome.WindowChrome">
+            <!--<Setter Property="WindowChrome.WindowChrome">
                 <Setter.Value>
                     <WindowChrome CaptionHeight="28" ResizeBorderThickness="1"/>
                 </Setter.Value>
-            </Setter>
+            </Setter>-->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Window}">
@@ -39,13 +40,9 @@
                                         <Button Name="MinimizeButton" Width="35" Height="28" Click="MinimizeButton_OnClick"
                                             Style="{StaticResource MinimizeButtonStyle}"
                                             attachedProperties:Windows.IsActive="{TemplateBinding IsActive}"/>
-                                        <Button Name="ExpandButton" Width="35" Height="28" Click="ExpandButton_OnClick"
-                                            Style="{StaticResource ExpandButtonStyle}"
-                                            attachedProperties:Windows.IsActive="{TemplateBinding IsActive}"
-                                            attachedProperties:Windows.WindowState="{TemplateBinding WindowState}"/>
                                         <Button Name="CloseButton" Width="44" Height="28"  Click="CloseButton_OnClick"
-                                            Style="{StaticResource CloseButtonStyle}"
-                                            attachedProperties:Windows.IsActive="{TemplateBinding IsActive}"/>
+                                                Style="{StaticResource CloseButtonStyle}"
+                                                attachedProperties:Windows.IsActive="{TemplateBinding IsActive}"/>
                                     </StackPanel>
                                     <ContentPresenter Content="{Binding Navigator.CurrentViewModel}" Grid.Row="1"/>
                                 </Grid>

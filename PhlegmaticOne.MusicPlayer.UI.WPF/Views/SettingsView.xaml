@@ -29,12 +29,16 @@
 
             <Grid Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Vertical" VerticalAlignment="Top" Margin="50 20">
-                    <TextBlock Text="{DynamicResource ApplicationLanguageMenuTitle}" FontSize="30" Foreground="White" HorizontalAlignment="Center"/>
-                    <Menu Margin="0 20 0 0" Background="Transparent" HorizontalAlignment="Center">
+                <Grid Column="0">
+                    <TextBlock Text="{DynamicResource ApplicationLanguageMenuTitle}" FontSize="30" Foreground="White" 
+                               HorizontalAlignment="Center" Padding="0 30 0 0"/>
+                </Grid>
+                <Grid Column="1">
+                    <Menu Padding="0 40 0 0" Background="Transparent" HorizontalAlignment="Center">
                         <MenuItem Header="{DynamicResource LanguageMenuSelectionTitle}" Height="34" MinWidth="200"
                                   Width="Auto"
                                   ItemsSource="{Binding SupportedLanguages}"
@@ -56,64 +60,68 @@
                             </MenuItem.ItemTemplate>
                         </MenuItem>
                     </Menu>
-                </StackPanel>
-                <Grid Column="1">
-                    <StackPanel Margin="0 0 20 0">
-                        <TextBlock Margin="0 20 0 0" Text="{DynamicResource Current}" 
+                </Grid>
+                <Grid Column="2">
+                    <StackPanel>
+                        <TextBlock Padding="0 20 0 0" Text="{DynamicResource Current}" 
                                    FontSize="24" Foreground="White" TextAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock Margin="0 20 0 0" TextAlignment="Center" FontSize="16" Foreground="White"
                                    Text="{Binding CurrentLanguageName}" TextWrapping="WrapWithOverflow"/>
                     </StackPanel>
                 </Grid>
             </Grid>
-            <Grid Row="1" Margin="0 20 0 0">
+            <Grid Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="4*"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Grid Row="0" Column="0">
-                    <TextBlock Text="{DynamicResource SavedTracksText}" FontSize="30" TextAlignment="Center" Foreground="White" />
+                    <TextBlock Text="{DynamicResource SavedTracksText}" FontSize="30" TextAlignment="Center" 
+                               Foreground="White" Padding="0 20 0 0"/>
                 </Grid>
                 <Grid Row="0" Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Grid Row="0">
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource Size}" FontSize="20" Foreground="White"/>
-                            <TextBlock Text="{Binding DirectorySize}" FontSize="20"
-                                       Foreground="White" Padding="20 0 0 0"/>
-                            <TextBlock Text="{DynamicResource MB}" FontSize="20"
-                                       Foreground="White" Padding="5 0 0 0"/>
-                        </StackPanel>
+                    <Grid Row="0" Margin="20 5">
+                        <Button Content="{DynamicResource DeleteTracksFromDeviceText}"
+                                Command="{Binding DeleteTracksFromDeviceCommand}" 
+                                Style="{StaticResource DirectorySettingsButtonStyle}"/>
                     </Grid>
-                    <Grid Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Column="0" Margin="20 10">
-                            <Button Content="{DynamicResource DeleteTracksFromDeviceText}"
-                                    Command="{Binding DeleteTracksFromDeviceCommand}" 
-                                    Style="{StaticResource DirectorySettingsButtonStyle}"/>
-                        </Grid>
-                        <Grid Column="1" Margin="20 10">
-                            <Button Style="{StaticResource DirectorySettingsButtonStyle}" 
-                                    Content="{DynamicResource SetNewDirectoryText}" Command="{Binding SetNewDownloadDirectoryPathCommand}"></Button>
-                        </Grid>
+                    <Grid Row="1" Margin="20 5">
+                        <Button Style="{StaticResource DirectorySettingsButtonStyle}" 
+                                Content="{DynamicResource SetNewDirectoryText}"
+                                Command="{Binding SetNewDownloadDirectoryPathCommand}"></Button>
                     </Grid>
                 </Grid>
-                <Grid Row="1" ColumnSpan="2">
-                    <TextBlock Foreground="White" FontSize="20" TextAlignment="Center" HorizontalAlignment="Center" Text="{Binding CurrentDownloadDirectoryFolderPath}"/>
+                <Grid Row="0" Column="2">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBlock Text="{DynamicResource Size}" FontSize="20" Foreground="White"/>
+                        <TextBlock Text=":" FontSize="20" Foreground="White"/>
+                        <TextBlock Text="{Binding DirectorySize}" FontSize="20"
+                                   Foreground="White" Padding="10 0 0 0"/>
+                        <TextBlock Text="{DynamicResource MB}" FontSize="20"
+                                   Foreground="White" Padding="5 0 0 0"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Row="1" ColumnSpan="3">
+                    <DockPanel LastChildFill="True">
+                        <TextBlock Foreground="White" FontSize="20" Text="{DynamicResource CurrentPathText}" Padding="20 0 0 0" DockPanel.Dock="Left"/>
+                        <TextBlock Foreground="White" FontSize="20" Text=":" DockPanel.Dock="Left"/>
+                        <TextBlock Foreground="White" Margin="20 0 0 0" FontSize="20" Padding="20 0 0 0"  Text="{Binding CurrentDownloadDirectoryFolderPath}"/>
+                    </DockPanel>
                 </Grid>
             </Grid>
             <Grid Row="2">
-                <TextBlock Foreground="White" FontSize="14" Text="Music player" VerticalAlignment="Bottom" Padding="40 0 0 10"/>
+                <Border BorderBrush="White" BorderThickness="0 1 0 0" Margin="20 0">
+                    <TextBlock Foreground="White" FontSize="14" Text="Music player" VerticalAlignment="Bottom" Padding="0 0 0 10"/>
+                </Border>
             </Grid>
         </Grid>
     </Grid>

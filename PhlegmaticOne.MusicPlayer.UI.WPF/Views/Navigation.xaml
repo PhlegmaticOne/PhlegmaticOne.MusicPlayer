@@ -15,7 +15,7 @@
         <conv:EqualValueToParameterConverter x:Key="EqualValueToParameterConverter"/>
     </UserControl.Resources>
 
-    <Grid Width="290" Background="{StaticResource NavigationBackgroundBrush}" x:Name="NavigationPanel">
+    <Grid Width="320" Background="{StaticResource NavigationBackgroundBrush}" x:Name="NavigationPanel">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition Height="60"/>
@@ -42,7 +42,7 @@
                                         Storyboard.TargetName="NavigationPanel"
                                         Storyboard.TargetProperty="Width"
                                         BeginTime="0:0:0"
-                                        From="290" To="70"
+                                        From="320" To="70"
                                         Duration="0:0:0.2">
                                     </DoubleAnimation>
                                     <DoubleAnimation Storyboard.TargetName="PlayerTitle" Storyboard.TargetProperty="Opacity" 
@@ -57,7 +57,7 @@
                                         Storyboard.TargetName="NavigationPanel"
                                         Storyboard.TargetProperty="Width"
                                         BeginTime="0:0:0"
-                                        From="70" To="290"
+                                        From="70" To="320"
                                         Duration="0:0:0.3">
                                     </DoubleAnimation>
                                     <DoubleAnimation Storyboard.TargetName="PlayerTitle" Storyboard.TargetProperty="Opacity" 
