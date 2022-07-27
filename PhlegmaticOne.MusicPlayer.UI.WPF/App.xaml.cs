@@ -13,6 +13,7 @@ using PhlegmaticOne.MusicPlayer.Core.HttpInfoRetrieveFeature;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
@@ -92,6 +93,7 @@ public partial class App
                 services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();
                 services.AddSingleton<IHttpInfoGetter<Album>, MusifyAlbumInfoGetter>();
                 services.AddSingleton<IDownloadSettings, DownloadSettings>();
+                services.AddSingleton<ISortOptionsProvider, SortOptionsProvider>();
                 services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<ArtistsViewModel>(ServiceLifetime.Singleton);

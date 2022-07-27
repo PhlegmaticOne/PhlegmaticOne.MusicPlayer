@@ -78,7 +78,9 @@
                     </TextBox.Style>
                 </TextBox>
                 <Grid Column="1">
-                    <Button Content="Get" Command="{Binding GetAlbumInfoCommand}" Style="{StaticResource DirectorySettingsButtonStyle}"
+                    <Button Content="{DynamicResource RetrieveInfoText}"
+                            Command="{Binding GetAlbumInfoCommand}" 
+                            Style="{StaticResource DirectorySettingsButtonStyle}"
                             FontSize="28" Margin="20 0"/>
                 </Grid>
             </Grid>
@@ -95,14 +97,41 @@
                         <RowDefinition Height="5*"/>
                     </Grid.RowDefinitions>
                     <Grid Row="0" Margin="0 30 0 0">
-                        <Image Source="{Binding CurrentAlbum.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}" Width="200"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Column="0">
+                            <Image Source="{Binding CurrentAlbum.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}" Width="200"/>
+                        </Grid>
+                        <Grid Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid Row="0">
+                                <Button Style="{StaticResource DirectorySettingsButtonStyle}"
+                                        Margin="20 10" 
+                                        Content="{DynamicResource AddToCollectionText}"
+                                        Command="{Binding AddToCollectionCommand}"/>
+                            </Grid>
+                            <Grid Row="1">
+                                <Button Style="{StaticResource DirectorySettingsButtonStyle}"
+                                        Margin="20 10"
+                                        Content="{DynamicResource ClearText}"
+                                        Command="{Binding ClearCommand}"/>
+                            </Grid>
+                        </Grid>
                     </Grid>
                     <Grid Row="1">
-                        <TextBlock Text="{Binding CurrentAlbum, Converter={StaticResource EntityToStringConverter}}" Foreground="White"
-                                   TextAlignment="Center" Padding="40 5" TextWrapping="WrapWithOverflow" FontSize="18"/>
+                        <TextBlock Text="{Binding CurrentAlbum, Converter={StaticResource EntityToStringConverter}}" Foreground="White" 
+                                   Padding="20 5" TextWrapping="WrapWithOverflow" FontSize="18"/>
                     </Grid>
                     <Grid Row="2">
-                        <TextBlock Text="Tracks:" Foreground="White" TextAlignment="Center" FontSize="30" VerticalAlignment="Bottom"/>
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource TracksMenuItemText}" Foreground="White" FontSize="30"/>
+                            <TextBlock Text=":" Foreground="White"  FontSize="30" />
+                        </StackPanel>
                     </Grid>
                     <Grid Row="3" Margin="0 30 0 0">
                         <ListView>
@@ -162,22 +191,22 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="2.5*"/>
+                        <ColumnDefinition Width="2.2*"/>
                     </Grid.ColumnDefinitions>
                     <Grid Row="0" Column="0">
-                        <TextBlock Text="Artists" Foreground="White" FontSize="30"  VerticalAlignment="Center" Padding="30 0 0 0"/>
+                        <TextBlock Text="{DynamicResource ArtistsText}" Foreground="White" FontSize="26"  VerticalAlignment="Center" Padding="30 0 0 0"/>
                     </Grid>
                     <Grid Row="1" Column="0">
-                        <TextBlock Text="Album" Foreground="White" FontSize="30" VerticalAlignment="Center" Padding="30 0 0 0"/>
+                        <TextBlock Text="{DynamicResource AlbumText}" Foreground="White" FontSize="26" VerticalAlignment="Center" Padding="30 0 0 0"/>
                     </Grid>
                     <Grid Row="2" Column="0">
-                        <TextBlock Text="Year" Foreground="White" FontSize="30" VerticalAlignment="Center" Padding="30 0 0 0"/>
+                        <TextBlock Text="{DynamicResource YearText}" Foreground="White" FontSize="26" VerticalAlignment="Center" Padding="30 0 0 0"/>
                     </Grid>
                     <Grid Row="3" Column="0">
-                        <TextBlock Text="Type" Foreground="White" FontSize="30" VerticalAlignment="Center" Padding="30 0 0 0"/>
+                        <TextBlock Text="{DynamicResource TypeText}" Foreground="White" FontSize="26" VerticalAlignment="Center" Padding="30 0 0 0"/>
                     </Grid>
                     <Grid Row="4" Column="0">
-                        <TextBlock Text="Genres" Foreground="White" FontSize="30" VerticalAlignment="Center" Padding="30 0 0 0"/>
+                        <TextBlock Text="{DynamicResource GenresText}" Foreground="White" FontSize="26" VerticalAlignment="Center" Padding="30 0 0 0"/>
                     </Grid>
 
                     <Grid Row="0" Column="1" Margin="0 8 0 0">

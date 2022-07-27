@@ -27,4 +27,14 @@
     <v:String x:Key="MB">MB</v:String>
     <v:String x:Key="DeleteTracksFromDeviceText">Delete tracks from device</v:String>
     <v:String x:Key="SetNewDirectoryText">Set new directory</v:String>
+
+
+    <v:String x:Key="RetrieveInfoText">Get album</v:String>
+    <v:String x:Key="AddToCollectionText">Add to collection</v:String>
+    <v:String x:Key="ClearText">Clear</v:String>
+    <v:String x:Key="ArtistsText">Artists</v:String>
+    <v:String x:Key="AlbumText">Album</v:String>
+    <v:String x:Key="YearText">Year released</v:String>
+    <v:String x:Key="TypeText">Type</v:String>
+    <v:String x:Key="GenresText">Genres</v:String>
 </ResourceDictionary>

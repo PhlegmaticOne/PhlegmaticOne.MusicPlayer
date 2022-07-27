@@ -74,7 +74,7 @@
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="True">
-                        <Grid Margin="15 0 0 0">
+                        <Grid>
                             <ContentPresenter x:Name="ContentPresenter" 
                                               Margin="{TemplateBinding Padding}" 
                                               ContentSource="Header"

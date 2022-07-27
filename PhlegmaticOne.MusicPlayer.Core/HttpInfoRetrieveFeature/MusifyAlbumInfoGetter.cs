@@ -36,7 +36,8 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
             AlbumType = albumType,
             Songs = songs,
             Genres = genres,
-            AlbumCover = albumCover
+            AlbumCover = albumCover,
+            OnlineUrl = uri
         };
     }
 
@@ -90,12 +91,17 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
             .Select(x => x.FirstElementChild?.InnerHtml)
             .Select(TimeHelper.ToTimeSpan!);
 
-        foreach (var songInfo in songNames.Zip(durations))
+        var onlineUrls = htmlDocument.QuerySelectorAll("a")
+            .Where(p => p.HasAttribute("download"))
+            .Select(x => "https://musify.club" + x.GetAttribute("href"));
+
+        foreach (var songInfo in songNames.Zip(durations).Zip(onlineUrls))
         {
             yield return new Song()
             {
-                Duration = songInfo.Second,
-                Title = songInfo.First
+                Duration = songInfo.First.Second,
+                Title = songInfo.First.First,
+                OnlineUrl = songInfo.Second
             };
         }
     }
