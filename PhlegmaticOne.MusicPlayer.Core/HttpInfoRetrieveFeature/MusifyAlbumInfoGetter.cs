@@ -19,14 +19,14 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
         var parser = new HtmlParser();
         var domDocument = await parser.ParseDocumentAsync(source);
 
-        var (artist, title, yearReleased) = GetRepresentationInfo(domDocument);
-        var artists = new List<Artist>() {artist};
         var cover = await GetAlbumCover(domDocument);
+        var (title, yearReleased) = GetRepresentationInfo(domDocument);
         var albumCover = new AlbumCover() {Cover = cover};
         var albumType = GetAlbumType(domDocument);
 
         var songs = GetSongs(domDocument).ToList();
         var genres = GetGenres(domDocument).ToList();
+        var artists = GetArtists(domDocument).ToList();
 
         return new Album
         {
@@ -40,14 +40,22 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
         };
     }
 
-    private static (Artist, string, int) GetRepresentationInfo(IHtmlDocument htmlDocument)
+    private static (string, int) GetRepresentationInfo(IHtmlDocument htmlDocument)
     {
-        var result = htmlDocument
+        var header = htmlDocument
             .QuerySelectorAll("h1")
             .Select(x => x.InnerHtml)
-            .First()
-            .Split(new[] { " - ", "(", ")" }, StringSplitOptions.RemoveEmptyEntries); ;
-        return (new Artist() { Name = result[0] }, result[1], int.Parse(result[2]));
+            .First();
+        if (header.Contains('-'))
+        {
+            var result = header.Split(new[] { " - ", "(", ")" }, StringSplitOptions.RemoveEmptyEntries);
+            return (result[1], int.Parse(result[2]));
+        }
+        else
+        {
+            var result = header.Split(new[] { "(", ")" }, StringSplitOptions.RemoveEmptyEntries);
+            return (result[0], int.Parse(result[1]));
+        }
     }
 
     private static AlbumType GetAlbumType(IHtmlDocument htmlDocument)
@@ -61,6 +69,15 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
         return ParseStingToAlbumType(albumType);
     }
 
+    private static IEnumerable<Artist> GetArtists(IHtmlDocument htmlDocument) =>
+        htmlDocument
+            .QuerySelectorAll("a")
+            .Where(s => s.HasAttribute("rel"))
+            .SkipLast(1)
+            .Select(x => x.InnerHtml)
+            .Distinct()
+            .Select(x => new Artist() {Name = x});
+
     private static IEnumerable<Song> GetSongs(IHtmlDocument htmlDocument)
     {
         var songNames = htmlDocument
@@ -69,7 +86,7 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
             .Select(x => x.InnerHtml);
 
         var durations = htmlDocument.QuerySelectorAll("div")
-            .Where(d => d.ClassName == "track__details hidden-xs-down" && d.ChildElementCount == 2)
+            .Where(d => d.ClassName == "track__details hidden-xs-down" && d.FirstElementChild?.ClassName == "text-muted")
             .Select(x => x.FirstElementChild?.InnerHtml)
             .Select(TimeHelper.ToTimeSpan!);
 
@@ -82,6 +99,8 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
             };
         }
     }
+
+
 
     private static AlbumType ParseStingToAlbumType(string albumType) => albumType switch
     {
