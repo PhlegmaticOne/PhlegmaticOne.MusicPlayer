@@ -43,6 +43,7 @@ public class CollectionViewModel : BaseViewModel
             include: include => include
                 .Include(p => p.Artists)
                 .Include(p => p.AlbumCover)
+                .Include(p => p.Songs)
         );
 
         await UpdateAlbums(albums);
