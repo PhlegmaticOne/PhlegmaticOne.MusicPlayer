@@ -47,6 +47,10 @@
                  <v:TracksView/>
              </DataTemplate>
 
+             <DataTemplate DataType="{x:Type vm:AlbumViewModel}">
+                 <v:AlbumView/>
+             </DataTemplate>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

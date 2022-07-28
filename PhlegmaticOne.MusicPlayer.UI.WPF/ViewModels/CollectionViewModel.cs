@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,18 +8,23 @@ using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
 public class CollectionViewModel : BaseViewModel
 {
+    public INavigator Navigator { get; set; }
     private readonly IUnitOfWork _unitOfWork;
     public ObservableCollection<Album> Albums { get; set; } = new();
     public ObservableCollection<SortDescription> SortOptions { get; set; } = new();
 
-    public CollectionViewModel(IUnitOfWork unitOfWork, ISortOptionsProvider sortOptionsProvider)
+    public CollectionViewModel(IUnitOfWork unitOfWork,
+        ISortOptionsProvider sortOptionsProvider,
+        INavigator navigator)
     {
+        Navigator = navigator;
         _unitOfWork = unitOfWork;
         UpdateCommand = new(LoadAlbums, _ => true);
         SortCommand = new(SortAlbums, _ => true);
@@ -26,7 +32,7 @@ public class CollectionViewModel : BaseViewModel
         {
             SortOptions.Add(sortDescription);
         }
-        //LoadAlbums();
+        LoadAlbums();
     }
     public DelegateCommand UpdateCommand { get; set; }
     public DelegateCommand SortCommand { get; set; }
@@ -53,7 +59,7 @@ public class CollectionViewModel : BaseViewModel
                 sortedAlbums = Albums.OrderBy(a => a.Title).ToList();
                 break;
             case SortType.DateAdded:
-                sortedAlbums = Albums.ToList();
+                sortedAlbums = Albums.OrderByDescending(x => x.DateAdded).ToList();
                 break;
             case SortType.ArtistName:
                 sortedAlbums = Albums.OrderBy(x => x.Artists.First().Name).ToList();
@@ -72,5 +78,11 @@ public class CollectionViewModel : BaseViewModel
         {
             await UIThreadInvoker.InvokeAsync(() => Albums.Add(album));
         }
-    } 
+    }
+
+    private void OpenAlbum(object? parameter)
+    {
+        if(parameter is not Guid id) return;
+
+    }
 }

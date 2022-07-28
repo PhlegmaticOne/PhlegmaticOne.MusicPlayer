@@ -102,8 +102,11 @@
         </Grid>
         <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding Albums}"
                   Grid.Row="1" Margin="15 0 0 0">
+            
+
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
+
                     <Setter Property="BorderBrush" Value="#666666"/>
                     <Setter Property="Foreground" Value="#666666"/>
                     <Setter Property="BorderThickness" Value="1"/>
@@ -113,6 +116,13 @@
                         <Setter.Value>
                             <ControlTemplate>
                                 <Grid>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                                            <b:InvokeCommandAction CommandParameter="{Binding }"
+                                                                   Command="{Binding Path=DataContext.Navigator.NavigateCommand,
+                                                    RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CollectionView}}}"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
                                     <StackPanel>
                                         <Image MaxWidth="200" MaxHeight="200"
                                                Source="{Binding AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}"/>
@@ -128,11 +138,13 @@
                                         <Setter Property="Foreground" Value="White"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
+
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
                 </Style>
             </ListView.ItemContainerStyle>
+
             <ListView.Style>
                 <Style TargetType="ListView">
                     <Setter Property="Background" Value="Transparent"/>

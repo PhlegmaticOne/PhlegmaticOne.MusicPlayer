@@ -76,6 +76,7 @@ public class AddingNewAlbumViewModel : BaseViewModel
             MessageBox.Show("Same album has already been added");
             return;
         }
+        CurrentAlbum.DateAdded = DateTime.Now;
         await repository.InsertAsync(CurrentAlbum!);
         await _unitOfWork.SaveChangesAsync();
         Clear(null);

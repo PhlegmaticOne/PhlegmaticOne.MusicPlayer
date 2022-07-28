@@ -94,6 +94,8 @@ public partial class App
                 services.AddSingleton<IHttpInfoGetter<Album>, MusifyAlbumInfoGetter>();
                 services.AddSingleton<IDownloadSettings, DownloadSettings>();
                 services.AddSingleton<ISortOptionsProvider, SortOptionsProvider>();
+                services.AddSingleton<IAlbumViewModelFactory, AlbumViewModelFactory>();
+                services.AddSingleton<IMusicViewModelsFactory, MusicViewModelFactory>();
                 services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<ArtistsViewModel>(ServiceLifetime.Singleton);
@@ -103,7 +105,9 @@ public partial class App
                 services.AddDependencyFactory<PlaylistsViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<SettingsViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<TracksViewModel>(ServiceLifetime.Singleton);
-                services.AddScoped<INavigator, Navigator>();
+
+                services.AddSingleton<INavigationHistory, NavigationHistory>();
+                services.AddSingleton<INavigator, Navigator>();
                 services.AddSingleton<IViewModelFactory, ViewModelFactory>();
                 services.AddSingleton<MainWindow>();
             });

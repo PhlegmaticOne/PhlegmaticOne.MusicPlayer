@@ -1,10 +1,12 @@
 ﻿using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Base;
+using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 
 public interface INavigator
 {
-    public ObservableObject CurrentViewModel { get; set; }
+    public INavigationHistory History { get; set; }
+    public BaseViewModel CurrentViewModel { get; set; }
     public ICommand NavigateCommand { get; }
+    public ICommand MoveBackCommand { get; }
 }

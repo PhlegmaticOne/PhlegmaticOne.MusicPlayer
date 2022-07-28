@@ -22,8 +22,66 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Row="0">
-            <DockPanel VerticalAlignment="Center">
-                <Image Source="../Images/logo.png" DockPanel.Dock="Left" Height="24" Margin="10 0 0 0"/>
+            <DockPanel VerticalAlignment="Top">
+                <Grid>
+                    <Button Command="{Binding MoveBackCommand}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Content" Value=""/>
+                                <Setter Property="Padding" Value="10 0 0 0"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    SnapsToDevicePixels="true">
+                                                <Viewbox Height="30" Width="44">
+                                                    <ContentPresenter Name="ContentPresenter"/>
+                                                </Viewbox>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding History.CanMoveBack}" Value="True">
+                                                    <Setter TargetName="ContentPresenter" Property="ContentPresenter.Content">
+                                                        <Setter.Value>
+                                                            <Canvas Width="24" Height="24" Margin="0 7">
+                                                                <Path Fill="White" Data="M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z" />
+                                                            </Canvas>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                                
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding History.CanMoveBack}" Value="True"/>
+                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter  Property="Background" Value="#F7630C"/>
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding History.CanMoveBack}" Value="True"/>
+                                                        <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsPressed}" Value="True"/>
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter  Property="Background" Value="#E05E0C"/>
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+                                            </ControlTemplate.Triggers>
+                                            
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <Image Source="../Images/logo.png" Height="24" Margin="10 6 0 6"/>
+                    </Button>
+                </Grid>
                 <TextBlock Background="Transparent" Text="Music player"
                            Foreground="{StaticResource FontColorBrush}"
                            VerticalAlignment="Center"
