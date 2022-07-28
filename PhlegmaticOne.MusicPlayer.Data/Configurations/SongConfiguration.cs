@@ -10,9 +10,11 @@ public class SongConfiguration : IEntityTypeConfiguration<Song>
     {
         builder.ToTable("Songs");
         builder.HasKey(x => x.Id);
+        builder.Property(p => p.TimePlayed).HasDefaultValue(TimeSpan.Zero);
         builder.Property(x => x.Title).IsRequired();
+        builder.Property(x => x.IsFavorite).HasDefaultValue(false);
         builder.Property(x => x.LocalUrl).IsRequired(false);
-        builder.Property(x => x.OnlineUrl).IsRequired();
+        builder.Property(x => x.OnlineUrl).IsRequired(false);
         builder.Property(x => x.Duration).HasConversion(from => from.Ticks, to => TimeSpan.FromTicks(to));
     }
 }

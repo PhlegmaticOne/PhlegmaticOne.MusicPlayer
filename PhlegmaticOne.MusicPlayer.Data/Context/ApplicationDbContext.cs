@@ -7,7 +7,7 @@ public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext() { }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-    public DbSet<Album> Albums { get; set; }
+    public DbSet<CollectionBase> Albums { get; set; }
     public DbSet<Artist> Artists { get; set; }
     public DbSet<Song> Songs { get; set; }
     public DbSet<Genre> Genres { get; set; }

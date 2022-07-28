@@ -28,7 +28,7 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
         var genres = GetGenres(domDocument).ToList();
         var artists = GetArtists(domDocument).ToList();
 
-        return new Album
+        return new Album()
         {
             Artists = artists,
             Title = title,

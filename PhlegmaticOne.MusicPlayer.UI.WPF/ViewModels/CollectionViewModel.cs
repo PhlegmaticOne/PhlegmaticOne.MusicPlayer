@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Calabonga.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.MusicPlayer.Entities;
@@ -38,11 +39,7 @@ public class CollectionViewModel : BaseViewModel
                 .Include(p => p.AlbumCover)
         );
 
-        Albums.Clear();
-        foreach (var album in albums)
-        {
-            await UIThreadInvoker.InvokeAsync(() => Albums.Add(album));
-        }
+        await UpdateAlbums(albums);
     }
 
     private async void SortAlbums(object? b = null)
@@ -64,11 +61,16 @@ public class CollectionViewModel : BaseViewModel
             default: return;
         }
 
+        await UpdateAlbums(sortedAlbums);
+    }
+
+    private async Task UpdateAlbums(IList<Album> newAlbums)
+    {
         Albums.Clear();
 
-        foreach (var album in sortedAlbums)
+        foreach (var album in newAlbums)
         {
             await UIThreadInvoker.InvokeAsync(() => Albums.Add(album));
         }
-    }
+    } 
 }
