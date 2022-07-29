@@ -19,7 +19,7 @@ public class StarWidthConverter : IValueConverter
                 width -= gvColumn.Width;
             }
         }
-        return width - listview.Padding.Right - listview.Padding.Left - 7;
+        return width - listview.Padding.Right - listview.Padding.Left;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

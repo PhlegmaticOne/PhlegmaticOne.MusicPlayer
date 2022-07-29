@@ -262,84 +262,70 @@
                         <Style TargetType="ListView">
                             <Setter Property="Background" Value="Transparent"/>
                             <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="Padding" Value="40 40 20 0"/>
+                            <Setter Property="Padding" Value="0"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListView">
+                                        <DockPanel>
+                                            <Grid DockPanel.Dock="Top" Margin="28 20 20 20">
+                                                <GridViewHeaderRowPresenter
+                                                    Columns="{Binding Path=View.Columns, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            </Grid>
+                                            <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
+                                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                            </ScrollViewer>
+                                        </DockPanel>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </ListView.Style>
+
                     <ListView.View>
                         <GridView>
                             <GridView.Columns>
-                                <GridViewColumn Width="60" Header="#">
+                                <GridViewColumn Width="60" Header="#"
+                                                HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Foreground="#696969" Text="{Binding
                                                 RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, 
-                                             Converter={StaticResource IndexConverter}}">
-                                            </TextBlock>
+                                             Converter={StaticResource IndexConverter}}" Padding="20 0 0 0"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
+                                    
                                 </GridViewColumn>
 
-                                <GridViewColumn Header="Track" DisplayMemberBinding="{Binding Path=Title}"
+                            <GridViewColumn Header="Track"
                                                 Width="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ListView}, 
-                                    Converter={StaticResource StarWidthConverter}}"/>
+                                    Converter={StaticResource StarWidthConverter}}"
+                                                HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Foreground="White" Text="{Binding Path=Title}" Padding="20 0 0 0"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
 
-                                <GridViewColumn Width="70">
+                                <GridViewColumn Width="70"
+                                                HeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
                                     <GridViewColumn.Header>
-                                        <Canvas  Width="24" Height="24">
+                                        <Viewbox Height="24" Width="70" HorizontalAlignment="Left">
+                                        <Canvas Width="24" Height="24">
                                             <Path Fill="#696969" 
-                                                  Data="M12 20C16.4 20 20 16.4 20 12S16.4 4 12 4 4 7.6 4 12 7.6 20 12 20M12 2C17.5 2 22 6.5 22 12S17.5 22 12 22C6.5 22 2 17.5 2 12C2 6.5 6.5 2 12 2M12.5 12.8L7.7 15.6L7 14.2L11 11.9V7H12.5V12.8Z" />
-                                        </Canvas>
+                                                    Data="M12 20C16.4 20 20 16.4 20 12S16.4 4 12 4 4 7.6 4 12 7.6 20 12 20M12 2C17.5 2 22 6.5 22 12S17.5 22 12 22C6.5 22 2 17.5 2 12C2 6.5 6.5 2 12 2M12.5 12.8L7.7 15.6L7 14.2L11 11.9V7H12.5V12.8Z" />
+                                            </Canvas>
+                                        </Viewbox>
                                     </GridViewColumn.Header>
-                                    <GridViewColumn.HeaderContainerStyle>
-                                        <Style TargetType="GridViewColumnHeader">
-                                            <Setter Property="Background" Value="Transparent"/>
-                                            <Setter Property="Foreground" Value="#696969"/>
-                                            <Setter Property="FontSize" Value="20"/>
-                                            <Setter Property="BorderBrush" Value="Transparent"/>
-                                            <Setter Property="BorderThickness" Value="0"/>
-                                            <Setter Property="ClipToBounds" Value="True"/>
-                                            <Setter Property="Template">
-                                                <Setter.Value>
-                                                    <ControlTemplate TargetType="GridViewColumnHeader">
-                                                        <TextBlock Foreground="{TemplateBinding Foreground}"
-                                                                   FontSize="{TemplateBinding FontSize}"
-                                                                   TextAlignment="Right">
-                                                            <ContentPresenter/>
-                                                        </TextBlock>
-                                                    </ControlTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </GridViewColumn.HeaderContainerStyle>
+                                    
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Foreground="#696969" 
-                                                       Text="{Binding Duration, Converter={StaticResource TimeToStringConverter}}"
-                                                       />
+                                                       Text="{Binding Duration, Converter={StaticResource TimeToStringConverter}}"/>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                             </GridView.Columns>
-                            <GridView.ColumnHeaderContainerStyle>
-                                <Style TargetType="GridViewColumnHeader">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="#696969"/>
-                                    <Setter Property="FontSize" Value="20"/>
-                                    <Setter Property="BorderBrush" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="ClipToBounds" Value="True"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="GridViewColumnHeader">
-                                                <TextBlock Foreground="{TemplateBinding Foreground}"
-                                                           FontSize="{TemplateBinding FontSize}">
-                                                    <ContentPresenter/>
-                                                </TextBlock>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </GridView.ColumnHeaderContainerStyle>
                         </GridView>
                     </ListView.View>
 
@@ -349,7 +335,7 @@
                             <Setter Property="BorderThickness" Value="0"/>
                             <Setter Property="Foreground" Value="White"/>
                             <Setter Property="FontSize" Value="16"/>
-                            <Setter Property="Padding" Value="0 7"/>
+                            <Setter Property="Padding" Value="0 10 0 10"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListViewItem">
@@ -357,7 +343,8 @@
                                                 BorderThickness="{TemplateBinding BorderThickness}"
                                                 Padding="{TemplateBinding Padding}">
                                             <GridViewRowPresenter Content="{TemplateBinding Content}" 
-                                                                  Columns="{TemplateBinding GridView.ColumnCollection}"/>
+                                                                  Columns="{TemplateBinding GridView.ColumnCollection}"
+                                                                  HorizontalAlignment="Left"/>
                                         </Border>
                                         
                                         <ControlTemplate.Triggers>

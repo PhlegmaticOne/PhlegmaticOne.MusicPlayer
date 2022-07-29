@@ -74,8 +74,8 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
         htmlDocument
             .QuerySelectorAll("a")
             .Where(s => s.HasAttribute("rel"))
-            .SkipLast(1)
             .Select(x => x.InnerHtml)
+            .Where(i => i != string.Empty && i != "Flash plugin")
             .Distinct()
             .Select(x => new Artist() {Name = x});
 
