@@ -19,6 +19,7 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Players;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
@@ -108,6 +109,8 @@ public partial class App
                 services.AddDependencyFactory<PlaylistsViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<SettingsViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<TracksViewModel>(ServiceLifetime.Singleton);
+
+                services.AddDependencyFactory<PlayersFactory>(ServiceLifetime.Singleton);
 
                 services.AddSingleton<INavigationHistory, NavigationHistory>();
                 services.AddSingleton<INavigator, Navigator>();

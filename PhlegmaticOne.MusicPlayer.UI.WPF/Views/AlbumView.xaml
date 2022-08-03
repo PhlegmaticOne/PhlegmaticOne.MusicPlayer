@@ -313,7 +313,7 @@
                             <Setter Property="IsSelected">
                                 <Setter.Value>
                                     <MultiBinding Converter="{StaticResource ValuesEqualConverter}" Mode="OneWay">
-                                        <Binding Path="DataContext.PlayingSong" RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AlbumView}"/>
+                                        <Binding Path="DataContext.CurrentSong" RelativeSource="{RelativeSource FindAncestor, AncestorType=local:AlbumView}"/>
                                         <Binding Path="DataContext" RelativeSource="{RelativeSource Self}"/>
                                     </MultiBinding>
                                 </Setter.Value>
@@ -331,6 +331,7 @@
                                                 Margin="0 0 30 0"
                                                 SnapsToDevicePixels="True">
                                         <Grid>
+                                            
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="60"/>
                                                 <ColumnDefinition Width="2*" />

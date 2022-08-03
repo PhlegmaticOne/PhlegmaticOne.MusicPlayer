@@ -11,6 +11,8 @@
 
     <UserControl.Resources>
         <converters:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
+        <converters:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
+        <converters:TimeSpanToLongConverter x:Key="TimeSpanToLongConverter"/>
     </UserControl.Resources>
 
     <Grid Background="#222222">
@@ -20,7 +22,8 @@
         </Grid.RowDefinitions>
 
         <Grid Row="0">
-            <Slider Name="PlayerLine">
+            <Slider Name="PlayerLine" Minimum="0" Maximum="{Binding CurrentSong.Duration, Converter={StaticResource TimeSpanToLongConverter}}"
+                    Value="{Binding CurrentDuration, Converter={StaticResource TimeSpanToLongConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                 <Slider.Style>
                     <Style TargetType="Slider">
                         <Setter Property="IsMoveToPointEnabled" Value="True"/>
@@ -76,17 +79,19 @@
                         </Viewbox>
                     </ToggleButton>
 
-                    <Image Source="../Images/artist.png" Margin="10 5 0 5"
+                    <Image Source="{Binding CurrentAlbum.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}"
+                           Margin="10 5 0 5"
                            Width="50" Height="{Binding Width, RelativeSource={RelativeSource Self}}"/>
 
                     <StackPanel Orientation="Vertical" Margin="10 5 0 5">
                         <TextBlock Foreground="White" Text="{Binding CurrentSong.Title}" Padding="0 5"/>
                         <TextBlock Foreground="White" 
-                                   Text="{Binding CurrentSong.Artists, Converter={StaticResource CollectionOfEntitiesToStringConverter}}"
+                                   Text="{Binding CurrentAlbum.Artists, Converter={StaticResource CollectionOfEntitiesToStringConverter},
+                            ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Slash}}"
                                    Padding="0 5"/>
                     </StackPanel>
 
-                    <Button Margin="5 0 0 0" Width="50" Height="{Binding Width, RelativeSource={RelativeSource Self}}">
+                    <Button Margin="15 0 0 0" Width="50" Height="{Binding Width, RelativeSource={RelativeSource Self}}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="Transparent"/>

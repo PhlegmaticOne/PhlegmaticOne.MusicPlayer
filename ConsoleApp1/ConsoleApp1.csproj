@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.17.1" />
+    <PackageReference Include="NAudio.Wasapi" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>

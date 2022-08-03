@@ -47,6 +47,9 @@
                                 <ControlTemplate TargetType="{x:Type Thumb}">
                                     <Canvas Name="ThumbCanvas" VerticalAlignment="Top">
                                         <Border Name="ThumbBorder" Height="7" Width="10" CornerRadius="4" Background="#FFCC00"/>
+                                        <Canvas.RenderTransform>
+                                            <TranslateTransform X="-3"/>
+                                        </Canvas.RenderTransform>
                                     </Canvas>
                                 </ControlTemplate>
                             </Thumb.Template>
