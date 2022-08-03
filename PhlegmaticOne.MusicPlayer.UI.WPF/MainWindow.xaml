@@ -5,8 +5,8 @@
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF"
-        xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
         xmlns:attachedProperties="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.AttachedProperties"
+        xmlns:views="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
         mc:Ignorable="d"
         Title="MainWindow" 
         Height="500"
@@ -28,26 +28,38 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Window}">
-                        <DockPanel>
-                            <controls:Navigation DockPanel.Dock="Left" DataContext="{Binding Navigator}"/>
-                            <Border Background="{StaticResource MainAreaBrush}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="28"/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" WindowChrome.IsHitTestVisibleInChrome="True">
-                                        <Button Name="MinimizeButton" Width="35" Height="28" Click="MinimizeButton_OnClick"
-                                            Style="{StaticResource MinimizeButtonStyle}"
-                                            attachedProperties:Windows.IsActive="{TemplateBinding IsActive}"/>
-                                        <Button Name="CloseButton" Width="44" Height="28"  Click="CloseButton_OnClick"
-                                                Style="{StaticResource CloseButtonStyle}"
-                                                attachedProperties:Windows.IsActive="{TemplateBinding IsActive}"/>
-                                    </StackPanel>
-                                    <ContentPresenter Content="{Binding Navigator.CurrentViewModel}" Grid.Row="1"/>
-                                </Grid>
-                            </Border>
-                        </DockPanel>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="67"/>
+                            </Grid.RowDefinitions>
+                            <Grid Row="0">
+                                <DockPanel>
+                                    <views:Navigation DockPanel.Dock="Left" DataContext="{Binding Navigator}"/>
+                                    <Border Background="{StaticResource MainAreaBrush}">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="28"/>
+                                                <RowDefinition/>
+                                            </Grid.RowDefinitions>
+                                            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" WindowChrome.IsHitTestVisibleInChrome="True">
+                                                <Button Name="MinimizeButton" Width="35" Height="28" Click="MinimizeButton_OnClick"
+                                                        Style="{StaticResource MinimizeButtonStyle}"
+                                                        attachedProperties:Windows.IsActive="{TemplateBinding IsActive}"/>
+                                                <Button Name="CloseButton" Width="44" Height="28"  Click="CloseButton_OnClick"
+                                                        Style="{StaticResource CloseButtonStyle}"
+                                                        attachedProperties:Windows.IsActive="{TemplateBinding IsActive}"/>
+                                            </StackPanel>
+                                            <ContentPresenter Content="{Binding Navigator.CurrentViewModel}" Grid.Row="1"/>
+                                        </Grid>
+                                    </Border>
+                                </DockPanel>
+                            </Grid>
+                            <Grid Row="1">
+                                <views:Player DataContext="{Binding Player}"/>
+                            </Grid>
+                        </Grid>
+                        
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

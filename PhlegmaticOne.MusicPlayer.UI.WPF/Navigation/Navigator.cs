@@ -11,15 +11,11 @@ namespace PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 public class Navigator : ObservableObject, INavigator
 {
     private readonly IViewModelFactory _viewModelFactory;
-    private readonly IMusicViewModelsFactory _musicViewModelsFactory;
     private readonly DelegateCommand _navigationCommand;
     private readonly DelegateCommand _moveBackCommand;
-    public Navigator(IViewModelFactory viewModelFactory,
-        IMusicViewModelsFactory musicViewModelsFactory,
-        INavigationHistory navigationHistory)
+    public Navigator(IViewModelFactory viewModelFactory, INavigationHistory navigationHistory)
     {
         _viewModelFactory = viewModelFactory;
-        _musicViewModelsFactory = musicViewModelsFactory;
         History = navigationHistory;
 
         _moveBackCommand = new(MoveBack, _ => History.CanMoveBack);
@@ -42,8 +38,7 @@ public class Navigator : ObservableObject, INavigator
         CurrentViewModel = parameter switch
         {
             ViewType viewType => CreateViewModel(viewType),
-            Album album => ProcessAlbum(album),
-        _ => CurrentViewModel
+            _ => CurrentViewModel
         };
 
     private void MoveBack(object? parameter)
@@ -52,17 +47,11 @@ public class Navigator : ObservableObject, INavigator
         CurrentViewModel = History.Current.ViewModel;
     }
 
-    private BaseViewModel ProcessAlbum(Album album)
-    {
-        var viewModel = _musicViewModelsFactory.CreateAlbumViewModel(album);
-        History.Add(CurrentViewModel);
-        History.Add(viewModel);
-        return viewModel;
-    }
-
     private BaseViewModel CreateViewModel(ViewType viewType)
     {
+        var newViewModel = _viewModelFactory.CreateViewModel(viewType);
         History.Reset();
-        return _viewModelFactory.CreateViewModel(viewType);
+        History.Add(newViewModel);
+        return newViewModel;
     }
 }

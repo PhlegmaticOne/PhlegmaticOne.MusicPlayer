@@ -10,3 +10,12 @@ public interface INavigator
     public ICommand NavigateCommand { get; }
     public ICommand MoveBackCommand { get; }
 }
+
+public static class NavigationExtensions
+{
+    public static void NavigateTo(this INavigator navigator, BaseViewModel baseViewModel)
+    {
+        navigator.History.Add(baseViewModel);
+        navigator.CurrentViewModel = baseViewModel;
+    }
+}

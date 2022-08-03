@@ -15,16 +15,16 @@ namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
 public class CollectionViewModel : BaseViewModel
 {
-    public INavigator Navigator { get; set; }
+    public MusicNavigationBase<Album> MusicNavigation { get; set; }
     private readonly IUnitOfWork _unitOfWork;
     public ObservableCollection<Album> Albums { get; set; } = new();
     public ObservableCollection<SortDescription> SortOptions { get; set; } = new();
 
     public CollectionViewModel(IUnitOfWork unitOfWork,
         ISortOptionsProvider sortOptionsProvider,
-        INavigator navigator)
+        MusicNavigationBase<Album> musicNavigation)
     {
-        Navigator = navigator;
+        MusicNavigation = musicNavigation;
         _unitOfWork = unitOfWork;
         UpdateCommand = new(LoadAlbums, _ => true);
         SortCommand = new(SortAlbums, _ => true);
@@ -79,11 +79,5 @@ public class CollectionViewModel : BaseViewModel
         {
             await UIThreadInvoker.InvokeAsync(() => Albums.Add(album));
         }
-    }
-
-    private void OpenAlbum(object? parameter)
-    {
-        if(parameter is not Guid id) return;
-
     }
 }

@@ -5,10 +5,12 @@ namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
 public partial class MainWindow
 {
+    private readonly MainViewModel _mainViewModel;
     public MainWindow(MainViewModel mainViewModel)
     {
         InitializeComponent();
         DataContext = mainViewModel;
+        _mainViewModel = mainViewModel;
     }
 
     private void MinimizeButton_OnClick(object sender, RoutedEventArgs e) => 
@@ -19,6 +21,7 @@ public partial class MainWindow
 
     private void CloseButton_OnClick(object sender, RoutedEventArgs e)
     {
+        _mainViewModel.Close();
         Application.Current.Shutdown();
     }
 }
