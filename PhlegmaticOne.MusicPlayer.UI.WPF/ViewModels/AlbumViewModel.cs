@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.Core.Player;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Features.Album;
@@ -10,24 +9,28 @@ namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
 public class AlbumViewModel : BaseViewModel
 {
-    private readonly IPlayer _player;
-    public Song CurrentSong => _player.CurrentSong;
+    public PlayerViewModel PlayerViewModel { get; set; }
+    public Song CurrentSong { get; set; }
     public Album Album { get; set; }
     public IDictionary<string, ICommand> AlbumActions { get; set; }
-    public AlbumViewModel(Album album, IAlbumFeaturesProvider albumFeaturesProvider, IPlayer player)
+    public AlbumViewModel(Album album, IAlbumFeaturesProvider albumFeaturesProvider, PlayerViewModel playerViewModel)
     {
-        _player = player;
+        PlayerViewModel = playerViewModel;
         Album = album;
         AlbumActions = albumFeaturesProvider.AlbumFeatures;
         PlaySongCommand = new(PlaySong, _ => true);
+        PlayerViewModel.CurrentAlbum = album;
     }
     public DelegateCommand PlaySongCommand { get; set; }
 
     private void PlaySong(object? parameter)
     {
-        var song = (Song)parameter;
-        _player.CurrentSong = song;
-        _player.CurrentAlbum = Album;
-        _player.Play();
+        if (parameter is Song song)
+        {
+            CurrentSong = song;
+
+            PlayerViewModel.CurrentSong = song;
+            PlayerViewModel.Player.Play(song.OnlineUrl);
+        }
     }
 }

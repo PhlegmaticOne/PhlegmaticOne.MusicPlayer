@@ -56,7 +56,7 @@
                                 </DockPanel>
                             </Grid>
                             <Grid Row="1">
-                                <views:Player DataContext="{Binding Player}"/>
+                                <views:Player DataContext="{Binding PlayerViewModel}" />
                             </Grid>
                         </Grid>
                         

@@ -1,13 +1,16 @@
-﻿using PhlegmaticOne.MusicPlayer.Entities;
+﻿namespace PhlegmaticOne.MusicPlayer.Core.Player;
 
-namespace PhlegmaticOne.MusicPlayer.Core.Player;
-
-public interface IPlayer
+public interface IPlayer : IDisposable
 {
-    public event EventHandler<TimeSpan> DurationChanged; 
-    public Song CurrentSong { get; set; }
-    public Album CurrentAlbum { get; set; }
-    public TimeSpan CurrentDuration { get; set; }
-    public void Play();
-    public void Pause();
+    public event EventHandler<TimeSpan> TimeChanged;
+    public event EventHandler<bool> PauseChanged;
+    public event EventHandler<bool> StopChanged;
+    public bool IsPaused { get; }
+    public bool IsStopped { get; }
+    public TimeSpan CurrentTime { get; }
+    public float Volume { get; set; }
+    public void Play(string fileName);
+    public void PauseOrUnpause();
+    public void Stop();
+    public void Rewind(TimeSpan timeStamp);
 }

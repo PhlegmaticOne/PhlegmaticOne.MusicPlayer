@@ -22,14 +22,24 @@
         </Grid.RowDefinitions>
 
         <Grid Row="0">
-            <Slider Name="PlayerLine" Minimum="0" Maximum="{Binding CurrentSong.Duration, Converter={StaticResource TimeSpanToLongConverter}}"
-                    Value="{Binding CurrentDuration, Converter={StaticResource TimeSpanToLongConverter}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <Slider 
+                    Name="PlayerLine"
+                    Minimum="0" 
+                    Maximum="{Binding CurrentSong.Duration, Converter={StaticResource TimeSpanToLongConverter}}"
+                    Value="{Binding CurrentTime, Converter={StaticResource TimeSpanToLongConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}">
                 <Slider.Style>
                     <Style TargetType="Slider">
                         <Setter Property="IsMoveToPointEnabled" Value="True"/>
                         <Setter Property="Template" Value="{StaticResource PlayerLine}"/>
                     </Style>
                 </Slider.Style>
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseLeftButtonUp">
+                        <b:InvokeCommandAction 
+                            Command="{Binding RewindCommand}" 
+                            CommandParameter="{Binding Value, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Slider}}}"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
             </Slider>
         </Grid>
         
@@ -79,7 +89,8 @@
                         </Viewbox>
                     </ToggleButton>
 
-                    <Image Source="{Binding CurrentAlbum.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}"
+                    <Image 
+                        Source="{Binding CurrentAlbum.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}"
                            Margin="10 5 0 5"
                            Width="50" Height="{Binding Width, RelativeSource={RelativeSource Self}}"/>
 

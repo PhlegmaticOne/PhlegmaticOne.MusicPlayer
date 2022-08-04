@@ -53,6 +53,6 @@
                  <v:AlbumView/>
              </DataTemplate>
 
-        </ResourceDictionary>
+         </ResourceDictionary>
     </Application.Resources>
 </Application>

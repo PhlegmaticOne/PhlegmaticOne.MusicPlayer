@@ -19,7 +19,6 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Players;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
@@ -92,6 +91,7 @@ public partial class App
             {
                 services.AddDbContext<ApplicationDbContext>(b => b.UseInMemoryDatabase("MEMORY"));
                 services.AddUnitOfWork<ApplicationDbContext>();
+
                 services.AddSingleton<ILanguageProvider, LanguageProvider>();
                 services.AddSingleton<IAlbumFeaturesProvider, AlbumFeaturesProvider>();
                 services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();
@@ -99,8 +99,10 @@ public partial class App
                 services.AddSingleton<IDownloadSettings, DownloadSettings>();
                 services.AddSingleton<ISortOptionsProvider, SortOptionsProvider>();
                 services.AddSingleton<IPlayer, OnlinePlayer>();
+
                 services.AddSingleton<MusicNavigationBase<Album>, AlbumsNavigation>();
                 services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
+                services.AddDependencyFactory<PlayerViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<ArtistsViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<CollectionViewModel>(ServiceLifetime.Singleton);
@@ -109,9 +111,7 @@ public partial class App
                 services.AddDependencyFactory<PlaylistsViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<SettingsViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<TracksViewModel>(ServiceLifetime.Singleton);
-
-                services.AddDependencyFactory<PlayersFactory>(ServiceLifetime.Singleton);
-
+                
                 services.AddSingleton<INavigationHistory, NavigationHistory>();
                 services.AddSingleton<INavigator, Navigator>();
                 services.AddSingleton<IViewModelFactory, ViewModelFactory>();
