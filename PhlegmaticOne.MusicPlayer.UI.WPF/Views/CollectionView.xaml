@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
              xmlns:c="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
@@ -24,10 +25,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid Column="0">
-                <TextBlock Text="Albums" FontFamily="{StaticResource ViewTitleFontFamily}"
-                           FontSize="{StaticResource ViewTitleFontSize}" FontWeight="{StaticResource ViewTitleFontWeight}"
-                           Foreground="{StaticResource ViewTitleFontBrush}"
-                           Padding="30" VerticalAlignment="Center"/>
+                <controls:ViewTitle Padding="30" VerticalAlignment="Center" TitleText="Albums"/>
             </Grid>
             <Grid Column="1" Margin="0 0 20 0">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">

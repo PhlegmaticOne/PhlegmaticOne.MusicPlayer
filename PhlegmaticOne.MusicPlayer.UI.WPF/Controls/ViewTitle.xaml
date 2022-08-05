@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="PhlegmaticOne.MusicPlayer.UI.WPF.Controls.ViewTitle"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Name="ViewTitleRoot"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <TextBlock Text="{Binding TitleText, ElementName=ViewTitleRoot}" 
+               FontFamily="{StaticResource ViewTitleFontFamily}"
+               FontSize="{StaticResource ViewTitleFontSize}" 
+               FontWeight="{StaticResource ViewTitleFontWeight}"
+               Foreground="{StaticResource ViewTitleFontBrush}"/>
+</UserControl>

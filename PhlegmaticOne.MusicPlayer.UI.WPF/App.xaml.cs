@@ -16,12 +16,15 @@ using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Features.Album;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
 using PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
+using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
+using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Queue;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -89,9 +92,12 @@ public partial class App
         var hostBuilder = new HostBuilder()
             .ConfigureServices((builder, services) =>
             {
+
                 services.AddDbContext<ApplicationDbContext>(b => b.UseInMemoryDatabase("MEMORY"));
                 services.AddUnitOfWork<ApplicationDbContext>();
 
+                services.AddSingleton<IValueProvider<Song>, ValueProvider<Song>>();
+                services.AddSingleton<IValueProvider<Album>, ValueProvider<Album>>();
                 services.AddSingleton<ILanguageProvider, LanguageProvider>();
                 services.AddSingleton<IAlbumFeaturesProvider, AlbumFeaturesProvider>();
                 services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();
@@ -99,6 +105,8 @@ public partial class App
                 services.AddSingleton<IDownloadSettings, DownloadSettings>();
                 services.AddSingleton<ISortOptionsProvider, SortOptionsProvider>();
                 services.AddSingleton<IPlayer, OnlinePlayer>();
+                services.AddSingleton<ISongsQueue, SongsQueue>();
+                services.AddSingleton<ISongQueueViewModelFactory, SongQueueViewModelFactory>();
 
                 services.AddSingleton<MusicNavigationBase<Album>, AlbumsNavigation>();
                 services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
@@ -111,6 +119,7 @@ public partial class App
                 services.AddDependencyFactory<PlaylistsViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<SettingsViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<TracksViewModel>(ServiceLifetime.Singleton);
+                services.AddDependencyFactory<SongQueueViewModel>(ServiceLifetime.Singleton);
                 
                 services.AddSingleton<INavigationHistory, NavigationHistory>();
                 services.AddSingleton<INavigator, Navigator>();

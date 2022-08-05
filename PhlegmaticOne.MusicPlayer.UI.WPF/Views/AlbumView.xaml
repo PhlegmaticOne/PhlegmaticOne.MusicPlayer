@@ -10,11 +10,9 @@
              d:DesignHeight="1080"
              d:DesignWidth="1600">
     <UserControl.Resources>
-        <converters:EntityToStringConverter x:Key="EntityToStringConverter"/>
         <converters:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
         <converters:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
         <converters:IndexConverter x:Key="IndexConverter"/>
-        <converters:StarWidthConverter x:Key="StarWidthConverter"/>
         <converters:TimeToStringConverter x:Key="TimeToStringConverter"/>
         <converters:ValuesEqualConverter x:Key="ValuesEqualConverter"/>
     </UserControl.Resources>
@@ -30,7 +28,7 @@
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <Grid ColumnSpan="2">
-                    <Image Source="{Binding Album.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}" 
+                    <Image Source="{Binding CurrentAlbum.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}" 
                            Stretch="UniformToFill"
                            VerticalAlignment="Center"
                            Opacity="0.3">
@@ -41,7 +39,7 @@
                 </Grid>
                 <Grid Column="0" Margin="20 10">
                     <Grid>
-                        <Image Source="{Binding Album.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}">
+                    <Image Source="{Binding CurrentAlbum.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}">
                             <Image.Effect>
                                 <DropShadowEffect ShadowDepth="5" Color="Black" BlurRadius="8"/>
                             </Image.Effect>
@@ -57,14 +55,14 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid Row="1">
-                        <TextBlock Text="{Binding Album.AlbumType}" 
+                    <TextBlock Text="{Binding CurrentAlbum.AlbumType}" 
                                    Foreground="#999999" 
                                    FontSize="18"
                                    VerticalAlignment="Bottom"
                                    Padding="10 0 0 0"/>
                     </Grid>
                     <Grid Row="2">
-                        <TextBlock Text="{Binding Album.Title}"
+                    <TextBlock Text="{Binding CurrentAlbum.Title}"
                                    Foreground="White" 
                                    Padding="10 0 0 4"
                                    FontSize="46"
@@ -77,14 +75,14 @@
                                        FontSize="18"
                                        Padding="10 0 0 0"
                                        VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding Album.Artists,
+                        <TextBlock Text="{Binding CurrentAlbum.Artists,
                                 Converter={StaticResource CollectionOfEntitiesToStringConverter},
      ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Slash}}"
                                        Foreground="White" 
                                        FontSize="18"
                                        Padding="6 0 0 0"
                                        VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding Album.YearReleased}"
+                        <TextBlock Text="{Binding CurrentAlbum.YearReleased}"
                                        Foreground="White"
                                        FontSize="18"
                                        Padding="6 0 0 0"/>
@@ -257,7 +255,7 @@
                 </Grid>
             </Grid>
             <Grid Row="1">
-                <ListView ItemsSource="{Binding Album.Songs}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView ItemsSource="{Binding CurrentAlbum.Songs}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListView.Style>
                         <Style TargetType="ListView">
                             <Setter Property="Background" Value="Transparent"/>
@@ -519,10 +517,10 @@
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
                                                     <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
-                                                    <Condition Binding="{Binding DataContext.PlayerViewModel.IsStopped, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}" Value="False"/>
+                                                    <Condition Binding="{Binding DataContext.IsStopped, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}" Value="False"/>
                                                 </MultiDataTrigger.Conditions>
                                                 <MultiDataTrigger.Setters>
-                                                    <Setter TargetName="PlayButton" Property="Command" Value="{Binding DataContext.PlayerViewModel.PlayPauseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}"/>
+                                                    <Setter TargetName="PlayButton" Property="Command" Value="{Binding DataContext.PlayPauseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}"/>
                                                 </MultiDataTrigger.Setters>
                                             </MultiDataTrigger>
 
@@ -530,7 +528,7 @@
                                             <MultiDataTrigger>
                                                 <MultiDataTrigger.Conditions>
                                                     <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
-                                                    <Condition Binding="{Binding DataContext.PlayerViewModel.IsPaused, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}" Value="False"/>
+                                                    <Condition Binding="{Binding DataContext.IsPaused, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}" Value="False"/>
                                                 </MultiDataTrigger.Conditions>
                                                 <MultiDataTrigger.Setters>
                                                     <Setter TargetName="PlayButton" Property="Content">
@@ -556,7 +554,7 @@
                                                 <MultiDataTrigger.Conditions>
                                                     <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True"/>
                                                     <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
-                                                    <Condition Binding="{Binding DataContext.PlayerViewModel.IsPaused, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}" Value="False"/>
+                                                    <Condition Binding="{Binding DataContext.IsPaused, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}" Value="False"/>
                                                 </MultiDataTrigger.Conditions>
                                                 <MultiDataTrigger.Setters>
                                                     <Setter TargetName="PlayButton" Property="Content">

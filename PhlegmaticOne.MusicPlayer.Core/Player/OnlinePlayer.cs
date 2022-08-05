@@ -5,9 +5,9 @@ namespace PhlegmaticOne.MusicPlayer.Core.Player;
 public class OnlinePlayer : IPlayer
 {
     private readonly TimeSpan _updateTimelineTime;
-    private readonly float _startVolume = 0.5f;
+    private readonly float _startVolume = 0.2f;
     private bool _isDisposed;
-
+    private bool _isUserStopped;
     public OnlinePlayer()
     {
         _updateTimelineTime = TimeSpan.FromMilliseconds(500);
@@ -18,6 +18,7 @@ public class OnlinePlayer : IPlayer
     public event EventHandler<TimeSpan>? TimeChanged;
     public event EventHandler<bool>? PauseChanged;
     public event EventHandler<bool>? StopChanged;
+    public event EventHandler? SongEnded;
 
     public float Volume
     {
@@ -35,43 +36,55 @@ public class OnlinePlayer : IPlayer
     public bool IsPaused { get; private set; }
     public bool IsStopped { get; private set; }
 
+    
     private MediaFoundationReader _mediaFoundationReader;
     private WasapiOut _wasapiOut;
-
+    private Task? _songTask;
     public void Play(string fileName)
     {
-        Task.Run(() =>
+        _songTask?.Wait();
+        _songTask = new Task(() => PlaySong(fileName));
+        _songTask.GetAwaiter().OnCompleted(() =>
         {
-            TryDispose();
-
-            _mediaFoundationReader = new MediaFoundationReader(fileName);
-            _wasapiOut = new WasapiOut();
-
-            _isDisposed = false;
-            Volume = _startVolume;
-
-            SetPause(false);
-            SetStop(false);
-
-            _wasapiOut.Init(_mediaFoundationReader);
-            _wasapiOut.Play();
-
-            while (_wasapiOut.PlaybackState is PlaybackState.Playing or PlaybackState.Paused)
+            if (_isUserStopped == false)
             {
-                if (_wasapiOut.PlaybackState == PlaybackState.Paused) continue;
-
-                Thread.Sleep(_updateTimelineTime);
-                SetTime(CurrentTime += _updateTimelineTime);
+                InvokeSongEnded();
             }
 
-            TryDispose();
-
-            SetTime(TimeSpan.Zero);
-            SetPause(true);
-            SetStop(true);
+            _isUserStopped = false;
         });
+        _songTask.Start();
     }
 
+    private void PlaySong(string fileName)
+    {
+        TryDispose();
+
+        _mediaFoundationReader = new MediaFoundationReader(fileName);
+        _wasapiOut = new WasapiOut();
+        _isDisposed = false;
+        Volume = _startVolume;
+
+        SetPause(false);
+        SetStop(false);
+
+        _wasapiOut.Init(_mediaFoundationReader);
+        _wasapiOut.Play();
+
+        while (_wasapiOut.PlaybackState is PlaybackState.Playing or PlaybackState.Paused)
+        {
+            if (_wasapiOut.PlaybackState == PlaybackState.Paused) continue;
+
+            Thread.Sleep(_updateTimelineTime);
+            SetTime(CurrentTime += _updateTimelineTime);
+        }
+
+        TryDispose();
+
+        SetTime(TimeSpan.Zero);
+        SetPause(true);
+        SetStop(true);
+    }
     public void PauseOrUnpause()
     {
         if (IsPaused)
@@ -87,8 +100,16 @@ public class OnlinePlayer : IPlayer
     }
     public void Stop()
     {
-        SetStop(true);
-        _wasapiOut.Stop();
+        try
+        {   
+            _wasapiOut.Stop();
+            SetStop(true);
+            _isUserStopped = true;
+        }
+        catch
+        {
+            // ignored
+        }
     }
 
     public void Rewind(TimeSpan timeStamp)
@@ -119,6 +140,7 @@ public class OnlinePlayer : IPlayer
     private void InvokeTimeChanged() => TimeChanged?.Invoke(this, CurrentTime);
     private void InvokePauseChanged() => PauseChanged?.Invoke(this, IsPaused);
     private void InvokeStopChanged() => StopChanged?.Invoke(this, IsStopped);
+    private void InvokeSongEnded() => SongEnded?.Invoke(this, EventArgs.Empty);
     private void TryDispose()
     {
         try
@@ -126,12 +148,11 @@ public class OnlinePlayer : IPlayer
             _mediaFoundationReader?.Dispose();
             _wasapiOut?.Dispose();
             _isDisposed = true;
-
         }
         catch
         {
             // ignored
-            _isDisposed = false;
+            //_isDisposed = false;
         }
     }
 }

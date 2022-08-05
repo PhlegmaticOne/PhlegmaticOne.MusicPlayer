@@ -5,6 +5,7 @@ public interface IPlayer : IDisposable
     public event EventHandler<TimeSpan> TimeChanged;
     public event EventHandler<bool> PauseChanged;
     public event EventHandler<bool> StopChanged;
+    public event EventHandler SongEnded;
     public bool IsPaused { get; }
     public bool IsStopped { get; }
     public TimeSpan CurrentTime { get; }

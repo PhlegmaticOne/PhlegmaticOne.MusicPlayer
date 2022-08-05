@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:converters="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
+             xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="67" d:DesignWidth="1920">
 
@@ -22,7 +23,7 @@
         </Grid.RowDefinitions>
 
         <Grid Row="0">
-            <Slider 
+            <Slider AutoToolTipPlacement="TopLeft"
                     Name="PlayerLine"
                     Minimum="0" 
                     Maximum="{Binding CurrentSong.Duration, Converter={StaticResource TimeSpanToLongConverter}}"
@@ -220,7 +221,8 @@
                         </Button.Style>
                     </Button>
 
-                    <Button DockPanel.Dock="Right" Style="{StaticResource PlayerButtonStyle}" Margin="0 0 5 0">
+                    <Button Style="{StaticResource PlayerButtonStyle}" DockPanel.Dock="Right" Margin="0 0 5 0"
+                            Command="{Binding OpenSongsQueueCommand}">
                         <Viewbox Height="24" Width="24">
                             <Canvas Width="24" Height="24">
                                 <Path Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"
@@ -228,6 +230,7 @@
                             </Canvas>
                         </Viewbox>
                     </Button>
+
                 </DockPanel>
             </Grid>
         </Grid>

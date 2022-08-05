@@ -16,7 +16,7 @@ public class MainViewModel : BaseViewModel
 
     public void Close()
     {
-        PlayerViewModel.Player.Dispose();
+        PlayerViewModel.Dispose();
         //if(Player.CurrentSong is null) return;
         //Settings.Default.LatestSongId = Player.CurrentSong.Id;
         //Settings.Default.Save();

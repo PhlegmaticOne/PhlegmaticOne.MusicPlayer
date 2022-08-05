@@ -53,6 +53,10 @@
                  <v:AlbumView/>
              </DataTemplate>
 
-         </ResourceDictionary>
+             <DataTemplate DataType="{x:Type vm:SongQueueViewModel}">
+                 <v:SongQueueView/>
+             </DataTemplate>
+
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
