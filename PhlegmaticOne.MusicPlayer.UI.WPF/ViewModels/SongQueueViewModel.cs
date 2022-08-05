@@ -10,59 +10,53 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
-public class SongQueueViewModel : BaseViewModel
+public class SongQueueViewModel : PlayerTrackableViewModel
 {
-    private readonly IValueProvider<Song> _songValueProvider;
-    private readonly IValueProvider<Album> _albumValueProvider;
-    private readonly ISongsQueue _songsQueue;
-    private readonly IPlayer _player;
-    public Song CurrentSong { get; set; }
-    public bool IsPaused { get; set; } = true;
-    public bool IsStopped { get; set; } = true;
     public ObservableCollection<Song> Songs { get; }
-    public SongQueueViewModel(ISongsQueue songsQueue, IPlayer player, IValueProvider<Song> songValueProvider, IValueProvider<Album> albumValueProvider)
+    public SongQueueViewModel(ISongsQueue songsQueue, IPlayer player, IValueProvider<Song> songValueProvider, IValueProvider<Album> albumValueProvider) : 
+        base(player, songsQueue, songValueProvider, albumValueProvider)
     {
-        _songValueProvider = songValueProvider;
-        _albumValueProvider = albumValueProvider;
-        _songsQueue = songsQueue;
-        _player = player;
-
         Songs = new();
-
-        player.PauseChanged += PlayerOnPauseChanged;
-        player.StopChanged += PlayerOnStopChanged;
-
-        _songsQueue.QueueChanged += SongsQueueOnQueueChanged;
-        _songValueProvider.ValueChanged += SongValueProviderOnValueChanged;
-
+        SongsQueue.QueueChanged += SongsQueueOnQueueChanged;
         if (Songs.Any() == false)
         {
-            SongsQueueOnQueueChanged(null, songsQueue.Songs);
+            AddSongs(songsQueue.Songs);
+        }
+
+        CurrentAlbum = AlbumValueProvider.Get();
+        TrySetSong();
+    }
+
+    private void SongsQueueOnQueueChanged(object? sender, CollectionChangedEventArgs<Song> e)
+    {
+        switch (e.CollectionChangedType)
+        {
+            case CollectionChangedType.Added:
+            {
+                AddSongs(e.Entities);
+                break;
+            }
+            case CollectionChangedType.Removed:
+            {
+                RemoveSongs(e.Entities);
+                break;
+            }
         }
     }
 
-    private void PlayerOnStopChanged(object? sender, bool e)
+    private void AddSongs(IEnumerable<Song> songs)
     {
-        IsStopped = e;
-    }
-
-    private void PlayerOnPauseChanged(object? sender, bool e)
-    {
-        IsPaused = e;
-    }
-
-    private void SongValueProviderOnValueChanged(object? sender, Song? e)
-    {
-        CurrentSong = e;
-    }
-
-    public DelegateCommand PlaySongCommand { get; set; }
-    private void SongsQueueOnQueueChanged(object? sender, IEnumerable<Song> newSongs)
-    {
-        Songs.Clear();
-        foreach (var newSong in newSongs)
+        foreach (var entity in songs)
         {
-            Songs.Add(newSong);
+            Songs.Add(entity);
+        }
+    }
+
+    private void RemoveSongs(IEnumerable<Song> songs)
+    {
+        foreach (var entity in songs)
+        {
+            Songs.Remove(entity);
         }
     }
 }

@@ -10,52 +10,40 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Queue;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
-public class PlayerViewModel : BaseViewModel, IDisposable
+public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
 {
-    private readonly IPlayer _player;
-    private readonly ISongsQueue _songsQueue;
     private readonly ISongQueueViewModelFactory _songQueueViewModelFactory;
     private readonly INavigator _navigator;
-    private readonly IValueProvider<Song> _songValueProvider;
-    private readonly IValueProvider<Album> _albumValueProvider;
     public TimeSpan CurrentTime { get; set; }
-    public Song CurrentSong { get; set; }
-    public Album CurrentAlbum { get; set; }
-    public bool IsPaused { get; set; } = true;
-    public bool IsStopped { get; set; } = true;
-    public PlayerViewModel(IPlayer player, ISongsQueue songsQueue, ISongQueueViewModelFactory songQueueViewModelFactory, INavigator navigator,
-        IValueProvider<Song> songValueProvider, IValueProvider<Album> albumValueProvider)
+
+    public PlayerViewModel(IPlayer player, ISongsQueue songsQueue, IValueProvider<Song> songValueProvider, IValueProvider<Album> albumValueProvider,
+        ISongQueueViewModelFactory songQueueViewModelFactory, INavigator navigator) : base(player, songsQueue, songValueProvider, albumValueProvider)
     {
-        _player = player;
-        _songsQueue = songsQueue;
         _songQueueViewModelFactory = songQueueViewModelFactory;
         _navigator = navigator;
-        _songValueProvider = songValueProvider;
-        _albumValueProvider = albumValueProvider;
 
         RewindCommand = new(Rewind, _ => true);
-        PlayPauseCommand = new(PlayPause, _ => true);
-        PlaySongCommand = new(PlaySong, _ => true);
         OpenSongsQueueCommand = new(OpenQueue, _ => true);
 
         player.TimeChanged += (_, newTime) => CurrentTime = newTime;
-        player.PauseChanged += (_, isPaused) => IsPaused = isPaused;
-        player.StopChanged += (_, isStopped) => IsStopped = isStopped;
         player.SongEnded += PlayerOnSongEnded;
 
-        _songValueProvider.ValueChanged += (_, newSong) => CurrentSong = newSong;
-        _albumValueProvider.ValueChanged += (_, newAlbum) => CurrentAlbum = newAlbum;
+        albumValueProvider.ValueChanged += (_, newAlbum) => CurrentAlbum = newAlbum;
+
+        SetIsPausedAndIsStopped();
     }
 
     private void PlayerOnSongEnded(object? sender, EventArgs e)
     {
-        _songsQueue.MoveNext();
-        SetAndPlay(_songsQueue.Current);
+        SongsQueue.MoveNext();
+        var currentSong = SongsQueue.Current;
+        if (currentSong is not null)
+        {
+            PlaySongAction(currentSong);
+        }
     }
 
     public DelegateCommand RewindCommand { get; set; }
-    public DelegateCommand PlayPauseCommand { get; set; }
-    public DelegateCommand PlaySongCommand { get; set; }
     public DelegateCommand OpenSongsQueueCommand { get; set; }
 
     private void OpenQueue(object? parameter)
@@ -64,32 +52,11 @@ public class PlayerViewModel : BaseViewModel, IDisposable
         _navigator.NavigateTo(queueViewModel);
     }
 
-    private void PlaySong(object? parameter)
-    {
-        if (parameter is Song song)
-        {
-            SetAndPlay(song);
-        }
-    }
     private void Rewind(object? parameter)
     {
         if (parameter is double ticks)
         {
-            _player.Rewind(ParseTime(ticks));
-        }
-    }
-
-    private void PlayPause(object? parameter)
-    {
-        _player.PauseOrUnpause();
-    }
-
-    private void SetAndPlay(Song? song)
-    {
-        _songValueProvider.Set(song);
-        if (song is not null)
-        {
-            _player.Play(CurrentSong.OnlineUrl);
+            Player.Rewind(ParseTime(ticks));
         }
     }
 
@@ -97,6 +64,6 @@ public class PlayerViewModel : BaseViewModel, IDisposable
 
     public void Dispose()
     {
-        _player.Dispose();
+        Player.Dispose();
     }
 }

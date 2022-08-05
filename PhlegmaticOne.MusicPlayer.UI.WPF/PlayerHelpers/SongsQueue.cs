@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Extensions;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 
@@ -14,17 +16,18 @@ public class SongsQueue : ISongsQueue
     }
 
     public IReadOnlyCollection<Song> Songs => _songs;
-    public event EventHandler<IEnumerable<Song>>? QueueChanged;
+    public event EventHandler<CollectionChangedEventArgs<Song>>? QueueChanged;
     public void Enqueue(Song song)
     {
         _songs.Add(song);
-        Invoke();
+        Invoke(song.ToOneItemEnumerable(), CollectionChangedType.Added);
     }
 
     public void Enqueue(IEnumerable<Song> songs)
     {
-        _songs.AddRange(songs);
-        Invoke();
+        var collection = songs.ToList();
+        _songs.AddRange(collection);
+        Invoke(collection, CollectionChangedType.Added);
     }
 
     public void Remove(Song song)
@@ -35,7 +38,7 @@ public class SongsQueue : ISongsQueue
             _currentSongIndex--;
         }
         _songs.RemoveAt(songIndex);
-        Invoke();
+        Invoke(song.ToOneItemEnumerable(), CollectionChangedType.Removed);
     }
 
     public Song? Current
@@ -65,5 +68,24 @@ public class SongsQueue : ISongsQueue
         _songs.Clear();
     }
 
-    private void Invoke() => QueueChanged?.Invoke(this, _songs);
+    private void Invoke(IEnumerable<Song> songs, CollectionChangedType collectionChangedType) =>
+        QueueChanged?.Invoke(this, new(songs, collectionChangedType));
+}
+
+public class CollectionChangedEventArgs<T> : EventArgs where T: class
+{
+    public IEnumerable<T> Entities { get; }
+    public CollectionChangedType CollectionChangedType { get; }
+
+    public CollectionChangedEventArgs(IEnumerable<T> entities, CollectionChangedType collectionChangedType)
+    {
+        Entities = entities;
+        CollectionChangedType = collectionChangedType;
+    }
+}
+
+public enum CollectionChangedType
+{
+    Added,
+    Removed
 }
