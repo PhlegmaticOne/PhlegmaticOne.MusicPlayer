@@ -1,21 +1,26 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Extensions;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
-
 public class SongsQueue : ISongsQueue
 {
     private readonly List<Song> _songs;
     private int _currentSongIndex;
+    private bool _isQueueOver;
     public SongsQueue()
     {
         _songs = new();
+        RepeatType = RepeatType.RepeatOff;
+        ShuffleType = ShuffleType.ShuffleOff;
     }
 
     public IReadOnlyCollection<Song> Songs => _songs;
+    public RepeatType RepeatType { get; set; }
+    public ShuffleType ShuffleType { get; set; }
     public event EventHandler<CollectionChangedEventArgs<Song>>? QueueChanged;
     public void Enqueue(Song song)
     {
@@ -43,15 +48,7 @@ public class SongsQueue : ISongsQueue
 
     public Song? Current
     {
-        get
-        {
-            if (_currentSongIndex < _songs.Count)
-            {
-                return _songs[_currentSongIndex];
-            }
-
-            return null;
-        }
+        get => _isQueueOver ? null : _songs[_currentSongIndex];
         set
         {
             var index = _songs.IndexOf(value);
@@ -62,7 +59,80 @@ public class SongsQueue : ISongsQueue
         }
     }
 
-    public void MoveNext() => _currentSongIndex++;
+    public void MoveNext(QueueMoveType queueMoveType)
+    {
+        if (RepeatType == RepeatType.RepeatSong && queueMoveType == QueueMoveType.AccordingToRepeatType)
+        {
+            return;
+        }
+        if (ShuffleType == ShuffleType.ShuffleOn)
+        {
+            SetRandomIndex();
+            return;
+        }   
+        switch (RepeatType)
+        {
+            case RepeatType.RepeatOff:
+            {
+                IncreaseQueueIndex();
+                break;
+            }
+            case RepeatType.RepeatQueue:
+            {
+                IncreaseIndexAnyway();
+                break;
+            }
+            case RepeatType.RepeatSong:
+            {
+                IncreaseIndexAnyway();
+                break;
+            }
+        }
+    }
+
+    private void IncreaseIndexAnyway()
+    {
+        IncreaseQueueIndex();
+        if (_isQueueOver)
+        {
+            _currentSongIndex = 0;
+            _isQueueOver = false;
+        }
+    }
+
+    private void SetRandomIndex()
+    {
+        _currentSongIndex = Random.Shared.Next(0, _songs.Count);
+    }
+
+    private void IncreaseQueueIndex()
+    {
+        if (_currentSongIndex < _songs.Count)
+        {
+            _isQueueOver = false;
+        }
+
+        if (_isQueueOver == false)
+        {
+            ++_currentSongIndex;
+        }
+
+        if (_currentSongIndex == _songs.Count)
+        {
+            _isQueueOver = true;
+        }
+    }
+
+    public void MovePrevious()
+    {
+        if (ShuffleType == ShuffleType.ShuffleOn)
+        {
+            SetRandomIndex();
+            return;
+        }
+        _currentSongIndex = _currentSongIndex == 0 ? 0 : --_currentSongIndex;
+    }
+
     public void Clear()
     {
         _songs.Clear();
@@ -70,6 +140,10 @@ public class SongsQueue : ISongsQueue
 
     private void Invoke(IEnumerable<Song> songs, CollectionChangedType collectionChangedType) =>
         QueueChanged?.Invoke(this, new(songs, collectionChangedType));
+
+    public IEnumerator<Song> GetEnumerator() => _songs.GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) _songs).GetEnumerator();
 }
 
 public class CollectionChangedEventArgs<T> : EventArgs where T: class

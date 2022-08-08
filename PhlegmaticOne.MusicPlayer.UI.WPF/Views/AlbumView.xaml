@@ -89,7 +89,7 @@
                         </StackPanel>
                     </Grid>
                     <Grid Row="4">
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                             <Button>
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal" MaxWidth="150" MaxHeight="50" 

@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -19,6 +20,17 @@ public partial class Player
         _mouseLeaveTransform = new TranslateTransform(-3, 0);
         PlayerLine.MouseEnter += PlayerLineOnMouseEnter;
         PlayerLine.MouseLeave += PlayerLineOnMouseLeave;
+        VolumeButton.MouseEnter += VolumeButtonOnMouseEnter;
+    }
+
+    private async void VolumeButtonOnMouseEnter(object sender, MouseEventArgs e)
+    {
+        await Task.Delay(500);
+        var volumeButton = sender as Button;
+        if (volumeButton.IsMouseOver)
+        {
+            VolumePopup.IsOpen = true;
+        }
     }
 
     private void PlayerLineOnMouseLeave(object sender, MouseEventArgs e)

@@ -6,6 +6,7 @@ public class OnlinePlayer : IPlayer
 {
     private readonly TimeSpan _updateTimelineTime;
     private readonly float _startVolume = 0.2f;
+    private float _volume;
     private bool _isDisposed;
     private bool _isUserStopped;
     public OnlinePlayer()
@@ -14,6 +15,7 @@ public class OnlinePlayer : IPlayer
         IsPaused = true;
         IsStopped = true;
         _isDisposed = true;
+        _volume = _startVolume;
     }
     public event EventHandler<TimeSpan>? TimeChanged;
     public event EventHandler<bool>? PauseChanged;
@@ -22,12 +24,16 @@ public class OnlinePlayer : IPlayer
 
     public float Volume
     {
-        get => _wasapiOut.Volume;
+        get => _wasapiOut?.Volume ?? _volume;
         set
         {
-            if (_isDisposed == false && value <= 1)
+            if (value <= 1)
             {
-                _wasapiOut.Volume = value;
+                _volume = value;
+            }
+            if (_isDisposed == false)
+            {
+                _wasapiOut.Volume = _volume;
             }
         }
     }
@@ -63,7 +69,7 @@ public class OnlinePlayer : IPlayer
         _mediaFoundationReader = new MediaFoundationReader(fileName);
         _wasapiOut = new WasapiOut();
         _isDisposed = false;
-        Volume = _startVolume;
+        Volume = _volume;
 
         SetPause(false);
         SetStop(false);

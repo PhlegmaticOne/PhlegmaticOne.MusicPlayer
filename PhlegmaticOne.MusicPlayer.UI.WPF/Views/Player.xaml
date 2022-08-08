@@ -14,6 +14,8 @@
         <converters:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
         <converters:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
         <converters:TimeSpanToLongConverter x:Key="TimeSpanToLongConverter"/>
+        <converters:VolumeConverter x:Key="VolumeConverter"/>
+        <converters:VolumeToIconConverter x:Key="VolumeToIconConverter"/>
     </UserControl.Resources>
 
     <Grid Background="#222222">
@@ -46,13 +48,14 @@
         
         <Grid Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid Column="0" Row="1">
                 <StackPanel Orientation="Horizontal">
                     <Button Style="{StaticResource PlayerButtonStyle}"
-                            Margin="30 0 0 0">
+                            Margin="30 0 0 0"
+                            Command="{Binding MovePreviousCommand}">
                         <Viewbox Width="30" Height="30">
                             <Canvas  Width="24" Height="24">
                                 <Path Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"
@@ -60,17 +63,61 @@
                             </Canvas>
                         </Viewbox>
                     </Button>
-                    <Button Style="{StaticResource PlayerButtonStyle}"
-                            Margin="5 0 0 0">
-                        <Viewbox Width="40" Height="40">
-                            <Canvas Width="24" Height="24">
-                                <Path Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"
-                                      Data="M8,5.14V19.14L19,12.14L8,5.14Z" />
-                            </Canvas>
-                        </Viewbox>
+                    <Button Margin="5 0 0 0">
+                        <Button.Style>
+                            <Style TargetType="Button" >
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="Command" Value="{Binding PlaySongCommand}"/>
+                                <Setter Property="CommandParameter" Value="{Binding CurrentSong}"/>
+                                <Setter Property="Width" Value="50"/>
+                                <Setter Property="Height" Value="{Binding Width, RelativeSource={RelativeSource Self}}"/>
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                                <ContentPresenter Name="ContentPresenter"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#2C2C2C"></Setter>
+                                                    <Setter Property="Foreground" Value="#BFBFBF"></Setter>
+                                                </Trigger>
+
+                                                <DataTrigger Binding="{Binding DataContext.IsStopped, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Player}}}" Value="False">
+                                                    <Setter Property="Command" Value="{Binding DataContext.PlayPauseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Player}}}"/>
+                                                </DataTrigger>
+
+                                                <DataTrigger Binding="{Binding DataContext.IsPaused, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Player}}}" Value="False">
+                                                    <Setter TargetName="ContentPresenter" Property="Content">
+                                                        <Setter.Value>
+                                                            <Viewbox Width="40" Height="40">
+                                                                <Canvas Width="24" Height="24">
+                                                                    <Path Fill="White"
+                                                                          Data="M14,19H18V5H14M6,19H10V5H6V19Z" />
+                                                                </Canvas>
+                                                            </Viewbox>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </DataTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <Button.Content>
+                            <Viewbox Width="40" Height="40">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"
+                                          Data="M8,5.14V19.14L19,12.14L8,5.14Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </Button.Content>
                     </Button>
                     <Button Style="{StaticResource PlayerButtonStyle}"
-                            Margin="5 0 0 0">
+                            Margin="5 0 0 0"
+                            Command="{Binding MoveNextCommand}">
                         <Viewbox Width="30" Height="30">
                             <Canvas Width="24" Height="24">
                                 <Path Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"
@@ -79,9 +126,12 @@
                         </Viewbox>
                     </Button>
 
-                    <ToggleButton Margin="5 0 0 0" Style="{StaticResource ThreeStatePlayerToggleButtonStyle}"/>
+                    <ToggleButton Margin="5 0 0 0" Style="{StaticResource ThreeStatePlayerToggleButtonStyle}"
+                                  Command="{Binding ChangeQueueRepeatTypeCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}"/>
 
-                    <ToggleButton Margin="5 0 0 0" Style="{StaticResource PlayerToggleButtonStyle}">
+                    <ToggleButton Margin="5 0 0 0" Style="{StaticResource PlayerToggleButtonStyle}"
+                                  Command="{Binding ChangeQueueShuffleTypeCommand}" CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" 
+                                  IsThreeState="False">
                         <Viewbox Height="24" Width="24">
                             <Canvas Width="24" Height="24">
                                 <Path Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ToggleButton}}}" 
@@ -193,21 +243,60 @@
                         </Viewbox>
                     </Button>
 
-                    <Button DockPanel.Dock="Right" Margin="0 0 5 0" Width="50" Height="{Binding Width, RelativeSource={RelativeSource Self}}">
+                    <Popup Name="VolumePopup" Placement="Top" PlacementTarget="{Binding ElementName=VolumeButton}" VerticalOffset="-10" StaysOpen="False">
+                        <Border Background="#2B2B2B" BorderThickness="0">
+                            <StackPanel Orientation="Horizontal">
+                                <ToggleButton Style="{StaticResource PlayerToggleButtonStyle}" 
+                                                                              Margin="0 0 5 0"
+                                                                              IsThreeState="False"
+                                                                              Height="50"
+                                                                              Command="{Binding MuteCommand}">
+                                    <ToggleButton.Template>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Viewbox Width="24" Height="24">
+                                                <Canvas Width="24" Height="24">
+                                                    <Path Fill="{TemplateBinding Foreground}"
+                                                          Data="{Binding DataContext.Volume, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Player}}, 
+                                                                     Converter={StaticResource VolumeToIconConverter}}" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </ControlTemplate>
+                                    </ToggleButton.Template>
+                                </ToggleButton>
+                                <Slider MinWidth="100" VerticalAlignment="Center" Margin="10 0 10 0" Minimum="0" Maximum="100" IsMoveToPointEnabled="True"
+                                                                        Value="{Binding Volume, Converter={StaticResource VolumeConverter}, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="MouseLeftButtonUp">
+                                            <b:InvokeCommandAction Command="{Binding SaveVolumeCommand}"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
+                                </Slider>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+
+                    <Button DockPanel.Dock="Right" 
+                            Margin="0 0 5 0" 
+                            Width="50" 
+                            Name="VolumeButton" 
+                            Height="{Binding Width, RelativeSource={RelativeSource Self}}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Foreground" Value="White"/>
                                 <Setter Property="Background" Value="Transparent"/>
                                 <Setter Property="Template">
                                     <Setter.Value>
-                                        <ControlTemplate>
+                                        <ControlTemplate TargetType="Button">
                                             <Border Background="{TemplateBinding Background}" BorderThickness="0">
-                                                <Viewbox Height="24" Width="24">
-                                                    <Canvas  Width="24" Height="24">
-                                                        <Path Fill="{TemplateBinding Foreground}" Data="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z" />
+                                                <Viewbox Width="24" Height="24">
+                                                    <Canvas Width="24" Height="24">
+                                                        <Path Fill="{TemplateBinding Foreground}"
+                                                              Data="{Binding DataContext.Volume, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Player}}, 
+                                                                     Converter={StaticResource VolumeToIconConverter}}" />
                                                     </Canvas>
                                                 </Viewbox>
                                             </Border>
+
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
                                                     <Setter Property="Foreground" Value="#BFBFBF"/>
