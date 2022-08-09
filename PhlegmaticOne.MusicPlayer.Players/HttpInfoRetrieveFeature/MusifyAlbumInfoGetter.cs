@@ -1,10 +1,10 @@
 ﻿using System.Drawing;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
-using PhlegmaticOne.MusicPlayer.Core.Helpers;
 using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Players.Helpers;
 
-namespace PhlegmaticOne.MusicPlayer.Core.HttpInfoRetrieveFeature;
+namespace PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
 
 public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
 {

@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using PhlegmaticOne.MusicPlayer.Core.Player;
-using PhlegmaticOne.MusicPlayer.Entities;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
+using PhlegmaticOne.MusicPlayer.Players.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
 using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
@@ -12,8 +11,8 @@ namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
 public class SongQueueViewModel : PlayerTrackableViewModel
 {
-    public ObservableCollection<Song> Songs { get; }
-    public SongQueueViewModel(ISongsQueue songsQueue, IPlayer player, IValueProvider<Song> songValueProvider, IValueProvider<Album> albumValueProvider) : 
+    public ObservableCollection<SongEntityViewModel> Songs { get; }
+    public SongQueueViewModel(ISongsQueue songsQueue, IPlayer player, IValueProvider<SongEntityViewModel> songValueProvider, IValueProvider<AlbumEntityViewModel> albumValueProvider) : 
         base(player, songsQueue, songValueProvider, albumValueProvider)
     {
         Songs = new();
@@ -27,7 +26,7 @@ public class SongQueueViewModel : PlayerTrackableViewModel
         TrySetSong();
     }
 
-    private void SongsQueueOnQueueChanged(object? sender, CollectionChangedEventArgs<Song> e)
+    private void SongsQueueOnQueueChanged(object? sender, CollectionChangedEventArgs<SongEntityViewModel> e)
     {
         switch (e.CollectionChangedType)
         {
@@ -44,7 +43,7 @@ public class SongQueueViewModel : PlayerTrackableViewModel
         }
     }
 
-    private void AddSongs(IEnumerable<Song> songs)
+    private void AddSongs(IEnumerable<SongEntityViewModel> songs)
     {
         foreach (var entity in songs)
         {
@@ -52,7 +51,7 @@ public class SongQueueViewModel : PlayerTrackableViewModel
         }
     }
 
-    private void RemoveSongs(IEnumerable<Song> songs)
+    private void RemoveSongs(IEnumerable<SongEntityViewModel> songs)
     {
         foreach (var entity in songs)
         {

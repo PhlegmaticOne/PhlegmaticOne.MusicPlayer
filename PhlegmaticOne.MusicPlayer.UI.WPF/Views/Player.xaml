@@ -153,7 +153,8 @@
                                    Padding="0 5"/>
                     </StackPanel>
 
-                    <Button Margin="15 0 0 0" Width="50" Height="{Binding Width, RelativeSource={RelativeSource Self}}">
+                    <Button Margin="15 0 0 0" Width="50" Height="{Binding Width, RelativeSource={RelativeSource Self}}"
+                            Command="{Binding LikeSongCommand}" CommandParameter="{Binding CurrentSong}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="Transparent"/>
@@ -178,7 +179,7 @@
                                                 <Trigger Property="IsMouseCaptureWithin" Value="True">
                                                     <Setter Property="Background" Value="#373737"/>
                                                 </Trigger>
-                                                <DataTrigger Binding="{Binding CurrentSong.IsFavorite}" Value="True">
+                                                <DataTrigger Binding="{Binding CurrentSong.IsFavorite, UpdateSourceTrigger=PropertyChanged}" Value="True">
                                                     <Setter Property="Foreground" Value="#FF3333"/>
                                                 </DataTrigger>
                                             </ControlTemplate.Triggers>

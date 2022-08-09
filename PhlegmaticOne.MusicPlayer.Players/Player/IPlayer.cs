@@ -1,4 +1,4 @@
-﻿namespace PhlegmaticOne.MusicPlayer.Core.Player;
+﻿namespace PhlegmaticOne.MusicPlayer.Players.Player;
 
 public interface IPlayer : IDisposable
 {

@@ -1,10 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Annotations;
 
-namespace PhlegmaticOne.MusicPlayer.UI.WPF.Base;
+namespace PhlegmaticOne.MusicPlayer.WPF.Core;
 
-public abstract class ObservableObject : INotifyPropertyChanged
+public class ObservableObject : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 

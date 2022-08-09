@@ -1,11 +1,10 @@
 ﻿using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.Entities.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 
-public abstract class MusicNavigationBase<T> where T : EntityBase
+public abstract class MusicNavigationBase<T> where T: class
 {
     private readonly INavigator _navigator;
 

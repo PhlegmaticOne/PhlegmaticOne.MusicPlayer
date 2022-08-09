@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Extensions;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 public class SongsQueue : ISongsQueue
 {
-    private readonly List<Song> _songs;
+    private readonly List<SongEntityViewModel> _songs;
     private int _currentSongIndex;
     private bool _isQueueOver;
     public SongsQueue()
@@ -18,24 +19,24 @@ public class SongsQueue : ISongsQueue
         ShuffleType = ShuffleType.ShuffleOff;
     }
 
-    public IReadOnlyCollection<Song> Songs => _songs;
+    public IReadOnlyCollection<SongEntityViewModel> Songs => _songs;
     public RepeatType RepeatType { get; set; }
     public ShuffleType ShuffleType { get; set; }
-    public event EventHandler<CollectionChangedEventArgs<Song>>? QueueChanged;
-    public void Enqueue(Song song)
+    public event EventHandler<CollectionChangedEventArgs<SongEntityViewModel>>? QueueChanged;
+    public void Enqueue(SongEntityViewModel song)
     {
         _songs.Add(song);
         Invoke(song.ToOneItemEnumerable(), CollectionChangedType.Added);
     }
 
-    public void Enqueue(IEnumerable<Song> songs)
+    public void Enqueue(IEnumerable<SongEntityViewModel> songs)
     {
         var collection = songs.ToList();
         _songs.AddRange(collection);
         Invoke(collection, CollectionChangedType.Added);
     }
 
-    public void Remove(Song song)
+    public void Remove(SongEntityViewModel song)
     {
         var songIndex = _songs.IndexOf(song);
         if (songIndex < _currentSongIndex)
@@ -46,7 +47,7 @@ public class SongsQueue : ISongsQueue
         Invoke(song.ToOneItemEnumerable(), CollectionChangedType.Removed);
     }
 
-    public Song? Current
+    public SongEntityViewModel? Current
     {
         get => _isQueueOver ? null : _songs[_currentSongIndex];
         set
@@ -138,10 +139,10 @@ public class SongsQueue : ISongsQueue
         _songs.Clear();
     }
 
-    private void Invoke(IEnumerable<Song> songs, CollectionChangedType collectionChangedType) =>
+    private void Invoke(IEnumerable<SongEntityViewModel> songs, CollectionChangedType collectionChangedType) =>
         QueueChanged?.Invoke(this, new(songs, collectionChangedType));
 
-    public IEnumerator<Song> GetEnumerator() => _songs.GetEnumerator();
+    public IEnumerator<SongEntityViewModel> GetEnumerator() => _songs.GetEnumerator();
 
     IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable) _songs).GetEnumerator();
 }

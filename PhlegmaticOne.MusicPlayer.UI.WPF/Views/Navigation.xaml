@@ -6,6 +6,7 @@
              xmlns:nav="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Navigation"
              xmlns:conv="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
              xmlns:vm="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels"
+             xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="315">
@@ -99,7 +100,7 @@
                                         Storyboard.TargetName="NavigationPanel"
                                         Storyboard.TargetProperty="Width"
                                         BeginTime="0:0:0"
-                                        From="320" To="70"
+                                        From="320" To="60"
                                         Duration="0:0:0.2">
                                     </DoubleAnimation>
                                     <DoubleAnimation Storyboard.TargetName="PlayerTitle" Storyboard.TargetProperty="Opacity" 
@@ -114,7 +115,7 @@
                                         Storyboard.TargetName="NavigationPanel"
                                         Storyboard.TargetProperty="Width"
                                         BeginTime="0:0:0"
-                                        From="70" To="320"
+                                        From="60" To="320"
                                         Duration="0:0:0.3">
                                     </DoubleAnimation>
                                     <DoubleAnimation Storyboard.TargetName="PlayerTitle" Storyboard.TargetProperty="Opacity" 
@@ -123,72 +124,136 @@
                             </BeginStoryboard>
                         </EventTrigger>
                     </ToggleButton.Triggers>
-                    <Image Source="../Images/menu.png"/>
+                    <Viewbox Width="48" Height="48">
+                        <Canvas Width="24" Height="24">
+                            <Path Fill="White" Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+                        </Canvas>
+                    </Viewbox>
                 </ToggleButton>
             </StackPanel>
         </Grid>
         <Grid Row="2">
             <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
                 <StackPanel>
-                    <StackPanel.Resources>
-                        <Style TargetType="RadioButton" BasedOn="{StaticResource NavigationButton}"/>
-                    </StackPanel.Resources>
-
-                    <RadioButton Content="{DynamicResource AddNewMenuItemText}" Command="{Binding NavigateCommand}" 
-                                 CommandParameter="{x:Static nav:ViewType.AddingNewAlbum}"
-                                 Name="AddNew"
-                                 IsChecked="{Binding CurrentViewModel,
+                    <controls:NavigationButton Header="{DynamicResource AddNewMenuItemText}" 
+                                               ViewType="{x:Static nav:ViewType.AddingNewAlbum}"
+                                               DataContext="{Binding .}"
+                                               IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:AddingNewAlbumViewModel}}"/>
+                        ConverterParameter={x:Type vm:AddingNewAlbumViewModel}}">
+                        <controls:NavigationButton.ButtonContent>
+                            <Viewbox Width="24" Height="24">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="White" Data="M17 9V12H14V14H17V17H19V14H22V12H19V9H17M9 3V13.55C8.41 13.21 7.73 13 7 13C4.79 13 3 14.79 3 17S4.79 21 7 21 11 19.21 11 17V7H15V3H9Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </controls:NavigationButton.ButtonContent>
+                    </controls:NavigationButton>
 
-                    <RadioButton Content="{DynamicResource HomeMenuItemText}" Command="{Binding NavigateCommand}" 
-                                 CommandParameter="{x:Static nav:ViewType.Home}"
-                                 Name="Home"
-                                 IsChecked="{Binding CurrentViewModel,
+                    <controls:NavigationButton Header="{DynamicResource HomeMenuItemText}" 
+                                               ViewType="{x:Static nav:ViewType.Home}"
+                                               DataContext="{Binding .}"
+                                               IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:HomeViewModel}}"/>
+                        ConverterParameter={x:Type vm:HomeViewModel}}">
+                        <controls:NavigationButton.ButtonContent>
+                            <Viewbox Width="24" Height="24">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="White" Data="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </controls:NavigationButton.ButtonContent>
+                    </controls:NavigationButton>
 
-                    <RadioButton Content="{DynamicResource TracksMenuItemText}" Command="{Binding NavigateCommand}" 
-                                 CommandParameter="{x:Static nav:ViewType.Tracks}"
-                                 Name="Tracks"
-                                 IsChecked="{Binding CurrentViewModel,
+                    <controls:NavigationButton Header="{DynamicResource TracksMenuItemText}" 
+                                               ViewType="{x:Static nav:ViewType.Tracks}"
+                                               DataContext="{Binding .}"
+                                               IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:TracksViewModel}}"/>
+                        ConverterParameter={x:Type vm:TracksViewModel}}">
+                        <controls:NavigationButton.ButtonContent>
+                            <Viewbox Width="24" Height="24">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="White" Data="M21,3V15.5A3.5,3.5 0 0,1 17.5,19A3.5,3.5 0 0,1 14,15.5A3.5,3.5 0 0,1 17.5,12C18.04,12 18.55,12.12 19,12.34V6.47L9,8.6V17.5A3.5,3.5 0 0,1 5.5,21A3.5,3.5 0 0,1 2,17.5A3.5,3.5 0 0,1 5.5,14C6.04,14 6.55,14.12 7,14.34V6L21,3Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </controls:NavigationButton.ButtonContent>
+                    </controls:NavigationButton>
 
-                    <RadioButton Content="{DynamicResource ArtistsMenuItemText}" Command="{Binding NavigateCommand}" 
-                                 CommandParameter="{x:Static nav:ViewType.Artists}"
-                                 Name="Artists"
-                                 IsChecked="{Binding CurrentViewModel,
+                    <controls:NavigationButton Header="{DynamicResource ArtistsMenuItemText}" 
+                                               ViewType="{x:Static nav:ViewType.Artists}"
+                                               DataContext="{Binding .}"
+                                               IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:ArtistsViewModel}}"/>
+                        ConverterParameter={x:Type vm:ArtistsViewModel}}">
+                        <controls:NavigationButton.ButtonContent>
+                            <Viewbox Width="24" Height="24">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="White" Data="M11,14C12,14 13.05,14.16 14.2,14.44C13.39,15.31 13,16.33 13,17.5C13,18.39 13.25,19.23 13.78,20H3V18C3,16.81 3.91,15.85 5.74,15.12C7.57,14.38 9.33,14 11,14M11,12C9.92,12 9,11.61 8.18,10.83C7.38,10.05 7,9.11 7,8C7,6.92 7.38,6 8.18,5.18C9,4.38 9.92,4 11,4C12.11,4 13.05,4.38 13.83,5.18C14.61,6 15,6.92 15,8C15,9.11 14.61,10.05 13.83,10.83C13.05,11.61 12.11,12 11,12M18.5,10H20L22,10V12H20V17.5A2.5,2.5 0 0,1 17.5,20A2.5,2.5 0 0,1 15,17.5A2.5,2.5 0 0,1 17.5,15C17.86,15 18.19,15.07 18.5,15.21V10Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </controls:NavigationButton.ButtonContent>
+                    </controls:NavigationButton>
 
-                    <RadioButton Content="{DynamicResource CollectionMenuItemText}" Command="{Binding NavigateCommand}"
-                                 CommandParameter="{x:Static nav:ViewType.Collection}"
-                                 Name="Albums"
-                                 IsChecked="{Binding CurrentViewModel,
+                    <controls:NavigationButton Header="{DynamicResource CollectionMenuItemText}" 
+                                               ViewType="{x:Static nav:ViewType.Collection}"
+                                               DataContext="{Binding .}"
+                                               IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:CollectionViewModel}}"/>
+                        ConverterParameter={x:Type vm:CollectionViewModel}}">
+                        <controls:NavigationButton.ButtonContent>
+                            <Viewbox Width="24" Height="24">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="White" Data="M12,11A1,1 0 0,0 11,12A1,1 0 0,0 12,13A1,1 0 0,0 13,12A1,1 0 0,0 12,11M12,16.5C9.5,16.5 7.5,14.5 7.5,12C7.5,9.5 9.5,7.5 12,7.5C14.5,7.5 16.5,9.5 16.5,12C16.5,14.5 14.5,16.5 12,16.5M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </controls:NavigationButton.ButtonContent>
+                    </controls:NavigationButton>
 
-                    <RadioButton Content="{DynamicResource PlaylistsMenuItemText}" Command="{Binding NavigateCommand}" 
-                                 CommandParameter="{x:Static nav:ViewType.Playlists}"
-                                 Name="Playlists"
-                                 IsChecked="{Binding CurrentViewModel,
+                    <controls:NavigationButton Header="{DynamicResource PlaylistsMenuItemText}" 
+                                               ViewType="{x:Static nav:ViewType.Playlists}"
+                                               DataContext="{Binding .}"
+                                               IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:PlaylistsViewModel}}"/>
+                        ConverterParameter={x:Type vm:PlaylistsViewModel}}">
+                        <controls:NavigationButton.ButtonContent>
+                            <Viewbox Width="24" Height="24">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="White" Data="M15,6H3V8H15V6M15,10H3V12H15V10M3,16H11V14H3V16M17,6V14.18C16.69,14.07 16.35,14 16,14A3,3 0 0,0 13,17A3,3 0 0,0 16,20A3,3 0 0,0 19,17V8H22V6H17Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </controls:NavigationButton.ButtonContent>
+                    </controls:NavigationButton>
 
-                    <RadioButton Content="{DynamicResource DownloadedTracksMenuItemText}" Command="{Binding NavigateCommand}" 
-                                 CommandParameter="{x:Static nav:ViewType.DownloadedTracks}"
-                                 Name="Downloaded"
-                                 IsChecked="{Binding CurrentViewModel,
+                    <controls:NavigationButton Header="{DynamicResource DownloadedTracksMenuItemText}" 
+                                               ViewType="{x:Static nav:ViewType.DownloadedTracks}"
+                                               DataContext="{Binding .}"
+                                               IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:DownloadedTracksViewModel}}"/>
+                        ConverterParameter={x:Type vm:DownloadedTracksViewModel}}">
+                        <controls:NavigationButton.ButtonContent>
+                            <Viewbox Width="24" Height="24">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="White" Data="M20,6A2,2 0 0,1 22,8V18A2,2 0 0,1 20,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H20M19.25,13H16V9H14V13H10.75L15,17.25" />
+                                </Canvas>
+                            </Viewbox>
+                        </controls:NavigationButton.ButtonContent>
+                    </controls:NavigationButton>
 
-                    <RadioButton Content="{DynamicResource SettingsMenuItemText}" Command="{Binding NavigateCommand}" 
-                                 CommandParameter="{x:Static nav:ViewType.Settings}"
-                                 Name="Settings"
-                                 IsChecked="{Binding CurrentViewModel,
+                    <controls:NavigationButton Header="{DynamicResource SettingsTitleText}" 
+                                               ViewType="{x:Static nav:ViewType.Settings}"
+                                               DataContext="{Binding .}"
+                                               IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:SettingsViewModel}}"/>
+                        ConverterParameter={x:Type vm:SettingsViewModel}}">
+                        <controls:NavigationButton.ButtonContent>
+                            <Viewbox Width="24" Height="24">
+                                <Canvas Width="24" Height="24">
+                                    <Path Fill="White" Data="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
+                                </Canvas>
+                            </Viewbox>
+                        </controls:NavigationButton.ButtonContent>
+                    </controls:NavigationButton>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

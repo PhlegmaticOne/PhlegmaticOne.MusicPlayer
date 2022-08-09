@@ -142,7 +142,8 @@
                                             </Grid>
 
                                             <Grid Column="2">
-                                                <RadioButton Name="LikeButton" HorizontalAlignment="Right" HorizontalContentAlignment="Right">
+                                                <RadioButton Name="LikeButton" HorizontalAlignment="Right" HorizontalContentAlignment="Right"
+                                                             Command="{Binding DataContext.LikeSongCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}" CommandParameter="{Binding}">
                                                     <RadioButton.Style>
                                                         <Style TargetType="RadioButton">
                                                             <Setter Property="Visibility" Value="Hidden"/>
@@ -168,12 +169,21 @@
                                                                             <Trigger Property="IsMouseCaptureWithin" Value="True">
                                                                                 <Setter Property="Background" Value="#373737"/>
                                                                             </Trigger>
-                                                                            <DataTrigger Binding="{Binding IsFavorite}" Value="True">
-                                                                                <Setter Property="Foreground" Value="#FF3333"/>
+
+                                                                            <DataTrigger Binding="{Binding IsFavorite, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                                                <Setter Property="Foreground" Value="#888888"/>
+                                                                                <Setter Property="Visibility" Value="Visible"/>
                                                                             </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding IsFavorite}" Value="True">
-                                                                                <Setter Property="Foreground" Value="#D7D7D7"/>
-                                                                            </DataTrigger>
+
+                                                                            <MultiDataTrigger>
+                                                                                <MultiDataTrigger.Conditions>
+                                                                                    <Condition Binding="{Binding IsFavorite, UpdateSourceTrigger=PropertyChanged}" Value="True"/>
+                                                                                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                                                                </MultiDataTrigger.Conditions>
+                                                                                <MultiDataTrigger.Setters>
+                                                                                    <Setter Property="Foreground" Value="#FF3333"/>
+                                                                                </MultiDataTrigger.Setters>
+                                                                            </MultiDataTrigger>
                                                                         </ControlTemplate.Triggers>
                                                                     </ControlTemplate>
                                                                 </Setter.Value>
@@ -236,7 +246,7 @@
                                             <Setter TargetName="TimeText" Property="Content">
                                                 <Setter.Value>
                                                     <Menu Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                        <MenuItem ItemsSource="{Binding AlbumAppearances}" Style="{StaticResource SongOptionsMenuStyle}">
+                                                        <MenuItem ItemsSource="{Binding Appearances}" Style="{StaticResource SongOptionsMenuStyle}">
                                                             <MenuItem.Header>
                                                                 <Border Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}"
                                                                         BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}"

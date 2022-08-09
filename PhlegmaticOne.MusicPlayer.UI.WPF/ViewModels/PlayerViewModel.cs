@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
-using PhlegmaticOne.MusicPlayer.Core.Player;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Players.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
@@ -29,7 +30,7 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         }
     }
 
-    public PlayerViewModel(IPlayer player, ISongsQueue songsQueue, IValueProvider<Song> songValueProvider, IValueProvider<Album> albumValueProvider,
+    public PlayerViewModel(IPlayer player, ISongsQueue songsQueue, IValueProvider<SongEntityViewModel> songValueProvider, IValueProvider<AlbumEntityViewModel> albumValueProvider,
         ISongQueueViewModelFactory songQueueViewModelFactory, INavigator navigator) : base(player, songsQueue, songValueProvider, albumValueProvider)
     {
         _songQueueViewModelFactory = songQueueViewModelFactory;
@@ -138,7 +139,7 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         }
     }
 
-    private void SetAndPlay(Song? song)
+    private void SetAndPlay(SongEntityViewModel? song)
     {
         SongValueProvider.Set(SongsQueue.Current);
         if (song is not null)

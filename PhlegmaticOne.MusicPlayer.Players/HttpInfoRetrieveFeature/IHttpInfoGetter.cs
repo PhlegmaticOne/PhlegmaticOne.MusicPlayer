@@ -1,4 +1,4 @@
-﻿namespace PhlegmaticOne.MusicPlayer.Core.HttpInfoRetrieveFeature;
+﻿namespace PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
 
 public interface IHttpInfoGetter<T> where T: class
 {

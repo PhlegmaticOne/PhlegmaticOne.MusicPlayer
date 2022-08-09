@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Windows;
 using Calabonga.UnitOfWork;
@@ -9,10 +10,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PhlegmaticOne.DependencyInjectionFactoryExtension;
-using PhlegmaticOne.MusicPlayer.Core.HttpInfoRetrieveFeature;
-using PhlegmaticOne.MusicPlayer.Core.Player;
+using PhlegmaticOne.MusicPlayer.Contracts.MapperConfigurations;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
+using PhlegmaticOne.MusicPlayer.Players.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Features.Album;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
@@ -89,15 +92,17 @@ public partial class App
     private static IHostBuilder ConfigureServices()
     {
        // var connectionString = ConfigurationManager.ConnectionStrings["sql-connection-string"].ConnectionString;
-        var hostBuilder = new HostBuilder()
+
+       var hostBuilder = new HostBuilder()
             .ConfigureServices((builder, services) =>
             {
 
                 services.AddDbContext<ApplicationDbContext>(b => b.UseInMemoryDatabase("MEMORY"));
                 services.AddUnitOfWork<ApplicationDbContext>();
+                services.AddAutoMapper(typeof(MapperConfig).Assembly);
 
-                services.AddSingleton<IValueProvider<Song>, ValueProvider<Song>>();
-                services.AddSingleton<IValueProvider<Album>, ValueProvider<Album>>();
+                services.AddSingleton<IValueProvider<SongEntityViewModel>, ValueProvider<SongEntityViewModel>>();
+                services.AddSingleton<IValueProvider<AlbumEntityViewModel>, ValueProvider<AlbumEntityViewModel>>();
                 services.AddSingleton<ILanguageProvider, LanguageProvider>();
                 services.AddSingleton<IAlbumFeaturesProvider, AlbumFeaturesProvider>();
                 services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();
@@ -108,7 +113,7 @@ public partial class App
                 services.AddSingleton<ISongsQueue, SongsQueue>();
                 services.AddSingleton<ISongQueueViewModelFactory, SongQueueViewModelFactory>();
 
-                services.AddSingleton<MusicNavigationBase<Album>, AlbumsNavigation>();
+                services.AddSingleton<MusicNavigationBase<AlbumEntityViewModel>, AlbumsNavigation>();
                 services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<PlayerViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);

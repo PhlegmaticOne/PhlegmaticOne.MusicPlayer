@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
+using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 

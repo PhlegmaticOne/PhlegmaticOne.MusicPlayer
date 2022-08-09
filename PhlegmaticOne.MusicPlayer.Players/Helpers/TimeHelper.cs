@@ -1,4 +1,4 @@
-﻿namespace PhlegmaticOne.MusicPlayer.Core.Helpers;
+﻿namespace PhlegmaticOne.MusicPlayer.Players.Helpers;
 
 public static class TimeHelper
 {

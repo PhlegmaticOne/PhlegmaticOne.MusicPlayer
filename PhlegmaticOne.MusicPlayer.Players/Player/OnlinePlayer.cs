@@ -1,6 +1,6 @@
 ﻿using NAudio.Wave;
 
-namespace PhlegmaticOne.MusicPlayer.Core.Player;
+namespace PhlegmaticOne.MusicPlayer.Players.Player;
 
 public class OnlinePlayer : IPlayer
 {

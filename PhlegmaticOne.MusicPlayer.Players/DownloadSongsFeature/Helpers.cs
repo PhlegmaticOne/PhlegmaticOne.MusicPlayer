@@ -1,6 +1,6 @@
 ﻿using AngleSharp.Html.Parser;
 
-namespace PhlegmaticOne.MusicPlayer.Core.DownloadSongsFeature
+namespace PhlegmaticOne.MusicPlayer.Players.DownloadSongsFeature
 {
     public class Helpers
     {

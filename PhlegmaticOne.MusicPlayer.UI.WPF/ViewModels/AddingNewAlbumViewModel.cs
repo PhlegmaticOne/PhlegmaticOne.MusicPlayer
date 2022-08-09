@@ -3,8 +3,8 @@ using System.Linq;
 using System.Windows;
 using Calabonga.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
-using PhlegmaticOne.MusicPlayer.Core.HttpInfoRetrieveFeature;
 using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
