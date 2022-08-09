@@ -11,7 +11,7 @@ public class TimeToStringConverter : IValueConverter
     {
         if (value is not TimeSpan timeSpan) return null;
         var seconds = timeSpan.Seconds >= 10 ? timeSpan.Seconds.ToString() : "0" + timeSpan.Seconds;
-        return $"{timeSpan.Minutes}:{seconds}";
+        return timeSpan.Hours > 0 ? $"{timeSpan.Hours}:{timeSpan.Minutes}:{seconds}" : $"{timeSpan.Minutes}:{seconds}";
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => DependencyProperty.UnsetValue;

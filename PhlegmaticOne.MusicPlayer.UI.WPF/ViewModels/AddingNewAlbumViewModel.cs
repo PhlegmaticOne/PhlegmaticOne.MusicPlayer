@@ -5,8 +5,8 @@ using Calabonga.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 

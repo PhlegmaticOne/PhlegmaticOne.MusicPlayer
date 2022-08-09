@@ -13,7 +13,6 @@
         <converters:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
         <converters:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
         <converters:IndexConverter x:Key="IndexConverter"/>
-        <converters:StarWidthConverter x:Key="StarWidthConverter"/>
         <converters:TimeToStringConverter x:Key="TimeToStringConverter"/>
         <converters:ValuesEqualConverter x:Key="ValuesEqualConverter"/>
     </UserControl.Resources>
@@ -143,7 +142,7 @@
 
                                             <Grid Column="2">
                                                 <RadioButton Name="LikeButton" HorizontalAlignment="Right" HorizontalContentAlignment="Right"
-                                                             Command="{Binding DataContext.LikeSongCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}" CommandParameter="{Binding}">
+                                                             Command="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}" CommandParameter="{Binding}">
                                                     <RadioButton.Style>
                                                         <Style TargetType="RadioButton">
                                                             <Setter Property="Visibility" Value="Hidden"/>

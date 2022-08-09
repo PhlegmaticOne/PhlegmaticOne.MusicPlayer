@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
 using PhlegmaticOne.MusicPlayer.WPF.Core;

@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Forms;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
 using PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
 using PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 

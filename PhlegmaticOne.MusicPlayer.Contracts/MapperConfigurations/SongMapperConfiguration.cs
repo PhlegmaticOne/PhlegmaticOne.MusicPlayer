@@ -14,6 +14,6 @@ public class SongMapperConfiguration : Profile
             .ForMember(x => x.Appearances, o => o.MapFrom(p => p.AlbumAppearances));
 
         CreateMap<SongEntityViewModel, Song>()
-            .ForMember(x => x.AlbumAppearances, o => o.MapFrom(p => p.Appearances));
+            .ForMember(x => x.AlbumAppearances, o => o.Ignore());
     }
 }

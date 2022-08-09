@@ -2,14 +2,14 @@
 
 namespace PhlegmaticOne.MusicPlayer.Players.Player;
 
-public class OnlinePlayer : IPlayer
+public class CustomMusicPlayer : IPlayer
 {
     private readonly TimeSpan _updateTimelineTime;
     private readonly float _startVolume = 0.2f;
     private float _volume;
     private bool _isDisposed;
     private bool _isUserStopped;
-    public OnlinePlayer()
+    public CustomMusicPlayer()
     {
         _updateTimelineTime = TimeSpan.FromMilliseconds(500);
         IsPaused = true;
@@ -68,6 +68,7 @@ public class OnlinePlayer : IPlayer
 
         _mediaFoundationReader = new MediaFoundationReader(fileName);
         _wasapiOut = new WasapiOut();
+        
         _isDisposed = false;
         Volume = _volume;
 

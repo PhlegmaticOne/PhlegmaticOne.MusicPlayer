@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Windows;
 using Calabonga.UnitOfWork;
@@ -14,6 +13,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.MapperConfigurations;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Players.DownloadSongsFeature;
 using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
 using PhlegmaticOne.MusicPlayer.Players.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
@@ -109,8 +109,9 @@ public partial class App
                 services.AddSingleton<IHttpInfoGetter<Album>, MusifyAlbumInfoGetter>();
                 services.AddSingleton<IDownloadSettings, DownloadSettings>();
                 services.AddSingleton<ISortOptionsProvider, SortOptionsProvider>();
-                services.AddSingleton<IPlayer, OnlinePlayer>();
-                services.AddSingleton<ISongsQueue, SongsQueue>();
+                services.AddSingleton<IPlayer, CustomMusicPlayer>();
+                services.AddScoped<IDownloader, HttpDownloader>();
+                services.AddSingleton<IObservableQueue<SongEntityViewModel>, ObservableQueue<SongEntityViewModel>>();
                 services.AddSingleton<ISongQueueViewModelFactory, SongQueueViewModelFactory>();
 
                 services.AddSingleton<MusicNavigationBase<AlbumEntityViewModel>, AlbumsNavigation>();

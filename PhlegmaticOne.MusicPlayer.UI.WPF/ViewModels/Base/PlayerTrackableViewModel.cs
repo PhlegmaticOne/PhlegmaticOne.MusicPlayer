@@ -1,16 +1,16 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Entities;
+﻿using System.Windows.Forms;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Players.Player;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
 using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
+using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 public class PlayerTrackableViewModel : BaseViewModel
 {
     protected readonly IPlayer Player;
-    protected readonly ISongsQueue SongsQueue;
+    protected readonly IObservableQueue<SongEntityViewModel> SongsQueue;
     protected readonly IValueProvider<SongEntityViewModel> SongValueProvider;
     protected readonly IValueProvider<AlbumEntityViewModel> AlbumValueProvider;
     public SongEntityViewModel CurrentSong { get; set; }
@@ -18,7 +18,7 @@ public class PlayerTrackableViewModel : BaseViewModel
     public bool IsPaused { get; set; } = true;
     public bool IsStopped { get; set; } = true;
 
-    public PlayerTrackableViewModel(IPlayer player, ISongsQueue songsQueue, 
+    public PlayerTrackableViewModel(IPlayer player, IObservableQueue<SongEntityViewModel> songsQueue, 
         IValueProvider<SongEntityViewModel> songValueProvider, IValueProvider<AlbumEntityViewModel> albumValueProvider)
     {
         Player = player;
@@ -33,11 +33,11 @@ public class PlayerTrackableViewModel : BaseViewModel
 
         PlaySongCommand = new(PlaySongAction, _ => true);
         PlayPauseCommand = new(PlayPauseAction, _ => true);
-        LikeSongCommand = new(LikeSongAction, _ => true);
+        LikeCommand = new(LikeAction, _ => true);
     }
     public DelegateCommand PlaySongCommand { get; set; }
     public DelegateCommand PlayPauseCommand { get; set; }
-    public DelegateCommand LikeSongCommand { get; set; }
+    public DelegateCommand LikeCommand { get; set; }
 
     protected virtual void PlaySongAction(object? parameter)
     {
@@ -46,7 +46,7 @@ public class PlayerTrackableViewModel : BaseViewModel
             SongValueProvider.Set(song);
             SongsQueue.Current = song;
             Player.Stop();
-            Player.Play(song.OnlineUrl);
+            Player.Play(ChooseFilePath(song));
         }
     }
 
@@ -55,11 +55,16 @@ public class PlayerTrackableViewModel : BaseViewModel
         Player.PauseOrUnpause();
     }
 
-    protected virtual void LikeSongAction(object? parameter)
+    protected virtual void LikeAction(object? parameter)
     {
-        if (parameter is SongEntityViewModel song)
+        switch (parameter)
         {
-            song.IsFavorite = !song.IsFavorite;
+            case SongEntityViewModel song:
+                song.IsFavorite = !song.IsFavorite;
+                break;
+            case AlbumEntityViewModel album:
+                album.IsFavorite = !album.IsFavorite;
+                break;
         }
     }
 
@@ -80,5 +85,10 @@ public class PlayerTrackableViewModel : BaseViewModel
     {
         IsPaused = Player.IsPaused;
         IsStopped = Player.IsStopped;
+    }
+
+    protected string ChooseFilePath(SongEntityViewModel song)
+    {
+        return string.IsNullOrEmpty(song.LocalUrl) ? song.OnlineUrl : song.LocalUrl;
     }
 }

@@ -9,7 +9,7 @@ public class SongEntityViewModel : ObservableObject
     public string LocalUrl { get; set; }
     public bool IsFavorite { get; set; }
     public TimeSpan TimePlayed { get; set; }
-    public bool IsDownloaded => string.IsNullOrEmpty(LocalUrl) == false;
+    public bool IsDownloaded { get; set; }
     public bool IsDownloading { get; set; }
     public string Title { get; set; }
     public ICollection<CollectionDisplay> Appearances { get; set; }

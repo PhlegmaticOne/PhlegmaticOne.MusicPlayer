@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Linq;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.Players.Player;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Queue;
+using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
@@ -30,8 +29,12 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         }
     }
 
-    public PlayerViewModel(IPlayer player, ISongsQueue songsQueue, IValueProvider<SongEntityViewModel> songValueProvider, IValueProvider<AlbumEntityViewModel> albumValueProvider,
-        ISongQueueViewModelFactory songQueueViewModelFactory, INavigator navigator) : base(player, songsQueue, songValueProvider, albumValueProvider)
+    public PlayerViewModel(IPlayer player, 
+        IObservableQueue<SongEntityViewModel> songsQueue, 
+        IValueProvider<SongEntityViewModel> songValueProvider, 
+        IValueProvider<AlbumEntityViewModel> albumValueProvider,
+        ISongQueueViewModelFactory songQueueViewModelFactory,
+        INavigator navigator) : base(player, songsQueue, songValueProvider, albumValueProvider)
     {
         _songQueueViewModelFactory = songQueueViewModelFactory;
         _navigator = navigator;
@@ -145,7 +148,7 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         if (song is not null)
         {
             Player.Stop();
-            Player.Play(song.OnlineUrl);
+            Player.Play(ChooseFilePath(song));
         }
     }
 

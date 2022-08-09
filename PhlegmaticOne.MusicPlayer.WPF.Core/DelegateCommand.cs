@@ -1,7 +1,6 @@
-﻿using System;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
-namespace PhlegmaticOne.MusicPlayer.UI.WPF.Commands;
+namespace PhlegmaticOne.MusicPlayer.WPF.Core;
 
 public class DelegateCommand : ICommand
 {

@@ -133,15 +133,45 @@
                                 </Button.Style>
                             </Button>
 
-                            <Button Margin="20 0 0 0">
+                        <Button Margin="20 0 0 0"
+                                Command="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}"
+                                CommandParameter="{Binding DataContext.CurrentAlbum, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}"
+                                DataContext="{Binding CurrentAlbum}">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal"
                                                 Margin="20 0">
-                                        <Viewbox Width="18" Height="18">
-                                            <Canvas Width="24" Height="24">
-                                                <Path Fill="#FF3333" Data="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
-                                            </Canvas>
-                                        </Viewbox>
+                                            <RadioButton HorizontalAlignment="Center"
+                                                         HorizontalContentAlignment="Center"
+                                                         >
+
+                                                <RadioButton.Style>
+                                                    <Style TargetType="RadioButton">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Foreground" Value="#555555"/>
+
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate>
+                                                                    <Border Background="{TemplateBinding Background}" CornerRadius="16">
+                                                                        <Viewbox Height="30" Width="30">
+                                                                            <Canvas Width="24" Height="24" Margin="5">
+                                                                                <Path Fill="{TemplateBinding Foreground}"
+                                                                                                        Data="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
+                                                                            </Canvas>
+                                                                        </Viewbox>
+                                                                    </Border>
+
+                                                                    <ControlTemplate.Triggers>
+                                                                        <DataTrigger Binding="{Binding IsFavorite, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                                            <Setter Property="Foreground" Value="#FF3333"/>
+                                                                        </DataTrigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </RadioButton.Style>
+                                            </RadioButton>
                                         <TextBlock Padding="5 0 0 0" Text="Like" VerticalAlignment="Center" FontSize="16"/>
                                     </StackPanel>
                                 </Button.Content>
@@ -178,7 +208,7 @@
                             </Button>
 
 
-                            <Button Margin="20 0 0 0">
+                            <Button Margin="20 0 0 0" Command="{Binding DownloadAlbumCommand}">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal"
                                                 Margin="20 0">
@@ -214,6 +244,9 @@
                                                             <Setter Property="BorderBrush" Value="#464646"/>
                                                             <Setter Property="Background" Value="#464646"/>
                                                         </Trigger>
+                                                        <DataTrigger Binding="{Binding CurrentAlbum.IsDownloaded}" Value="True">
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                        </DataTrigger>
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Setter.Value>
@@ -336,7 +369,9 @@
                                                     <ColumnDefinition Width="60"/>
                                                     <ColumnDefinition Width="2*" />
                                                     <ColumnDefinition Width="30" />
-                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="15" />
+                                                    <ColumnDefinition Width="15" />
+                                                    <ColumnDefinition Width="70"/>
                                                 </Grid.ColumnDefinitions>
 
                                                 <Grid Column="0">
@@ -372,8 +407,9 @@
                                                 </Grid>
 
                                                 <Grid Column="2">
-                                                    <RadioButton Name="LikeButton" HorizontalAlignment="Right" HorizontalContentAlignment="Right"
-                                                                 Command="{Binding DataContext.LikeSongCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}" CommandParameter="{Binding}">
+                                                    <RadioButton Name="LikeButton" HorizontalAlignment="Right"
+                                                                 Command="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}"
+                                                                 CommandParameter="{Binding}">
                                                         <RadioButton.Style>
                                                             <Style TargetType="RadioButton">
                                                                 <Setter Property="Visibility" Value="Hidden"/>
@@ -383,7 +419,8 @@
                                                                 <Setter Property="Template">
                                                                     <Setter.Value>
                                                                         <ControlTemplate>
-                                                                            <Border Background="{TemplateBinding Background}" CornerRadius="16">
+                                                                            <Border Background="{TemplateBinding Background}"
+                                                                                CornerRadius="16">
                                                                                 <Viewbox Height="30" Width="30">
                                                                                     <Canvas Width="24" Height="24" Margin="5">
                                                                                         <Path Fill="{TemplateBinding Foreground}"
@@ -423,7 +460,31 @@
                                                     </RadioButton>
                                                 </Grid>
 
-                                                <Grid Column="3">
+                                                <Grid Column="4">
+                                                    <Button Name="DownloadIndicator">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button">
+                                                                <Setter Property="Foreground" Value="Transparent"/>
+                                                                <Setter Property="IsEnabled" Value="False"/>
+                                                                <Setter Property="Visibility" Value="Hidden"/>
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate>
+                                                                            <Viewbox Width="16" Height="16">
+                                                                                <Canvas Width="24" Height="24">
+                                                                                    <Path Fill="{TemplateBinding Foreground}"
+                                                                                        Data="M12 2C17.5 2 22 6.5 22 12C22 17.5 17.5 22 12 22C6.5 22 2 17.5 2 12C2 6.5 6.5 2 12 2M8 17H16V15H8V17M16 10H13.5V6H10.5V10H8L12 14L16 10Z" />
+                                                                                </Canvas>
+                                                                            </Viewbox>
+                                                                    </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>
+                                                </Grid>
+
+                                                <Grid Column="5">
                                                     <Button Background="Transparent" BorderThickness="0" Name="TimeText" HorizontalContentAlignment="Right">
                                                         <Button.Style>
                                                             <Style TargetType="Button">
@@ -452,14 +513,9 @@
                                         
                                         <ControlTemplate.Triggers>
 
-                                        
-
-                                        <Trigger Property="IsMouseOver" Value="True">
-
+                                            <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter Property="Background" Value="#2b2b2b"/>
-
                                                 <Setter TargetName="LikeButton" Property="Visibility" Value="Visible"/>
-
                                                 <Setter TargetName="PlayButton" Property="Content">
                                                     <Setter.Value>
                                                         <Border CornerRadius="32" Background="Yellow" 
@@ -501,7 +557,6 @@
                                                         </Menu>
                                                     </Setter.Value>
                                                 </Setter>
-
                                             </Trigger>
 
 
@@ -523,7 +578,17 @@
                                                         </Border>
                                                     </Setter.Value>
                                                 </Setter>
-                                        </Trigger>
+                                            </Trigger>
+
+                                            <DataTrigger Binding="{Binding IsDownloading}" Value="True">
+                                                <Setter TargetName="DownloadIndicator" Property="Visibility" Value="Visible"/>
+                                                <Setter TargetName="DownloadIndicator" Property="Foreground" Value="#FFCC00"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding IsDownloaded}" Value="True">
+                                                <Setter TargetName="DownloadIndicator" Property="Visibility" Value="Visible"/>
+                                                <Setter TargetName="DownloadIndicator" Property="Foreground" Value="#1AAD1A"/>
+                                            </DataTrigger>
 
 
                                             <MultiDataTrigger>
@@ -584,7 +649,7 @@
                                                 </MultiDataTrigger.Setters>
                                             </MultiDataTrigger>
 
-                                    </ControlTemplate.Triggers>
+                                        </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>

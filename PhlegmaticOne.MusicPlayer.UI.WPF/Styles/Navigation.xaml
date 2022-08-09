@@ -53,61 +53,6 @@
             </MultiTrigger>
         </Style.Triggers>
     </Style>
-    <Style x:Key="NavigationButton" TargetType="RadioButton">
-        <Style.Resources>
-            <c:ContentToPathConverter x:Key="PathConverter" />
-        </Style.Resources>
-        <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
-        <Setter Property="FontSize" Value="20"/>
-        <Setter Property="MaxHeight" Value="50"/>
-        <Setter Property="Background" Value="{StaticResource NavigationBackgroundBrush}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="RadioButton">
-                    <StackPanel Orientation="Horizontal" Background="{TemplateBinding Background}">
-                        <Border Height="40" Width="5" Background="{StaticResource SelectedBrush}" 
-                                CornerRadius="3" Margin="5 0 0 0" VerticalAlignment="Center"
-                                Name="SelectedBorder"/>
-                        <Grid Height="60" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10 0 0 0">
-                            <Image Source="{Binding Path=Name, Converter={StaticResource PathConverter}, 
-                            RelativeSource={RelativeSource TemplatedParent}}" Height="30"/>
-                        </Grid>
-                        <TextBlock Text="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}"
-                                   Padding="20 5" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource SelectedBrush}"/>
-                            <Setter TargetName="SelectedBorder" Property="Visibility" Value="Visible"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
-                            <Setter TargetName="SelectedBorder" Property="Visibility" Value="Hidden"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Style.Triggers>
-            <EventTrigger RoutedEvent="MouseEnter">
-                <BeginStoryboard>
-                    <Storyboard>
-                        <ColorAnimation To="{StaticResource NavigationHoverColor}" 
-                                        By="White" Duration="0:0:0.3" Storyboard.TargetProperty="Background.Color"/>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-            <EventTrigger RoutedEvent="MouseLeave">
-                <BeginStoryboard>
-                    <Storyboard>
-                        <ColorAnimation To="{StaticResource NavigationBackgroundColor}" 
-                                        By="White" Duration="0:0:0.3" Storyboard.TargetProperty="Background.Color"/>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-        </Style.Triggers>
-    </Style>
 
     <Style x:Key="ScrollBarThumbVertical" TargetType="{x:Type Thumb}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>

@@ -11,7 +11,7 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
     private readonly HttpClient _httpClient;
     public MusifyAlbumInfoGetter()
     {
-        _httpClient = new HttpClient();
+        _httpClient = HttpClientSingleton.Instance;
     }
     public async Task<Album> GetInfoAsync(string uri)
     {

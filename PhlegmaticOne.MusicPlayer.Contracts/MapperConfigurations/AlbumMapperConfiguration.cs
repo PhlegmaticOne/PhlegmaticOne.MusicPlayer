@@ -11,7 +11,8 @@ public class AlbumMapperConfiguration : Profile
         CreateMap<CollectionBase, CollectionDisplay>();
 
 
-        CreateMap<Album, AlbumEntityViewModel>();
+        CreateMap<Album, AlbumEntityViewModel>()
+            .ForMember(x => x.IsDownloaded, o => o.Ignore());
         CreateMap<AlbumEntityViewModel, Album>();
     }
 }

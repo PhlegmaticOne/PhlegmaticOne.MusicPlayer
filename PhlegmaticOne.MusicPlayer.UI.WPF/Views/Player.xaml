@@ -154,7 +154,7 @@
                     </StackPanel>
 
                     <Button Margin="15 0 0 0" Width="50" Height="{Binding Width, RelativeSource={RelativeSource Self}}"
-                            Command="{Binding LikeSongCommand}" CommandParameter="{Binding CurrentSong}">
+                            Command="{Binding LikeCommand}" CommandParameter="{Binding CurrentSong}">
                         <Button.Style>
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="Transparent"/>
