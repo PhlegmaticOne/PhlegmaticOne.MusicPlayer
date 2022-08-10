@@ -10,7 +10,7 @@ public partial class CollectionListing
 
     public ICommand ItemClickCommand
     {
-        get => (ICommand) GetValue(ItemClickCommandProperty);
+        get => (ICommand)GetValue(ItemClickCommandProperty);
         set => SetValue(ItemClickCommandProperty, value);
     }
     public CollectionListing()

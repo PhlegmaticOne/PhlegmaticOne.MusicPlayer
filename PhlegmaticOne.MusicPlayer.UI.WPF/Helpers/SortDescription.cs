@@ -1,13 +1,17 @@
-﻿namespace PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
+﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System;
+using System.Collections.Generic;
 
-public class SortDescription
+namespace PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
+
+public class SortDescription<T> where T : BaseViewModel
 {
-    public SortDescription(SortType sortType, string sortName)
+    public SortDescription(string sortName, Func<IEnumerable<T>, IEnumerable<T>> sortingAction)
     {
-        SortType = sortType;
         SortName = sortName;
+        SortingAction = sortingAction;
     }
 
-    public SortType SortType { get; set; }
     public string SortName { get; set; }
+    public Func<IEnumerable<T>, IEnumerable<T>> SortingAction { get; }
 }

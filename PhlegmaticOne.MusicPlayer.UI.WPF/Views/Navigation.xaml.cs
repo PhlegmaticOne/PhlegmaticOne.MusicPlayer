@@ -7,6 +7,6 @@ public partial class Navigation : UserControl
     public Navigation()
     {
         InitializeComponent();
-        
+
     }
 }

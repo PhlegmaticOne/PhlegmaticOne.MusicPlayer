@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System.Collections.Generic;
+using System.Windows.Input;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
@@ -37,7 +37,7 @@ public class AlbumViewModel : PlayerTrackableViewModel
 
     private async void DownloadAlbum(object? parameter)
     {
-        if (CurrentAlbum is AlbumEntityViewModel {IsDownloaded: false} albumEntityViewModel)
+        if (CurrentAlbum is AlbumEntityViewModel { IsDownloaded: false } albumEntityViewModel)
         {
             await _downloadService.Download(albumEntityViewModel);
         }

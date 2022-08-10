@@ -11,7 +11,7 @@ public partial class ArtistLink
 
     public Brush HoverColor
     {
-        get => (Brush) GetValue(HoverColorProperty);
+        get => (Brush)GetValue(HoverColorProperty);
         set => SetValue(HoverColorProperty, value);
     }
     public ArtistLink()

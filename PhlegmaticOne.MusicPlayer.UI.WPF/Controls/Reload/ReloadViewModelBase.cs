@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
-using System.Windows.Input;
-using AutoMapper;
+﻿using AutoMapper;
 using Calabonga.UnitOfWork;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Reload;
 
-public abstract class ReloadViewModelBase<T> : BaseViewModel where T: BaseViewModel
+public abstract class ReloadViewModelBase<T> : BaseViewModel where T : BaseViewModel
 {
     protected readonly IUnitOfWork UnitOfWork;
     protected readonly IMapper Mapper;

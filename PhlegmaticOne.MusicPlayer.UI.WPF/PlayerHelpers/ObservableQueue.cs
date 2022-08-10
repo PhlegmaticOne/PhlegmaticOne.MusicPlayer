@@ -1,8 +1,8 @@
-﻿using System;
+﻿using PhlegmaticOne.MusicPlayer.UI.WPF.Extensions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Extensions;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 

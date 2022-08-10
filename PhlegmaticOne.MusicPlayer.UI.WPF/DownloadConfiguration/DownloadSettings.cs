@@ -1,8 +1,8 @@
-﻿using System;
+﻿using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
 

@@ -1,8 +1,8 @@
-﻿using System;
-using Calabonga.UnitOfWork;
+﻿using Calabonga.UnitOfWork;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Artists;
 

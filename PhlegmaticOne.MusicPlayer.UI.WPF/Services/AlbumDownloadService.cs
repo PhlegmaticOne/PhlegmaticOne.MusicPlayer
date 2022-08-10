@@ -1,8 +1,8 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Players.DownloadSongsFeature;
 using PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 

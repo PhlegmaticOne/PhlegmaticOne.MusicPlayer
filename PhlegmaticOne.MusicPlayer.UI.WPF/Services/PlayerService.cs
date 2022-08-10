@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Players.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
 using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 
@@ -16,7 +16,7 @@ public class PlayerService : IPlayerService
     private readonly IValueProvider<SongEntityViewModel> _songValueProvider;
     private readonly IValueProvider<CollectionBaseViewModel> _collectionBaseValueProvider;
 
-    public PlayerService(IPlayer player, 
+    public PlayerService(IPlayer player,
         IObservableQueue<SongEntityViewModel> songQueue,
         IValueProvider<SongEntityViewModel> songValueProvider,
         IValueProvider<CollectionBaseViewModel> collectionBaseValueProvider)
@@ -41,12 +41,12 @@ public class PlayerService : IPlayerService
     {
         if (typeof(T) == typeof(SongEntityViewModel))
         {
-            return (IValueProvider<T>) _songValueProvider;
+            return (IValueProvider<T>)_songValueProvider;
         }
 
         if (typeof(T) == typeof(CollectionBaseViewModel))
         {
-            return (IValueProvider<T>) _collectionBaseValueProvider;
+            return (IValueProvider<T>)_collectionBaseValueProvider;
         }
 
         return null;
@@ -165,7 +165,7 @@ public class PlayerService : IPlayerService
         PauseChanged?.Invoke(this, isPaused);
     }
 
-    private static string ChooseFilePath(SongEntityViewModel song) => 
+    private static string ChooseFilePath(SongEntityViewModel song) =>
         string.IsNullOrEmpty(song.LocalUrl) ? song.OnlineUrl : song.LocalUrl;
 
     public void Dispose()

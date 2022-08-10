@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Windows;
-using Calabonga.UnitOfWork;
+﻿using Calabonga.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System;
+using System.Linq;
+using System.Windows;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 

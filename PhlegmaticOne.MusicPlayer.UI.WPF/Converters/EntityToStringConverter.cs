@@ -7,9 +7,9 @@ namespace PhlegmaticOne.MusicPlayer.UI.WPF.Converters;
 
 public class EntityToStringConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => 
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) =>
         value?.ToString() ?? string.Empty;
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => 
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
         DependencyProperty.UnsetValue;
 }

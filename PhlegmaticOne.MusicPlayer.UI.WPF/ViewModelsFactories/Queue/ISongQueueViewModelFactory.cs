@@ -1,5 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Queue;
 

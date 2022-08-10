@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using PhlegmaticOne.DependencyInjectionFactoryExtension;
+﻿using PhlegmaticOne.DependencyInjectionFactoryExtension;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System.Collections.Generic;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
 
@@ -13,7 +12,7 @@ public class ViewModelFactory : IViewModelFactory
     public ViewModelFactory(IDependencyFactory<HomeViewModel> homeFactory,
         IDependencyFactory<AddingNewAlbumViewModel> addingNewAlbumFactory,
         IDependencyFactory<ArtistsViewModel> artistFactory,
-        IDependencyFactory<AlbumsViewModel> collectionFactory,
+        IDependencyFactory<AlbumsCollectionViewModel> collectionFactory,
         IDependencyFactory<DownloadedTracksViewModel> downloadedTracksFactory,
         IDependencyFactory<PlaylistsViewModel> playlistFactory,
         IDependencyFactory<SettingsViewModel> settingsFactory,

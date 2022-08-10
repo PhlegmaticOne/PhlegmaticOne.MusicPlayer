@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
 using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System;
+using System.Collections.Generic;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 
@@ -16,7 +16,7 @@ public interface IPlayerService : IDisposable
     public event EventHandler<bool> StopChanged;
     public event EventHandler<TimeSpan> TimeChanged;
     public event EventHandler<CollectionChangedEventArgs<SongEntityViewModel>> QueueChanged;
-    public IValueProvider<T>? ValueProvider<T>() where T: BaseViewModel;
+    public IValueProvider<T>? ValueProvider<T>() where T : BaseViewModel;
     public void SetAndPlay(SongEntityViewModel song);
     public void Stop();
     public void Rewind(TimeSpan rewindToTime);

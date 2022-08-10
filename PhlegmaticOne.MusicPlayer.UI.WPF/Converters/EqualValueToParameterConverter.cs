@@ -12,6 +12,6 @@ public class EqualValueToParameterConverter : IValueConverter
         return value.ToString() == parameter.ToString();
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => 
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) =>
         DependencyProperty.UnsetValue;
 }

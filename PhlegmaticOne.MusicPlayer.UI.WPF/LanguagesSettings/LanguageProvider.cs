@@ -1,9 +1,9 @@
-﻿using System;
+﻿using PhlegmaticOne.MusicPlayer.UI.WPF.ConfigurationSections.SupportedCulturesSection;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Globalization;
 using System.Linq;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ConfigurationSections.SupportedCulturesSection;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
 

@@ -1,31 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using PhlegmaticOne.MusicPlayer.Contracts.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Reload;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Sort;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
-public abstract class CollectionViewModelBase<TCollectionItemType, TCollectionViewModel> : BaseViewModel
-    where TCollectionItemType: BaseViewModel, ICollectionItem
+public abstract class CollectionViewModelBase<TCollectionItemType, TCollectionViewModel> : PlayerTrackableViewModel
+    where TCollectionItemType : BaseViewModel, ICollectionItem
     where TCollectionViewModel : CollectionViewModelBase<TCollectionItemType, TCollectionViewModel>
 {
-    protected readonly ReloadViewModelBase<TCollectionViewModel> _reloadViewModel;
-    protected readonly SortViewModelBase<TCollectionViewModel> _sortViewModelBase;
-    protected readonly MusicNavigationBase<TCollectionItemType> _musicNavigationBase;
-    public ObservableCollection<TCollectionItemType> Items { get; private set; }
+    public ReloadViewModelBase<TCollectionViewModel> ReloadViewModel { get; }
+    public SortViewModelBase<TCollectionViewModel, TCollectionItemType> SortViewModel { get; }
+    public MusicNavigationBase<TCollectionItemType> MusicNavigation { get; }
+    public ObservableCollection<TCollectionItemType> Items { get; }
 
     protected CollectionViewModelBase(ReloadViewModelBase<TCollectionViewModel> reloadViewModel,
-        SortViewModelBase<TCollectionViewModel> sortViewModelBase, 
-        MusicNavigationBase<TCollectionItemType> musicNavigationBase)
+        SortViewModelBase<TCollectionViewModel, TCollectionItemType> sortViewModelBase,
+        MusicNavigationBase<TCollectionItemType> musicNavigationBase,
+        IPlayerService playerService) : base(playerService)
     {
-        _reloadViewModel = reloadViewModel;
-        _sortViewModelBase = sortViewModelBase;
-        _musicNavigationBase = musicNavigationBase;
+        ReloadViewModel = reloadViewModel;
+        SortViewModel = sortViewModelBase;
+        MusicNavigation = musicNavigationBase;
+        Items = new();
     }
 
-    protected abstract Dictionary<string, Func<TCollectionItemType, object>> GetSupportedSorts();
+    internal async Task UpdateItems(IEnumerable<TCollectionItemType> newItems)
+    {
+        Items.Clear();
+        await UIThreadInvoker.InvokeAsync(() =>
+        {
+            foreach (var newItem in newItems)
+            {
+                Items.Add(newItem);
+            }
+        });
+    }
 }

@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
@@ -23,15 +23,15 @@ public class SongQueueViewModel : PlayerTrackableViewModel
         switch (e.CollectionChangedType)
         {
             case CollectionChangedType.Added:
-            {
-                AddSongs(e.Entities);
-                break;
-            }
+                {
+                    AddSongs(e.Entities);
+                    break;
+                }
             case CollectionChangedType.Removed:
-            {
-                RemoveSongs(e.Entities);
-                break;
-            }
+                {
+                    RemoveSongs(e.Entities);
+                    break;
+                }
         }
     }
 

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
+﻿using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System;
+using System.Windows.Input;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 
@@ -23,7 +23,7 @@ public class Navigator : ObservableObject, INavigator
         Navigate(ViewType.Home);
     }
 
-    private void HistoryOnHistoryChanged(object? sender, EventArgs e) => 
+    private void HistoryOnHistoryChanged(object? sender, EventArgs e) =>
         _moveBackCommand.RaiseCanExecute();
 
     public INavigationHistory History { get; set; }

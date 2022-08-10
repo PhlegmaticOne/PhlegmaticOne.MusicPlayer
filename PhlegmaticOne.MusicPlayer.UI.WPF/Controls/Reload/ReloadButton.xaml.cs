@@ -1,6 +1,5 @@
-﻿using System.Windows;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System.Windows;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls;
 
@@ -11,7 +10,7 @@ public partial class ReloadButton
 
     public BaseViewModel ViewModelToReload
     {
-        get => (BaseViewModel) GetValue(ViewModelToReloadProperty);
+        get => (BaseViewModel)GetValue(ViewModelToReloadProperty);
         set => SetValue(ViewModelToReloadProperty, value);
     }
     public ReloadButton()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 
-public class CollectionChangedEventArgs<T> : EventArgs where T: class
+public class CollectionChangedEventArgs<T> : EventArgs where T : class
 {
     public IEnumerable<T> Entities { get; }
     public CollectionChangedType CollectionChangedType { get; }

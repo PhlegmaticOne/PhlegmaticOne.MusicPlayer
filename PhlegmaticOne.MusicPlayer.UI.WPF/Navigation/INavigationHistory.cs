@@ -1,5 +1,5 @@
-﻿using System;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 

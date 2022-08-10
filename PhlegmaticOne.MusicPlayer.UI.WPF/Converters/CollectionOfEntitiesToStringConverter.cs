@@ -1,10 +1,10 @@
-﻿using System;
+﻿using PhlegmaticOne.MusicPlayer.Entities;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
-using PhlegmaticOne.MusicPlayer.Entities;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Converters;
 

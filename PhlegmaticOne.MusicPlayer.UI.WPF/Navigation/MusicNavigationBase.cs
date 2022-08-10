@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 
-public abstract class MusicNavigationBase<T> where T: class
+public abstract class MusicNavigationBase<T> where T : class
 {
     private readonly INavigator _navigator;
 

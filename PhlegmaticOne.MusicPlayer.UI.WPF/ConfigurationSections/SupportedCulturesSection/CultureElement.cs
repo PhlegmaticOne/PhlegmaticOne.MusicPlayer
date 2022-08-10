@@ -12,7 +12,7 @@ public class CultureElement : ConfigurationElement
 
     public string Name
     {
-        get => (string)base[CULTURE_ELEMENT_NAME_ATTRIBUTE_NAME]; 
+        get => (string)base[CULTURE_ELEMENT_NAME_ATTRIBUTE_NAME];
         set => base[CULTURE_ELEMENT_NAME_ATTRIBUTE_NAME] = value;
     }
 }

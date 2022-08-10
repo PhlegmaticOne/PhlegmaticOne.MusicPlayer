@@ -9,7 +9,7 @@ public partial class ViewTitle
 
     public string TitleText
     {
-        get => (string) GetValue(TitleTextProperty);
+        get => (string)GetValue(TitleTextProperty);
         set => SetValue(TitleTextProperty, value);
     }
     public ViewTitle()

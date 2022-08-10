@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Windows;
-using Calabonga.UnitOfWork;
+﻿using Calabonga.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,9 +11,9 @@ using PhlegmaticOne.MusicPlayer.Players.DownloadSongsFeature;
 using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
 using PhlegmaticOne.MusicPlayer.Players.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Reload;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Sort;
 using PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Features.Album;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
 using PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
@@ -30,7 +24,12 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Queue;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
+using System.Windows;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -58,11 +57,11 @@ public partial class App
             Thread.CurrentThread.CurrentUICulture = value;
             var resourceDictionary = new ResourceDictionary
             {
-                Source = value.Name == "en-US" ? 
+                Source = value.Name == "en-US" ?
                     new Uri("Resources/lang.xaml", UriKind.Relative) :
                     new Uri($"Resources/lang.{value.Name}.xaml", UriKind.Relative)
             };
-            var oldDictionary = Current.Resources.MergedDictionaries.FirstOrDefault(d => 
+            var oldDictionary = Current.Resources.MergedDictionaries.FirstOrDefault(d =>
                 d.Source.OriginalString.StartsWith("Resources/lang."));
             if (oldDictionary is not null)
             {
@@ -89,56 +88,62 @@ public partial class App
         _host = ConfigureServices().Build();
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
         mainWindow.Show();
-        
+
     }
 
     private static IHostBuilder ConfigureServices()
     {
-       // var connectionString = ConfigurationManager.ConnectionStrings["sql-connection-string"].ConnectionString;
+        // var connectionString = ConfigurationManager.ConnectionStrings["sql-connection-string"].ConnectionString;
 
-       var hostBuilder = new HostBuilder()
-            .ConfigureServices((builder, services) =>
-            {
+        var hostBuilder = new HostBuilder()
+             .ConfigureServices((builder, services) =>
+             {
 
-                services.AddDbContext<ApplicationDbContext>(b => b.UseInMemoryDatabase("MEMORY"));
-                services.AddUnitOfWork<ApplicationDbContext>();
-                services.AddAutoMapper(typeof(MapperConfig).Assembly);
+                 services.AddDbContext<ApplicationDbContext>(b => b.UseInMemoryDatabase("MEMORY"));
+                 services.AddUnitOfWork<ApplicationDbContext>();
+                 services.AddAutoMapper(typeof(MapperConfig).Assembly);
 
-                services.AddScoped<ReloadViewModelBase<AlbumsViewModel>, ReloadCollectionViewModel>();
-                services.AddSingleton<IValueProvider<SongEntityViewModel>, ValueProvider<SongEntityViewModel>>();
-                services.AddSingleton<IValueProvider<CollectionBaseViewModel>, ValueProvider<CollectionBaseViewModel>>();
-                services.AddSingleton<ILanguageProvider, LanguageProvider>();
-                services.AddSingleton<IAlbumFeaturesProvider, AlbumFeaturesProvider>();
-                services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();
-                services.AddSingleton<IHttpInfoGetter<Album>, MusifyAlbumInfoGetter>();
-                services.AddSingleton<IDownloadSettings, DownloadSettings>();
-                services.AddSingleton<ISortOptionsProvider, SortOptionsProvider>();
-                services.AddSingleton<IPlayer, CustomMusicPlayer>();
-                services.AddScoped<IDownloader, HttpDownloader>();
-                services.AddSingleton<IObservableQueue<SongEntityViewModel>, ObservableQueue<SongEntityViewModel>>();
-                services.AddSingleton<ISongQueueViewModelFactory, SongQueueViewModelFactory>();
+                 services.AddScoped<ReloadViewModelBase<AlbumsCollectionViewModel>, ReloadCollectionViewModel>();
+                 services.AddScoped<SortViewModelBase<AlbumsCollectionViewModel, AlbumEntityViewModel>, SortAlbumsViewModel>();
 
-                services.AddSingleton<IPlayerService, PlayerService>();
-                services.AddSingleton<IDownloadService<AlbumEntityViewModel>, AlbumDownloadService>();
+                 services.AddSingleton<IValueProvider<SongEntityViewModel>, ValueProvider<SongEntityViewModel>>();
+                 services.AddSingleton<IValueProvider<CollectionBaseViewModel>, ValueProvider<CollectionBaseViewModel>>();
+                 services.AddSingleton<ILanguageProvider, LanguageProvider>();
+                 services.AddSingleton<IAlbumFeaturesProvider, AlbumFeaturesProvider>();
+                 services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();
 
-                services.AddSingleton<MusicNavigationBase<AlbumEntityViewModel>, AlbumsNavigation>();
-                services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
-                services.AddDependencyFactory<PlayerViewModel>(ServiceLifetime.Singleton);
-                services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
-                services.AddDependencyFactory<ArtistsViewModel>(ServiceLifetime.Singleton);
-                services.AddDependencyFactory<AlbumsViewModel>(ServiceLifetime.Singleton);
-                services.AddDependencyFactory<DownloadedTracksViewModel>(ServiceLifetime.Singleton);
-                services.AddDependencyFactory<MainViewModel>(ServiceLifetime.Singleton);
-                services.AddDependencyFactory<PlaylistsViewModel>(ServiceLifetime.Singleton);
-                services.AddDependencyFactory<SettingsViewModel>(ServiceLifetime.Singleton);
-                services.AddDependencyFactory<TracksViewModel>(ServiceLifetime.Singleton);
-                services.AddDependencyFactory<SongQueueViewModel>(ServiceLifetime.Singleton);
-                
-                services.AddSingleton<INavigationHistory, NavigationHistory>();
-                services.AddSingleton<INavigator, Navigator>();
-                services.AddSingleton<IViewModelFactory, ViewModelFactory>();
-                services.AddSingleton<MainWindow>();
-            });
+                 services.AddSingleton<IHttpInfoGetter<Album>, MusifyAlbumInfoGetter>();
+
+                 services.AddSingleton<IDownloadSettings, DownloadSettings>();
+                 services.AddSingleton<IPlayer, CustomMusicPlayer>();
+                 services.AddScoped<IDownloader, HttpDownloader>();
+                 services.AddSingleton<IObservableQueue<SongEntityViewModel>, ObservableQueue<SongEntityViewModel>>();
+
+                 services.AddSingleton<IPlayerService, PlayerService>();
+                 services.AddSingleton<IDownloadService<AlbumEntityViewModel>, AlbumDownloadService>();
+
+
+                 services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
+                 services.AddDependencyFactory<PlayerViewModel>(ServiceLifetime.Singleton);
+                 services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
+                 services.AddDependencyFactory<ArtistsViewModel>(ServiceLifetime.Singleton);
+                 services.AddDependencyFactory<AlbumsCollectionViewModel>(ServiceLifetime.Singleton);
+                 services.AddDependencyFactory<DownloadedTracksViewModel>(ServiceLifetime.Singleton);
+                 services.AddDependencyFactory<MainViewModel>(ServiceLifetime.Singleton);
+                 services.AddDependencyFactory<PlaylistsViewModel>(ServiceLifetime.Singleton);
+                 services.AddDependencyFactory<SettingsViewModel>(ServiceLifetime.Singleton);
+                 services.AddDependencyFactory<TracksViewModel>(ServiceLifetime.Singleton);
+                 services.AddDependencyFactory<SongQueueViewModel>(ServiceLifetime.Singleton);
+
+                 services.AddSingleton<INavigationHistory, NavigationHistory>();
+                 services.AddSingleton<INavigator, Navigator>();
+                 services.AddSingleton<MusicNavigationBase<AlbumEntityViewModel>, AlbumsNavigation>();
+
+                 services.AddSingleton<IViewModelFactory, ViewModelFactory>();
+                 services.AddSingleton<ISongQueueViewModelFactory, SongQueueViewModelFactory>();
+
+                 services.AddSingleton<MainWindow>();
+             });
         return hostBuilder;
     }
 

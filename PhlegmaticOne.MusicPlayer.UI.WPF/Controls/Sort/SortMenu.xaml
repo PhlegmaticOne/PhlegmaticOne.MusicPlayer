@@ -3,10 +3,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             x:Name="SortMenuRoot"
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:views="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+
+    <Menu Background="Transparent">
+        <MenuItem ItemsSource="{Binding SortOptions}" Style="{StaticResource TransparentDropdownMenuStyle}">
+            <MenuItem.Header>
+                <Border Background="{Binding BorderBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}" 
+                                        BorderThickness="0"
+                                        CornerRadius="24">
+                    <Viewbox Width="40" Height="40">
+                        <Canvas Width="24" Height="24" Margin="3 0">
+                            <Path Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}"
+                                                  Data="M3,13H15V11H3M3,6V8H21V6M3,18H9V16H3V18Z" />
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+            </MenuItem.Header>
+            <MenuItem.ItemContainerStyle>
+                <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItemStyle}"/>
+            </MenuItem.ItemContainerStyle>
+            <MenuItem.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding SortName}" Foreground="White" Padding="10 5">
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseLeftButtonDown">
+                                <b:InvokeCommandAction CommandParameter="{Binding }"
+                                                       Command="{Binding DataContext.SetCurrentSortCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SortMenu}}}"/>
+                                <b:InvokeCommandAction CommandParameter="{Binding ViewModelToSort, ElementName=SortMenuRoot}"
+                                                       Command="{Binding DataContext.SortCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SortMenu}}}"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+                    </TextBlock>
+                </DataTemplate>
+            </MenuItem.ItemTemplate>
+        </MenuItem>
+    </Menu>
 </UserControl>

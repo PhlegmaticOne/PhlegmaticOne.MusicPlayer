@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Calabonga.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
@@ -9,6 +6,9 @@ using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 
