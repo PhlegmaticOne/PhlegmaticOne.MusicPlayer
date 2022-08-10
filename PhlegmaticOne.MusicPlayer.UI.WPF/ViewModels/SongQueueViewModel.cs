@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Players.Player;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
 using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
@@ -12,17 +10,11 @@ namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 public class SongQueueViewModel : PlayerTrackableViewModel
 {
     public ObservableCollection<SongEntityViewModel> Songs { get; }
-    public SongQueueViewModel(IObservableQueue<SongEntityViewModel> songsQueue, IPlayer player, IValueProvider<SongEntityViewModel> songValueProvider, IValueProvider<AlbumEntityViewModel> albumValueProvider) : 
-        base(player, songsQueue, songValueProvider, albumValueProvider)
+    public SongQueueViewModel(IPlayerService playerService) : base(playerService)
     {
         Songs = new();
-        SongsQueue.QueueChanged += SongsQueueOnQueueChanged;
-        if (Songs.Any() == false)
-        {
-            AddSongs(songsQueue.Entities);
-        }
-
-        CurrentAlbum = AlbumValueProvider.Get();
+        PlayerService.QueueChanged += SongsQueueOnQueueChanged;
+        PlayerService.RaiseEvents();
         TrySetSong();
     }
 

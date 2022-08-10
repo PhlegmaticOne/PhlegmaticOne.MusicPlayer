@@ -16,6 +16,7 @@ using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.Players.DownloadSongsFeature;
 using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
 using PhlegmaticOne.MusicPlayer.Players.Player;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Reload;
 using PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Features.Album;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
@@ -25,9 +26,11 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Queue;
+using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -101,8 +104,9 @@ public partial class App
                 services.AddUnitOfWork<ApplicationDbContext>();
                 services.AddAutoMapper(typeof(MapperConfig).Assembly);
 
+                services.AddScoped<ReloadViewModelBase<AlbumsViewModel>, ReloadCollectionViewModel>();
                 services.AddSingleton<IValueProvider<SongEntityViewModel>, ValueProvider<SongEntityViewModel>>();
-                services.AddSingleton<IValueProvider<AlbumEntityViewModel>, ValueProvider<AlbumEntityViewModel>>();
+                services.AddSingleton<IValueProvider<CollectionBaseViewModel>, ValueProvider<CollectionBaseViewModel>>();
                 services.AddSingleton<ILanguageProvider, LanguageProvider>();
                 services.AddSingleton<IAlbumFeaturesProvider, AlbumFeaturesProvider>();
                 services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();
@@ -114,12 +118,15 @@ public partial class App
                 services.AddSingleton<IObservableQueue<SongEntityViewModel>, ObservableQueue<SongEntityViewModel>>();
                 services.AddSingleton<ISongQueueViewModelFactory, SongQueueViewModelFactory>();
 
+                services.AddSingleton<IPlayerService, PlayerService>();
+                services.AddSingleton<IDownloadService<AlbumEntityViewModel>, AlbumDownloadService>();
+
                 services.AddSingleton<MusicNavigationBase<AlbumEntityViewModel>, AlbumsNavigation>();
                 services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<PlayerViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<ArtistsViewModel>(ServiceLifetime.Singleton);
-                services.AddDependencyFactory<CollectionViewModel>(ServiceLifetime.Singleton);
+                services.AddDependencyFactory<AlbumsViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<DownloadedTracksViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<MainViewModel>(ServiceLifetime.Singleton);
                 services.AddDependencyFactory<PlaylistsViewModel>(ServiceLifetime.Singleton);

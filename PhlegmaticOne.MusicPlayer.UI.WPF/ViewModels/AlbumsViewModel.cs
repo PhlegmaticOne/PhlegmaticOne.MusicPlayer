@@ -2,11 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using Calabonga.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Reload;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
@@ -14,44 +11,29 @@ using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
-public class CollectionViewModel : BaseViewModel
+public class AlbumsViewModel : BaseViewModel
 {
+    public ReloadViewModelBase<AlbumsViewModel> ReloadViewModel { get; }
     public MusicNavigationBase<AlbumEntityViewModel> MusicNavigation { get; set; }
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
-    public ObservableCollection<AlbumEntityViewModel> Albums { get; set; } = new();
     public ObservableCollection<SortDescription> SortOptions { get; set; } = new();
 
-    public CollectionViewModel(IUnitOfWork unitOfWork, IMapper mapper, ISortOptionsProvider sortOptionsProvider, MusicNavigationBase<AlbumEntityViewModel> musicNavigation)
+    public ObservableCollection<AlbumEntityViewModel> Albums { get; set; } = new();
+
+
+    public AlbumsViewModel(ReloadViewModelBase<AlbumsViewModel> reloadViewModel,  ISortOptionsProvider sortOptionsProvider, MusicNavigationBase<AlbumEntityViewModel> musicNavigation)
     {
+        ReloadViewModel = reloadViewModel;
         MusicNavigation = musicNavigation;
-        _unitOfWork = unitOfWork;
-        _mapper = mapper;
-        UpdateCommand = new(LoadAlbums, _ => true);
         SortCommand = new(SortAlbums, _ => true);
         foreach (var sortDescription in sortOptionsProvider.GetSortDescriptions())
         {
             SortOptions.Add(sortDescription);
         }
-        LoadAlbums();
+        //LoadAlbums();
     }
-    public DelegateCommand UpdateCommand { get; set; }
     public DelegateCommand SortCommand { get; set; }
-    private async void LoadAlbums(object? b = null)
-    {
-        var repository = _unitOfWork.GetRepository<Album>();
-        var albums = await repository.GetAllAsync(
-            include: include => include
-                .Include(p => p.Artists)
-                .Include(p => p.AlbumCover)
-                .Include(p => p.Songs)
-        );
 
-        var mapped = _mapper.Map<IList<AlbumEntityViewModel>>(albums);
-
-        await UpdateAlbums(mapped);
-    }
-
+    private void LoadAlbums() => ReloadViewModel.ReloadCommand.Execute(this);
     private async void SortAlbums(object? b = null)
     {
         if(b is not SortType sortType) return;
@@ -74,13 +56,15 @@ public class CollectionViewModel : BaseViewModel
         await UpdateAlbums(sortedAlbums);
     }
 
-    private async Task UpdateAlbums(IList<AlbumEntityViewModel> newAlbums)
+    internal async Task UpdateAlbums(IList<AlbumEntityViewModel> newAlbums)
     {
-        Albums.Clear();
-
-        foreach (var album in newAlbums)
+        await UIThreadInvoker.InvokeAsync(() =>
         {
-            await UIThreadInvoker.InvokeAsync(() => Albums.Add(album));
-        }
+            Albums.Clear();
+            foreach (var album in newAlbums)
+            {
+                Albums.Add(album);
+            }
+        });
     }
 }

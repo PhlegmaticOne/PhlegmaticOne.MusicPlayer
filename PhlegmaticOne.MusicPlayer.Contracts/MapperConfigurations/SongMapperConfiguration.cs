@@ -10,6 +10,7 @@ public class SongMapperConfiguration : Profile
     {
         CreateMap<Song, SongEntityViewModel>()
             .ForMember(x => x.IsDownloaded, o => o.Ignore())
+            .ForMember(x => x.CurrentCollection, o => o.Ignore())
             .ForMember(x => x.IsDownloading, o => o.Ignore())
             .ForMember(x => x.Appearances, o => o.MapFrom(p => p.AlbumAppearances));
 

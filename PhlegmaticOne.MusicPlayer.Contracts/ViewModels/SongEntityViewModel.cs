@@ -1,8 +1,9 @@
-﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Base;
+using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 
-public class SongEntityViewModel : ObservableObject
+public class SongEntityViewModel : BaseViewModel, ICollectionItem
 {
     public Guid Id { get; set; }
     public string OnlineUrl { get; set; }
@@ -12,6 +13,7 @@ public class SongEntityViewModel : ObservableObject
     public bool IsDownloaded { get; set; }
     public bool IsDownloading { get; set; }
     public string Title { get; set; }
+    public CollectionDisplay CurrentCollection { get; set; }
     public ICollection<CollectionDisplay> Appearances { get; set; }
     public TimeSpan Duration { get; set; }
     public override string ToString() => $"{Title} - {Duration}";

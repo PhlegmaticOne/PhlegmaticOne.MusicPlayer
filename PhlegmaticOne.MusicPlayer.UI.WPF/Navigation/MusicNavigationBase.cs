@@ -1,5 +1,5 @@
-﻿using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
@@ -14,11 +14,11 @@ public abstract class MusicNavigationBase<T> where T: class
         NavigateToMusicCommand = new DelegateCommand(Navigate, _ => true);
     }
     public ICommand NavigateToMusicCommand { get; set; }
-    protected abstract BaseViewModel CreateViewModel(T entity);
+    protected abstract Task<BaseViewModel> CreateViewModel(T entity);
 
-    private void Navigate(object? parameter)
+    private async void Navigate(object? parameter)
     {
-        var viewModel = CreateViewModel(parameter as T);
+        var viewModel = await CreateViewModel(parameter as T);
         _navigator.NavigateTo(viewModel);
     }
 }

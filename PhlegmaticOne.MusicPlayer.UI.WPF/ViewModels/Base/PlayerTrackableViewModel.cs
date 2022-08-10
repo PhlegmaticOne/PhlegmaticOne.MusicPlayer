@@ -1,40 +1,29 @@
-﻿using System.Windows.Forms;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Players.Player;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
-using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 public class PlayerTrackableViewModel : BaseViewModel
 {
-    protected readonly IPlayer Player;
-    protected readonly IObservableQueue<SongEntityViewModel> SongsQueue;
-    protected readonly IValueProvider<SongEntityViewModel> SongValueProvider;
-    protected readonly IValueProvider<AlbumEntityViewModel> AlbumValueProvider;
+    protected readonly IPlayerService PlayerService;
     public SongEntityViewModel CurrentSong { get; set; }
-    public AlbumEntityViewModel CurrentAlbum { get; set; }
+    public CollectionBaseViewModel CurrentAlbum { get; set; }
     public bool IsPaused { get; set; } = true;
     public bool IsStopped { get; set; } = true;
 
-    public PlayerTrackableViewModel(IPlayer player, IObservableQueue<SongEntityViewModel> songsQueue, 
-        IValueProvider<SongEntityViewModel> songValueProvider, IValueProvider<AlbumEntityViewModel> albumValueProvider)
+    public PlayerTrackableViewModel(IPlayerService playerService)
     {
-        Player = player;
-        SongsQueue = songsQueue;
-        SongValueProvider = songValueProvider;
-        AlbumValueProvider = albumValueProvider;
-
-        player.PauseChanged += (_, isPaused) => IsPaused = isPaused;
-        player.StopChanged += (_, isStopped) => IsStopped = isStopped;
-        SongValueProvider.ValueChanged += (_, newSong) => CurrentSong = newSong;
-        AlbumValueProvider.ValueChanged += (_, newAlbum) => CurrentAlbum = newAlbum;
+        PlayerService = playerService;
+        playerService.PauseChanged += (_, isPaused) => IsPaused = isPaused;
+        playerService.StopChanged += (_, isStopped) => IsStopped = isStopped;
+        playerService.ValueProvider<SongEntityViewModel>()!.ValueChanged += (_, newSong) => CurrentSong = newSong;
 
         PlaySongCommand = new(PlaySongAction, _ => true);
         PlayPauseCommand = new(PlayPauseAction, _ => true);
         LikeCommand = new(LikeAction, _ => true);
     }
+
     public DelegateCommand PlaySongCommand { get; set; }
     public DelegateCommand PlayPauseCommand { get; set; }
     public DelegateCommand LikeCommand { get; set; }
@@ -43,16 +32,13 @@ public class PlayerTrackableViewModel : BaseViewModel
     {
         if (parameter is SongEntityViewModel song)
         {
-            SongValueProvider.Set(song);
-            SongsQueue.Current = song;
-            Player.Stop();
-            Player.Play(ChooseFilePath(song));
+            PlayerService.SetAndPlay(song);
         }
     }
 
     protected virtual void PlayPauseAction(object? parameter)
     {
-        Player.PauseOrUnpause();
+        PlayerService.Pause();
     }
 
     protected virtual void LikeAction(object? parameter)
@@ -70,7 +56,7 @@ public class PlayerTrackableViewModel : BaseViewModel
 
     protected void TrySetSong()
     {
-        var song = SongValueProvider.Get();
+        var song = PlayerService.ValueProvider<SongEntityViewModel>()!.Get();
         if (song is not null && CurrentAlbum is not null)
         {
             if (CurrentAlbum.Songs.Contains(song))
@@ -83,12 +69,7 @@ public class PlayerTrackableViewModel : BaseViewModel
 
     protected void SetIsPausedAndIsStopped()
     {
-        IsPaused = Player.IsPaused;
-        IsStopped = Player.IsStopped;
-    }
-
-    protected string ChooseFilePath(SongEntityViewModel song)
-    {
-        return string.IsNullOrEmpty(song.LocalUrl) ? song.OnlineUrl : song.LocalUrl;
+        IsPaused = PlayerService.IsPaused;
+        IsStopped = PlayerService.IsStopped;
     }
 }

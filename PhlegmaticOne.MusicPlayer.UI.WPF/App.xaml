@@ -29,7 +29,7 @@
                  <v:ArtistsView/>
              </DataTemplate>
 
-             <DataTemplate DataType="{x:Type vm:CollectionViewModel}">
+             <DataTemplate DataType="{x:Type vm:AlbumsViewModel}">
                  <v:CollectionView/>
              </DataTemplate>
 

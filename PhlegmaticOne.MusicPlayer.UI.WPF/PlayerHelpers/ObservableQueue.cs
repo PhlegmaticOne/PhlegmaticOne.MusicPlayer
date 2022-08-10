@@ -30,7 +30,7 @@ public class ObservableQueue<T> : IObservableQueue<T> where T : class
 
     public void Enqueue(IEnumerable<T> entities)
     {
-        var collection = _entities.ToList();
+        var collection = entities.ToList();
         _entities.AddRange(collection);
         Invoke(collection, CollectionChangedType.Added);
     }

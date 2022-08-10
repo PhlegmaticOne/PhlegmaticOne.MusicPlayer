@@ -2,27 +2,23 @@
 using PhlegmaticOne.MusicPlayer.Players.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
 using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Queue;
 
 public class SongQueueViewModelFactory : ISongQueueViewModelFactory
 {
-    private readonly IObservableQueue<SongEntityViewModel> _songsQueue;
-    private readonly IPlayer _player;
-    private readonly IValueProvider<SongEntityViewModel> _songValueProvider;
-    private readonly IValueProvider<AlbumEntityViewModel> _albumValueProvider;
+    private readonly IPlayerService _playerService;
 
-    public SongQueueViewModelFactory(IObservableQueue<SongEntityViewModel> songsQueue, IPlayer player, IValueProvider<SongEntityViewModel> songValueProvider, IValueProvider<AlbumEntityViewModel> albumValueProvider)
+    public SongQueueViewModelFactory(IPlayerService playerService)
     {
-        _songsQueue = songsQueue;
-        _player = player;
-        _songValueProvider = songValueProvider;
-        _albumValueProvider = albumValueProvider;
+        _playerService = playerService;
     }
     public BaseViewModel CreateQueueViewModel()
     {
-        return new SongQueueViewModel(_songsQueue, _player, _songValueProvider, _albumValueProvider);
+        return new SongQueueViewModel(_playerService);
     }
 }

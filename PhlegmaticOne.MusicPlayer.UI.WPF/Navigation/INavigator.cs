@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 
