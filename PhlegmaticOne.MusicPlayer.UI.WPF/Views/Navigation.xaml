@@ -185,7 +185,7 @@
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:ArtistsViewModel}}">
+                        ConverterParameter={x:Type vm:ArtistsCollectionViewModel}}">
                         <controls:NavigationButton.ButtonContent>
                             <Viewbox Width="24" Height="24">
                                 <Canvas Width="24" Height="24">

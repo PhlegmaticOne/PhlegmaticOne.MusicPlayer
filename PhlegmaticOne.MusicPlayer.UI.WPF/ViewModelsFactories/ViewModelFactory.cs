@@ -11,7 +11,7 @@ public class ViewModelFactory : IViewModelFactory
     private readonly Dictionary<ViewType, IDependencyFactory<BaseViewModel>> _viewModels;
     public ViewModelFactory(IDependencyFactory<HomeViewModel> homeFactory,
         IDependencyFactory<AddingNewAlbumViewModel> addingNewAlbumFactory,
-        IDependencyFactory<ArtistsViewModel> artistFactory,
+        IDependencyFactory<ArtistsCollectionViewModel> artistFactory,
         IDependencyFactory<AlbumsCollectionViewModel> collectionFactory,
         IDependencyFactory<DownloadedTracksViewModel> downloadedTracksFactory,
         IDependencyFactory<PlaylistsViewModel> playlistFactory,

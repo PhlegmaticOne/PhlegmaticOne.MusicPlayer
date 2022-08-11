@@ -29,7 +29,7 @@
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <Grid ColumnSpan="2">
-                    <Image Source="{Binding CurrentAlbum.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}" 
+                    <Image Source="{Binding CurrentAlbum.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}" 
                            Stretch="UniformToFill"
                            VerticalAlignment="Center"
                            Opacity="0.3">
@@ -40,7 +40,7 @@
                 </Grid>
                 <Grid Column="0" Margin="20 10">
                     <Grid>
-                    <Image Source="{Binding CurrentAlbum.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}">
+                    <Image Source="{Binding CurrentAlbum.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}">
                             <Image.Effect>
                                 <DropShadowEffect ShadowDepth="5" Color="Black" BlurRadius="8"/>
                             </Image.Effect>
@@ -92,7 +92,7 @@
                     <Grid Row="4">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
                             <Button Command="{Binding PlaySongCommand}" 
-                                    CommandParameter="{Binding CurrentAlbum.Songs, Converter={StaticResource FirstElementInEnumerableConverter}}">
+                                    CommandParameter="{Binding CurrentAlbum.Tracks, Converter={StaticResource FirstElementInEnumerableConverter}}">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal" MaxWidth="150" MaxHeight="50" 
                                                 Margin="40 5">
@@ -290,7 +290,7 @@
                 </Grid>
             </Grid>
             <Grid Row="1">
-                <ListView ItemsSource="{Binding CurrentAlbum.Songs}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView ItemsSource="{Binding CurrentAlbum.Tracks}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListView.Style>
                         <Style TargetType="ListView">
                             <Setter Property="Background" Value="Transparent"/>
@@ -532,7 +532,7 @@
                                                 <Setter TargetName="TimeText" Property="Content">
                                                     <Setter.Value>
                                                     <Menu Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                        <MenuItem ItemsSource="{Binding Appearances}" Style="{StaticResource SongOptionsMenuStyle}">
+                                                        <MenuItem ItemsSource="{Binding ArtistLinks}" Style="{StaticResource SongOptionsMenuStyle}">
                                                                 <MenuItem.Header>
                                                                     <Border Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}"
                                                                         BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}"

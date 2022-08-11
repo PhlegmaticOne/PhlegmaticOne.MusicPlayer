@@ -7,13 +7,16 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
-public class AlbumsCollectionViewModel : CollectionViewModelBase<AlbumEntityViewModel, AlbumsCollectionViewModel>
+public class AlbumsCollectionViewModel : CollectionViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel>
 {
-    public AlbumsCollectionViewModel(ReloadViewModelBase<AlbumsCollectionViewModel> reloadViewModel,
-        SortViewModelBase<AlbumsCollectionViewModel, AlbumEntityViewModel> sortViewModelBase,
-        MusicNavigationBase<AlbumEntityViewModel> musicNavigationBase,
-        IPlayerService playerService) :
-        base(reloadViewModel, sortViewModelBase, musicNavigationBase, playerService)
+    public MusicNavigation<AlbumPreviewViewModel, AlbumViewModel> MusicNavigation { get; }
+
+    public AlbumsCollectionViewModel(IPlayerService playerService, 
+        ReloadViewModelBase<AlbumsCollectionViewModel> reloadViewModel,
+        SortViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel> sortViewModelBase,
+        MusicNavigation<AlbumPreviewViewModel, AlbumViewModel> musicNavigation) :
+        base(playerService, reloadViewModel, sortViewModelBase)
     {
+        MusicNavigation = musicNavigation;
     }
 }

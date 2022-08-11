@@ -6,19 +6,22 @@ using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using CollectionBaseViewModel = PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base.CollectionBaseViewModel;
+//using CollectionBaseViewModel = PhlegmaticOne.MusicPlayer.Contracts.New.Base.CollectionBaseViewModel;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 
 public class PlayerService : IPlayerService
 {
     private readonly IPlayer _player;
-    private readonly IObservableQueue<SongEntityViewModel> _songQueue;
-    private readonly IValueProvider<SongEntityViewModel> _songValueProvider;
+    private readonly IObservableQueue<TrackBaseViewModel> _songQueue;
+    private readonly IValueProvider<TrackBaseViewModel> _songValueProvider;
     private readonly IValueProvider<CollectionBaseViewModel> _collectionBaseValueProvider;
 
     public PlayerService(IPlayer player,
-        IObservableQueue<SongEntityViewModel> songQueue,
-        IValueProvider<SongEntityViewModel> songValueProvider,
+        IObservableQueue<TrackBaseViewModel> songQueue,
+        IValueProvider<TrackBaseViewModel> songValueProvider,
         IValueProvider<CollectionBaseViewModel> collectionBaseValueProvider)
     {
         _player = player;
@@ -35,11 +38,11 @@ public class PlayerService : IPlayerService
     public event EventHandler<bool>? PauseChanged;
     public event EventHandler<bool>? StopChanged;
     public event EventHandler<TimeSpan>? TimeChanged;
-    public event EventHandler<CollectionChangedEventArgs<SongEntityViewModel>>? QueueChanged;
+    public event EventHandler<CollectionChangedEventArgs<TrackBaseViewModel>>? QueueChanged;
 
     public IValueProvider<T>? ValueProvider<T>() where T : BaseViewModel
     {
-        if (typeof(T) == typeof(SongEntityViewModel))
+        if (typeof(T) == typeof(TrackBaseViewModel))
         {
             return (IValueProvider<T>)_songValueProvider;
         }
@@ -52,7 +55,7 @@ public class PlayerService : IPlayerService
         return null;
     }
 
-    public void SetAndPlay(SongEntityViewModel? song)
+    public void SetAndPlay(TrackBaseViewModel? song)
     {
         _songValueProvider.Set(song);
         if (song is not null)
@@ -106,7 +109,7 @@ public class PlayerService : IPlayerService
         _player.PauseOrUnpause();
     }
 
-    public void Enqueue(IEnumerable<SongEntityViewModel> songs, bool isClear)
+    public void Enqueue(IEnumerable<TrackBaseViewModel> songs, bool isClear)
     {
         if (isClear)
         {
@@ -117,7 +120,7 @@ public class PlayerService : IPlayerService
 
     public void RaiseEvents()
     {
-        SongQueueOnQueueChanged(this, new CollectionChangedEventArgs<SongEntityViewModel>(_songQueue.Entities, CollectionChangedType.Added));
+        SongQueueOnQueueChanged(this, new CollectionChangedEventArgs<TrackBaseViewModel>(_songQueue.Entities, CollectionChangedType.Added));
     }
 
     private void Subscribe()
@@ -133,7 +136,7 @@ public class PlayerService : IPlayerService
         _songQueue.QueueChanged += SongQueueOnQueueChanged;
     }
 
-    private void SongQueueOnQueueChanged(object? sender, CollectionChangedEventArgs<SongEntityViewModel> e)
+    private void SongQueueOnQueueChanged(object? sender, CollectionChangedEventArgs<TrackBaseViewModel> e)
     {
         QueueChanged?.Invoke(this, e);
     }
@@ -165,7 +168,7 @@ public class PlayerService : IPlayerService
         PauseChanged?.Invoke(this, isPaused);
     }
 
-    private static string ChooseFilePath(SongEntityViewModel song) =>
+    private static string ChooseFilePath(TrackBaseViewModel song) =>
         string.IsNullOrEmpty(song.LocalUrl) ? song.OnlineUrl : song.LocalUrl;
 
     public void Dispose()

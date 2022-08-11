@@ -1,19 +1,19 @@
-﻿using AutoMapper;
-using Calabonga.UnitOfWork;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MapsterMapper;
+using PhlegmaticOne.MusicPlayer.Data.Context;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Reload;
 
 public abstract class ReloadViewModelBase<T> : BaseViewModel where T : BaseViewModel
 {
-    protected readonly IUnitOfWork UnitOfWork;
+    protected readonly ApplicationDbContext DbContext;
     protected readonly IMapper Mapper;
 
-    protected ReloadViewModelBase(IUnitOfWork unitOfWork, IMapper mapper)
+    protected ReloadViewModelBase(ApplicationDbContext dbContext, IMapper mapper)
     {
-        UnitOfWork = unitOfWork;
+        DbContext = dbContext;
         Mapper = mapper;
         ReloadCommand = new DelegateCommand(ReloadAction, _ => true);
     }

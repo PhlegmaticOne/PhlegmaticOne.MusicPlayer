@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 
-public class AlbumDownloadService : IDownloadService<AlbumEntityViewModel>
+public class AlbumDownloadService : IDownloadService<ActiveAlbumViewModel>
 {
     private readonly IDownloadSettings _downloadSettings;
     private readonly IDownloader _downloader;
@@ -16,10 +16,10 @@ public class AlbumDownloadService : IDownloadService<AlbumEntityViewModel>
         _downloadSettings = downloadSettings;
         _downloader = downloader;
     }
-    public async Task Download(AlbumEntityViewModel entity)
+    public async Task Download(ActiveAlbumViewModel entity)
     {
         var path = _downloadSettings.DownloadDirectoryPath;
-        foreach (var song in entity.Songs)
+        foreach (var song in entity.Tracks)
         {
             var localSongPath = Path.Combine(path, entity.ToString());
             var fileName = song.Title + ".mp3";

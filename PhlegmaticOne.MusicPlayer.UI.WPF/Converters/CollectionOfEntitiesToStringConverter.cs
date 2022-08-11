@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Converters;
 
@@ -20,6 +21,8 @@ public class CollectionOfEntitiesToStringConverter : IValueConverter
         {
             ICollection<Artist> artists => string.Join(separator, artists.Select(x => x.Name)),
             ICollection<Genre> genres => string.Join(separator, genres.Select(x => x.Name)),
+            ICollection<string> names => string.Join(separator, names),
+            ICollection<ArtistLinkViewModel> artists => string.Join(separator, artists.Select(x => x.Name)),
             _ => string.Empty
         };
     }

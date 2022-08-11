@@ -6,17 +6,17 @@
              x:Name="CollectionListingRoot"
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
              xmlns:views="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
-             xmlns:viewModels="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts"
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:viewModels="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
     <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding }">
         <ListView.Resources>
-            <DataTemplate DataType="{x:Type viewModels:AlbumEntityViewModel}">
+            <DataTemplate DataType="{x:Type viewModels:AlbumPreviewViewModel}">
                 <local:AlbumCard/>
             </DataTemplate>
-            <DataTemplate DataType="{x:Type viewModels:PlaylistEntityViewModel}">
+            <DataTemplate DataType="{x:Type viewModels:PlaylistPreviewViewModel}">
                 <local:PlaylistCard/>
             </DataTemplate>
         </ListView.Resources>

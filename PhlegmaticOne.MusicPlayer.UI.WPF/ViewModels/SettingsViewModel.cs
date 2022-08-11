@@ -1,25 +1,22 @@
 ﻿using PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
-using PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
 public class SettingsViewModel : BaseViewModel
 {
-    private readonly ILanguageProvider _languageProvider;
-    private readonly ILocalizeValuesGetter _localizeValuesGetter;
+    private readonly ILocalizationService _localizationService;
     private readonly IDownloadSettings _downloadSettings;
     public ObservableCollection<DisplayCultureInfo> SupportedLanguages { get; set; } = new();
     public string CurrentLanguageName { get; set; }
     public long DirectorySize { get; set; }
     public string CurrentDownloadDirectoryFolderPath { get; set; }
-    public SettingsViewModel(ILanguageProvider languageProvider, ILocalizeValuesGetter localizeValuesGetter, IDownloadSettings downloadSettings)
+    public SettingsViewModel(ILocalizationService localizationService, IDownloadSettings downloadSettings)
     {
-        _languageProvider = languageProvider;
-        _localizeValuesGetter = localizeValuesGetter;
+        _localizationService = localizationService;
         _downloadSettings = downloadSettings;
 
         UpdateDirectoryMenu();
@@ -37,7 +34,7 @@ public class SettingsViewModel : BaseViewModel
     {
         if (parameter is not string language) return;
 
-        if (_languageProvider.SetLanguage(language))
+        if (_localizationService.SetLanguage(language))
         {
             UpdateLanguageMenu();
         }
@@ -62,13 +59,13 @@ public class SettingsViewModel : BaseViewModel
     private void UpdateLanguageMenu()
     {
         SupportedLanguages.Clear();
-        foreach (var supportedLanguage in _languageProvider.GetSupportedLanguages())
+        foreach (var supportedLanguage in _localizationService.GetSupportedCultures())
         {
             SupportedLanguages.Add(new DisplayCultureInfo(supportedLanguage.DisplayName, supportedLanguage.Name));
         }
-        var osSettingsText = _localizeValuesGetter.GetLocalizedValue("OsBasedLanguageSelectText")!;
+        var osSettingsText = _localizationService.GetLocalizedValue("OsBasedLanguageSelectText")!;
         SupportedLanguages.Add(new DisplayCultureInfo(osSettingsText, "OS"));
-        CurrentLanguageName = _languageProvider.CurrentCulture.DisplayName;
+        CurrentLanguageName = _localizationService.CurrentCulture.DisplayName;
     }
 
     private void UpdateDirectoryMenu()

@@ -37,4 +37,9 @@
     <v:String x:Key="YearText">Год выпуска</v:String>
     <v:String x:Key="TypeText">Тип</v:String>
     <v:String x:Key="GenresText">Жанры</v:String>
+
+
+    <v:String x:Key="ByNameText">По названию</v:String>
+    <v:String x:Key="ByDateAddedText">По дате добавления</v:String>
+    <v:String x:Key="ByArtistText">По имени исполнителей</v:String>
 </ResourceDictionary>

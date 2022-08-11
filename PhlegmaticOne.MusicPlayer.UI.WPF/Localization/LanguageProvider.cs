@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Globalization;
 using System.Linq;
 
-namespace PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
+namespace PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
 
 public class LanguageProvider : ILanguageProvider
 {

@@ -25,7 +25,7 @@
                  <v:AddingNewAlbumView/>
              </DataTemplate>
 
-             <DataTemplate DataType="{x:Type vm:ArtistsViewModel}">
+             <DataTemplate DataType="{x:Type vm:ArtistsCollectionViewModel}">
                  <v:ArtistsView/>
              </DataTemplate>
 

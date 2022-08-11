@@ -245,7 +245,7 @@
                                             <Setter TargetName="TimeText" Property="Content">
                                                 <Setter.Value>
                                                     <Menu Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                        <MenuItem ItemsSource="{Binding Appearances}" Style="{StaticResource SongOptionsMenuStyle}">
+                                                        <MenuItem ItemsSource="{Binding ArtistLinks}" Style="{StaticResource SongOptionsMenuStyle}">
                                                             <MenuItem.Header>
                                                                 <Border Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}"
                                                                         BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}"

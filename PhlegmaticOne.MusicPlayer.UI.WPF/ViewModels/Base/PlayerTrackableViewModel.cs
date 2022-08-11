@@ -1,13 +1,14 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
-public class PlayerTrackableViewModel : BaseViewModel
+public class PlayerTrackableViewModel : ApplicationBaseViewModel
 {
     protected readonly IPlayerService PlayerService;
-    public SongEntityViewModel CurrentSong { get; set; }
+    public TrackBaseViewModel CurrentSong { get; set; }
     public CollectionBaseViewModel CurrentAlbum { get; set; }
     public bool IsPaused { get; set; } = true;
     public bool IsStopped { get; set; } = true;
@@ -17,7 +18,7 @@ public class PlayerTrackableViewModel : BaseViewModel
         PlayerService = playerService;
         playerService.PauseChanged += (_, isPaused) => IsPaused = isPaused;
         playerService.StopChanged += (_, isStopped) => IsStopped = isStopped;
-        playerService.ValueProvider<SongEntityViewModel>()!.ValueChanged += (_, newSong) => CurrentSong = newSong;
+        playerService.ValueProvider<TrackBaseViewModel>()!.ValueChanged += (_, newSong) => CurrentSong = newSong;
 
         PlaySongCommand = new(PlaySongAction, _ => true);
         PlayPauseCommand = new(PlayPauseAction, _ => true);
@@ -30,7 +31,7 @@ public class PlayerTrackableViewModel : BaseViewModel
 
     protected virtual void PlaySongAction(object? parameter)
     {
-        if (parameter is SongEntityViewModel song)
+        if (parameter is TrackBaseViewModel song)
         {
             PlayerService.SetAndPlay(song);
         }
@@ -45,10 +46,10 @@ public class PlayerTrackableViewModel : BaseViewModel
     {
         switch (parameter)
         {
-            case SongEntityViewModel song:
+            case TrackBaseViewModel song:
                 song.IsFavorite = !song.IsFavorite;
                 break;
-            case AlbumEntityViewModel album:
+            case CollectionBaseViewModel album:
                 album.IsFavorite = !album.IsFavorite;
                 break;
         }
@@ -56,10 +57,10 @@ public class PlayerTrackableViewModel : BaseViewModel
 
     protected void TrySetSong()
     {
-        var song = PlayerService.ValueProvider<SongEntityViewModel>()!.Get();
-        if (song is not null && CurrentAlbum is not null)
+        var song = PlayerService.ValueProvider<TrackBaseViewModel>()!.Get();
+        if (song is not null && CurrentAlbum is ActiveAlbumViewModel activeAlbumViewModel)
         {
-            if (CurrentAlbum.Songs.Contains(song))
+            if (activeAlbumViewModel.Tracks.Contains(song))
             {
                 CurrentSong = song;
             }

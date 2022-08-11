@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 
-namespace PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
+namespace PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
 
 public interface ILanguageProvider
 {

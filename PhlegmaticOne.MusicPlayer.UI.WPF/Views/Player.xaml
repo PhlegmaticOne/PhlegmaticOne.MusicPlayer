@@ -141,7 +141,7 @@
                     </ToggleButton>
 
                     <Image 
-                        Source="{Binding CurrentAlbum.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}"
+                        Source="{Binding CurrentAlbum.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}"
                            Margin="10 5 0 5"
                            Width="50" Height="{Binding Width, RelativeSource={RelativeSource Self}}"/>
 

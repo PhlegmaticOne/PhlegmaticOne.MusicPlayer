@@ -4,21 +4,23 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
 public class SongQueueViewModel : PlayerTrackableViewModel
 {
-    public ObservableCollection<SongEntityViewModel> Songs { get; }
+    public ObservableCollection<TrackBaseViewModel> Songs { get; }
     public SongQueueViewModel(IPlayerService playerService) : base(playerService)
     {
         Songs = new();
+        CurrentAlbum = PlayerService.ValueProvider<CollectionBaseViewModel>()!.Get();
         PlayerService.QueueChanged += SongsQueueOnQueueChanged;
         PlayerService.RaiseEvents();
         TrySetSong();
     }
 
-    private void SongsQueueOnQueueChanged(object? sender, CollectionChangedEventArgs<SongEntityViewModel> e)
+    private void SongsQueueOnQueueChanged(object? sender, CollectionChangedEventArgs<TrackBaseViewModel> e)
     {
         switch (e.CollectionChangedType)
         {
@@ -35,7 +37,7 @@ public class SongQueueViewModel : PlayerTrackableViewModel
         }
     }
 
-    private void AddSongs(IEnumerable<SongEntityViewModel> songs)
+    private void AddSongs(IEnumerable<TrackBaseViewModel> songs)
     {
         foreach (var entity in songs)
         {
@@ -43,7 +45,7 @@ public class SongQueueViewModel : PlayerTrackableViewModel
         }
     }
 
-    private void RemoveSongs(IEnumerable<SongEntityViewModel> songs)
+    private void RemoveSongs(IEnumerable<TrackBaseViewModel> songs)
     {
         foreach (var entity in songs)
         {

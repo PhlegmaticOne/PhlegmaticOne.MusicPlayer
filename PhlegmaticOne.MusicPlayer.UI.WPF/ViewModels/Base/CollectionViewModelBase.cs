@@ -1,7 +1,6 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Reload;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Sort;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System.Collections.Generic;
@@ -10,31 +9,28 @@ using System.Threading.Tasks;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
-public abstract class CollectionViewModelBase<TCollectionItemType, TCollectionViewModel> : PlayerTrackableViewModel
+public abstract class CollectionViewModelBase<TCollectionViewModel, TCollectionItemType> : PlayerTrackableViewModel
     where TCollectionItemType : BaseViewModel, ICollectionItem
-    where TCollectionViewModel : CollectionViewModelBase<TCollectionItemType, TCollectionViewModel>
+    where TCollectionViewModel : CollectionViewModelBase<TCollectionViewModel, TCollectionItemType>
 {
     public ReloadViewModelBase<TCollectionViewModel> ReloadViewModel { get; }
     public SortViewModelBase<TCollectionViewModel, TCollectionItemType> SortViewModel { get; }
-    public MusicNavigationBase<TCollectionItemType> MusicNavigation { get; }
     public ObservableCollection<TCollectionItemType> Items { get; }
 
-    protected CollectionViewModelBase(ReloadViewModelBase<TCollectionViewModel> reloadViewModel,
-        SortViewModelBase<TCollectionViewModel, TCollectionItemType> sortViewModelBase,
-        MusicNavigationBase<TCollectionItemType> musicNavigationBase,
-        IPlayerService playerService) : base(playerService)
+    protected CollectionViewModelBase(IPlayerService playerService,
+        ReloadViewModelBase<TCollectionViewModel> reloadViewModel,
+        SortViewModelBase<TCollectionViewModel, TCollectionItemType> sortViewModelBase) : base(playerService)
     {
         ReloadViewModel = reloadViewModel;
         SortViewModel = sortViewModelBase;
-        MusicNavigation = musicNavigationBase;
         Items = new();
     }
 
     internal async Task UpdateItems(IEnumerable<TCollectionItemType> newItems)
     {
-        Items.Clear();
         await UIThreadInvoker.InvokeAsync(() =>
         {
+            Items.Clear();
             foreach (var newItem in newItems)
             {
                 Items.Add(newItem);

@@ -37,4 +37,9 @@
     <v:String x:Key="YearText">Year released</v:String>
     <v:String x:Key="TypeText">Type</v:String>
     <v:String x:Key="GenresText">Genres</v:String>
+
+
+    <v:String x:Key="ByNameText">By name</v:String>
+    <v:String x:Key="ByDateAddedText">By date added</v:String>
+    <v:String x:Key="ByArtistText">By artist</v:String>
 </ResourceDictionary>

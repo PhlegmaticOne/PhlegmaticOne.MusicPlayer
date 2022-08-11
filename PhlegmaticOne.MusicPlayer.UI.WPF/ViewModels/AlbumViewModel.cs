@@ -1,18 +1,19 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
+﻿using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System.Collections.Generic;
 using System.Windows.Input;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
 public class AlbumViewModel : PlayerTrackableViewModel
 {
-    private readonly IDownloadService<AlbumEntityViewModel> _downloadService;
+    private readonly IDownloadService<ActiveAlbumViewModel> _downloadService;
     private bool _isFirstSongWillPlay;
     public IDictionary<string, ICommand> AlbumActions { get; set; }
-    public AlbumViewModel(AlbumEntityViewModel album, IPlayerService playerService, IDownloadService<AlbumEntityViewModel> downloadService) : base(playerService)
+    public AlbumViewModel(ActiveAlbumViewModel album, IPlayerService playerService, IDownloadService<ActiveAlbumViewModel> downloadService) : base(playerService)
     {
         _downloadService = downloadService;
         _isFirstSongWillPlay = true;
@@ -29,7 +30,10 @@ public class AlbumViewModel : PlayerTrackableViewModel
         if (_isFirstSongWillPlay)
         {
             PlayerService.ValueProvider<CollectionBaseViewModel>()!.Set(CurrentAlbum);
-            PlayerService.Enqueue(CurrentAlbum.Songs, true);
+            if (CurrentAlbum is ActiveAlbumViewModel activeAlbumViewModel)
+            {
+                PlayerService.Enqueue(activeAlbumViewModel.Tracks, true);
+            }
             _isFirstSongWillPlay = false;
         }
         base.PlaySongAction(parameter);
@@ -37,7 +41,7 @@ public class AlbumViewModel : PlayerTrackableViewModel
 
     private async void DownloadAlbum(object? parameter)
     {
-        if (CurrentAlbum is AlbumEntityViewModel { IsDownloaded: false } albumEntityViewModel)
+        if (CurrentAlbum is ActiveAlbumViewModel { IsDownloaded: false } albumEntityViewModel)
         {
             await _downloadService.Download(albumEntityViewModel);
         }

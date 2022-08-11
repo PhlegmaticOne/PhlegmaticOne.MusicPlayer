@@ -2,8 +2,8 @@
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 
-public class GenreEntityViewModel : BaseViewModel
+public class CollectionLinkViewModel : BaseViewModel
 {
     public Guid Id { get; set; }
-    public string Name { get; set; }
+    public string Title { get; set; }
 }

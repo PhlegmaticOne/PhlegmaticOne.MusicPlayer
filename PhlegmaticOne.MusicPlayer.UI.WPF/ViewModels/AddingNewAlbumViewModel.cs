@@ -1,18 +1,18 @@
-﻿using Calabonga.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System;
 using System.Linq;
 using System.Windows;
+using PhlegmaticOne.MusicPlayer.Data.Context;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
 public class AddingNewAlbumViewModel : BaseViewModel
 {
     private readonly IHttpInfoGetter<Album> _albumInfoGetter;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ApplicationDbContext _dbContext;
     private string _url;
     private Album? _currentAlbum;
 
@@ -37,10 +37,10 @@ public class AddingNewAlbumViewModel : BaseViewModel
         }
     }
 
-    public AddingNewAlbumViewModel(IHttpInfoGetter<Album> albumInfoGetter, IUnitOfWork unitOfWork)
+    public AddingNewAlbumViewModel(IHttpInfoGetter<Album> albumInfoGetter, ApplicationDbContext dbContext)
     {
         _albumInfoGetter = albumInfoGetter;
-        _unitOfWork = unitOfWork;
+        _dbContext = dbContext;
         GetAlbumInfoCommand = new(GetAlbumInfo, _ => string.IsNullOrEmpty(Url) == false);
         AddToCollectionCommand = new(AddToCollection, _ => CurrentAlbum is not null);
         ClearCommand = new(Clear, _ => CurrentAlbum is not null);
@@ -64,20 +64,23 @@ public class AddingNewAlbumViewModel : BaseViewModel
 
     private async void AddToCollection(object? parameter)
     {
-        var repository = _unitOfWork.GetRepository<Album>();
-
-        var existing = await repository.GetAllAsync(
-            include: i => i.Include(a => a.Artists),
-            predicate: p => p.Title == CurrentAlbum.Title);
+        var albums = _dbContext.Set<Album>();
+        var existing = await albums.AsNoTracking()
+            .Include(x => x.Artists)
+            .Where(x => x.Title == CurrentAlbum.Title)
+            .ToListAsync();
 
         if (existing.Any(p => p.Artists.Except(CurrentAlbum.Artists).Any() == false))
         {
             MessageBox.Show("Same album has already been added");
             return;
         }
+
         CurrentAlbum.DateAdded = DateTime.Now;
-        await repository.InsertAsync(CurrentAlbum!);
-        await _unitOfWork.SaveChangesAsync();
+
+        await albums.AddAsync(CurrentAlbum!);
+        await _dbContext.SaveChangesAsync();
+
         Clear(null);
     }
 

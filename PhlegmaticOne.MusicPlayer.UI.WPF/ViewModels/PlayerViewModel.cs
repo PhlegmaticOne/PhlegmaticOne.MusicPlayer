@@ -1,5 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
+﻿using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
@@ -7,6 +6,7 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Queue;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 

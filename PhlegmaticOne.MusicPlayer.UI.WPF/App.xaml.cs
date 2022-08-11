@@ -1,9 +1,7 @@
-﻿using Calabonga.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PhlegmaticOne.DependencyInjectionFactoryExtension;
-using PhlegmaticOne.MusicPlayer.Contracts.MapperConfigurations;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Entities;
@@ -15,7 +13,6 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Sort;
 using PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Features.Album;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
-using PhlegmaticOne.MusicPlayer.UI.WPF.LanguagesSettings;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
@@ -30,6 +27,12 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using MapsterMapper;
+using Mapster;
+using PhlegmaticOne.MusicPlayer.Contracts.MapperRegistration;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Application;
+using CollectionBaseViewModel = PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base.CollectionBaseViewModel;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -81,6 +84,7 @@ public partial class App
         }
     }
 
+
     protected override void OnStartup(StartupEventArgs e)
     {
         Language = new CultureInfo(Settings.Default.DefaultLanguage);
@@ -88,7 +92,6 @@ public partial class App
         _host = ConfigureServices().Build();
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
         mainWindow.Show();
-
     }
 
     private static IHostBuilder ConfigureServices()
@@ -98,15 +101,15 @@ public partial class App
         var hostBuilder = new HostBuilder()
              .ConfigureServices((builder, services) =>
              {
-
                  services.AddDbContext<ApplicationDbContext>(b => b.UseInMemoryDatabase("MEMORY"));
-                 services.AddUnitOfWork<ApplicationDbContext>();
-                 services.AddAutoMapper(typeof(MapperConfig).Assembly);
+
+                 services.AddSingleton(GetConfiguredMappingConfig());
+                 services.AddScoped<IMapper, ServiceMapper>();
 
                  services.AddScoped<ReloadViewModelBase<AlbumsCollectionViewModel>, ReloadCollectionViewModel>();
-                 services.AddScoped<SortViewModelBase<AlbumsCollectionViewModel, AlbumEntityViewModel>, SortAlbumsViewModel>();
+                 services.AddScoped<SortViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel>, SortAlbumsViewModel>();
 
-                 services.AddSingleton<IValueProvider<SongEntityViewModel>, ValueProvider<SongEntityViewModel>>();
+                 services.AddSingleton<IValueProvider<TrackBaseViewModel>, ValueProvider<TrackBaseViewModel>>();
                  services.AddSingleton<IValueProvider<CollectionBaseViewModel>, ValueProvider<CollectionBaseViewModel>>();
                  services.AddSingleton<ILanguageProvider, LanguageProvider>();
                  services.AddSingleton<IAlbumFeaturesProvider, AlbumFeaturesProvider>();
@@ -117,16 +120,17 @@ public partial class App
                  services.AddSingleton<IDownloadSettings, DownloadSettings>();
                  services.AddSingleton<IPlayer, CustomMusicPlayer>();
                  services.AddScoped<IDownloader, HttpDownloader>();
-                 services.AddSingleton<IObservableQueue<SongEntityViewModel>, ObservableQueue<SongEntityViewModel>>();
+                 services.AddSingleton<IObservableQueue<TrackBaseViewModel>, ObservableQueue<TrackBaseViewModel>>();
 
                  services.AddSingleton<IPlayerService, PlayerService>();
-                 services.AddSingleton<IDownloadService<AlbumEntityViewModel>, AlbumDownloadService>();
+                 services.AddSingleton<IDownloadService<ActiveAlbumViewModel>, AlbumDownloadService>();
+                 services.AddSingleton<ILocalizationService, LocalizationService>();
 
 
                  services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
                  services.AddDependencyFactory<PlayerViewModel>(ServiceLifetime.Singleton);
                  services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
-                 services.AddDependencyFactory<ArtistsViewModel>(ServiceLifetime.Singleton);
+                 services.AddDependencyFactory<ArtistsCollectionViewModel>(ServiceLifetime.Singleton);
                  services.AddDependencyFactory<AlbumsCollectionViewModel>(ServiceLifetime.Singleton);
                  services.AddDependencyFactory<DownloadedTracksViewModel>(ServiceLifetime.Singleton);
                  services.AddDependencyFactory<MainViewModel>(ServiceLifetime.Singleton);
@@ -137,7 +141,9 @@ public partial class App
 
                  services.AddSingleton<INavigationHistory, NavigationHistory>();
                  services.AddSingleton<INavigator, Navigator>();
-                 services.AddSingleton<MusicNavigationBase<AlbumEntityViewModel>, AlbumsNavigation>();
+
+                 services.AddSingleton<IMusicViewModelsFactory<AlbumPreviewViewModel, AlbumViewModel>, ActiveAlbumViewModelFactory>();
+                 services.AddSingleton<MusicNavigation<AlbumPreviewViewModel, AlbumViewModel>>();
 
                  services.AddSingleton<IViewModelFactory, ViewModelFactory>();
                  services.AddSingleton<ISongQueueViewModelFactory, SongQueueViewModelFactory>();
@@ -157,5 +163,12 @@ public partial class App
                 new Uri($"Resources/lang.{culture.Name}.xaml", UriKind.Relative)
         };
         CurrentResourceDictionary = resourceDictionary;
+    }
+
+    private static TypeAdapterConfig GetConfiguredMappingConfig()
+    {
+        var config = new TypeAdapterConfig();
+        new Registration().Register(config);
+        return config;
     }
 }
