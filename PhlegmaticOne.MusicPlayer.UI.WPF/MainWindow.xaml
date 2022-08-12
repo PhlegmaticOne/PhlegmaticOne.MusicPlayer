@@ -15,7 +15,8 @@
         MinWidth="300"
         WindowStyle="None"
         WindowState="Maximized"
-        ResizeMode="CanResizeWithGrip"
+        ResizeMode="NoResize"
+        ShowInTaskbar="True"
         Style="{DynamicResource MainWindowStyle}">
 
     <Window.Resources>
