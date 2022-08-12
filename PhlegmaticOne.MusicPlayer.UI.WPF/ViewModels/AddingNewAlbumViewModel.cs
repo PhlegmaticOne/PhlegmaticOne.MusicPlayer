@@ -6,10 +6,11 @@ using System;
 using System.Linq;
 using System.Windows;
 using PhlegmaticOne.MusicPlayer.Data.Context;
+using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
-public class AddingNewAlbumViewModel : BaseViewModel
+public class AddingNewAlbumViewModel : ApplicationBaseViewModel
 {
     private readonly IHttpInfoGetter<Album> _albumInfoGetter;
     private readonly ApplicationDbContext _dbContext;

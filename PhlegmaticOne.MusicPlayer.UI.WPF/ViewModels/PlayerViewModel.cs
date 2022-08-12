@@ -3,7 +3,6 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Queue;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
@@ -14,8 +13,7 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
 {
     private double _volume;
     private readonly IPlayerService _playerService;
-    private readonly ISongQueueViewModelFactory _songQueueViewModelFactory;
-    private readonly INavigator _navigator;
+    private readonly MusicNavigation<EntityBaseViewModel, SongQueueViewModel> _songQueueNavigation;
     public TimeSpan CurrentTime { get; set; }
     public double Volume
     {
@@ -28,12 +26,10 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         }
     }
 
-    public PlayerViewModel(IPlayerService playerService, ISongQueueViewModelFactory songQueueViewModelFactory, INavigator navigator) :
-        base(playerService)
+    public PlayerViewModel(IPlayerService playerService, MusicNavigation<EntityBaseViewModel, SongQueueViewModel> songQueueNavigation) : base(playerService)
     {
         _playerService = playerService;
-        _songQueueViewModelFactory = songQueueViewModelFactory;
-        _navigator = navigator;
+        _songQueueNavigation = songQueueNavigation;
 
         _playerService.ValueProvider<CollectionBaseViewModel>()!.ValueChanged += (_, newAlbum) => CurrentAlbum = newAlbum;
         _playerService.TimeChanged += (_, newTime) => CurrentTime = newTime;
@@ -76,8 +72,7 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
 
     private void OpenQueue(object? parameter)
     {
-        var queueViewModel = _songQueueViewModelFactory.CreateQueueViewModel();
-        _navigator.NavigateTo(queueViewModel);
+        _songQueueNavigation.NavigateToMusicCommand.Execute(new EntityBaseViewModel());
     }
 
     private void Rewind(object? parameter)

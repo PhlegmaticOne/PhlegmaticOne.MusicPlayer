@@ -1,14 +1,14 @@
 ﻿using PhlegmaticOne.DependencyInjectionFactoryExtension;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System.Collections.Generic;
+using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
 
 public class ViewModelFactory : IViewModelFactory
 {
-    private readonly Dictionary<ViewType, IDependencyFactory<BaseViewModel>> _viewModels;
+    private readonly Dictionary<ViewType, IDependencyFactory<ApplicationBaseViewModel>> _viewModels;
     public ViewModelFactory(IDependencyFactory<HomeViewModel> homeFactory,
         IDependencyFactory<AddingNewAlbumViewModel> addingNewAlbumFactory,
         IDependencyFactory<ArtistsCollectionViewModel> artistFactory,
@@ -30,5 +30,5 @@ public class ViewModelFactory : IViewModelFactory
             {ViewType.Tracks, tracksFactory}
         };
     }
-    public BaseViewModel CreateViewModel(ViewType viewType) => _viewModels[viewType].Create();
+    public ApplicationBaseViewModel CreateViewModel(ViewType viewType) => _viewModels[viewType].Create();
 }

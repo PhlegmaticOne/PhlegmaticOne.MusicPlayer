@@ -1,5 +1,6 @@
 ﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System;
+using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 
@@ -21,7 +22,7 @@ public class NavigationHistory : ObservableObject, INavigationHistory
         RaiseHistoryChanged();
     }
 
-    public void Add(BaseViewModel viewModel)
+    public void Add(ApplicationBaseViewModel viewModel)
     {
         if (Current is null)
         {

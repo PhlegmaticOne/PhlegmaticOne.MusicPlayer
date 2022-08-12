@@ -1,6 +1,7 @@
 ﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System.Windows.Input;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Application;
 
@@ -10,10 +11,10 @@ public class MusicNavigation<TFrom, TTo>
     where TFrom : EntityBaseViewModel
     where TTo : ApplicationBaseViewModel
 {
-    private readonly INavigator _navigator;
+    private readonly INavigationService _navigator;
     private readonly IMusicViewModelsFactory<TFrom, TTo> _viewModelsFactory;
 
-    public MusicNavigation(INavigator navigator, IMusicViewModelsFactory<TFrom, TTo> viewModelsFactory)
+    public MusicNavigation(INavigationService navigator, IMusicViewModelsFactory<TFrom, TTo> viewModelsFactory)
     {
         _navigator = navigator;
         _viewModelsFactory = viewModelsFactory;

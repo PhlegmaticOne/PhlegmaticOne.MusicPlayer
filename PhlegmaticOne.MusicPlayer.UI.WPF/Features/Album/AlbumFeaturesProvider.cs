@@ -7,15 +7,15 @@ namespace PhlegmaticOne.MusicPlayer.UI.WPF.Features.Album;
 
 public class AlbumFeaturesProvider : IAlbumFeaturesProvider
 {
-    private readonly INavigator _navigator;
+    //private readonly INavigator _navigator;
 
-    public AlbumFeaturesProvider(INavigator navigator)
+    public AlbumFeaturesProvider()
     {
-        _navigator = navigator;
-        AlbumFeatures = new Dictionary<string, ICommand>()
-        {
-            { "Go to artist", new DelegateCommand(GoToArtist, _ => true) }
-        };
+        //_navigator = navigator;
+        //AlbumFeatures = new Dictionary<string, ICommand>()
+        //{
+        //    { "Go to artist", new DelegateCommand(GoToArtist, _ => true) }
+        //};
     }
     public IDictionary<string, ICommand> AlbumFeatures { get; }
 

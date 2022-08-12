@@ -1,16 +1,14 @@
-﻿using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+﻿using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
-public class MainViewModel : BaseViewModel
+public class MainViewModel : ApplicationBaseViewModel
 {
-    public INavigator Navigator { get; set; }
-    public PlayerViewModel PlayerViewModel { get; set; }
-
-    public MainViewModel(INavigator navigator, PlayerViewModel playerViewModel)
+    public NavigationViewModel NavigationViewModel { get; }
+    public PlayerViewModel PlayerViewModel { get; }
+    public MainViewModel(NavigationViewModel navigationViewModel, PlayerViewModel playerViewModel)
     {
-        Navigator = navigator;
+        NavigationViewModel = navigationViewModel;
         PlayerViewModel = playerViewModel;
     }
 

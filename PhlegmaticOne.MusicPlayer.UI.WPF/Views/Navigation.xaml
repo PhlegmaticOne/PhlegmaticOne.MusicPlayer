@@ -43,7 +43,7 @@
                                                 </Viewbox>
                                             </Border>
                                             <ControlTemplate.Triggers>
-                                                <DataTrigger Binding="{Binding History.CanMoveBack}" Value="True">
+                                                <DataTrigger Binding="{Binding CanMoveBack}" Value="True">
                                                     <Setter TargetName="ContentPresenter" Property="ContentPresenter.Content">
                                                         <Setter.Value>
                                                             <Canvas Width="24" Height="24" Margin="0 7">
@@ -55,7 +55,7 @@
                                                 
                                                 <MultiDataTrigger>
                                                     <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding History.CanMoveBack}" Value="True"/>
+                                                        <Condition Binding="{Binding CanMoveBack}" Value="True"/>
                                                         <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsMouseOver}" Value="True"/>
                                                     </MultiDataTrigger.Conditions>
                                                     <MultiDataTrigger.Setters>
@@ -65,7 +65,7 @@
 
                                                 <MultiDataTrigger>
                                                     <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding History.CanMoveBack}" Value="True"/>
+                                                        <Condition Binding="{Binding CanMoveBack}" Value="True"/>
                                                         <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsPressed}" Value="True"/>
                                                     </MultiDataTrigger.Conditions>
                                                     <MultiDataTrigger.Setters>

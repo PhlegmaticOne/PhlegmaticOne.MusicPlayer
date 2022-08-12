@@ -1,4 +1,4 @@
-﻿namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
+﻿namespace PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 
 public class DisplayCultureInfo
 {

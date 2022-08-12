@@ -1,5 +1,5 @@
-﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
-using System;
+﻿using System;
+using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
 
@@ -10,7 +10,7 @@ public interface INavigationHistory
     public event EventHandler HistoryChanged;
     public bool CanMoveBack { get; set; }
     public void MoveBack();
-    public void Add(BaseViewModel viewModel);
+    public void Add(ApplicationBaseViewModel viewModel);
     public ViewModelNode GetFirstInHistory();
     public void Reset();
 }
@@ -18,9 +18,9 @@ public interface INavigationHistory
 public class ViewModelNode
 {
     public ViewModelNode? Previous { get; set; }
-    public BaseViewModel ViewModel { get; set; }
+    public ApplicationBaseViewModel ViewModel { get; set; }
 
-    public ViewModelNode(BaseViewModel baseViewModel)
+    public ViewModelNode(ApplicationBaseViewModel baseViewModel)
     {
         ViewModel = baseViewModel;
     }

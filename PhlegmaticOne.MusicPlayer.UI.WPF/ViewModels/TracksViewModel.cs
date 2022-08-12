@@ -3,11 +3,12 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
-public class TracksViewModel : BaseViewModel
+public class TracksViewModel : ApplicationBaseViewModel
 {
     private readonly ApplicationDbContext _dbContext;
     public ObservableCollection<Song> Songs { get; set; }

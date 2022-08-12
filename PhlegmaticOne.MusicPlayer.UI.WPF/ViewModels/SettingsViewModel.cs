@@ -3,10 +3,12 @@ using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
+using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
-public class SettingsViewModel : BaseViewModel
+public class SettingsViewModel : ApplicationBaseViewModel
 {
     private readonly ILocalizationService _localizationService;
     private readonly IDownloadSettings _downloadSettings;

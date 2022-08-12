@@ -35,7 +35,7 @@
                             </Grid.RowDefinitions>
                             <Grid Row="0">
                                 <DockPanel>
-                                    <views:Navigation DockPanel.Dock="Left" DataContext="{Binding Navigator}"/>
+                                    <views:Navigation DockPanel.Dock="Left" DataContext="{Binding NavigationViewModel}"/>
                                     <Border Background="{StaticResource MainAreaBrush}">
                                         <Grid>
                                             <Grid.RowDefinitions>
@@ -50,7 +50,7 @@
                                                         Style="{StaticResource CloseButtonStyle}"
                                                         attachedProperties:Windows.IsActive="{TemplateBinding IsActive}"/>
                                             </StackPanel>
-                                            <ContentPresenter Content="{Binding Navigator.CurrentViewModel}" Grid.Row="1"/>
+                                            <ContentPresenter Content="{Binding NavigationViewModel.CurrentViewModel}" Grid.Row="1"/>
                                         </Grid>
                                     </Border>
                                 </DockPanel>
