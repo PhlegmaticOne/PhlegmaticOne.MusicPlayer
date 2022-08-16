@@ -4,9 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
+             xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ListView ItemsSource="{Binding Songs}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
+        <Grid Row="0">
+            <controls:ViewTitle TitleText="Tracks" Padding="30" VerticalAlignment="Center"/>
+        </Grid>
+        <Grid Row="1">
+            <controls:TracksList DataContext="{Binding Songs}"
+                                 LikeTrackCommand="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                 PlayTrackCommand="{Binding DataContext.PlaySongCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                 PlayPauseTrackCommand="{Binding DataContext.PlayPauseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                 IsPaused="{Binding DataContext.IsPaused, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                 IsStopped="{Binding DataContext.IsStopped, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                 CollectionLinkClickCommand="{Binding DataContext.CollectionNavigation.NavigateToMusicCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                 CurrentTrack="{Binding DataContext.CurrentSong, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"/>
+        </Grid>
     </Grid>
 </UserControl>

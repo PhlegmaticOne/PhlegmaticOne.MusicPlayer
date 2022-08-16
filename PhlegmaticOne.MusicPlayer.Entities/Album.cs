@@ -2,6 +2,7 @@
 
 public class Album : CollectionBase
 {
+    public ICollection<Genre> Genres { get; set; } = null!;
     public ICollection<Artist> Artists { get; set; } = null!;
     public string OnlineUrl { get; set; } = null!;
     public int YearReleased { get; set; }

@@ -17,5 +17,6 @@ public class AlbumConfiguration : IEntityTypeConfiguration<Album>
         builder.Property(y => y.YearReleased).IsRequired();
         builder.Property(p => p.AlbumType).HasConversion(from => from.ToString(), to => Enum.Parse<AlbumType>(to));
         builder.HasMany(a => a.Artists).WithMany(a => a.Albums);
+        builder.HasMany(x => x.Genres).WithMany(x => x.Albums);
     }
 }

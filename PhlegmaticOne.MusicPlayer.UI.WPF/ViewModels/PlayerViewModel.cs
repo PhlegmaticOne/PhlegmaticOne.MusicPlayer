@@ -31,7 +31,6 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         _playerService = playerService;
         _songQueueNavigation = songQueueNavigation;
 
-        _playerService.ValueProvider<CollectionBaseViewModel>()!.ValueChanged += (_, newAlbum) => CurrentAlbum = newAlbum;
         _playerService.TimeChanged += (_, newTime) => CurrentTime = newTime;
 
         _playerService.Volume = Settings.Default.SavedVolume == 0 ? 0.2f : (float)Settings.Default.SavedVolume;

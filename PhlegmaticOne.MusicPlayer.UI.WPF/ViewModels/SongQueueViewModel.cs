@@ -1,5 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
+﻿using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
 using System.Collections.Generic;
@@ -14,7 +13,6 @@ public class SongQueueViewModel : PlayerTrackableViewModel
     public SongQueueViewModel(IPlayerService playerService) : base(playerService)
     {
         Songs = new();
-        CurrentAlbum = PlayerService.ValueProvider<CollectionBaseViewModel>()!.Get();
         PlayerService.QueueChanged += SongsQueueOnQueueChanged;
         PlayerService.RaiseEvents();
         TrySetSong();

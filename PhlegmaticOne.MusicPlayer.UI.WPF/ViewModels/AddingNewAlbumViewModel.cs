@@ -4,6 +4,7 @@ using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
@@ -55,7 +56,10 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
     {
         try
         {
-            CurrentAlbum = await _albumInfoGetter.GetInfoAsync(Url);
+            await UIThreadInvoker.InvokeAsync(async () =>
+            {
+                CurrentAlbum = await _albumInfoGetter.GetInfoAsync(Url);
+            });
         }
         catch
         {
@@ -65,23 +69,31 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
 
     private async void AddToCollection(object? parameter)
     {
-        var albums = _dbContext.Set<Album>();
-        var existing = await albums.AsNoTracking()
-            .Include(x => x.Artists)
-            .Where(x => x.Title == CurrentAlbum.Title)
-            .ToListAsync();
-
-        if (existing.Any(p => p.Artists.Except(CurrentAlbum.Artists).Any() == false))
+        await Task.Run(async () =>
         {
-            MessageBox.Show("Same album has already been added");
-            return;
-        }
+            CurrentAlbum.DateAdded = DateTime.Now;
 
-        CurrentAlbum.DateAdded = DateTime.Now;
+            var names = CurrentAlbum.Artists.Select(x => x.Name);
+            var artists = await _dbContext.Set<Artist>()
+                .Include(x => x.Albums)
+                .Where(x => names.Contains(x.Name))
+                .ToListAsync();
 
-        await albums.AddAsync(CurrentAlbum!);
-        await _dbContext.SaveChangesAsync();
+            CurrentAlbum.DateAdded = DateTime.Now;
 
+            if (artists.Any())
+            {
+                foreach (var artist in artists)
+                {
+                    artist.Albums.Add(CurrentAlbum);
+                }
+            }
+            else
+            {
+                await _dbContext.Set<Album>().AddAsync(CurrentAlbum!);
+            }
+            await _dbContext.SaveChangesAsync();
+        });
         Clear(null);
     }
 

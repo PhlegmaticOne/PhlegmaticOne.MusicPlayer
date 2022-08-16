@@ -275,7 +275,7 @@
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Key}" Foreground="White" Padding="10 5">
                                                 <b:Interaction.Triggers>
-                                                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                                                    <b:EventTrigger EventName="MouseLeftButtonDown" >
                                                         <b:InvokeCommandAction CommandParameter="{Binding DataContext.Album, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}"
                                                                                Command="{Binding Path=Value}"/>
                                                     </b:EventTrigger>

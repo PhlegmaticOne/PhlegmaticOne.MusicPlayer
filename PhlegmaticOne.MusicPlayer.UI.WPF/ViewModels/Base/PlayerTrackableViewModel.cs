@@ -1,5 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 
@@ -18,7 +17,7 @@ public class PlayerTrackableViewModel : ApplicationBaseViewModel
         PlayerService = playerService;
         playerService.PauseChanged += (_, isPaused) => IsPaused = isPaused;
         playerService.StopChanged += (_, isStopped) => IsStopped = isStopped;
-        playerService.ValueProvider<TrackBaseViewModel>()!.ValueChanged += (_, newSong) => CurrentSong = newSong;
+        playerService.TrackValueProvider.ValueChanged += (_, newSong) => CurrentSong = newSong;
 
         PlaySongCommand = new(PlaySongAction, _ => true);
         PlayPauseCommand = new(PlayPauseAction, _ => true);
@@ -57,13 +56,10 @@ public class PlayerTrackableViewModel : ApplicationBaseViewModel
 
     protected void TrySetSong()
     {
-        var song = PlayerService.ValueProvider<TrackBaseViewModel>()!.Get();
-        if (song is not null && CurrentAlbum is ActiveAlbumViewModel activeAlbumViewModel)
+        var song = PlayerService.TrackValueProvider.Get();
+        if (song is not null)
         {
-            if (activeAlbumViewModel.Tracks.Contains(song))
-            {
-                CurrentSong = song;
-            }
+            CurrentSong = song;
         }
         SetIsPausedAndIsStopped();
     }

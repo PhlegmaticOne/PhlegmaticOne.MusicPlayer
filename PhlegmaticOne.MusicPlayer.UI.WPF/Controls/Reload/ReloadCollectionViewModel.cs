@@ -1,23 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Entities;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 using System.Threading.Tasks;
-using Mapster;
-using MapsterMapper;
+using PhlegmaticOne.MusicPlayer.Contracts.Services;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Data.Context;
+using PhlegmaticOne.MusicPlayer.Entities;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Reload;
 
 public class ReloadCollectionViewModel : ReloadViewModelBase<AlbumsCollectionViewModel>
 {
-    public ReloadCollectionViewModel(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper) { }
+    public ReloadCollectionViewModel(ApplicationDbContext dbContext, IViewModelGetService viewModelGetService) : base(dbContext, viewModelGetService) { }
 
     protected override async Task ReloadViewModel(AlbumsCollectionViewModel viewModel)
     {
-        var albums = await Mapper.From(DbContext.Set<Album>()).AdaptToTypeAsync<List<AlbumPreviewViewModel>>(); ;
-        await viewModel.UpdateItems(albums);
+        var guids = DbContext.Set<Album>().Select(x => x.Id);
+        var result = new List<AlbumPreviewViewModel>();
+        foreach (var guid in guids)
+        {
+            var model = await ViewModelGetService.GetViewModelAsync<AlbumPreviewViewModel>(guid);
+            result.Add(model);
+        }
+        await viewModel.UpdateItems(result);
     }
 }

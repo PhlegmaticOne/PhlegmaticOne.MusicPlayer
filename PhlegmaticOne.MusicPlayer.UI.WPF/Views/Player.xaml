@@ -141,14 +141,14 @@
                     </ToggleButton>
 
                     <Image 
-                        Source="{Binding CurrentAlbum.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}"
+                        Source="{Binding CurrentSong.CollectionLink.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}"
                            Margin="10 5 0 5"
                            Width="50" Height="{Binding Width, RelativeSource={RelativeSource Self}}"/>
 
                     <StackPanel Orientation="Vertical" Margin="10 5 0 5">
                         <TextBlock Foreground="White" Text="{Binding CurrentSong.Title}" Padding="0 5"/>
                         <TextBlock Foreground="White" 
-                                   Text="{Binding CurrentAlbum.Artists, Converter={StaticResource CollectionOfEntitiesToStringConverter},
+                                   Text="{Binding CurrentAlbum.ArtistLinks, Converter={StaticResource CollectionOfEntitiesToStringConverter},
                             ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Slash}}"
                                    Padding="0 5"/>
                     </StackPanel>

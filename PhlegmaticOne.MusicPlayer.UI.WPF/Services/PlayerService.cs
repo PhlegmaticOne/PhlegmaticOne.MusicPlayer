@@ -1,14 +1,10 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Players.Player;
+﻿using PhlegmaticOne.MusicPlayer.Players.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
 using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
-using CollectionBaseViewModel = PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base.CollectionBaseViewModel;
-//using CollectionBaseViewModel = PhlegmaticOne.MusicPlayer.Contracts.New.Base.CollectionBaseViewModel;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 
@@ -17,17 +13,14 @@ public class PlayerService : IPlayerService
     private readonly IPlayer _player;
     private readonly IObservableQueue<TrackBaseViewModel> _songQueue;
     private readonly IValueProvider<TrackBaseViewModel> _songValueProvider;
-    private readonly IValueProvider<CollectionBaseViewModel> _collectionBaseValueProvider;
 
     public PlayerService(IPlayer player,
         IObservableQueue<TrackBaseViewModel> songQueue,
-        IValueProvider<TrackBaseViewModel> songValueProvider,
-        IValueProvider<CollectionBaseViewModel> collectionBaseValueProvider)
+        IValueProvider<TrackBaseViewModel> songValueProvider)
     {
         _player = player;
         _songQueue = songQueue;
         _songValueProvider = songValueProvider;
-        _collectionBaseValueProvider = collectionBaseValueProvider;
 
         Subscribe();
     }
@@ -35,25 +28,12 @@ public class PlayerService : IPlayerService
     public bool IsPaused { get; set; } = true;
     public bool IsStopped { get; set; } = true;
     public float Volume { get => _player.Volume; set => _player.Volume = value; }
+    public IValueProvider<TrackBaseViewModel> TrackValueProvider => _songValueProvider;
+
     public event EventHandler<bool>? PauseChanged;
     public event EventHandler<bool>? StopChanged;
     public event EventHandler<TimeSpan>? TimeChanged;
     public event EventHandler<CollectionChangedEventArgs<TrackBaseViewModel>>? QueueChanged;
-
-    public IValueProvider<T>? ValueProvider<T>() where T : BaseViewModel
-    {
-        if (typeof(T) == typeof(TrackBaseViewModel))
-        {
-            return (IValueProvider<T>)_songValueProvider;
-        }
-
-        if (typeof(T) == typeof(CollectionBaseViewModel))
-        {
-            return (IValueProvider<T>)_collectionBaseValueProvider;
-        }
-
-        return null;
-    }
 
     public void SetAndPlay(TrackBaseViewModel? song)
     {

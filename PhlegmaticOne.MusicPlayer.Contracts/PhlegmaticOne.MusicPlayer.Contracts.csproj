@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mapster" Version="7.3.0" />
-    <PackageReference Include="Mapster.Core" Version="1.2.0" />
+    <PackageReference Include="PhlegmaticOne.HandMapper" Version="1.0.2" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
   </ItemGroup>
 

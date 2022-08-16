@@ -37,7 +37,7 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                     b.ToTable("AlbumArtist");
                 });
 
-            modelBuilder.Entity("CollectionBaseGenre", b =>
+            modelBuilder.Entity("AlbumGenre", b =>
                 {
                     b.Property<Guid>("AlbumsId")
                         .HasColumnType("uniqueidentifier");
@@ -49,7 +49,7 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
 
                     b.HasIndex("GenresId");
 
-                    b.ToTable("CollectionBaseGenre");
+                    b.ToTable("AlbumGenre");
                 });
 
             modelBuilder.Entity("CollectionBaseSong", b =>
@@ -217,9 +217,9 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CollectionBaseGenre", b =>
+            modelBuilder.Entity("AlbumGenre", b =>
                 {
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.CollectionBase", null)
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Album", null)
                         .WithMany()
                         .HasForeignKey("AlbumsId")
                         .OnDelete(DeleteBehavior.Cascade)

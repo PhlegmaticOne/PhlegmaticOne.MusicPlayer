@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
@@ -82,4 +81,16 @@ public class SettingsViewModel : ApplicationBaseViewModel
         DirectorySize = (size / 1000000);
         DeleteTracksFromDeviceCommand.RaiseCanExecute();
     }
+}
+
+public class DisplayCultureInfo
+{
+    public DisplayCultureInfo(string displayName, string code)
+    {
+        DisplayName = displayName;
+        Code = code;
+    }
+
+    public string DisplayName { get; set; }
+    public string Code { get; set; }
 }

@@ -1,9 +1,11 @@
-﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Entities;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 
-public class CollectionLinkViewModel : BaseViewModel
+public class CollectionLinkViewModel : EntityBaseViewModel
 {
     public Guid Id { get; set; }
     public string Title { get; set; }
+    public AlbumCover Cover { get; set; }
 }

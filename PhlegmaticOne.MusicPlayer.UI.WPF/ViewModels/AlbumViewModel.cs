@@ -4,7 +4,6 @@ using PhlegmaticOne.MusicPlayer.WPF.Core;
 using System.Collections.Generic;
 using System.Windows.Input;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 
@@ -29,7 +28,6 @@ public class AlbumViewModel : PlayerTrackableViewModel
     {
         if (_isFirstSongWillPlay)
         {
-            PlayerService.ValueProvider<CollectionBaseViewModel>()!.Set(CurrentAlbum);
             if (CurrentAlbum is ActiveAlbumViewModel activeAlbumViewModel)
             {
                 PlayerService.Enqueue(activeAlbumViewModel.Tracks, true);

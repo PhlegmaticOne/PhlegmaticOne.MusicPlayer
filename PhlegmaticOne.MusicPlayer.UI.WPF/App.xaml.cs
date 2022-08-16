@@ -22,16 +22,18 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows;
-using MapsterMapper;
-using Mapster;
-using PhlegmaticOne.MusicPlayer.Contracts.MapperRegistration;
+using Microsoft.Extensions.Logging;
+using PhlegmaticOne.HandMapper;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Application;
-using CollectionBaseViewModel = PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base.CollectionBaseViewModel;
+using PhlegmaticOne.MusicPlayer.Contracts.Services;
+using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -92,21 +94,35 @@ public partial class App
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
         mainWindow.Show();
     }
-
+    private static ILoggerFactory _debugFactory = LoggerFactory.Create(builder =>
+    {
+        builder.ClearProviders();
+        builder.AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name)
+            .AddDebug();
+    });
     private static IHostBuilder ConfigureServices()
     {
-        // var connectionString = ConfigurationManager.ConnectionStrings["sql-connection-string"].ConnectionString;
+        var connectionString = ConfigurationManager.ConnectionStrings["sql-connection-string"].ConnectionString;
 
         var hostBuilder = new HostBuilder()
-             .ConfigureServices((builder, services) =>
+            .ConfigureServices((builder, services) =>
              {
-                 services.AddDbContext<ApplicationDbContext>(b => b.UseInMemoryDatabase("MEMORY"));
+                 services.AddDbContext<ApplicationDbContext>(b =>
+                 {
+                     b.UseLoggerFactory(_debugFactory);
+                     //b.UseInMemoryDatabase("MEMORY");
+                     b.UseSqlServer(connectionString);
+                 });
+                 //services.AddHandMappers(typeof(TrackBaseViewModel).Assembly);
+                 services.AddViewModelGetters(typeof(SqlClientSingleton).Assembly);
 
-                 services.AddSingleton(GetConfiguredMappingConfig());
-                 services.AddScoped<IMapper, ServiceMapper>();
+                 services.AddSingleton<IConnectionStringGetter, ConfigurationConnectionStringGetter>();
+                 services.AddSingleton<ISqlClient, SqlClientSingleton>();
 
                  services.AddScoped<ReloadViewModelBase<AlbumsCollectionViewModel>, ReloadCollectionViewModel>();
+                 services.AddScoped<ReloadViewModelBase<ArtistsCollectionViewModel>, ReloadArtistsViewModel>();
                  services.AddScoped<SortViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel>, SortAlbumsViewModel>();
+                 services.AddScoped<SortViewModelBase<ArtistsCollectionViewModel, ArtistPreviewViewModel>, SortArtistsViewModel>();
 
                  services.AddSingleton<IValueProvider<TrackBaseViewModel>, ValueProvider<TrackBaseViewModel>>();
                  services.AddSingleton<IValueProvider<CollectionBaseViewModel>, ValueProvider<CollectionBaseViewModel>>();
@@ -144,8 +160,10 @@ public partial class App
 
                  services.AddSingleton<IMusicViewModelsFactory<AlbumPreviewViewModel, AlbumViewModel>, ActiveAlbumViewModelFactory>();
                  services.AddSingleton<IMusicViewModelsFactory<EntityBaseViewModel, SongQueueViewModel>, SongQueueViewModelFactory>();
+                 services.AddSingleton<IMusicViewModelsFactory<CollectionLinkViewModel, AlbumViewModel>, CollectionLinkToAlbumNavigation>();
                  services.AddSingleton<MusicNavigation<AlbumPreviewViewModel, AlbumViewModel>>();
                  services.AddSingleton<MusicNavigation<EntityBaseViewModel, SongQueueViewModel>>();
+                 services.AddSingleton<MusicNavigation<CollectionLinkViewModel, AlbumViewModel>>();
 
                  services.AddSingleton<IViewModelFactory, ViewModelFactory>();
 
@@ -164,12 +182,5 @@ public partial class App
                 new Uri($"Resources/lang.{culture.Name}.xaml", UriKind.Relative)
         };
         CurrentResourceDictionary = resourceDictionary;
-    }
-
-    private static TypeAdapterConfig GetConfiguredMappingConfig()
-    {
-        var config = new TypeAdapterConfig();
-        new Registration().Register(config);
-        return config;
     }
 }

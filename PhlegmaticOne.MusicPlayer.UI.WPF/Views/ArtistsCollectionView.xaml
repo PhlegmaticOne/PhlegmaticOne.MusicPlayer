@@ -4,9 +4,74 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
+             xmlns:converters="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
+        <converters:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
+    </UserControl.Resources>
     <Grid>
-        <TextBlock Height="100">Artist</TextBlock>
+        <ListView ItemsSource="{Binding Artists}" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+
+            <ListView.Style>
+                <Style TargetType="ListView">
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListView">
+                                <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
+                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                    Margin="30"/>
+                                </ScrollViewer>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.Style>
+
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="15"/>
+
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListViewItem">
+                                <Border Background="Transparent" >
+                                    <StackPanel Orientation="Vertical" >
+                                        <Ellipse MinWidth="197" MinHeight="197">
+                                            <Ellipse.Fill>
+                                                <ImageBrush ImageSource="{Binding Cover.Cover, Converter={StaticResource ImageToSourceConverter}}"/>
+                                            </Ellipse.Fill>
+                                        </Ellipse>
+                                        <TextBlock Text="{Binding Name}" 
+                                                   Foreground="White" 
+                                                   FontSize="18"
+                                                   HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Genres, Converter={StaticResource CollectionOfEntitiesToStringConverter}, ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Comma}}" 
+                                                   Foreground="White"
+                                                   FontSize="13"
+                                                   HorizontalAlignment="Center"/>
+                                        <TextBlock Text="{Binding TracksCount}" 
+                                                   Foreground="White" 
+                                                   FontSize="18"
+                                                   HorizontalAlignment="Center"/>
+                                    </StackPanel>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+       
     </Grid>
 </UserControl>
