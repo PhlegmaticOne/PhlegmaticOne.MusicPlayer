@@ -1,6 +1,6 @@
 ﻿using System;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
 using System.Windows;
+using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 using PhlegmaticOne.MusicPlayer.UI.WPF.AttachedProperties;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;

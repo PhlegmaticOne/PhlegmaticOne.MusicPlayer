@@ -2,8 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF"
-             xmlns:vm="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels"
-             xmlns:v="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views">
+             xmlns:v="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
+             xmlns:vm="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts">
     <Application.Resources>
          <ResourceDictionary>
              <ResourceDictionary.MergedDictionaries>

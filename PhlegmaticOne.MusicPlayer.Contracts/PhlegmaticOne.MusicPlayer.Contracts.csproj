@@ -7,13 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PhlegmaticOne.HandMapper" Version="1.0.2" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data\PhlegmaticOne.MusicPlayer.Data.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Entities\PhlegmaticOne.MusicPlayer.Entities.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Players\PhlegmaticOne.MusicPlayer.Players.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.WPF.Core\PhlegmaticOne.MusicPlayer.WPF.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms">
+      <HintPath>C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\5.0.0\ref\net5.0\System.Windows.Forms.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

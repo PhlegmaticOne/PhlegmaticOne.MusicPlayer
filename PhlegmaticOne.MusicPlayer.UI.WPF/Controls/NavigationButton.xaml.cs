@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation;
 using System.Windows;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls;

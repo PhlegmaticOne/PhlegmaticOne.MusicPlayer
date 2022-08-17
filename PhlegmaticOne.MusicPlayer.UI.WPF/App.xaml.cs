@@ -8,18 +8,7 @@ using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.Players.DownloadSongsFeature;
 using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
 using PhlegmaticOne.MusicPlayer.Players.Player;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Reload;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Controls.Sort;
-using PhlegmaticOne.MusicPlayer.UI.WPF.DownloadConfiguration;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Features.Album;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Infrastructure;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Localization;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Navigation;
-using PhlegmaticOne.MusicPlayer.UI.WPF.PlayerHelpers;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Services;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModels;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -28,12 +17,25 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using Microsoft.Extensions.Logging;
-using PhlegmaticOne.HandMapper;
+using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
+using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.UI.WPF.ViewModelsFactories.Application;
-using PhlegmaticOne.MusicPlayer.Contracts.Services;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
+using PhlegmaticOne.MusicPlayer.Data.EFCore.MusicFactories;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.ValueProviders;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Download;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Localization;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Player;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Navigation;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services.UI;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -113,9 +115,12 @@ public partial class App
                      //b.UseInMemoryDatabase("MEMORY");
                      b.UseSqlServer(connectionString);
                  });
-                 //services.AddHandMappers(typeof(TrackBaseViewModel).Assembly);
-                 services.AddViewModelGetters(typeof(SqlClientSingleton).Assembly);
 
+                 services.AddViewModelGetters(typeof(SqlClientSingleton).Assembly);
+                 services.AddValueProvider<TrackBaseViewModel>();
+                 services.AddValueProvider<CollectionBaseViewModel>();
+
+                 services.AddSingleton<IUIThreadInvokerService, WpfUIThreadInvokerService>();
                  services.AddSingleton<IConnectionStringGetter, ConfigurationConnectionStringGetter>();
                  services.AddSingleton<ISqlClient, SqlClientSingleton>();
 
@@ -124,16 +129,14 @@ public partial class App
                  services.AddScoped<SortViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel>, SortAlbumsViewModel>();
                  services.AddScoped<SortViewModelBase<ArtistsCollectionViewModel, ArtistPreviewViewModel>, SortArtistsViewModel>();
 
-                 services.AddSingleton<IValueProvider<TrackBaseViewModel>, ValueProvider<TrackBaseViewModel>>();
-                 services.AddSingleton<IValueProvider<CollectionBaseViewModel>, ValueProvider<CollectionBaseViewModel>>();
                  services.AddSingleton<ILanguageProvider, LanguageProvider>();
-                 services.AddSingleton<IAlbumFeaturesProvider, AlbumFeaturesProvider>();
                  services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();
 
                  services.AddSingleton<IHttpInfoGetter<Album>, MusifyAlbumInfoGetter>();
 
                  services.AddSingleton<IDownloadSettings, DownloadSettings>();
                  services.AddSingleton<IPlayer, CustomMusicPlayer>();
+                 services.AddSingleton<IPlayerVolumeService, PlayerVolumeService>();
                  services.AddScoped<IDownloader, HttpDownloader>();
                  services.AddSingleton<INavigationHistory, NavigationHistory>();
                  services.AddSingleton<IObservableQueue<TrackBaseViewModel>, ObservableQueue<TrackBaseViewModel>>();
@@ -165,7 +168,7 @@ public partial class App
                  services.AddSingleton<MusicNavigation<EntityBaseViewModel, SongQueueViewModel>>();
                  services.AddSingleton<MusicNavigation<CollectionLinkViewModel, AlbumViewModel>>();
 
-                 services.AddSingleton<IViewModelFactory, ViewModelFactory>();
+                 services.AddSingleton<IViewModelFactoryService, ViewModelFactoryService>();
 
                  services.AddSingleton<MainWindow>();
              });

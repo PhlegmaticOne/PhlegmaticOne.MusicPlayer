@@ -17,13 +17,13 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="PhlegmaticOne.DependencyInjectionFactoryExtension" Version="1.0.1" />
-    <PackageReference Include="PhlegmaticOne.HandMapper" Version="1.0.2" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Contracts\PhlegmaticOne.MusicPlayer.Contracts.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.AdoNet\PhlegmaticOne.MusicPlayer.Data.AdoNet.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.EFCore\PhlegmaticOne.MusicPlayer.Data.EFCore.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data\PhlegmaticOne.MusicPlayer.Data.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Players\PhlegmaticOne.MusicPlayer.Players.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.WPF.Core\PhlegmaticOne.MusicPlayer.WPF.Core.csproj" />
