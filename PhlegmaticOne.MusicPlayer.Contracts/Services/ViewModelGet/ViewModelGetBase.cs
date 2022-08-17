@@ -1,13 +1,10 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
 
-public abstract class ViewModelGetBase<T> : IViewModelGet<T> where T : EntityBaseViewModel
+public abstract class ViewModelGetBase<T> : IEntityCollectionGet<T> where T : EntityBaseViewModel, IEntityCollection
 {
-    public abstract Task<T> GetAsync(Guid id);
-
-    public async Task<object> Get(Guid id)
-    {
-        return await GetAsync(id);
-    }
+    public abstract Task<T> GetAsync();
+    public async Task<object> Get() => await GetAsync();
 }

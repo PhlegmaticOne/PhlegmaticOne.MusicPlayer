@@ -2,34 +2,28 @@
 using Microsoft.Data.SqlClient;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
 
 namespace PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 
-public abstract class AdoNetViewModelGetBase<T> : ViewModelGetBase<T> where T: EntityBaseViewModel
+public abstract class AdoNetViewModelGetBase<T> : ViewModelGetBase<T> where T: EntityBaseViewModel, IEntityCollection
 {
-    protected readonly SqlConnection Connection;
-    protected readonly SqlCommand Command;
+    private readonly string _commandName;
+    private readonly SqlConnection _connection;
 
     protected AdoNetViewModelGetBase(ISqlClient sqlClient, string commandName)
     {
-        Connection = sqlClient.GetConnection();
-        Command = new SqlCommand(commandName, Connection)
+        _commandName = commandName;
+        _connection = sqlClient.GetConnection();
+    }
+    public override async Task<T> GetAsync()
+    {
+        await using var command = new SqlCommand(_commandName, _connection)
         {
             CommandType = CommandType.StoredProcedure
         };
+        await using var reader = await command.ExecuteReaderAsync();
+        return await Create(reader);
     }
-    public override async Task<T> GetAsync(Guid id)
-    {
-        Command.Parameters.Clear();
-        Command.Parameters.Add(new SqlParameter(ParameterName, SqlDbType.UniqueIdentifier)
-        {
-            Value = id
-        });
-
-        await using var reader = await Command.ExecuteReaderAsync();
-        return await Create(reader, id);
-    }
-
-    protected abstract string ParameterName { get; }
-    protected abstract Task<T> Create(SqlDataReader reader, Guid id);
+    protected abstract Task<T> Create(SqlDataReader reader);
 }

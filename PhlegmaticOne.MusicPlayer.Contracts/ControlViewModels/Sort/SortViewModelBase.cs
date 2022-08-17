@@ -6,7 +6,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.Helpers;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 
-namespace PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels;
+namespace PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
 
 public abstract class SortViewModelBase<TViewModel, TItemType> : BaseViewModel
     where TItemType : BaseViewModel, ICollectionItem

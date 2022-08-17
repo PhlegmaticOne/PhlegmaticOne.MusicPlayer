@@ -2,11 +2,11 @@
 using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 
-namespace PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels;
+namespace PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
 
 public class ReloadArtistsViewModel : ReloadViewModelBase<ArtistsCollectionViewModel>
 {
-    public ReloadArtistsViewModel(ApplicationDbContext dbContext, IViewModelGetService viewModelGetService) : base(dbContext, viewModelGetService) { }
+    public ReloadArtistsViewModel(ApplicationDbContext dbContext, IEntityCollectionGetService viewModelGetService) : base(dbContext, viewModelGetService) { }
 
     protected override async Task ReloadViewModel(ArtistsCollectionViewModel viewModel)
     {

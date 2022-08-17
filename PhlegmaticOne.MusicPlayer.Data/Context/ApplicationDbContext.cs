@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using PhlegmaticOne.MusicPlayer.Entities;
+using Microsoft.Extensions.Logging.Debug;
+using Microsoft.Extensions.Logging.Console;
 
 namespace PhlegmaticOne.MusicPlayer.Data.Context;
 
@@ -16,4 +19,18 @@ public class ApplicationDbContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         base.OnModelCreating(modelBuilder);
     }
+
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    //optionsBuilder.UseLoggerFactory(_debugFactory);
+    //    optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=music-player-db;Integrated Security=True;");
+    //    base.OnConfiguring(optionsBuilder);
+    //}
+
+    //private static readonly ILoggerFactory _debugFactory = LoggerFactory.Create(builder =>
+    //{
+    //    builder.ClearProviders();
+    //    builder.AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name)
+    //        .AddConsole();
+    //});
 }

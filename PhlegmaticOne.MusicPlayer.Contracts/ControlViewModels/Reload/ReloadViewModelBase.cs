@@ -3,14 +3,14 @@ using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 
-namespace PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels;
+namespace PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
 
 public abstract class ReloadViewModelBase<T> : BaseViewModel where T : BaseViewModel
 {
     protected readonly ApplicationDbContext DbContext;
-    protected readonly IViewModelGetService ViewModelGetService;
+    protected readonly IEntityCollectionGetService ViewModelGetService;
 
-    protected ReloadViewModelBase(ApplicationDbContext dbContext, IViewModelGetService viewModelGetService)
+    protected ReloadViewModelBase(ApplicationDbContext dbContext, IEntityCollectionGetService viewModelGetService)
     {
         DbContext = dbContext;
         ViewModelGetService = viewModelGetService;

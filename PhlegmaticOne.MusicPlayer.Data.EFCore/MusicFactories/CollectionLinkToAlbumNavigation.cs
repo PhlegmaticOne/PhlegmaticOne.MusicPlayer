@@ -9,11 +9,11 @@ namespace PhlegmaticOne.MusicPlayer.Data.EFCore.MusicFactories;
 
 public class CollectionLinkToAlbumNavigation : IMusicViewModelsFactory<CollectionLinkViewModel, AlbumViewModel>
 {
-    private readonly IViewModelGetService _viewModelGetService;
+    private readonly IEntityCollectionGetService _viewModelGetService;
     private readonly IPlayerService _playerService;
     private readonly IDownloadService<ActiveAlbumViewModel> _downloadService;
 
-    public CollectionLinkToAlbumNavigation(IViewModelGetService viewModelGetService, IPlayerService playerService, IDownloadService<ActiveAlbumViewModel> downloadService)
+    public CollectionLinkToAlbumNavigation(IEntityCollectionGetService viewModelGetService, IPlayerService playerService, IDownloadService<ActiveAlbumViewModel> downloadService)
     {
         _viewModelGetService = viewModelGetService;
         _playerService = playerService;
@@ -21,7 +21,7 @@ public class CollectionLinkToAlbumNavigation : IMusicViewModelsFactory<Collectio
     }
     public async Task<AlbumViewModel> CreateViewModelAsync(CollectionLinkViewModel entity)
     {
-        var album = await _viewModelGetService.GetViewModelAsync<ActiveAlbumViewModel>(entity.Id);
-        return new AlbumViewModel(album, _playerService, _downloadService);
+        ///var album = await _viewModelGetService.GetEntityCollectionAsync<ActiveAlbumViewModel>();
+        return new AlbumViewModel(new ActiveAlbumViewModel(), _playerService, _downloadService);
     }
 }

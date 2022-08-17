@@ -11,11 +11,10 @@ public class ActiveAlbumViewModelFactory : IMusicViewModelsFactory<AlbumPreviewV
 {
     private readonly IPlayerService _playerService;
     private readonly IDownloadService<ActiveAlbumViewModel> _downloadService;
-    private readonly IViewModelGetService _viewModelGetService;
+    private readonly IEntityCollectionGetService _viewModelGetService;
 
-    public ActiveAlbumViewModelFactory(IPlayerService playerService,
-        IDownloadService<ActiveAlbumViewModel> downloadService,
-        IViewModelGetService viewModelGetService)
+    public ActiveAlbumViewModelFactory(IPlayerService playerService, IDownloadService<ActiveAlbumViewModel> downloadService,
+        IEntityCollectionGetService viewModelGetService)
     {
         _playerService = playerService;
         _downloadService = downloadService;
@@ -23,7 +22,7 @@ public class ActiveAlbumViewModelFactory : IMusicViewModelsFactory<AlbumPreviewV
     }
     public async Task<AlbumViewModel> CreateViewModelAsync(AlbumPreviewViewModel entity)
     {
-        var album = await _viewModelGetService.GetViewModelAsync<ActiveAlbumViewModel>(entity.Id);
-        return new AlbumViewModel(album, _playerService, _downloadService);
+        //var album = await _viewModelGetService.GetEntityCollectionAsync<ActiveAlbumViewModel>(entity.Id);
+        return new AlbumViewModel(new ActiveAlbumViewModel(), _playerService, _downloadService);
     }
 }

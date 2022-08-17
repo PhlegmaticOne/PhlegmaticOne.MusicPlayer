@@ -19,7 +19,6 @@ using System.Windows;
 using Microsoft.Extensions.Logging;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
-using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.MusicFactories;
@@ -36,6 +35,11 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.UI;
+using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
+using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
+using PhlegmaticOne.MusicPlayer.Data.AdoNet;
+using PhlegmaticOne.MusicPlayer.Data.EFCore.ViewModelGetters;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -116,7 +120,10 @@ public partial class App
                      b.UseSqlServer(connectionString);
                  });
 
-                 services.AddViewModelGetters(typeof(SqlClientSingleton).Assembly);
+                 services.AddEntityCollectionGetterTypes(typeof(EFAllAlbumsViewModelGet),
+                     typeof(AdoNetAllArtistsViewModelGet), 
+                     typeof(AdoNetAllTracksViewModelGet));
+
                  services.AddValueProvider<TrackBaseViewModel>();
                  services.AddValueProvider<CollectionBaseViewModel>();
 

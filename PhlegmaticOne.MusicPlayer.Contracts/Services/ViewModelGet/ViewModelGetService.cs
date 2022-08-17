@@ -1,16 +1,17 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
 
-public class ViewModelGetService : IViewModelGetService
+public class ViewModelGetService : IEntityCollectionGetService
 {
-    private readonly IDictionary<Type, IViewModelGet> _viewModelGetters;
+    private readonly IDictionary<Type, IEntityCollectionGet> _viewModelGetters;
 
-    public ViewModelGetService(IDictionary<Type, IViewModelGet> viewModelGetters)
+    public ViewModelGetService(IDictionary<Type, IEntityCollectionGet> viewModelGetters)
     {
         _viewModelGetters = viewModelGetters;
     }
-    public async Task<T> GetViewModelAsync<T>(Guid id) where T : EntityBaseViewModel
+    public async Task<T> GetEntityCollectionAsync<T>() where T : EntityBaseViewModel, IEntityCollection
     {
         var type = typeof(T);
 
@@ -27,7 +28,7 @@ public class ViewModelGetService : IViewModelGetService
             throw new InvalidOperationException();
         }
 
-        var obj = await getter.Get(id);
+        var obj = await getter.Get();
         return obj as T;
     }
 }

@@ -2,7 +2,7 @@
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 
-namespace PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels;
+namespace PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
 
 public class SortArtistsViewModel : SortViewModelBase<ArtistsCollectionViewModel, ArtistPreviewViewModel>
 {

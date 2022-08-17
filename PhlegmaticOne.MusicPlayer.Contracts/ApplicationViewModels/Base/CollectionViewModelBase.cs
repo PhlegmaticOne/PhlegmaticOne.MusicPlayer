@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using PhlegmaticOne.MusicPlayer.Contracts.Base;
-using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
+using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
@@ -11,7 +12,7 @@ public abstract class CollectionViewModelBase<TCollectionViewModel, TCollectionI
     where TCollectionItemType : BaseViewModel, ICollectionItem
     where TCollectionViewModel : CollectionViewModelBase<TCollectionViewModel, TCollectionItemType>
 {
-    private readonly IUIThreadInvokerService _uiThreadInvokerService;
+    protected readonly IUIThreadInvokerService UiThreadInvokerService;
     public ReloadViewModelBase<TCollectionViewModel> ReloadViewModel { get; }
     public SortViewModelBase<TCollectionViewModel, TCollectionItemType> SortViewModel { get; }
     public ObservableCollection<TCollectionItemType> Items { get; }
@@ -21,7 +22,7 @@ public abstract class CollectionViewModelBase<TCollectionViewModel, TCollectionI
         SortViewModelBase<TCollectionViewModel, TCollectionItemType> sortViewModelBase,
         IUIThreadInvokerService uiThreadInvokerService) : base(playerService)
     {
-        _uiThreadInvokerService = uiThreadInvokerService;
+        UiThreadInvokerService = uiThreadInvokerService;
         ReloadViewModel = reloadViewModel;
         SortViewModel = sortViewModelBase;
         Items = new();
@@ -29,7 +30,7 @@ public abstract class CollectionViewModelBase<TCollectionViewModel, TCollectionI
 
     internal async Task UpdateItems(IEnumerable<TCollectionItemType> newItems)
     {
-        await _uiThreadInvokerService.InvokeAsync(() =>
+        await UiThreadInvokerService.InvokeAsync(() =>
         {
             Items.Clear();
             foreach (var newItem in newItems)

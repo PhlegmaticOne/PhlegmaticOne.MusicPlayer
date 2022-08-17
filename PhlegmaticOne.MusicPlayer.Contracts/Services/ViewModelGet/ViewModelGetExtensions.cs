@@ -8,22 +8,29 @@ public static class ViewModelGetExtensions
     public static IServiceCollection AddViewModelGetters(this IServiceCollection serviceCollection, Assembly assemblyOfGetters)
     {
         var viewModelGettersTypes = assemblyOfGetters.GetTypes()
-            .Where(x => x.IsAssignableTo(typeof(IViewModelGet)) && x.IsAbstract == false && x.IsInterface == false);
+            .Where(x => x.IsAssignableTo(typeof(IEntityCollectionGet)) && x.IsAbstract == false && x.IsInterface == false);
+        return AddEntityCollectionGetterTypes(serviceCollection, viewModelGettersTypes);
+    }
 
+    public static IServiceCollection AddEntityCollectionGetterTypes(this IServiceCollection serviceCollection, 
+        params Type[] entityCollectionGets) =>
+        AddEntityCollectionGetterTypes(serviceCollection, (IEnumerable<Type>) entityCollectionGets);
+
+    private static IServiceCollection AddEntityCollectionGetterTypes(IServiceCollection serviceCollection, IEnumerable<Type> types)
+    {
         var serviceTypes = new List<Type>();
-        foreach (var getterType in viewModelGettersTypes)
+        foreach (var getterType in types)
         {
-            var baseType = getterType.BaseType.GetInterfaces();
+            var baseType = getterType.GetInterfaces();
             var type = baseType.First();
             serviceTypes.Add(type);
             serviceCollection.AddSingleton(type, getterType);
         }
-
-        serviceCollection.AddSingleton<IDictionary<Type, IViewModelGet>>(x =>
+        serviceCollection.AddSingleton<IDictionary<Type, IEntityCollectionGet>>(x =>
         {
-            return serviceTypes.ToDictionary(key => key, value => (IViewModelGet)x.GetRequiredService(value));
+            return serviceTypes.ToDictionary(key => key, value => (IEntityCollectionGet)x.GetRequiredService(value));
         });
-        serviceCollection.AddSingleton<IViewModelGetService>(x => new ViewModelGetService(x.GetRequiredService<IDictionary<Type, IViewModelGet>>()));
+        serviceCollection.AddSingleton<IEntityCollectionGetService>(x => new ViewModelGetService(x.GetRequiredService<IDictionary<Type, IEntityCollectionGet>>()));
         return serviceCollection;
     }
 }

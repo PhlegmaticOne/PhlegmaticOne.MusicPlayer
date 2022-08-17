@@ -6,21 +6,21 @@ using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
 using PhlegmaticOne.MusicPlayer.Data.Context;
-using PhlegmaticOne.MusicPlayer.Entities;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 
 public class TracksViewModel : PlayerTrackableViewModel
 {
-    private readonly IViewModelGetService _viewModelGetService;
+    private readonly IEntityCollectionGetService _viewModelGetService;
     private readonly ApplicationDbContext _dbContext;
     private readonly IUIThreadInvokerService _uiThreadInvokerService;
     private bool _isFirst = true;
 
     public ObservableCollection<TrackBaseViewModel> Songs { get; set; }
     public TracksViewModel(IPlayerService playerService, MusicNavigation<CollectionLinkViewModel, AlbumViewModel> collectionNavigation,
-        IViewModelGetService viewModelGetService, ApplicationDbContext dbContext,
+        IEntityCollectionGetService viewModelGetService, ApplicationDbContext dbContext,
         IUIThreadInvokerService uiThreadInvokerService) : base(playerService)
     {
         _viewModelGetService = viewModelGetService;
@@ -46,18 +46,14 @@ public class TracksViewModel : PlayerTrackableViewModel
     {
         await Task.Run(async () =>
         {
-            var guids = _dbContext.Set<CollectionBase>().Select(x => x.Id);
-            foreach (var guid in guids)
+            var mapped = await _viewModelGetService.GetEntityCollectionAsync<AllTracksViewModel>();
+            await _uiThreadInvokerService.InvokeAsync(() =>
             {
-                var mapped = await _viewModelGetService.GetViewModelAsync<TracksFromCollectionViewModel>(guid);
-                await _uiThreadInvokerService.InvokeAsync(() =>
+                foreach (var trackBaseViewModel in mapped.Tracks)
                 {
-                    foreach (var trackBaseViewModel in mapped.Tracks)
-                    {
-                        Songs.Add(trackBaseViewModel);
-                    }
-                });
-            }
+                    Songs.Add(trackBaseViewModel);
+                }
+            });
         });
     }
 }
