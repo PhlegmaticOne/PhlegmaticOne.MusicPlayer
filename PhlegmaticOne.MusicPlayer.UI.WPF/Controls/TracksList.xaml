@@ -171,7 +171,7 @@
                                                                 <b:Interaction.Triggers>
                                                                     <b:EventTrigger EventName="MouseLeftButtonDown" >
                                                                         <b:InvokeCommandAction 
-                                                                            CommandParameter="{Binding }" 
+                                                                            CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}} }" 
                                                                             Command="{Binding CollectionLinkClickCommand, ElementName=TracksListRoot}"/>
                                                                     </b:EventTrigger>
                                                                 </b:Interaction.Triggers>

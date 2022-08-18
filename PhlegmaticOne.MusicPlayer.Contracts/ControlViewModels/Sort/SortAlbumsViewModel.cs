@@ -17,7 +17,7 @@ public class SortAlbumsViewModel : SortViewModelBase<AlbumsCollectionViewModel, 
         {
             { byNameText, (albums) => albums.OrderBy(x => x.Title)},
             { byDateAddedText, (albums) => albums.OrderBy(x => x.DateAdded)},
-            { byArtistText, (albums) => albums.OrderBy(x => x.Artists.First())}
+            { byArtistText, (albums) => albums.OrderBy(x => x.Artists)}
         };
     }
 }

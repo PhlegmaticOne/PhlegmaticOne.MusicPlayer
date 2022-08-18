@@ -148,7 +148,7 @@
                     <StackPanel Orientation="Vertical" Margin="10 5 0 5">
                         <TextBlock Foreground="White" Text="{Binding CurrentSong.Title}" Padding="0 5"/>
                         <TextBlock Foreground="White" 
-                                   Text="{Binding CurrentAlbum.ArtistLinks, Converter={StaticResource CollectionOfEntitiesToStringConverter},
+                                   Text="{Binding CurrentSong.ArtistLinks, Converter={StaticResource CollectionOfEntitiesToStringConverter},
                             ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Slash}}"
                                    Padding="0 5"/>
                     </StackPanel>

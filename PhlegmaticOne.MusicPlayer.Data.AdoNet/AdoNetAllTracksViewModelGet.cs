@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Cache;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
@@ -10,16 +11,32 @@ namespace PhlegmaticOne.MusicPlayer.Data.AdoNet;
 
 public class AdoNetAllTracksViewModelGet : AdoNetViewModelGetBase<AllTracksViewModel>
 {
-    public AdoNetAllTracksViewModelGet(ISqlClient sqlClient) : base(sqlClient, "Get_All_Tracks") { }
+    private readonly ICacheService _cacheService;
+    public AdoNetAllTracksViewModelGet(ISqlClient sqlClient, ICacheService cacheService) : base(sqlClient, "Get_All_Tracks")
+    {
+        _cacheService = cacheService;
+    }
     protected override async Task<AllTracksViewModel> Create(SqlDataReader reader)
     {
         var tracks = new List<TrackBaseViewModel>();
 
-        while ( await reader.ReadAsync())
+        while (await reader.ReadAsync())
         {
-            while (await reader.ReadAsync())
+            var currentTracks = new List<TrackBaseViewModel>();
+            ICollection<ArtistLinkViewModel>? cachedArtists = default;
+            CollectionLinkViewModel? cachedCollectionLinkViewModel = default;
+            var needToRetrieveOther = true;
+            do
             {
                 var trackId = await reader.GetFieldValueAsync<Guid>(0);
+                if (_cacheService.TryGetCachedValue(trackId, out TrackBaseViewModel cachedTrack))
+                {
+                    tracks.Add(cachedTrack);
+                    cachedArtists ??= cachedTrack.ArtistLinks;
+                    cachedCollectionLinkViewModel ??= cachedTrack.CollectionLink;
+                    needToRetrieveOther = false;
+                    continue;
+                }
                 var duration = TimeSpan.FromTicks(await reader.GetFieldValueAsync<long>(1));
                 var isFavorite = await reader.GetFieldValueAsync<bool>(2);
                 var localUrl = await reader.IsDBNullAsync(3) ? null : await reader.GetFieldValueAsync<string>(3);
@@ -38,49 +55,67 @@ public class AdoNetAllTracksViewModelGet : AdoNetViewModelGetBase<AllTracksViewM
                     Title = trackTitle,
                     TimePlayed = timePlayed
                 };
-                tracks.Add(trackViewModel);
-            }
+                currentTracks.Add(trackViewModel);
+
+                needToRetrieveOther = true;
+
+            } while (await reader.ReadAsync());
+
             await reader.NextResultAsync();
 
-            await reader.ReadAsync();
-            var imageData = await reader.GetFieldValueAsync<byte[]>(0);
-            var image = imageData.ToBitmap();
-            var cover = new AlbumCover { Cover = image };
-            await reader.NextResultAsync();
 
-            await reader.ReadAsync();
-            var collectionId = await reader.GetFieldValueAsync<Guid>(0);
-            var title = await reader.GetFieldValueAsync<string>(1);
-            await reader.NextResultAsync();
-            var collectionLink = new CollectionLinkViewModel
+            if (needToRetrieveOther)
             {
-                Id = collectionId,
-                Cover = cover,
-                Title = title
-            };
+                await reader.ReadAsync();
+                var imageData = await reader.GetFieldValueAsync<byte[]>(0);
+                
+                var image = imageData.ToBitmap();
+                var cover = new AlbumCover { Cover = image };
+                await reader.NextResultAsync();
 
-            var artistLinkViewModels = new List<ArtistLinkViewModel>();
-            if (reader.HasRows)
-            {
-                while (await reader.ReadAsync())
+                await reader.ReadAsync();
+                var collectionId = await reader.GetFieldValueAsync<Guid>(0);
+                var title = await reader.GetFieldValueAsync<string>(1);
+                await reader.NextResultAsync();
+
+                var collectionLink = new CollectionLinkViewModel
                 {
-                    var artistId = await reader.GetFieldValueAsync<Guid>(0);
-                    var artistName = await reader.GetFieldValueAsync<string>(1);
-                    var artistLinkViewModel = new ArtistLinkViewModel
+                    Id = collectionId,
+                    Cover = cover,
+                    Title = title
+                };
+
+                var artistLinkViewModels = new List<ArtistLinkViewModel>();
+                if (reader.HasRows)
+                {
+                    while (await reader.ReadAsync())
                     {
-                        Id = artistId,
-                        Name = artistName
-                    };
-                    artistLinkViewModels.Add(artistLinkViewModel);
+                        var artistId = await reader.GetFieldValueAsync<Guid>(0);
+                        var artistName = await reader.GetFieldValueAsync<string>(1);
+                        var artistLinkViewModel = new ArtistLinkViewModel
+                        {
+                            Id = artistId,
+                            Name = artistName
+                        };
+                        artistLinkViewModels.Add(artistLinkViewModel);
+                    }
                 }
+
+                await reader.NextResultAsync();
+
+                foreach (var trackBaseViewModel in currentTracks)
+                {
+                    trackBaseViewModel.ArtistLinks = artistLinkViewModels;
+                    trackBaseViewModel.CollectionLink = collectionLink;
+                }
+
+                tracks.AddRange(currentTracks);
             }
-
-            await reader.NextResultAsync();
-
-            foreach (var trackBaseViewModel in tracks)
+            else
             {
-                trackBaseViewModel.ArtistLinks = artistLinkViewModels;
-                trackBaseViewModel.CollectionLink = collectionLink;
+                await reader.NextResultAsync();
+                await reader.NextResultAsync();
+                await reader.NextResultAsync();
             }
         }
 

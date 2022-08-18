@@ -17,6 +17,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using Microsoft.Extensions.Logging;
+using PhlegmaticOne.HandMapper.Lib;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
@@ -37,9 +38,11 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.UI;
 using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
 using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
+using PhlegmaticOne.MusicPlayer.Contracts.HandMappers;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Cache;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.ViewModelGetters;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation.ViewModelFactories;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -91,7 +94,6 @@ public partial class App
         }
     }
 
-
     protected override void OnStartup(StartupEventArgs e)
     {
         Language = new CultureInfo(Settings.Default.DefaultLanguage);
@@ -115,10 +117,17 @@ public partial class App
              {
                  services.AddDbContext<ApplicationDbContext>(b =>
                  {
-                     b.UseLoggerFactory(_debugFactory);
+                     if (builder.HostingEnvironment.IsDevelopment())
+                     {
+                         b.UseLoggerFactory(_debugFactory);
+                     }
+
                      //b.UseInMemoryDatabase("MEMORY");
                      b.UseSqlServer(connectionString);
                  });
+
+                 services.AddCacheService();
+                 services.AddHandMappers(typeof(AlbumPreviewToActiveViewModelMapper).Assembly);
 
                  services.AddEntityCollectionGetterTypes(typeof(EFAllAlbumsViewModelGet),
                      typeof(AdoNetAllArtistsViewModelGet), 
@@ -168,12 +177,12 @@ public partial class App
                  services.AddDependencyFactory<SongQueueViewModel>(ServiceLifetime.Singleton);
 
 
-                 services.AddSingleton<IMusicViewModelsFactory<AlbumPreviewViewModel, AlbumViewModel>, ActiveAlbumViewModelFactory>();
+                 services.AddSingleton<IMusicViewModelsFactory<AlbumPreviewViewModel, AlbumViewModel>, EFActiveAlbumViewModelFactory>();
                  services.AddSingleton<IMusicViewModelsFactory<EntityBaseViewModel, SongQueueViewModel>, SongQueueViewModelFactory>();
-                 services.AddSingleton<IMusicViewModelsFactory<CollectionLinkViewModel, AlbumViewModel>, CollectionLinkToAlbumNavigation>();
+                 services.AddSingleton<IMusicViewModelsFactory<TrackBaseViewModel, AlbumViewModel>, EFTrackToAlbumViewModelFactory>();
                  services.AddSingleton<MusicNavigation<AlbumPreviewViewModel, AlbumViewModel>>();
                  services.AddSingleton<MusicNavigation<EntityBaseViewModel, SongQueueViewModel>>();
-                 services.AddSingleton<MusicNavigation<CollectionLinkViewModel, AlbumViewModel>>();
+                 services.AddSingleton<MusicNavigation<TrackBaseViewModel, AlbumViewModel>>();
 
                  services.AddSingleton<IViewModelFactoryService, ViewModelFactoryService>();
 

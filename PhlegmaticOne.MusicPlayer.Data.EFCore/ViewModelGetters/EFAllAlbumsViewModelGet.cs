@@ -21,14 +21,19 @@ public class EFAllAlbumsViewModelGet : ViewModelGetBase<AllAlbumsPreviewViewMode
         var result = await set.Select(x => new AlbumPreviewViewModel
         {
             Id = x.Id,
-            Artists = x.Artists.Select(a => a.Name).ToList(),
+            Artists = x.Artists.Select(a => new ArtistLinkViewModel
+            {
+                Id = a.Id,
+                Name = a.Name
+            }).ToList(),
             Title = x.Title,
             Cover = x.AlbumCover,
             IsFavorite = x.IsFavorite,
             IsDownloaded = false,
             IsDownloading = false,
             DateAdded = x.DateAdded,
-            YearReleased = x.YearReleased
+            YearReleased = x.YearReleased,
+            AlbumType = x.AlbumType
         }).ToListAsync();
         return new AllAlbumsPreviewViewModel() { Albums = result };
     }

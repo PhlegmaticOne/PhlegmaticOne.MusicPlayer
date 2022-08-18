@@ -2,7 +2,6 @@
 
 public class TrackBaseViewModel : EntityBaseViewModel
 {
-    public Guid Id { get; set; }
     public string Title { get; set; }
     public ICollection<ArtistLinkViewModel> ArtistLinks { get; set; }
     public CollectionLinkViewModel CollectionLink { get; set; }

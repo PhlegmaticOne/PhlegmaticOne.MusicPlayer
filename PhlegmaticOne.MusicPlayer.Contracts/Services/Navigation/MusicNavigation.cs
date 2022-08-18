@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation.ViewModelFactories;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation;
 

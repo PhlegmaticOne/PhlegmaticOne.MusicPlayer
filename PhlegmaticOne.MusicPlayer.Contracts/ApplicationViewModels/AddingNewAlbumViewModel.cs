@@ -72,25 +72,44 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
         {
             CurrentAlbum.DateAdded = DateTime.Now;
 
-            var names = CurrentAlbum.Artists.Select(x => x.Name);
+            var artistNames = CurrentAlbum.Artists.Select(x => x.Name);
+            var genreNames = CurrentAlbum.Genres.Select(x => x.Name);
+            var songNames = CurrentAlbum.Songs.Select(x => x.Title);
+
             var artists = await _dbContext.Set<Artist>()
                 .Include(x => x.Albums)
-                .Where(x => names.Contains(x.Name))
+                .Where(x => artistNames.Contains(x.Name))
                 .ToListAsync();
 
+            var genres = await _dbContext.Set<Genre>()
+                .Include(x => x.Albums)
+                .Where(x => genreNames.Contains(x.Name))
+                .ToListAsync();
+
+
+            CurrentAlbum.Artists = CurrentAlbum.Artists.Except(artists).ToList();
+            CurrentAlbum.Genres = CurrentAlbum.Genres.Except(genres).ToList();
             CurrentAlbum.DateAdded = DateTime.Now;
 
-            if (artists.Any())
+            var isNew = true;
+
+            foreach (var artist in artists)
             {
-                foreach (var artist in artists)
-                {
-                    artist.Albums.Add(CurrentAlbum);
-                }
+                artist.Albums.Add(CurrentAlbum);
             }
-            else
+            isNew = false;
+
+            foreach (var genre in genres)
+            {
+                genre.Albums.Add(CurrentAlbum);
+                isNew = false;
+            }
+
+            if (isNew)
             {
                 await _dbContext.Set<Album>().AddAsync(CurrentAlbum!);
             }
+
             await _dbContext.SaveChangesAsync();
         });
         Clear(null);

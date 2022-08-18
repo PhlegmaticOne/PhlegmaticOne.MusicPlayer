@@ -1,8 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Columns;
 using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Loggers;
 using Moq;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Cache;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 using PhlegmaticOne.MusicPlayer.Data.Context;
@@ -36,9 +35,11 @@ public class MusicViewModelFactoriesBenchmark
         var connectionStringGetter = new Mock<IConnectionStringGetter>();
         connectionStringGetter.Setup(x => x.GetConnectionString()).Returns(_connectionString);
 
+        var cacheService = new Mock<ICacheService>();
+
+
         var dbContext = new ApplicationDbContext();
         var sqlClient = new SqlClientSingleton(connectionStringGetter.Object);
-
         _efAllArtistsViewModelGet = new EFAllArtistsViewModelGet(dbContext);
         _adoNetAllArtistsViewModelGet = new AdoNetAllArtistsViewModelGet(sqlClient);
 
@@ -46,7 +47,7 @@ public class MusicViewModelFactoriesBenchmark
         _adoNetAllAlbumsViewModelGet = new AdoNetAllAlbumsViewModelGet(sqlClient);
 
         _efTracksViewModelGet = new EFAllTracksViewModelGet(dbContext);
-        _adoNetAllTracksViewModelGet = new AdoNetAllTracksViewModelGet(sqlClient);
+        _adoNetAllTracksViewModelGet = new AdoNetAllTracksViewModelGet(sqlClient, cacheService.Object);
     }
 
 

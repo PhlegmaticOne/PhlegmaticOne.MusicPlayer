@@ -19,6 +19,7 @@ public class AdoNetAllAlbumsViewModelGet : AdoNetViewModelGetBase<AllAlbumsPrevi
         {
             var id = await reader.GetFieldValueAsync<Guid>(0);
             var yearReleased = await reader.GetFieldValueAsync<int>(1);
+            var albumType = Enum.Parse<AlbumType>(await reader.GetFieldValueAsync<string>(2));
             var onlineUrl = await reader.GetFieldValueAsync<string>(3);
             var albumName = await reader.GetFieldValueAsync<string>(4);
             var dateAdded = await reader.GetFieldValueAsync<DateTime>(5);
@@ -34,11 +35,16 @@ public class AdoNetAllAlbumsViewModelGet : AdoNetViewModelGetBase<AllAlbumsPrevi
             await reader.NextResultAsync();
 
 
-            var artistNames = new List<string>();
+            var artistNames = new List<ArtistLinkViewModel>();
             while (await reader.ReadAsync())
             {
+                var artistId = await reader.GetFieldValueAsync<Guid>(0);
                 var artistName = await reader.GetFieldValueAsync<string>(1);
-                artistNames.Add(artistName);
+                artistNames.Add(new ArtistLinkViewModel
+                {
+                    Id = artistId,
+                    Name = artistName
+                });
             }
 
             await reader.NextResultAsync();
@@ -54,6 +60,7 @@ public class AdoNetAllAlbumsViewModelGet : AdoNetViewModelGetBase<AllAlbumsPrevi
                 IsDownloading = string.IsNullOrEmpty(onlineUrl) == false,
                 DateAdded = dateAdded,
                 YearReleased = yearReleased,
+                AlbumType = albumType
             };
             allAlbums.Add(album);
         }

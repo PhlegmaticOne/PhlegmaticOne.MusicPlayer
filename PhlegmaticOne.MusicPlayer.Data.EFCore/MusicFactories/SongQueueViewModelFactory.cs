@@ -1,5 +1,5 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation.ViewModelFactories;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 

@@ -4,7 +4,6 @@ namespace PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 
 public class CollectionBaseViewModel : EntityBaseViewModel
 {
-    public Guid Id { get; set; }
     public AlbumCover Cover { get; set; } = null!;
     public DateTime DateAdded { get; set; }
     public string Title { get; set; } = null!;

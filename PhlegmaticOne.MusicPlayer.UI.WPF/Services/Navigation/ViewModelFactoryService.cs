@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation.ViewModelFactories;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services.Navigation;
 

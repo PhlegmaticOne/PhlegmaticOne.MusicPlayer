@@ -1,6 +1,6 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 
-namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation;
+namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation.ViewModelFactories;
 
 public interface IViewModelFactoryService
 {
