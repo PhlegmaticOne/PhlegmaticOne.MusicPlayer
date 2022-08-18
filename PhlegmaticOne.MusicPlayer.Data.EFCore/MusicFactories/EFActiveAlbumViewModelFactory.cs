@@ -36,7 +36,7 @@ public class EFActiveAlbumViewModelFactory : IMusicViewModelsFactory<AlbumPrevie
         {
             return albumViewModel;
         }
-        var set = _dbContext.Set<CollectionBase>();
+        var set = _dbContext.Set<Album>();
         var songs = await set.Where(x => x.Id == entity.Id).SelectMany(x => x.Songs).ToListAsync();
         var mapped = _handMapperProvider
             .AddParameter("CollectionSongs", songs)

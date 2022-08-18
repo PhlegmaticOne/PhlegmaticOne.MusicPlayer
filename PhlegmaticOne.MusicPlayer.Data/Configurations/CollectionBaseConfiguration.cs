@@ -13,7 +13,6 @@ public class CollectionBaseConfiguration : IEntityTypeConfiguration<CollectionBa
         builder.Property(p => p.IsFavorite).HasDefaultValue(false);
         builder.Property(p => p.Title).IsRequired();
         builder.Property(p => p.DateAdded).IsRequired();
-        builder.HasMany(s => s.Songs).WithMany(a => a.AlbumAppearances);
         builder.HasOne(c => c.AlbumCover).WithOne(a => a.Album)
             .HasForeignKey<AlbumCover>(p => p.AlbumId);
     }

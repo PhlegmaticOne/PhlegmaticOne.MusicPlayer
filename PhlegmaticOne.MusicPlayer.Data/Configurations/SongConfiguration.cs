@@ -16,5 +16,10 @@ public class SongConfiguration : IEntityTypeConfiguration<Song>
         builder.Property(x => x.LocalUrl).IsRequired(false);
         builder.Property(x => x.OnlineUrl).IsRequired(false);
         builder.Property(x => x.Duration).HasConversion(from => from.Ticks, to => TimeSpan.FromTicks(to));
+
+        builder.HasOne(x => x.Album).WithMany(x => x.Songs)
+            .HasForeignKey(x => x.AlbumId);
+
+        builder.HasMany(x => x.Playlists).WithMany(x => x.Songs);
     }
 }

@@ -63,12 +63,31 @@ public class AdoNetAllTracksViewModelGet : AdoNetViewModelGetBase<AllTracksViewM
 
             await reader.NextResultAsync();
 
-
             if (needToRetrieveOther)
             {
                 await reader.ReadAsync();
+
+                var artistLinkViewModels = new List<ArtistLinkViewModel>();
+                if (reader.FieldCount == 2)
+                {
+                    do
+                    {
+                        var artistId = await reader.GetFieldValueAsync<Guid>(0);
+                        var artistName = await reader.GetFieldValueAsync<string>(1);
+                        var artistLinkViewModel = new ArtistLinkViewModel
+                        {
+                            Id = artistId,
+                            Name = artistName
+                        };
+                        artistLinkViewModels.Add(artistLinkViewModel);
+                    } while (await reader.ReadAsync());
+
+                    await reader.NextResultAsync();
+
+                    await reader.ReadAsync();
+                }
+
                 var imageData = await reader.GetFieldValueAsync<byte[]>(0);
-                
                 var image = imageData.ToBitmap();
                 var cover = new AlbumCover { Cover = image };
                 await reader.NextResultAsync();
@@ -84,24 +103,6 @@ public class AdoNetAllTracksViewModelGet : AdoNetViewModelGetBase<AllTracksViewM
                     Cover = cover,
                     Title = title
                 };
-
-                var artistLinkViewModels = new List<ArtistLinkViewModel>();
-                if (reader.HasRows)
-                {
-                    while (await reader.ReadAsync())
-                    {
-                        var artistId = await reader.GetFieldValueAsync<Guid>(0);
-                        var artistName = await reader.GetFieldValueAsync<string>(1);
-                        var artistLinkViewModel = new ArtistLinkViewModel
-                        {
-                            Id = artistId,
-                            Name = artistName
-                        };
-                        artistLinkViewModels.Add(artistLinkViewModel);
-                    }
-                }
-
-                await reader.NextResultAsync();
 
                 foreach (var trackBaseViewModel in currentTracks)
                 {

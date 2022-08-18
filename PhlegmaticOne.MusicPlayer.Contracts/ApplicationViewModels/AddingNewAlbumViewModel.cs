@@ -74,7 +74,6 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
 
             var artistNames = CurrentAlbum.Artists.Select(x => x.Name);
             var genreNames = CurrentAlbum.Genres.Select(x => x.Name);
-            var songNames = CurrentAlbum.Songs.Select(x => x.Title);
 
             var artists = await _dbContext.Set<Artist>()
                 .Include(x => x.Albums)
@@ -96,8 +95,8 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
             foreach (var artist in artists)
             {
                 artist.Albums.Add(CurrentAlbum);
+                isNew = false;
             }
-            isNew = false;
 
             foreach (var genre in genres)
             {

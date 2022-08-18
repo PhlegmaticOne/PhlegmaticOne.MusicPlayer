@@ -20,18 +20,39 @@ public class EFAllTracksViewModelGet : ViewModelGetBase<AllTracksViewModel>
     {
         var set = _dbContext.Set<Song>();
         var query = set
-            .Include(x => x.AlbumAppearances)
+            .Include(x => x.Album)
             .ThenInclude(x => x.AlbumCover)
-            .Include(x => x.AlbumAppearances)
-            .ThenInclude(x => (x as Album).Artists);
+            .Include(x => x.Playlists)
+            .ThenInclude(x => x.AlbumCover);
 
         var result = await query.ToListAsync();
         var tracks = new List<TrackBaseViewModel>();
         foreach (var song in result)
         {
-            foreach (var songAlbumAppearance in song.AlbumAppearances)
+            var trackModel = new TrackBaseViewModel
             {
-                var trackViewModel = new TrackBaseViewModel()
+                Title = song.Title,
+                Duration = song.Duration,
+                Id = song.Id,
+                IsDownloaded = string.IsNullOrWhiteSpace(song.LocalUrl),
+                IsDownloading = false,
+                LocalUrl = song.LocalUrl,
+                IsFavorite = song.IsFavorite,
+                OnlineUrl = song.OnlineUrl,
+                TimePlayed = song.TimePlayed,
+                ArtistLinks = new List<ArtistLinkViewModel>(),
+                CollectionLink = new CollectionLinkViewModel
+                {
+                    Id = song.Album.Id,
+                    Cover = song.Album.AlbumCover,
+                    Title = song.Album.Title
+                }
+            };
+            tracks.Add(trackModel);
+
+            foreach (var songAlbumAppearance in song.Playlists)
+            {
+                var trackViewModel = new TrackBaseViewModel
                 {
                     Title = song.Title,
                     Duration = song.Duration,
@@ -42,11 +63,7 @@ public class EFAllTracksViewModelGet : ViewModelGetBase<AllTracksViewModel>
                     IsFavorite = song.IsFavorite,
                     OnlineUrl = song.OnlineUrl,
                     TimePlayed = song.TimePlayed,
-                    ArtistLinks = songAlbumAppearance is Album album ? album.Artists.Select(x => new ArtistLinkViewModel
-                    {
-                        Id = x.Id,
-                        Name = x.Name
-                    }).ToList() : new List<ArtistLinkViewModel>(),
+                    ArtistLinks = new List<ArtistLinkViewModel>(),
                     CollectionLink = new CollectionLinkViewModel
                     {
                         Id = songAlbumAppearance.Id,

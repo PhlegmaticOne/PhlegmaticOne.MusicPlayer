@@ -22,7 +22,8 @@
                     <ControlTemplate TargetType="local:TracksList">
                         <ListView Background="Transparent" 
                                   BorderThickness="0" 
-                                  ItemsSource="{Binding .}">
+                                  ItemsSource="{Binding .}"
+                                  ScrollViewer.CanContentScroll="False">
                             <ListView.Style>
                                 <Style TargetType="ListView">
                                     <Setter Property="Background" Value="Transparent"/>
@@ -30,7 +31,7 @@
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListView">
-                                                <Grid Margin="30 0 30 0">
+                                                <Grid Margin="30 0 0 0">
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="60"/>
                                                         <RowDefinition />
@@ -55,7 +56,7 @@
                                                         <TextBlock Text="Collection" Foreground="#696969" FontSize="20"
                                                                    VerticalAlignment="Center"/>
                                                     </Grid>
-                                                    <Grid Row="0" Column="6">
+                                                    <Grid Row="0" Column="6" Margin="0 0 30 0">
                                                         <Viewbox Height="24" HorizontalAlignment="Right" Margin="0 0 5 0">
                                                             <Canvas Width="24" Height="24">
                                                                 <Path Fill="#696969" 
@@ -66,7 +67,8 @@
 
                                                     <Grid Row="1" ColumnSpan="7">
                                                         <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
-                                                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                            Margin="0 0 30 0"/>
                                                         </ScrollViewer>
                                                     </Grid>
                                                 </Grid>

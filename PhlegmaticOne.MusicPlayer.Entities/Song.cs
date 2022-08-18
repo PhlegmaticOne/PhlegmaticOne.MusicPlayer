@@ -6,7 +6,9 @@ public class Song : EntityBase
 {
     public string Title { get; set; } = null!;
     public TimeSpan Duration { get; set; }
-    public ICollection<CollectionBase> AlbumAppearances { get; set; } = null!;
+    public Guid AlbumId { get; set; }
+    public Album Album { get; set; }
+    public ICollection<Playlist> Playlists { get; set; }
     public TimeSpan TimePlayed { get; set; }
     public bool IsFavorite { get; set; }
     public string LocalUrl { get; set; }
