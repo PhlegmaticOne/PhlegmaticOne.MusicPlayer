@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
+﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 

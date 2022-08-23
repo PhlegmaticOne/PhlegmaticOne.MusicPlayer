@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:c="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
+             xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
+             xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -12,13 +14,40 @@
         <c:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
     </UserControl.Resources>
 
-    <Grid>
-        <StackPanel>
-            <Image MaxWidth="200" MaxHeight="200"
-                   Source="{Binding Cover.Cover, Converter={StaticResource ImageToSourceConverter}}"/>
-            <TextBlock Text="{Binding Title}" Foreground="White" FontWeight="Bold"/>
-            <TextBlock Text="{Binding Artists, Converter={StaticResource CollectionOfEntitiesToStringConverter}, ConverterParameter={x:Static c:CollectionOfEntitiesToStringConverter.Slash}}"/>
-            <TextBlock Text="{Binding YearReleased}"/>
-        </StackPanel>
-    </Grid>
+    <UserControl.Style>
+        <Style TargetType="local:AlbumCard">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="local:AlbumCard">
+                        <Grid>
+                            <StackPanel HorizontalAlignment="Center">
+                                <Image MaxWidth="200" 
+                                       MaxHeight="{TemplateBinding ImageHeight}"
+                                       Source="{Binding Cover.Cover, Converter={StaticResource ImageToSourceConverter}}"
+                                       Name="CoverImage"/>
+
+                                <TextBlock Text="{Binding Title}" 
+                                           Foreground="White" 
+                                           FontWeight="DemiBold"
+                                           Padding="0 10 0 5"
+                                           FontSize="16"/>
+                                <TextBlock Text="{Binding Artists, Converter={StaticResource CollectionOfEntitiesToStringConverter}, ConverterParameter={x:Static c:CollectionOfEntitiesToStringConverter.Slash}}"
+                                           Foreground="#888888"
+                                           FontSize="14"/>
+                                <TextBlock Text="{Binding YearReleased}"
+                                           Foreground="#888888"
+                                           Padding="0 3 0 0"
+                                           FontSize="14"/>
+                            </StackPanel>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="CoverImage" Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Style>
 </UserControl>

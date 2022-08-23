@@ -1,4 +1,5 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Navigation;
+using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 
@@ -11,7 +12,6 @@ public class MainViewModel : ApplicationBaseViewModel
         NavigationViewModel = navigationViewModel;
         PlayerViewModel = playerViewModel;
     }
-
     public void Close()
     {
         PlayerViewModel.Dispose();

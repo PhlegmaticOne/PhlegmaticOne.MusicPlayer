@@ -5,11 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
              xmlns:converters="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
         <converters:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
+        <converters:NegatingConverter x:Key="NegatingConverter"/>
     </UserControl.Resources>
     <Grid>
         <ListView ItemsSource="{Binding Artists}" 
@@ -40,31 +43,79 @@
 
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
+                    <Setter Property="Width" Value="200"/>
                     <Setter Property="Margin" Value="15"/>
 
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListViewItem">
-                                <Border Background="Transparent" >
+                                <Border Background="Transparent">
                                     <StackPanel Orientation="Vertical" >
                                         <Ellipse MinWidth="197" MinHeight="197">
                                             <Ellipse.Fill>
                                                 <ImageBrush ImageSource="{Binding Cover.Cover, Converter={StaticResource ImageToSourceConverter}}"/>
                                             </Ellipse.Fill>
                                         </Ellipse>
+
                                         <TextBlock Text="{Binding Name}" 
-                                                   Foreground="White" 
-                                                   FontSize="18"
-                                                   HorizontalAlignment="Center"/>
-                                        <TextBlock Text="{Binding Genres, Converter={StaticResource CollectionOfEntitiesToStringConverter}, ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Comma}}" 
-                                                   Foreground="White"
-                                                   FontSize="13"
-                                                   HorizontalAlignment="Center"/>
-                                        <TextBlock Text="{Binding TracksCount}" 
-                                                   Foreground="White" 
-                                                   FontSize="18"
-                                                   HorizontalAlignment="Center"/>
+                                                   Foreground="#D2D2D2" 
+                                                   FontSize="16"
+                                                   HorizontalAlignment="Center"
+                                                   FontWeight="Bold"
+                                                   Margin="0 8 0 0"/>
+
+                                        <StackPanel Orientation=" Horizontal" 
+                                                    HorizontalAlignment="Center"
+                                                    Margin="0 5 0 0">
+                                            <TextBlock Text="{Binding TracksCount}" 
+                                                       Foreground="#B7B7B7" 
+                                                       FontSize="14"
+                                                       HorizontalAlignment="Center"/>
+                                            <TextBlock Text=" tracks" 
+                                                       Foreground="#B7B7B7" 
+                                                       FontSize="14"
+                                                       HorizontalAlignment="Center"/>
+                                        </StackPanel>
+
+                                        <Canvas x:Name="Canvas" 
+                                                Height="20"
+                                                Background="Transparent" 
+                                                ClipToBounds="True"
+                                                Margin="0 3 0 0">
+                                            <TextBlock VerticalAlignment="Bottom" 
+                                                           FontSize="13"
+                                                           Foreground="#B7B7B7"
+                                                           Text="{Binding Genres, Converter={StaticResource CollectionOfEntitiesToStringConverter}, ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Comma}}" 
+                                                           Name="TextBlock">
+                                                <TextBlock.Triggers>
+                                                        <EventTrigger RoutedEvent="TextBlock.Loaded">
+                                                            <EventTrigger.Actions>
+                                                                <BeginStoryboard>
+                                                                    <Storyboard>
+                                                                    <DoubleAnimation 
+                                                                            Storyboard.TargetProperty="(Canvas.Left)" 
+                                                                            From="10"
+                                                                            To="{Binding ., ElementName=TextBlock, 
+                                                                                                Converter={StaticResource NegatingConverter}}"
+                                                                            Duration="0:0:8"
+                                                                            RepeatBehavior="Forever"
+                                                                            AccelerationRatio="0.1"
+                                                                            DecelerationRatio="0.1"
+                                                                            AutoReverse="True"/>
+                                                                    </Storyboard>
+                                                                </BeginStoryboard>
+                                                            </EventTrigger.Actions>
+                                                        </EventTrigger>
+                                                    </TextBlock.Triggers>
+                                                </TextBlock>
+                                            </Canvas>
                                     </StackPanel>
+                                    <b:Interaction.Triggers>
+                                        <b:EventTrigger EventName="MouseLeftButtonDown" >
+                                            <b:InvokeCommandAction CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"
+                                                                   Command="{Binding DataContext.ActiveArtistNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ArtistsView}}}"/>
+                                        </b:EventTrigger>
+                                    </b:Interaction.Triggers>
                                 </Border>
                             </ControlTemplate>
                         </Setter.Value>

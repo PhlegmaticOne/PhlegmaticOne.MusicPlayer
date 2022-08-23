@@ -39,7 +39,7 @@
         </Grid>
 
         <controls:CollectionListing Grid.Row="1" Margin="15 0 0 0"
-                               ItemClickCommand="{Binding DataContext.MusicNavigation.NavigateToMusicCommand,
+                               ItemClickCommand="{Binding DataContext.ActiveAlbumNavigationCommand,
                                                     RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CollectionView}}}"
                                DataContext="{Binding Items}"/>
     </Grid>

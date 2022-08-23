@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:conv="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
              xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
-             xmlns:navigation="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation;assembly=PhlegmaticOne.MusicPlayer.Contracts"
              xmlns:vm="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
@@ -136,7 +135,7 @@
             <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
                 <StackPanel>
                     <controls:NavigationButton Header="{DynamicResource AddNewMenuItemText}" 
-                                               ViewType="{x:Static navigation:ViewType.AddingNewAlbum}"
+                                               ViewModelType="{x:Type vm:AddingNewAlbumViewModel}"
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
@@ -151,7 +150,7 @@
                     </controls:NavigationButton>
 
                     <controls:NavigationButton Header="{DynamicResource HomeMenuItemText}" 
-                                               ViewType="{x:Static navigation:ViewType.Home}"
+                                               ViewModelType="{x:Type vm:HomeViewModel}"
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
@@ -166,7 +165,7 @@
                     </controls:NavigationButton>
 
                     <controls:NavigationButton Header="{DynamicResource TracksMenuItemText}" 
-                                               ViewType="{x:Static navigation:ViewType.Tracks}"
+                                               ViewModelType="{x:Type vm:TracksViewModel}"
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
@@ -181,7 +180,7 @@
                     </controls:NavigationButton>
 
                     <controls:NavigationButton Header="{DynamicResource ArtistsMenuItemText}" 
-                                               ViewType="{x:Static navigation:ViewType.Artists}"
+                                               ViewModelType="{x:Type vm:ArtistsCollectionViewModel}"
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
@@ -196,7 +195,7 @@
                     </controls:NavigationButton>
 
                     <controls:NavigationButton Header="{DynamicResource CollectionMenuItemText}" 
-                                               ViewType="{x:Static navigation:ViewType.Collection}"
+                                               ViewModelType="{x:Type vm:AlbumsCollectionViewModel}"
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
@@ -211,11 +210,11 @@
                     </controls:NavigationButton>
 
                     <controls:NavigationButton Header="{DynamicResource PlaylistsMenuItemText}" 
-                                               ViewType="{x:Static navigation:ViewType.Playlists}"
+                                               ViewModelType="{x:Type vm:PlaylistsCollectionViewModel}"
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:PlaylistsViewModel}}">
+                        ConverterParameter={x:Type vm:PlaylistsCollectionViewModel}}">
                         <controls:NavigationButton.ButtonContent>
                             <Viewbox Width="24" Height="24">
                                 <Canvas Width="24" Height="24">
@@ -226,7 +225,7 @@
                     </controls:NavigationButton>
 
                     <controls:NavigationButton Header="{DynamicResource DownloadedTracksMenuItemText}" 
-                                               ViewType="{x:Static navigation:ViewType.DownloadedTracks}"
+                                               ViewModelType="{x:Type vm:DownloadedTracksViewModel}"
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
@@ -241,7 +240,7 @@
                     </controls:NavigationButton>
 
                     <controls:NavigationButton Header="{DynamicResource SettingsTitleText}" 
-                                               ViewType="{x:Static navigation:ViewType.Settings}"
+                                               ViewModelType="{x:Type vm:SettingsViewModel}"
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},

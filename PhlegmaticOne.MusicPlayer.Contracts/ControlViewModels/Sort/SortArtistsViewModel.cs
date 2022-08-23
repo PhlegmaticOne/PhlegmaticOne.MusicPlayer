@@ -12,6 +12,6 @@ public class SortArtistsViewModel : SortViewModelBase<ArtistsCollectionViewModel
 
     protected override Dictionary<string, Func<IEnumerable<ArtistPreviewViewModel>, IEnumerable<ArtistPreviewViewModel>>> GetAvailableSorts()
     {
-        throw new NotImplementedException();
+        return new Dictionary<string, Func<IEnumerable<ArtistPreviewViewModel>, IEnumerable<ArtistPreviewViewModel>>>();
     }
 }

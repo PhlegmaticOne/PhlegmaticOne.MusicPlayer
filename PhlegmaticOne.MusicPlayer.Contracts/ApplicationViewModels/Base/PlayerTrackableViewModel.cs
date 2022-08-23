@@ -4,15 +4,14 @@ using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 
-public class PlayerTrackableViewModel : ApplicationBaseViewModel
+public abstract class PlayerTrackableViewModel : ApplicationBaseViewModel
 {
     protected readonly IPlayerService PlayerService;
     public TrackBaseViewModel CurrentSong { get; set; }
-    public CollectionBaseViewModel CurrentAlbum { get; set; }
     public bool IsPaused { get; set; } = true;
     public bool IsStopped { get; set; } = true;
 
-    public PlayerTrackableViewModel(IPlayerService playerService)
+    protected PlayerTrackableViewModel(IPlayerService playerService)
     {
         PlayerService = playerService;
         playerService.PauseChanged += (_, isPaused) => IsPaused = isPaused;

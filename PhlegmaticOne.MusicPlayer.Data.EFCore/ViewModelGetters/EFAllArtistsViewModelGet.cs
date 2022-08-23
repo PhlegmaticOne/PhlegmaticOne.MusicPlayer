@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
@@ -25,7 +24,7 @@ public class EFAllArtistsViewModelGet : ViewModelGetBase<AllArtistsPreviewViewMo
         {
             Id = x.Id,
             Name = x.Name,
-            Cover = x.Albums.First().AlbumCover,
+            Cover = x.Albums.Last().AlbumCover,
             TracksCount = x.Albums.SelectMany(y => y.Songs).Count(),
             Genres = x.Albums.SelectMany(y => y.Genres).Distinct().Select(i => i.Name).ToList()
         }).ToListAsync();

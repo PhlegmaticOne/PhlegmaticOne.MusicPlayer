@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation;
+﻿using System;
 using System.Windows;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls;
@@ -24,11 +24,11 @@ public partial class NavigationButton
     }
 
     public static readonly DependencyProperty ViewTypeProperty = DependencyProperty.Register(
-        "ViewType", typeof(ViewType), typeof(NavigationButton), new PropertyMetadata(default(ViewType)));
+        "ViewModelType", typeof(Type), typeof(NavigationButton), new PropertyMetadata(default(Type)));
 
-    public ViewType ViewType
+    public Type ViewModelType
     {
-        get => (ViewType)GetValue(ViewTypeProperty);
+        get => (Type)GetValue(ViewTypeProperty);
         set => SetValue(ViewTypeProperty, value);
     }
 
@@ -43,6 +43,5 @@ public partial class NavigationButton
     public NavigationButton()
     {
         InitializeComponent();
-
     }
 }

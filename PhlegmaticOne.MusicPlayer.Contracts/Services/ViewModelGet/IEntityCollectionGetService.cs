@@ -1,5 +1,5 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
+using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
 

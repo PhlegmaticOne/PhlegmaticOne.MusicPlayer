@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PhlegmaticOne.DependencyInjectionFactoryExtension;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Entities;
@@ -20,13 +19,12 @@ using Microsoft.Extensions.Logging;
 using PhlegmaticOne.HandMapper.Lib;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
-using PhlegmaticOne.MusicPlayer.Data.EFCore.MusicFactories;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.ValueProviders;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
@@ -34,15 +32,14 @@ using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Download;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Player;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Navigation;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.UI;
 using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
 using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
 using PhlegmaticOne.MusicPlayer.Contracts.HandMappers;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Cache;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet;
+using PhlegmaticOne.MusicPlayer.Data.EFCore.MusicFactories;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.ViewModelGetters;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation.ViewModelFactories;
+using PhlegmaticOne.WPF.Navigation.Extensions;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -102,7 +99,7 @@ public partial class App
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
         mainWindow.Show();
     }
-    private static ILoggerFactory _debugFactory = LoggerFactory.Create(builder =>
+    private static readonly ILoggerFactory _debugFactory = LoggerFactory.Create(builder =>
     {
         builder.ClearProviders();
         builder.AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name)
@@ -117,24 +114,26 @@ public partial class App
              {
                  services.AddDbContext<ApplicationDbContext>(b =>
                  {
-                     if (builder.HostingEnvironment.IsDevelopment())
-                     {
-                         b.UseLoggerFactory(_debugFactory);
-                     }
+                     b.UseLoggerFactory(_debugFactory);
 
                      //b.UseInMemoryDatabase("MEMORY");
                      b.UseSqlServer(connectionString);
                  });
 
-                 services.AddCacheService();
                  services.AddHandMappers(typeof(AlbumPreviewToActiveViewModelMapper).Assembly);
 
                  services.AddEntityCollectionGetterTypes(typeof(EFAllAlbumsViewModelGet),
                      typeof(AdoNetAllArtistsViewModelGet), 
                      typeof(AdoNetAllTracksViewModelGet));
 
-                 services.AddValueProvider<TrackBaseViewModel>();
-                 services.AddValueProvider<CollectionBaseViewModel>();
+                 services.AddChainNavigation()
+                     .UsingApplicationViewModelsFrom(typeof(PlayerTrackableViewModel).Assembly)
+                     .AddEntityContainingNavigation()
+                     .UsingApplicationViewModelsFrom(typeof(PlayerTrackableViewModel).Assembly)
+                     .UsingNavigationFactoriesFrom(typeof(EFActiveAlbumViewModelFactory).Assembly);
+
+                 services.AddValueProvider<TrackBaseViewModel>()
+                     .AddValueProvider<CollectionBaseViewModel>();
 
                  services.AddSingleton<IUIThreadInvokerService, WpfUIThreadInvokerService>();
                  services.AddSingleton<IConnectionStringGetter, ConfigurationConnectionStringGetter>();
@@ -153,38 +152,28 @@ public partial class App
                  services.AddSingleton<IDownloadSettings, DownloadSettings>();
                  services.AddSingleton<IPlayer, CustomMusicPlayer>();
                  services.AddSingleton<IPlayerVolumeService, PlayerVolumeService>();
-                 services.AddScoped<IDownloader, HttpDownloader>();
-                 services.AddSingleton<INavigationHistory, NavigationHistory>();
+                 services.AddScoped<IDownloader, HttpDownloader>(); ;
                  services.AddSingleton<IObservableQueue<TrackBaseViewModel>, ObservableQueue<TrackBaseViewModel>>();
 
                  services.AddSingleton<IPlayerService, PlayerService>();
                  services.AddSingleton<IDownloadService<ActiveAlbumViewModel>, AlbumDownloadService>();
                  services.AddSingleton<ILocalizationService, LocalizationService>();
-                 services.AddSingleton<INavigationService, NavigationService>();
 
+                 //services.AddSingleton<INavigationService, NavigationService>();
 
-                 services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
-                 services.AddDependencyFactory<PlayerViewModel>(ServiceLifetime.Singleton);
-                 services.AddDependencyFactory<NavigationViewModel>(ServiceLifetime.Singleton);
-                 services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
-                 services.AddDependencyFactory<ArtistsCollectionViewModel>(ServiceLifetime.Singleton);
-                 services.AddDependencyFactory<AlbumsCollectionViewModel>(ServiceLifetime.Singleton);
-                 services.AddDependencyFactory<DownloadedTracksViewModel>(ServiceLifetime.Singleton);
-                 services.AddDependencyFactory<MainViewModel>(ServiceLifetime.Singleton);
-                 services.AddDependencyFactory<PlaylistsViewModel>(ServiceLifetime.Singleton);
-                 services.AddDependencyFactory<SettingsViewModel>(ServiceLifetime.Singleton);
-                 services.AddDependencyFactory<TracksViewModel>(ServiceLifetime.Singleton);
-                 services.AddDependencyFactory<SongQueueViewModel>(ServiceLifetime.Singleton);
-
-
-                 services.AddSingleton<IMusicViewModelsFactory<AlbumPreviewViewModel, AlbumViewModel>, EFActiveAlbumViewModelFactory>();
-                 services.AddSingleton<IMusicViewModelsFactory<EntityBaseViewModel, SongQueueViewModel>, SongQueueViewModelFactory>();
-                 services.AddSingleton<IMusicViewModelsFactory<TrackBaseViewModel, AlbumViewModel>, EFTrackToAlbumViewModelFactory>();
-                 services.AddSingleton<MusicNavigation<AlbumPreviewViewModel, AlbumViewModel>>();
-                 services.AddSingleton<MusicNavigation<EntityBaseViewModel, SongQueueViewModel>>();
-                 services.AddSingleton<MusicNavigation<TrackBaseViewModel, AlbumViewModel>>();
-
-                 services.AddSingleton<IViewModelFactoryService, ViewModelFactoryService>();
+                 //services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
+                 //services.AddDependencyFactory<PlayerViewModel>(ServiceLifetime.Singleton);
+                 //services.AddDependencyFactory<NavigationViewModel>(ServiceLifetime.Singleton);
+                 //services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
+                 //services.AddDependencyFactory<ArtistsCollectionViewModel>(ServiceLifetime.Singleton);
+                 //services.AddDependencyFactory<AlbumsCollectionViewModel>(ServiceLifetime.Singleton);
+                 //services.AddDependencyFactory<DownloadedTracksViewModel>(ServiceLifetime.Singleton);
+                 //services.AddDependencyFactory<MainViewModel>(ServiceLifetime.Singleton);
+                 //services.AddDependencyFactory<PlaylistsViewModel>(ServiceLifetime.Singleton);
+                 //services.AddDependencyFactory<SettingsViewModel>(ServiceLifetime.Singleton);
+                 //services.AddDependencyFactory<TracksViewModel>(ServiceLifetime.Singleton);
+                 //services.AddDependencyFactory<SongQueueViewModel>(ServiceLifetime.Singleton);
+                 //services.AddSingleton<IViewModelFactoryService, ViewModelFactoryService>();
 
                  services.AddSingleton<MainWindow>();
              });

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Cache;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
@@ -22,11 +23,14 @@ public class EFAllTracksViewModelGet : ViewModelGetBase<AllTracksViewModel>
         var query = set
             .Include(x => x.Album)
             .ThenInclude(x => x.AlbumCover)
+            .Include(x => x.Album)
+            .ThenInclude(x => x.Artists)
             .Include(x => x.Playlists)
             .ThenInclude(x => x.AlbumCover);
 
         var result = await query.ToListAsync();
         var tracks = new List<TrackBaseViewModel>();
+
         foreach (var song in result)
         {
             var trackModel = new TrackBaseViewModel
@@ -34,25 +38,28 @@ public class EFAllTracksViewModelGet : ViewModelGetBase<AllTracksViewModel>
                 Title = song.Title,
                 Duration = song.Duration,
                 Id = song.Id,
-                IsDownloaded = string.IsNullOrWhiteSpace(song.LocalUrl),
+                IsDownloaded = string.IsNullOrWhiteSpace(song.LocalUrl) == false,
                 IsDownloading = false,
                 LocalUrl = song.LocalUrl,
                 IsFavorite = song.IsFavorite,
                 OnlineUrl = song.OnlineUrl,
                 TimePlayed = song.TimePlayed,
-                ArtistLinks = new List<ArtistLinkViewModel>(),
-                CollectionLink = new CollectionLinkViewModel
+                CollectionLink = new CollectionLinkViewModel()
                 {
-                    Id = song.Album.Id,
+                    Id = song.AlbumId,
                     Cover = song.Album.AlbumCover,
-                    Title = song.Album.Title
-                }
+                    Title = song.Album.Title,
+                },
+                ArtistLinks = song.Album.Artists.Select(x => new ArtistLinkViewModel
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                }).ToList()
             };
             tracks.Add(trackModel);
-
             foreach (var songAlbumAppearance in song.Playlists)
             {
-                var trackViewModel = new TrackBaseViewModel
+                var trackBase = new TrackBaseViewModel
                 {
                     Title = song.Title,
                     Duration = song.Duration,
@@ -63,15 +70,15 @@ public class EFAllTracksViewModelGet : ViewModelGetBase<AllTracksViewModel>
                     IsFavorite = song.IsFavorite,
                     OnlineUrl = song.OnlineUrl,
                     TimePlayed = song.TimePlayed,
-                    ArtistLinks = new List<ArtistLinkViewModel>(),
                     CollectionLink = new CollectionLinkViewModel
                     {
                         Id = songAlbumAppearance.Id,
                         Cover = songAlbumAppearance.AlbumCover,
-                        Title = songAlbumAppearance.Title
-                    }
+                        Title = songAlbumAppearance.Title,
+                    },
+                    ArtistLinks = new List<ArtistLinkViewModel>()
                 };
-                tracks.Add(trackViewModel);
+                tracks.Add(trackBase);
             }
         }
 

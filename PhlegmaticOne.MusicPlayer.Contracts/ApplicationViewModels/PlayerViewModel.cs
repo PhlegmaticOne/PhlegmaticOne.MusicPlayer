@@ -1,8 +1,6 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Navigation;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
@@ -11,7 +9,6 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
 {
     private double _volume;
     private readonly IPlayerService _playerService;
-    private readonly MusicNavigation<EntityBaseViewModel, SongQueueViewModel> _songQueueNavigation;
     private readonly IPlayerVolumeService _playerVolumeService;
     public TimeSpan CurrentTime { get; set; }
     public double Volume
@@ -25,11 +22,9 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         }
     }
 
-    public PlayerViewModel(IPlayerService playerService, MusicNavigation<EntityBaseViewModel, SongQueueViewModel> songQueueNavigation,
-        IPlayerVolumeService playerVolumeService) : base(playerService)
+    public PlayerViewModel(IPlayerService playerService, IPlayerVolumeService playerVolumeService) : base(playerService)
     {
         _playerService = playerService;
-        _songQueueNavigation = songQueueNavigation;
         _playerVolumeService = playerVolumeService;
 
         _playerService.TimeChanged += (_, newTime) => CurrentTime = newTime;
@@ -72,7 +67,7 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
 
     private void OpenQueue(object? parameter)
     {
-        _songQueueNavigation.NavigateToMusicCommand.Execute(new EntityBaseViewModel());
+        //_songQueueNavigation.NavigateToMusicCommand.Execute(new object());
     }
 
     private void Rewind(object? parameter)

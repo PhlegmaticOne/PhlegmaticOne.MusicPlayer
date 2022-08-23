@@ -35,22 +35,27 @@ public class CacheService : ICacheService
         _viewModels.TryAdd(viewModelDescriptor, viewModel);
     }
 
+    public ICollection<T> GetAllCached<T>() where T : BaseViewModel
+    {
+        return _viewModels.Where(x => x.Key.Type == typeof(T)).Select(x => (T)x.Value).ToList();
+    }
+
     private class ViewModelDescriptor : IEquatable<ViewModelDescriptor>
     {
-        private readonly Guid _id;
-        private readonly Type _type;
+        internal readonly Guid Id;
+        internal readonly Type Type;
 
         public ViewModelDescriptor(Guid id, Type type)
         {
-            _id = id;
-            _type = type;
+            Id = id;
+            Type = type;
         }
 
         public bool Equals(ViewModelDescriptor? other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return _id.Equals(other._id) && _type == other._type;
+            return Id.Equals(other.Id) && Type == other.Type;
         }
 
         public override bool Equals(object? obj)
@@ -63,7 +68,7 @@ public class CacheService : ICacheService
 
         public override int GetHashCode()
         {
-            return HashCode.Combine(_id, _type);
+            return HashCode.Combine(Id, Type);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 
@@ -27,6 +28,14 @@ public partial class TracksList
     public static readonly DependencyProperty CollectionLinkClickCommandProperty = DependencyProperty.Register(
         nameof(CollectionLinkClickCommand), typeof(ICommand), typeof(TracksList), new PropertyMetadata(default(ICommand)));
 
+    public static readonly DependencyProperty ArtistLinkClickCommandProperty = DependencyProperty.Register(
+        nameof(ArtistLinkClickCommand), typeof(ICommand), typeof(TracksList), new PropertyMetadata(default(ICommand)));
+
+    public ICommand ArtistLinkClickCommand
+    {
+        get => (ICommand) GetValue(ArtistLinkClickCommandProperty);
+        set => SetValue(ArtistLinkClickCommandProperty, value);
+    }
     public ICommand CollectionLinkClickCommand
     {
         get => (ICommand) GetValue(CollectionLinkClickCommandProperty);
@@ -70,11 +79,22 @@ public partial class TracksList
         set => SetValue(IsStoppedProperty, value);
     }
 
-
-
     public TracksList()
     {
         InitializeComponent();
     }
+}
+public delegate void ScrolledEventHandler(object sender, ScrolledEventArgs scrollChangedEventArgs);
 
+public class ScrolledEventArgs : RoutedEventArgs
+{
+    public object Sender { get; }
+    public ScrollChangedEventArgs ScrollChangedEventArgs { get; }
+
+    public ScrolledEventArgs(RoutedEvent routedEvent, object source, object sender, ScrollChangedEventArgs scrollChangedEventArgs) : 
+        base(routedEvent, source)
+    {
+        Sender = sender;
+        ScrollChangedEventArgs = scrollChangedEventArgs;
+    }
 }

@@ -14,10 +14,10 @@
     <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemsSource="{Binding }">
         <ListView.Resources>
             <DataTemplate DataType="{x:Type viewModels:AlbumPreviewViewModel}">
-                <local:AlbumCard/>
+                <local:AlbumCard ImageHeight="200"/>
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:PlaylistPreviewViewModel}">
-                <local:PlaylistCard/>
+                <local:PlaylistCard />
             </DataTemplate>
         </ListView.Resources>
         <ListView.ItemContainerStyle>

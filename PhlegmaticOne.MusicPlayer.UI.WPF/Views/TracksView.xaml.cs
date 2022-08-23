@@ -2,7 +2,6 @@
 
 public partial class TracksView
 {
-    
     public TracksView()
     {
         InitializeComponent();

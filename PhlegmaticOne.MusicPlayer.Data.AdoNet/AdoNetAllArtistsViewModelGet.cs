@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Cache;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
@@ -9,7 +10,9 @@ namespace PhlegmaticOne.MusicPlayer.Data.AdoNet;
 
 public class AdoNetAllArtistsViewModelGet : AdoNetViewModelGetBase<AllArtistsPreviewViewModel>
 {
-    public AdoNetAllArtistsViewModelGet(ISqlClient sqlClient) : base(sqlClient, "Get_All_Artists_Preview") { }
+    public AdoNetAllArtistsViewModelGet(ISqlClient sqlClient) : base(sqlClient, "Get_All_Artists_Preview")
+    {
+    }
     protected override async Task<AllArtistsPreviewViewModel> Create(SqlDataReader reader)
     {
         var artists = new List<ArtistPreviewViewModel>();

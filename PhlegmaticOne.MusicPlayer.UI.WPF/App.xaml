@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF"
              xmlns:v="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
-             xmlns:vm="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts">
+             xmlns:vm="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts"
+             xmlns:entityContainingViewModels="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContainingViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts">
     <Application.Resources>
          <ResourceDictionary>
              <ResourceDictionary.MergedDictionaries>
@@ -37,7 +38,7 @@
                  <v:DowmloadedTracksView/>
              </DataTemplate>
 
-             <DataTemplate DataType="{x:Type vm:PlaylistsViewModel}">
+             <DataTemplate DataType="{x:Type entityContainingViewModels:PlaylistViewModel}">
                  <v:PlaylistsView/>
              </DataTemplate>
 
@@ -49,11 +50,15 @@
                  <v:TracksView/>
              </DataTemplate>
 
-             <DataTemplate DataType="{x:Type vm:AlbumViewModel}">
+             <DataTemplate DataType="{x:Type entityContainingViewModels:AlbumViewModel}">
                  <v:AlbumView/>
              </DataTemplate>
 
-             <DataTemplate DataType="{x:Type vm:SongQueueViewModel}">
+             <DataTemplate DataType="{x:Type entityContainingViewModels:ArtistViewModel}">
+                 <v:ArtistView/>
+             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type vm:SongQueueViewModel}">
                  <v:SongQueueView/>
              </DataTemplate>
 

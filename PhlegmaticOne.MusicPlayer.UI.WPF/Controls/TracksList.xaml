@@ -66,10 +66,8 @@
                                                     </Grid>
 
                                                     <Grid Row="1" ColumnSpan="7">
-                                                        <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
-                                                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                                            Margin="0 0 30 0"/>
-                                                        </ScrollViewer>
+                                                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                        Margin="0 0 30 0"/>
                                                     </Grid>
                                                 </Grid>
                                             </ControlTemplate>
@@ -158,18 +156,42 @@
                                                         </Grid>
 
                                                         <Grid Column="2">
-                                                            <TextBlock Text="{Binding ArtistLinks, Converter={StaticResource CollectionOfEntitiesToStringConverter}, ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Slash}}"
-                                                                       Foreground="White" 
-                                                                       VerticalAlignment="Center"
-                                                                       FontSize="14"/>
+                                                            <ListView Background="Transparent" 
+                                                                      BorderThickness="0"
+                                                                      ItemsSource="{Binding ArtistLinks}"
+                                                                      VerticalAlignment="Center">
+                                                                <ListView.ItemContainerStyle>
+                                                                    <Style TargetType="ListViewItem">
+                                                                        <Setter Property="Template">
+                                                                            <Setter.Value>
+                                                                                <ControlTemplate TargetType="ListViewItem">
+                                                                                    <local:ViewLink  LinkText="{Binding Name}"
+                                                                                        ForegroundHover="#6C6C6C" 
+                                                                                        Foreground="White" 
+                                                                                        VerticalAlignment="Center"
+                                                                                        FontSize="13">
+                                                                                        <b:Interaction.Triggers>
+                                                                                            <b:EventTrigger EventName="MouseLeftButtonDown" >
+                                                                                                <b:InvokeCommandAction 
+                                                                                                    CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}} }" 
+                                                                                                    Command="{Binding ArtistLinkClickCommand, ElementName=TracksListRoot}"/>
+                                                                                            </b:EventTrigger>
+                                                                                        </b:Interaction.Triggers>
+                                                                                    </local:ViewLink>
+                                                                                </ControlTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Style>
+                                                                </ListView.ItemContainerStyle>
+                                                            </ListView>
                                                         </Grid>
 
                                                         <Grid Column="3">
-                                                            <local:CollectionLink DataContext="{Binding CollectionLink}" 
-                                                                                  ForegroundHover="#6C6C6C" 
-                                                                                  Foreground="#888888" 
-                                                                                  VerticalAlignment="Center"
-                                                                                  FontSize="13">
+                                                            <local:ViewLink  LinkText="{Binding CollectionLink.Title}"
+                                                                             ForegroundHover="#6C6C6C" 
+                                                                             Foreground="#888888" 
+                                                                             VerticalAlignment="Center"
+                                                                             FontSize="13">
                                                                 <b:Interaction.Triggers>
                                                                     <b:EventTrigger EventName="MouseLeftButtonDown" >
                                                                         <b:InvokeCommandAction 
@@ -177,7 +199,7 @@
                                                                             Command="{Binding CollectionLinkClickCommand, ElementName=TracksListRoot}"/>
                                                                     </b:EventTrigger>
                                                                 </b:Interaction.Triggers>
-                                                            </local:CollectionLink>
+                                                            </local:ViewLink>
                                                         </Grid>
 
                                                         <Grid Column="4">

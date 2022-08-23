@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
-using PhlegmaticOne.MusicPlayer.Contracts.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Helpers;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
+using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;

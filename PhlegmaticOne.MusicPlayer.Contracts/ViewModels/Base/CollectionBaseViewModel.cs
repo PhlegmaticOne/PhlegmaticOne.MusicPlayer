@@ -1,4 +1,5 @@
 ﻿using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.WPF.Core;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 

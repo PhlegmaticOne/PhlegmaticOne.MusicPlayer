@@ -11,8 +11,8 @@ namespace PhlegmaticOne.MusicPlayer.UI.WPF.Converters;
 
 public class CollectionOfEntitiesToStringConverter : IValueConverter
 {
-    public static string Comma = ",";
-    public static string Slash = "/";
+    public static string Comma = ", ";
+    public static string Slash = "/ ";
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (parameter is not string separator) return string.Empty;

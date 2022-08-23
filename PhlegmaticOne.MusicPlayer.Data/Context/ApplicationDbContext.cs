@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using PhlegmaticOne.MusicPlayer.Entities;
-using Microsoft.Extensions.Logging.Debug;
-using Microsoft.Extensions.Logging.Console;
 
 namespace PhlegmaticOne.MusicPlayer.Data.Context;
 

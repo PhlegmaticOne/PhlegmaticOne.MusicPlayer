@@ -16,6 +16,7 @@
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Entities\PhlegmaticOne.MusicPlayer.Entities.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Players\PhlegmaticOne.MusicPlayer.Players.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.WPF.Core\PhlegmaticOne.MusicPlayer.WPF.Core.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.WPF.Navigation\PhlegmaticOne.WPF.Navigation.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -33,7 +33,7 @@
                     <ColumnDefinition Width="2.5*"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" Margin="0 0 0 2">
+                <TextBox Grid.Column="0" Margin="0 0 0 2" AllowDrop="True" Name="LinkTextBox">
                     <TextBox.Style>
                         <Style TargetType="TextBox">
                             <Setter Property="Background" Value="Transparent"/>

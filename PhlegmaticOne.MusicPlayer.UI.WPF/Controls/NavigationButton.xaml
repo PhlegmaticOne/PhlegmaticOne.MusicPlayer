@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <RadioButton Command="{Binding NavigateCommand}"
-                 CommandParameter="{Binding ViewType, ElementName=NavigationButtonRoot}">
+                 CommandParameter="{Binding ViewModelType, ElementName=NavigationButtonRoot}">
         <RadioButton.Style>
             <Style TargetType="RadioButton">
                 <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
