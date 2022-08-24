@@ -8,6 +8,7 @@
              xmlns:converters="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
              xmlns:views="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
              mc:Ignorable="d" 
+             x:Name="ArtistViewRoot"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
@@ -150,56 +151,29 @@
                     </Grid>
                 </Grid>
             </Grid>
+
             <Grid Row="1">
-                <local:TracksList DataContext="{Binding TopTracks}"
-                                     LikeTrackCommand="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ArtistView}}}"
-                                     PlayTrackCommand="{Binding DataContext.PlaySongCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ArtistView}}}"
-                                     PlayPauseTrackCommand="{Binding DataContext.PlayPauseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ArtistView}}}"
-                                     IsPaused="{Binding DataContext.IsPaused, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ArtistView}}}"
-                                     IsStopped="{Binding DataContext.IsStopped, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ArtistView}}}"
-                                     CollectionLinkClickCommand="{Binding DataContext.ActiveCollectionNavigationFromTrackCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ArtistView}}}"
-                                     ArtistLinkClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ArtistView}}}"
-                                     CurrentTrack="{Binding DataContext.CurrentSong, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ArtistView}}}"/>
+                <local:TracksListing DataContext="{Binding TopTracks}"
+                                  LikeTrackCommand="{Binding DataContext.LikeCommand, ElementName=ArtistViewRoot}"
+                                  PlayTrackCommand="{Binding DataContext.PlaySongCommand, ElementName=ArtistViewRoot}"
+                                  PlayPauseTrackCommand="{Binding DataContext.PlayPauseCommand, ElementName=ArtistViewRoot}"
+                                  IsPaused="{Binding DataContext.IsPaused, ElementName=ArtistViewRoot}"
+                                  IsStopped="{Binding DataContext.IsStopped, ElementName=ArtistViewRoot}"
+                                  CollectionLinkClickCommand="{Binding DataContext.ActiveCollectionNavigationFromTrackCommand, ElementName=ArtistViewRoot}"
+                                  ArtistLinkClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, ElementName=ArtistViewRoot}"
+                                  CurrentTrack="{Binding DataContext.CurrentSong, ElementName=ArtistViewRoot}"/>
             </Grid>
             <Grid Row="2">
-                <ListView Background="Transparent"
-                          BorderThickness="0" 
-                          ItemsSource="{Binding Entity.Albums}"
-                          Margin="30 30 0 0"
-                          ScrollViewer.CanContentScroll="True"
-                          Name="AlbumsListView">
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <UniformGrid Columns="6" Rows="1" />
-                            <!--<StackPanel Orientation="Horizontal"/>-->
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
-                    <ListView.Template>
+                <local:ItemCardsListing DataContext="{Binding Entity.Albums}"
+                                        Margin="30 30 0 0"
+                                        RowsToShow="1"
+                                        ItemClickCommand="{Binding DataContext.ActiveCollectionNavigationFromPreviewCommand, ElementName=ArtistViewRoot}">
+                    <local:ItemCardsListing.CardControlTemplate>
                         <ControlTemplate>
-                            <ItemsPresenter ScrollViewer.CanContentScroll="True"/>
+                            <local:AlbumCard ImageHeight="200" Margin="5 10"/>
                         </ControlTemplate>
-                    </ListView.Template>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate>
-                                        <local:AlbumCard DataContext="{Binding}"
-                                                         Margin="0 0 25 15"
-                                                         ImageHeight="200">
-                                            <b:Interaction.Triggers>
-                                                <b:EventTrigger EventName="MouseLeftButtonDown" >
-                                                    <b:InvokeCommandAction CommandParameter="{Binding}"
-                                                                           Command="{Binding DataContext.ActiveCollectionNavigationFromPreviewCommand, ElementName=AlbumsListView}"/>
-                                                </b:EventTrigger>
-                                            </b:Interaction.Triggers>
-                                        </local:AlbumCard>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
+                    </local:ItemCardsListing.CardControlTemplate>
+                </local:ItemCardsListing>
             </Grid>
         </Grid>
     </ScrollViewer>

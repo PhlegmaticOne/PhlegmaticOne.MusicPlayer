@@ -1,15 +1,9 @@
-﻿using System.Windows.Controls;
+﻿namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views;
 
-namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views
+public partial class HomeView
 {
-    /// <summary>
-    /// Interaction logic for HomeView.xaml
-    /// </summary>
-    public partial class HomeView : UserControl
+    public HomeView()
     {
-        public HomeView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

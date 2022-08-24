@@ -4,37 +4,37 @@ using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls;
 
-public partial class TracksList
+public partial class TracksListing
 {
     public static readonly DependencyProperty PlayTrackCommandProperty = DependencyProperty.Register(
-        nameof(PlayTrackCommand), typeof(ICommand), typeof(TracksList), new PropertyMetadata(default(ICommand)));
+        nameof(PlayTrackCommand), typeof(ICommand), typeof(TracksListing), new PropertyMetadata(default(ICommand)));
 
     public static readonly DependencyProperty PlayPauseTrackCommandProperty = DependencyProperty.Register(
-        nameof(PlayPauseTrackCommand), typeof(ICommand), typeof(TracksList), new PropertyMetadata(default(ICommand)));
+        nameof(PlayPauseTrackCommand), typeof(ICommand), typeof(TracksListing), new PropertyMetadata(default(ICommand)));
 
     public static readonly DependencyProperty LikeTrackCommandProperty = DependencyProperty.Register(
-        nameof(LikeTrackCommand), typeof(ICommand), typeof(TracksList), new PropertyMetadata(default(ICommand)));
+        nameof(LikeTrackCommand), typeof(ICommand), typeof(TracksListing), new PropertyMetadata(default(ICommand)));
 
     public static readonly DependencyProperty IsPausedProperty = DependencyProperty.Register(
-        nameof(IsPaused), typeof(bool), typeof(TracksList), new PropertyMetadata(default(bool)));
+        nameof(IsPaused), typeof(bool), typeof(TracksListing), new PropertyMetadata(default(bool)));
 
     public static readonly DependencyProperty IsStoppedProperty = DependencyProperty.Register(
-        nameof(IsStopped), typeof(bool), typeof(TracksList), new PropertyMetadata(default(bool)));
+        nameof(IsStopped), typeof(bool), typeof(TracksListing), new PropertyMetadata(default(bool)));
 
     public static readonly DependencyProperty CurrentTrackProperty = DependencyProperty.Register(
-        nameof(CurrentTrack), typeof(TrackBaseViewModel), typeof(TracksList), new PropertyMetadata(default(TrackBaseViewModel)));
+        nameof(CurrentTrack), typeof(TrackBaseViewModel), typeof(TracksListing), new PropertyMetadata(default(TrackBaseViewModel)));
 
     public static readonly DependencyProperty CollectionLinkClickCommandProperty = DependencyProperty.Register(
-        nameof(CollectionLinkClickCommand), typeof(ICommand), typeof(TracksList), new PropertyMetadata(default(ICommand)));
+        nameof(CollectionLinkClickCommand), typeof(ICommand), typeof(TracksListing), new PropertyMetadata(default(ICommand)));
 
     public static readonly DependencyProperty ArtistLinkClickCommandProperty = DependencyProperty.Register(
-        nameof(ArtistLinkClickCommand), typeof(ICommand), typeof(TracksList), new PropertyMetadata(default(ICommand)));
+        nameof(ArtistLinkClickCommand), typeof(ICommand), typeof(TracksListing), new PropertyMetadata(default(ICommand)));
 
     public static readonly DependencyProperty OnLoadCommandProperty = DependencyProperty.Register(
-        nameof(OnLoadCommand), typeof(ICommand), typeof(TracksList), new PropertyMetadata(default(ICommand)));
+        nameof(OnLoadCommand), typeof(ICommand), typeof(TracksListing), new PropertyMetadata(default(ICommand)));
 
     public static readonly DependencyProperty OnLoadCommandParameterProperty = DependencyProperty.Register(
-        nameof(OnLoadCommandParameter), typeof(object), typeof(TracksList), new PropertyMetadata(default(object)));
+        nameof(OnLoadCommandParameter), typeof(object), typeof(TracksListing), new PropertyMetadata(default(object)));
 
     public object OnLoadCommandParameter
     {
@@ -96,7 +96,7 @@ public partial class TracksList
         set => SetValue(IsStoppedProperty, value);
     }
 
-    public TracksList()
+    public TracksListing()
     {
         InitializeComponent();
         Loaded += OnLoaded;

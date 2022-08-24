@@ -1,21 +1,12 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media.Animation;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls;
 
 public partial class ArtistCard
 {
-    public static readonly DependencyProperty ItemClickCommandProperty = DependencyProperty.Register(
-        nameof(ItemClickCommand), typeof(ICommand), typeof(ArtistCard), new PropertyMetadata(default(ICommand)));
-
-    public ICommand ItemClickCommand
-    {
-        get => (ICommand) GetValue(ItemClickCommandProperty);
-        set => SetValue(ItemClickCommandProperty, value);
-    }
     public ArtistCard()
     {
         InitializeComponent();

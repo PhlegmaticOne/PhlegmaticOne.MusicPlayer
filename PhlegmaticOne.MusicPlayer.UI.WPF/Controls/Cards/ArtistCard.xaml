@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
-             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              x:Name="ArtistCardRoot"
              mc:Ignorable="d" 
              d:DesignHeight="450"
@@ -18,7 +17,9 @@
 
     <Border Background="Transparent">
         <StackPanel Orientation="Vertical">
-            <Ellipse MinWidth="200" MinHeight="200" Name="ImageEllipse">
+            <Ellipse MinWidth="150" MinHeight="150"
+                     Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                     Name="ImageEllipse">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="{Binding Cover.Cover, Converter={StaticResource ImageToSourceConverter}}"/>
                 </Ellipse.Fill>
@@ -59,12 +60,6 @@
                 </TextBlock>
             </Canvas>
         </StackPanel>
-        <b:Interaction.Triggers>
-            <b:EventTrigger EventName="MouseLeftButtonDown" >
-                <b:InvokeCommandAction CommandParameter="{Binding DataContext, ElementName=ArtistCardRoot}"
-                                       Command="{Binding ItemClickCommand, ElementName=ArtistCardRoot}"/>
-            </b:EventTrigger>
-        </b:Interaction.Triggers>
     </Border>
     <UserControl.Triggers>
         <EventTrigger RoutedEvent="MouseEnter">

@@ -3,13 +3,13 @@ using System.Windows.Input;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views;
 
-public partial class ArtistsView
+public partial class ArtistsCollectionView
 {
     public static readonly DependencyProperty OnLoadCommandProperty = DependencyProperty.Register(
-        nameof(OnLoadCommand), typeof(ICommand), typeof(ArtistsView), new PropertyMetadata(default(ICommand)));
+        nameof(OnLoadCommand), typeof(ICommand), typeof(ArtistsCollectionView), new PropertyMetadata(default(ICommand)));
 
     public static readonly DependencyProperty OnLoadCommandParameterProperty = DependencyProperty.Register(
-        nameof(OnLoadCommandParameter), typeof(object), typeof(ArtistsView), new PropertyMetadata(default(object)));
+        nameof(OnLoadCommandParameter), typeof(object), typeof(ArtistsCollectionView), new PropertyMetadata(default(object)));
 
     public object OnLoadCommandParameter
     {
@@ -22,7 +22,7 @@ public partial class ArtistsView
         get => (ICommand) GetValue(OnLoadCommandProperty);
         set => SetValue(OnLoadCommandProperty, value);
     }
-    public ArtistsView()
+    public ArtistsCollectionView()
     {
         InitializeComponent();
         Loaded += OnLoaded;

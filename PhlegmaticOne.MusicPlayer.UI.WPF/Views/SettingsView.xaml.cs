@@ -1,15 +1,9 @@
-﻿using System.Windows.Controls;
+﻿namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views;
 
-namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views
+public partial class SettingsView
 {
-    /// <summary>
-    /// Interaction logic for SettingsView.xaml
-    /// </summary>
-    public partial class SettingsView : UserControl
+    public SettingsView()
     {
-        public SettingsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

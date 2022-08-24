@@ -28,19 +28,19 @@
              </DataTemplate>
 
              <DataTemplate DataType="{x:Type collectionViewModels:ArtistsCollectionViewModel}">
-                 <v:ArtistsView/>
+                 <v:ArtistsCollectionView/>
              </DataTemplate>
 
              <DataTemplate DataType="{x:Type collectionViewModels:AlbumsCollectionViewModel}">
-                 <v:CollectionView/>
+                 <v:AlbumsCollectionView/>
              </DataTemplate>
 
              <DataTemplate DataType="{x:Type vm:DownloadedTracksViewModel}">
-                 <v:DowmloadedTracksView/>
+                 <v:DownloadedTracksView/>
              </DataTemplate>
 
              <DataTemplate DataType="{x:Type entityContainingViewModels:PlaylistViewModel}">
-                 <v:PlaylistsView/>
+                 <v:PlaylistsCollectionView/>
              </DataTemplate>
 
              <DataTemplate DataType="{x:Type vm:SettingsViewModel}">

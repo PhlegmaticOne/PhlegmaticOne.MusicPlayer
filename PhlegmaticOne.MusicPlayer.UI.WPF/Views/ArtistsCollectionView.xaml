@@ -1,19 +1,61 @@
-﻿<UserControl x:Class="PhlegmaticOne.MusicPlayer.UI.WPF.Views.ArtistsView"
+﻿<UserControl x:Class="PhlegmaticOne.MusicPlayer.UI.WPF.Views.ArtistsCollectionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
+             xmlns:converters="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
              x:Name="ArtistsCollectionViewRoot"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <UserControl.Resources>
+        <converters:CollectionIsEmptyConverter x:Key="CollectionIsEmptyConverter"/>
+    </UserControl.Resources>
+
     <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
         <Grid>
-            <controls:ArtistsListing DataContext="{Binding Items}" 
-                                     ItemClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, ElementName=ArtistsCollectionViewRoot}"
-                                     OnLoadCommand="{Binding DataContext.ReloadViewModel.ReloadCommand, ElementName=ArtistsCollectionViewRoot}"
-                                     OnLoadCommandParameter="{Binding DataContext, ElementName=ArtistsCollectionViewRoot}"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <Grid Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid Column="0" Row="0">
+                    <controls:ViewTitle Padding="30" VerticalAlignment="Center" TitleText="Artists"/>
+                </Grid>
+                <Grid Column="1" Row="0" Margin="0 0 20 0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+
+                        <controls:SortMenu HorizontalAlignment="Center" 
+                                           DataContext="{Binding SortViewModel}"
+                                           ControlLoadCommand="{Binding LoadSortOptionsCommand}"
+                                           ViewModelToSort="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+
+                        <controls:ReloadButton DataContext="{Binding ReloadViewModel}"
+                                               ViewModelToReload="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+
+                    </StackPanel>
+                </Grid>
+            </Grid>
+
+            <Grid Row="1">
+                <controls:ItemCardsListing Margin="30 30 0 0 "
+                                           DataContext="{Binding Items}"
+                                           ItemClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, ElementName=ArtistsCollectionViewRoot}"
+                                           OnLoadCommandParameter="{Binding DataContext, ElementName=ArtistsCollectionViewRoot}"
+                                           OnLoadCommand="{Binding DataContext.ReloadViewModel.ReloadCommand, ElementName=ArtistsCollectionViewRoot}"
+                                           CanExecuteOnLoadCommand="{Binding DataContext.Items, ElementName=ArtistsCollectionViewRoot, Converter={StaticResource CollectionIsEmptyConverter}}">
+                    <controls:ItemCardsListing.CardControlTemplate>
+                        <ControlTemplate>
+                            <controls:ArtistCard Margin="5 10"/>
+                        </ControlTemplate>
+                    </controls:ItemCardsListing.CardControlTemplate>
+                </controls:ItemCardsListing>
+            </Grid>
         </Grid>
     </ScrollViewer>
 </UserControl>

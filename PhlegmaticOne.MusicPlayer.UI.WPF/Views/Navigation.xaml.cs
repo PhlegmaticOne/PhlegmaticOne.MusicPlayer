@@ -1,8 +1,6 @@
-﻿using System.Windows.Controls;
+﻿namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views;
 
-namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views;
-
-public partial class Navigation : UserControl
+public partial class Navigation
 {
     public Navigation()
     {

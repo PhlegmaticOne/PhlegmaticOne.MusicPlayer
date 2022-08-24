@@ -1,15 +1,9 @@
-﻿using System.Windows.Controls;
+﻿namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views;
 
-namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views
+public partial class PlaylistsCollectionView
 {
-    /// <summary>
-    /// Interaction logic for PlaylistsView.xaml
-    /// </summary>
-    public partial class PlaylistsView : UserControl
+    public PlaylistsCollectionView()
     {
-        public PlaylistsView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views;
 
-public partial class CollectionView
+public partial class AlbumsCollectionView
 {
-    public CollectionView()
+    public AlbumsCollectionView()
     {
         InitializeComponent();
     }

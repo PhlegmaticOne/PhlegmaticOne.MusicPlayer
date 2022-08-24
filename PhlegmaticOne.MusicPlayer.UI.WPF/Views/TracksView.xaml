@@ -18,7 +18,7 @@
                 <controls:ViewTitle TitleText="Tracks" Padding="30" VerticalAlignment="Center"/>
             </Grid>
             <Grid Row="1">
-                <controls:TracksList DataContext="{Binding Items}"
+                <controls:TracksListing DataContext="{Binding Items}"
                                      OnLoadCommand="{Binding DataContext.ReloadViewModel.ReloadCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
                                      OnLoadCommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
                                      LikeTrackCommand="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"

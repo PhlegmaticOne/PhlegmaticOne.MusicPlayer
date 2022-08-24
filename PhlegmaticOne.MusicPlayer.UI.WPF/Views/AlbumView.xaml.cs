@@ -1,15 +1,9 @@
-﻿using System.Windows.Controls;
+﻿namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views;
 
-namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views
+public partial class AlbumView
 {
-    /// <summary>
-    /// Interaction logic for AlbumView.xaml
-    /// </summary>
-    public partial class AlbumView : UserControl
+    public AlbumView()
     {
-        public AlbumView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }
