@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.WPF.Navigation.Extensions;
 
@@ -12,8 +12,8 @@ public class NavigationConfiguration
     {
         var viewModelTypes = viewModelsContainingAssembly
             .GetTypes()
-            .Where(x => x.IsAssignableTo(typeof(ApplicationBaseViewModel)) && 
-                        x.GetInterfaces().All(i => i.IsGenericType == false) && 
+            .Where(x => x.IsAssignableTo(typeof(ApplicationBaseViewModel)) &&
+                        x.GetInterfaces().All(i => !i.IsGenericType || i.GetGenericTypeDefinition() != typeof(IEntityContainingViewModel<>)) && 
                         x.IsAbstract == false)
             .ToList();
 

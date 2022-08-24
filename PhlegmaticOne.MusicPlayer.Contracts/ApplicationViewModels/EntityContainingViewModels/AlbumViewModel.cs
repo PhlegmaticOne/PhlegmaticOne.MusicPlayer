@@ -1,8 +1,8 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Navigation;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContainingViewModels;
@@ -16,13 +16,13 @@ public class AlbumViewModel : PlayerTrackableViewModel, IEntityContainingViewMod
         _downloadService = downloadService;
         _isFirstSongWillPlay = true;
 
-        DownloadAlbumCommand = new(DownloadAlbum, _ => true);
+        DownloadAlbumCommand = DelegateCommandFactory.CreateCommand(DownloadAlbum, _ => true);
 
         TrySetSong();
     }
 
     public ActiveAlbumViewModel Entity { get; set; } = null!;
-    public DelegateCommand DownloadAlbumCommand { get; set; }
+    public IDelegateCommand DownloadAlbumCommand { get; set; }
 
     protected override void PlaySongAction(object? parameter)
     {

@@ -1,8 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Cache;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Collections;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Extensions;
 using PhlegmaticOne.MusicPlayer.Entities;

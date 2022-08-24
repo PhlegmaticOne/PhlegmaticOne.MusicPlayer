@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
+﻿using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 using System.Windows;
 using System.Windows.Input;
 

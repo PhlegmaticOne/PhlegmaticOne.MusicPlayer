@@ -3,126 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
-             xmlns:converters="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
-             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
+             x:Name="ArtistsCollectionViewRoot"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <converters:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
-        <converters:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
-        <converters:NegatingConverter x:Key="NegatingConverter"/>
-    </UserControl.Resources>
-    <Grid>
-        <ListView ItemsSource="{Binding Artists}" 
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-
-            <ListView.Style>
-                <Style TargetType="ListView">
-                    <Setter Property="Background" Value="Transparent"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ListView">
-                                <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
-                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                    Margin="30"/>
-                                </ScrollViewer>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListView.Style>
-
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Width" Value="200"/>
-                    <Setter Property="Margin" Value="15"/>
-
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ListViewItem">
-                                <Border Background="Transparent">
-                                    <StackPanel Orientation="Vertical" >
-                                        <Ellipse MinWidth="197" MinHeight="197">
-                                            <Ellipse.Fill>
-                                                <ImageBrush ImageSource="{Binding Cover.Cover, Converter={StaticResource ImageToSourceConverter}}"/>
-                                            </Ellipse.Fill>
-                                        </Ellipse>
-
-                                        <TextBlock Text="{Binding Name}" 
-                                                   Foreground="#D2D2D2" 
-                                                   FontSize="16"
-                                                   HorizontalAlignment="Center"
-                                                   FontWeight="Bold"
-                                                   Margin="0 8 0 0"/>
-
-                                        <StackPanel Orientation=" Horizontal" 
-                                                    HorizontalAlignment="Center"
-                                                    Margin="0 5 0 0">
-                                            <TextBlock Text="{Binding TracksCount}" 
-                                                       Foreground="#B7B7B7" 
-                                                       FontSize="14"
-                                                       HorizontalAlignment="Center"/>
-                                            <TextBlock Text=" tracks" 
-                                                       Foreground="#B7B7B7" 
-                                                       FontSize="14"
-                                                       HorizontalAlignment="Center"/>
-                                        </StackPanel>
-
-                                        <Canvas x:Name="Canvas" 
-                                                Height="20"
-                                                Background="Transparent" 
-                                                ClipToBounds="True"
-                                                Margin="0 3 0 0">
-                                            <TextBlock VerticalAlignment="Bottom" 
-                                                           FontSize="13"
-                                                           Foreground="#B7B7B7"
-                                                           Text="{Binding Genres, Converter={StaticResource CollectionOfEntitiesToStringConverter}, ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Comma}}" 
-                                                           Name="TextBlock">
-                                                <TextBlock.Triggers>
-                                                        <EventTrigger RoutedEvent="TextBlock.Loaded">
-                                                            <EventTrigger.Actions>
-                                                                <BeginStoryboard>
-                                                                    <Storyboard>
-                                                                    <DoubleAnimation 
-                                                                            Storyboard.TargetProperty="(Canvas.Left)" 
-                                                                            From="10"
-                                                                            To="{Binding ., ElementName=TextBlock, 
-                                                                                                Converter={StaticResource NegatingConverter}}"
-                                                                            Duration="0:0:8"
-                                                                            RepeatBehavior="Forever"
-                                                                            AccelerationRatio="0.1"
-                                                                            DecelerationRatio="0.1"
-                                                                            AutoReverse="True"/>
-                                                                    </Storyboard>
-                                                                </BeginStoryboard>
-                                                            </EventTrigger.Actions>
-                                                        </EventTrigger>
-                                                    </TextBlock.Triggers>
-                                                </TextBlock>
-                                            </Canvas>
-                                    </StackPanel>
-                                    <b:Interaction.Triggers>
-                                        <b:EventTrigger EventName="MouseLeftButtonDown" >
-                                            <b:InvokeCommandAction CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"
-                                                                   Command="{Binding DataContext.ActiveArtistNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ArtistsView}}}"/>
-                                        </b:EventTrigger>
-                                    </b:Interaction.Triggers>
-                                </Border>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
-       
-    </Grid>
+    <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
+        <Grid>
+            <controls:ArtistsListing DataContext="{Binding Items}" 
+                                     ItemClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, ElementName=ArtistsCollectionViewRoot}"
+                                     OnLoadCommand="{Binding DataContext.ReloadViewModel.ReloadCommand, ElementName=ArtistsCollectionViewRoot}"
+                                     OnLoadCommandParameter="{Binding DataContext, ElementName=ArtistsCollectionViewRoot}"/>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

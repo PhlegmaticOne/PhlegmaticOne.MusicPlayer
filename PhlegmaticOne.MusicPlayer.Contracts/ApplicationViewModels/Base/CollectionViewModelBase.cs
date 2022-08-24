@@ -3,35 +3,34 @@ using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
 using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 using PhlegmaticOne.WPF.Navigation;
-using PhlegmaticOne.WPF.Navigation.EntityContainingViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 
-public abstract class CollectionViewModelBase<TCollectionViewModel, TCollectionItemType> : PlayerTrackableViewModel
-    where TCollectionItemType : BaseViewModel, ICollectionItem
-    where TCollectionViewModel : CollectionViewModelBase<TCollectionViewModel, TCollectionItemType>
+public abstract class CollectionViewModelBase<TViewModel, TCollectionItemType> : PlayerTrackableViewModel
+    where TViewModel : CollectionViewModelBase<TViewModel, TCollectionItemType>
+    where TCollectionItemType : EntityBaseViewModel
 {
     protected readonly IUIThreadInvokerService UiThreadInvokerService;
     protected readonly IEntityContainingViewModelsNavigationService EntityContainingViewModelsNavigationService;
-    public ReloadViewModelBase<TCollectionViewModel> ReloadViewModel { get; }
-    public SortViewModelBase<TCollectionViewModel, TCollectionItemType> SortViewModel { get; }
-    public ObservableCollection<TCollectionItemType> Items { get; }
 
     protected CollectionViewModelBase(IPlayerService playerService,
-        ReloadViewModelBase<TCollectionViewModel> reloadViewModel,
-        SortViewModelBase<TCollectionViewModel, TCollectionItemType> sortViewModelBase,
         IUIThreadInvokerService uiThreadInvokerService, 
-        IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService) : base(playerService)
+        IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService,
+        ReloadViewModelBase<TViewModel> reloadViewModel,
+        SortViewModelBase<TViewModel, TCollectionItemType> sortViewModel) : base(playerService)
     {
+        ReloadViewModel = reloadViewModel;
+        SortViewModel = sortViewModel;
         UiThreadInvokerService = uiThreadInvokerService;
         EntityContainingViewModelsNavigationService = entityContainingViewModelsNavigationService;
-        ReloadViewModel = reloadViewModel;
-        SortViewModel = sortViewModelBase;
         Items = new();
     }
+
+    public ObservableCollection<TCollectionItemType> Items { get; }
+    public ReloadViewModelBase<TViewModel> ReloadViewModel { get; }
+    public SortViewModelBase<TViewModel, TCollectionItemType> SortViewModel { get; }
 
     internal async Task UpdateItems(IEnumerable<TCollectionItemType> newItems)
     {

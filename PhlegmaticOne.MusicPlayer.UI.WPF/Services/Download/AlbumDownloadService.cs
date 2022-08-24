@@ -1,7 +1,7 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Players.DownloadSongsFeature;
+﻿using PhlegmaticOne.MusicPlayer.Players.DownloadSongsFeature;
 using System.IO;
 using System.Threading.Tasks;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services.Download;

@@ -6,6 +6,7 @@
              xmlns:conv="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
              xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
              xmlns:vm="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts"
+             xmlns:collectionViewModels="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.CollectionViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="315">
@@ -165,11 +166,11 @@
                     </controls:NavigationButton>
 
                     <controls:NavigationButton Header="{DynamicResource TracksMenuItemText}" 
-                                               ViewModelType="{x:Type vm:TracksViewModel}"
+                                               ViewModelType="{x:Type collectionViewModels:TracksViewModel}"
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:TracksViewModel}}">
+                        ConverterParameter={x:Type collectionViewModels:TracksViewModel}}">
                         <controls:NavigationButton.ButtonContent>
                             <Viewbox Width="24" Height="24">
                                 <Canvas Width="24" Height="24">
@@ -180,11 +181,11 @@
                     </controls:NavigationButton>
 
                     <controls:NavigationButton Header="{DynamicResource ArtistsMenuItemText}" 
-                                               ViewModelType="{x:Type vm:ArtistsCollectionViewModel}"
+                                               ViewModelType="{x:Type collectionViewModels:ArtistsCollectionViewModel}"
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:ArtistsCollectionViewModel}}">
+                        ConverterParameter={x:Type collectionViewModels:ArtistsCollectionViewModel}}">
                         <controls:NavigationButton.ButtonContent>
                             <Viewbox Width="24" Height="24">
                                 <Canvas Width="24" Height="24">
@@ -195,11 +196,11 @@
                     </controls:NavigationButton>
 
                     <controls:NavigationButton Header="{DynamicResource CollectionMenuItemText}" 
-                                               ViewModelType="{x:Type vm:AlbumsCollectionViewModel}"
+                                               ViewModelType="{x:Type collectionViewModels:AlbumsCollectionViewModel}"
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:AlbumsCollectionViewModel}}">
+                        ConverterParameter={x:Type collectionViewModels:AlbumsCollectionViewModel}}">
                         <controls:NavigationButton.ButtonContent>
                             <Viewbox Width="24" Height="24">
                                 <Canvas Width="24" Height="24">
@@ -210,11 +211,11 @@
                     </controls:NavigationButton>
 
                     <controls:NavigationButton Header="{DynamicResource PlaylistsMenuItemText}" 
-                                               ViewModelType="{x:Type vm:PlaylistsCollectionViewModel}"
+                                               ViewModelType="{x:Type collectionViewModels:PlaylistsCollectionViewModel}"
                                                DataContext="{Binding .}"
                                                IsCurrent="{Binding CurrentViewModel,
                         Converter={StaticResource EqualValueToParameterConverter},
-                        ConverterParameter={x:Type vm:PlaylistsCollectionViewModel}}">
+                        ConverterParameter={x:Type collectionViewModels:PlaylistsCollectionViewModel}}">
                         <controls:NavigationButton.ButtonContent>
                             <Viewbox Width="24" Height="24">
                                 <Canvas Width="24" Height="24">

@@ -3,7 +3,8 @@ using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
+using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 
@@ -12,6 +13,7 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
     private readonly IHttpInfoGetter<Album> _albumInfoGetter;
     private readonly ApplicationDbContext _dbContext;
     private readonly IUIThreadInvokerService _uiThreadInvokerService;
+
     private string _url;
     private Album? _currentAlbum;
 
@@ -41,14 +43,15 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
         _albumInfoGetter = albumInfoGetter;
         _dbContext = dbContext;
         _uiThreadInvokerService = uiThreadInvokerService;
-        GetAlbumInfoCommand = new(GetAlbumInfo, _ => string.IsNullOrEmpty(Url) == false);
-        AddToCollectionCommand = new(AddToCollection, _ => CurrentAlbum is not null);
-        ClearCommand = new(Clear, _ => CurrentAlbum is not null);
+        _url = string.Empty;
+        GetAlbumInfoCommand = DelegateCommandFactory.CreateCommand(GetAlbumInfo, _ => string.IsNullOrEmpty(Url) == false);
+        AddToCollectionCommand = DelegateCommandFactory.CreateCommand(AddToCollection, _ => CurrentAlbum is not null);
+        ClearCommand = DelegateCommandFactory.CreateCommand(Clear, _ => CurrentAlbum is not null);
     }
 
-    public DelegateCommand GetAlbumInfoCommand { get; set; }
-    public DelegateCommand AddToCollectionCommand { get; set; }
-    public DelegateCommand ClearCommand { get; set; }
+    public IDelegateCommand GetAlbumInfoCommand { get; set; }
+    public IDelegateCommand AddToCollectionCommand { get; set; }
+    public IDelegateCommand ClearCommand { get; set; }
 
     private async void GetAlbumInfo(object? parameter)
     {
@@ -69,7 +72,7 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
     {
         await Task.Run(async () =>
         {
-            CurrentAlbum.DateAdded = DateTime.Now;
+            CurrentAlbum!.DateAdded = DateTime.Now;
 
             var artistNames = CurrentAlbum.Artists.Select(x => x.Name);
             var genreNames = CurrentAlbum.Genres.Select(x => x.Name);

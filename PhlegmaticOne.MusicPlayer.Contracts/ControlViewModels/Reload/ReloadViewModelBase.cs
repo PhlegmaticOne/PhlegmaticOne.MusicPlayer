@@ -1,29 +1,29 @@
-﻿using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
-using PhlegmaticOne.MusicPlayer.Data.Context;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
+using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
+using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
 
-public abstract class ReloadViewModelBase<T> : BaseViewModel where T : BaseViewModel
+public abstract class ReloadViewModelBase<TViewModel> : BaseViewModel where TViewModel : ApplicationBaseViewModel
 {
-    protected readonly ApplicationDbContext DbContext;
-    protected readonly IEntityCollectionGetService ViewModelGetService;
+    protected readonly IEntityCollectionGetService EntityCollectionGetService;
 
-    protected ReloadViewModelBase(ApplicationDbContext dbContext, IEntityCollectionGetService viewModelGetService)
+    protected ReloadViewModelBase(IEntityCollectionGetService entityCollectionGetService)
     {
-        DbContext = dbContext;
-        ViewModelGetService = viewModelGetService;
-        ReloadCommand = new DelegateCommand(ReloadAction, _ => true);
+        EntityCollectionGetService = entityCollectionGetService;
+        ReloadCommand = DelegateCommandFactory.CreateCommand(ReloadAction, _ => true);
     }
-    public ICommand ReloadCommand { get; }
-    protected abstract Task ReloadViewModel(T viewModel);
+    public IDelegateCommand ReloadCommand { get; }
+    protected abstract Task ReloadViewModel(TViewModel viewModel);
 
     private async void ReloadAction(object? parameter)
     {
-        if (parameter is T viewModel)
+        if (parameter is TViewModel viewModel)
         {
-            await ReloadViewModel(viewModel);
+            await Task.Run(async () =>
+            {
+                await ReloadViewModel(viewModel);
+            });
         }
     }
 }

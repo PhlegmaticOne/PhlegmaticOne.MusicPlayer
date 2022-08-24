@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 

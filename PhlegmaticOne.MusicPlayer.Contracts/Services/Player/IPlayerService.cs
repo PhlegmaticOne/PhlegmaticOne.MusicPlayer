@@ -1,5 +1,5 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.ValueProviders;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Player;

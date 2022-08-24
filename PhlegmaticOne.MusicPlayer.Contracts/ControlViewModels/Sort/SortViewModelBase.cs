@@ -1,40 +1,40 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
-using PhlegmaticOne.MusicPlayer.Contracts.Helpers;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Helpers;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
+using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
 
-public abstract class SortViewModelBase<TViewModel, TItemType> : BaseViewModel
-    where TItemType : BaseViewModel, ICollectionItem
-    where TViewModel : CollectionViewModelBase<TViewModel, TItemType>
+public abstract class SortViewModelBase<TViewModel, TCollectionItemType> : BaseViewModel
+    where TViewModel : ApplicationBaseViewModel
+    where TCollectionItemType : EntityBaseViewModel
 {
+    private readonly Dictionary<string, Func<IEnumerable<TCollectionItemType>, IEnumerable<TCollectionItemType>>> _availableSorts;
+
     protected readonly ILocalizationService LocalizationService;
-    private readonly Dictionary<string, Func<IEnumerable<TItemType>, IEnumerable<TItemType>>> _availableSorts;
-    public SortDescription<TItemType> Current { get; set; }
-    public ObservableCollection<SortDescription<TItemType>> SortOptions { get; }
+    
     protected SortViewModelBase(ILocalizationService localizationService)
     {
         LocalizationService = localizationService;
         _availableSorts = new();
         SortOptions = new();
-        SortCommand = new DelegateCommand(SortAction, _ => true);
-        LoadSortOptionsCommand = new DelegateCommand(LoadSortOptions, _ => true);
-        SetCurrentSortCommand = new DelegateCommand(SetCurrentSort, _ => true);
+
+        SortCommand = DelegateCommandFactory.CreateCommand(SortAction, _ => true);
+        LoadSortOptionsCommand = DelegateCommandFactory.CreateCommand(LoadSortOptions, _ => true);
+        SetCurrentSortCommand = DelegateCommandFactory.CreateCommand(SetCurrentSort, _ => true);
 
         LocalizationService.LanguageChanged += LocalizationServiceOnLanguageChanged;
     }
 
-    private void LocalizationServiceOnLanguageChanged(object? sender, EventArgs e) => UpdateSortOptions();
+    public SortDescription<TCollectionItemType> Current { get; set; } = null!;
+    public ObservableCollection<SortDescription<TCollectionItemType>> SortOptions { get; }
+    public IDelegateCommand SortCommand { get; }
+    public IDelegateCommand LoadSortOptionsCommand { get; }
+    public IDelegateCommand SetCurrentSortCommand { get; }
 
-    public ICommand SortCommand { get; }
-    public ICommand LoadSortOptionsCommand { get; }
-    public ICommand SetCurrentSortCommand { get; }
-    protected abstract Dictionary<string, Func<IEnumerable<TItemType>, IEnumerable<TItemType>>> GetAvailableSorts();
-
+    protected abstract Dictionary<string, Func<IEnumerable<TCollectionItemType>, IEnumerable<TCollectionItemType>>> GetAvailableSorts();
+    protected abstract Task SortViewModelAsync(TViewModel viewModel, Func<IEnumerable<TCollectionItemType>, IEnumerable<TCollectionItemType>> sortFunc);
     private void LoadSortOptions(object? _)
     {
         if (_availableSorts.Any() == false)
@@ -56,7 +56,7 @@ public abstract class SortViewModelBase<TViewModel, TItemType> : BaseViewModel
 
     private void SetCurrentSort(object? parameter)
     {
-        if (parameter is SortDescription<TItemType> sortDescription)
+        if (parameter is SortDescription<TCollectionItemType> sortDescription)
         {
             Current = sortDescription;
         }
@@ -65,9 +65,12 @@ public abstract class SortViewModelBase<TViewModel, TItemType> : BaseViewModel
     {
         if (parameter is TViewModel viewModel)
         {
-            var sort = _availableSorts[Current.SortName];
-            var sorted = sort(viewModel.Items).ToList();
-            await viewModel.UpdateItems(sorted);
+            await Task.Run(async () =>
+            {
+                var sort = _availableSorts[Current.SortName];
+                await SortViewModelAsync(viewModel, sort);
+            });
         }
     }
+    private void LocalizationServiceOnLanguageChanged(object? sender, EventArgs e) => UpdateSortOptions();
 }

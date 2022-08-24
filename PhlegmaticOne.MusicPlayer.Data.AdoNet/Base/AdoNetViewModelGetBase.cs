@@ -1,8 +1,8 @@
 ﻿using System.Data;
 using Microsoft.Data.SqlClient;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Collections;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 

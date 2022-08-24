@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.HandMapper.Lib;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.WPF.Navigation;

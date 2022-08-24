@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Collections;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Collections;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Entities;
 

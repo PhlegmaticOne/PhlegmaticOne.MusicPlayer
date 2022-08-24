@@ -1,5 +1,5 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Navigation;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 

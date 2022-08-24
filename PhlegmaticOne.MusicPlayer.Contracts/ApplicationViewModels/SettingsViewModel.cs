@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Forms;
+using PhlegmaticOne.MusicPlayer.Contracts.Helpers;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
+using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 
@@ -22,13 +24,13 @@ public class SettingsViewModel : ApplicationBaseViewModel
         UpdateDirectoryMenu();
         UpdateLanguageMenu();
 
-        ChangeLanguageCommand = new(ChangeLanguage, _ => true);
-        SetNewDownloadDirectoryPathCommand = new(SetNewDownloadDirectory, _ => true);
-        DeleteTracksFromDeviceCommand = new(DeleteTracksFromDevice, _ => DirectorySize > 0);
+        ChangeLanguageCommand = DelegateCommandFactory.CreateCommand(ChangeLanguage, _ => true);
+        SetNewDownloadDirectoryPathCommand = DelegateCommandFactory.CreateCommand(SetNewDownloadDirectory, _ => true);
+        DeleteTracksFromDeviceCommand = DelegateCommandFactory.CreateCommand(DeleteTracksFromDevice, _ => DirectorySize > 0);
     }
-    public DelegateCommand ChangeLanguageCommand { get; set; }
-    public DelegateCommand SetNewDownloadDirectoryPathCommand { get; set; }
-    public DelegateCommand DeleteTracksFromDeviceCommand { get; set; }
+    public IDelegateCommand ChangeLanguageCommand { get; set; }
+    public IDelegateCommand SetNewDownloadDirectoryPathCommand { get; set; }
+    public IDelegateCommand DeleteTracksFromDeviceCommand { get; set; }
 
     private void ChangeLanguage(object? parameter)
     {
@@ -80,16 +82,4 @@ public class SettingsViewModel : ApplicationBaseViewModel
         DirectorySize = (size / 1000000);
         DeleteTracksFromDeviceCommand.RaiseCanExecute();
     }
-}
-
-public class DisplayCultureInfo
-{
-    public DisplayCultureInfo(string displayName, string code)
-    {
-        DisplayName = displayName;
-        Code = code;
-    }
-
-    public string DisplayName { get; set; }
-    public string Code { get; set; }
 }

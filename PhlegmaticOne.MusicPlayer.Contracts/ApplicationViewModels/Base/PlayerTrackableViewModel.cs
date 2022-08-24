@@ -1,6 +1,7 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
+using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
+using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 
@@ -18,14 +19,14 @@ public abstract class PlayerTrackableViewModel : ApplicationBaseViewModel
         playerService.StopChanged += (_, isStopped) => IsStopped = isStopped;
         playerService.TrackValueProvider.ValueChanged += (_, newSong) => CurrentSong = newSong;
 
-        PlaySongCommand = new(PlaySongAction, _ => true);
-        PlayPauseCommand = new(PlayPauseAction, _ => true);
-        LikeCommand = new(LikeAction, _ => true);
+        PlaySongCommand =  DelegateCommandFactory.CreateCommand(PlaySongAction, _ => true);
+        PlayPauseCommand = DelegateCommandFactory.CreateCommand(PlayPauseAction, _ => true);
+        LikeCommand = DelegateCommandFactory.CreateCommand(LikeAction, _ => true);
     }
 
-    public DelegateCommand PlaySongCommand { get; set; }
-    public DelegateCommand PlayPauseCommand { get; set; }
-    public DelegateCommand LikeCommand { get; set; }
+    public IDelegateCommand PlaySongCommand { get; set; }
+    public IDelegateCommand PlayPauseCommand { get; set; }
+    public IDelegateCommand LikeCommand { get; set; }
 
     protected virtual void PlaySongAction(object? parameter)
     {

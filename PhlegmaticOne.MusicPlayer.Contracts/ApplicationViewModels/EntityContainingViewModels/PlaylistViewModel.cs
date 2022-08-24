@@ -1,5 +1,5 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
+using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 using PhlegmaticOne.WPF.Navigation;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContainingViewModels;

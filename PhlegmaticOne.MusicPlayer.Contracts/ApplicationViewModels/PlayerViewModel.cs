@@ -1,7 +1,7 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 
@@ -33,27 +33,27 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         _playerService.Volume = volume == 0 ? 0.2f : volume;
         Volume = _playerService.Volume;
 
-        RewindCommand = new(Rewind, _ => true);
-        OpenSongsQueueCommand = new(OpenQueue, _ => true);
-        MoveNextCommand = new(MoveNextAction, _ => true);
-        MovePreviousCommand = new(MovePreviousAction, _ => true);
-        ChangeQueueRepeatTypeCommand = new(ChangeQueueRepeatType, _ => true);
-        ChangeQueueShuffleTypeCommand = new(ChangeQueueShuffleType, _ => true);
-        MuteCommand = new(Mute, _ => true);
-        SaveVolumeCommand = new(SaveVolume, _ => true);
+        RewindCommand = DelegateCommandFactory.CreateCommand(Rewind, _ => true);
+        OpenSongsQueueCommand = DelegateCommandFactory.CreateCommand(OpenQueue, _ => true);
+        MoveNextCommand = DelegateCommandFactory.CreateCommand(MoveNextAction, _ => true);
+        MovePreviousCommand = DelegateCommandFactory.CreateCommand(MovePreviousAction, _ => true);
+        ChangeQueueRepeatTypeCommand = DelegateCommandFactory.CreateCommand(ChangeQueueRepeatType, _ => true);
+        ChangeQueueShuffleTypeCommand = DelegateCommandFactory.CreateCommand(ChangeQueueShuffleType, _ => true);
+        MuteCommand = DelegateCommandFactory.CreateCommand(Mute, _ => true);
+        SaveVolumeCommand = DelegateCommandFactory.CreateCommand(SaveVolume, _ => true);
 
         SetIsPausedAndIsStopped();
     }
 
 
-    public DelegateCommand RewindCommand { get; set; }
-    public DelegateCommand OpenSongsQueueCommand { get; set; }
-    public DelegateCommand MoveNextCommand { get; set; }
-    public DelegateCommand MovePreviousCommand { get; set; }
-    public DelegateCommand ChangeQueueRepeatTypeCommand { get; set; }
-    public DelegateCommand ChangeQueueShuffleTypeCommand { get; set; }
-    public DelegateCommand SaveVolumeCommand { get; set; }
-    public DelegateCommand MuteCommand { get; set; }
+    public IDelegateCommand RewindCommand { get; set; }
+    public IDelegateCommand OpenSongsQueueCommand { get; set; }
+    public IDelegateCommand MoveNextCommand { get; set; }
+    public IDelegateCommand MovePreviousCommand { get; set; }
+    public IDelegateCommand ChangeQueueRepeatTypeCommand { get; set; }
+    public IDelegateCommand ChangeQueueShuffleTypeCommand { get; set; }
+    public IDelegateCommand SaveVolumeCommand { get; set; }
+    public IDelegateCommand MuteCommand { get; set; }
 
     private void SaveVolume(object? parameter)
     {

@@ -4,7 +4,8 @@
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF"
              xmlns:v="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
              xmlns:vm="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts"
-             xmlns:entityContainingViewModels="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContainingViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts">
+             xmlns:entityContainingViewModels="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContainingViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts"
+             xmlns:collectionViewModels="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.CollectionViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts">
     <Application.Resources>
          <ResourceDictionary>
              <ResourceDictionary.MergedDictionaries>
@@ -26,11 +27,11 @@
                  <v:AddingNewAlbumView/>
              </DataTemplate>
 
-             <DataTemplate DataType="{x:Type vm:ArtistsCollectionViewModel}">
+             <DataTemplate DataType="{x:Type collectionViewModels:ArtistsCollectionViewModel}">
                  <v:ArtistsView/>
              </DataTemplate>
 
-             <DataTemplate DataType="{x:Type vm:AlbumsCollectionViewModel}">
+             <DataTemplate DataType="{x:Type collectionViewModels:AlbumsCollectionViewModel}">
                  <v:CollectionView/>
              </DataTemplate>
 
@@ -46,7 +47,7 @@
                  <v:SettingsView/>
              </DataTemplate>
 
-             <DataTemplate DataType="{x:Type vm:TracksViewModel}">
+             <DataTemplate DataType="{x:Type collectionViewModels:TracksViewModel}">
                  <v:TracksView/>
              </DataTemplate>
 

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.ValueProviders;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 

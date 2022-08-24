@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Converters;
 

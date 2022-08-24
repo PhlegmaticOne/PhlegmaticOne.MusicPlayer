@@ -1,15 +1,35 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Input;
 
-namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views
+namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views;
+
+public partial class ArtistsView
 {
-    /// <summary>
-    /// Interaction logic for ArtistsView.xaml
-    /// </summary>
-    public partial class ArtistsView : UserControl
+    public static readonly DependencyProperty OnLoadCommandProperty = DependencyProperty.Register(
+        nameof(OnLoadCommand), typeof(ICommand), typeof(ArtistsView), new PropertyMetadata(default(ICommand)));
+
+    public static readonly DependencyProperty OnLoadCommandParameterProperty = DependencyProperty.Register(
+        nameof(OnLoadCommandParameter), typeof(object), typeof(ArtistsView), new PropertyMetadata(default(object)));
+
+    public object OnLoadCommandParameter
     {
-        public ArtistsView()
-        {
-            InitializeComponent();
-        }
+        get => GetValue(OnLoadCommandParameterProperty);
+        set => SetValue(OnLoadCommandParameterProperty, value);
+    }
+
+    public ICommand OnLoadCommand
+    {
+        get => (ICommand) GetValue(OnLoadCommandProperty);
+        set => SetValue(OnLoadCommandProperty, value);
+    }
+    public ArtistsView()
+    {
+        InitializeComponent();
+        Loaded += OnLoaded;
+    }
+
+    private void OnLoaded(object sender, RoutedEventArgs e)
+    {
+        OnLoadCommand?.Execute(OnLoadCommandParameter);
     }
 }

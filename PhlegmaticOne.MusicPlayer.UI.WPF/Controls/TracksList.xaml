@@ -46,14 +46,21 @@
                                                         <ColumnDefinition Width="70"/>
                                                     </Grid.ColumnDefinitions>
                                                     <Grid Row="0" Column="0">
-                                                        <TextBlock Text="Track" Foreground="#696969"  VerticalAlignment="Center" FontSize="20"/>
+                                                        <TextBlock Text="Track" 
+                                                                   Foreground="#696969"  
+                                                                   VerticalAlignment="Center" 
+                                                                   FontSize="20"/>
                                                     </Grid>
                                                     <Grid Row="0" Column="2">
-                                                        <TextBlock Text="Artist" Foreground="#696969" FontSize="20"
-                                                           VerticalAlignment="Center"/>
+                                                        <TextBlock Text="Artist" 
+                                                                   Foreground="#696969" 
+                                                                   FontSize="20"
+                                                                   VerticalAlignment="Center"/>
                                                     </Grid>
                                                     <Grid Row="0" Column="3">
-                                                        <TextBlock Text="Collection" Foreground="#696969" FontSize="20"
+                                                        <TextBlock Text="Collection" 
+                                                                   Foreground="#696969" 
+                                                                   FontSize="20"
                                                                    VerticalAlignment="Center"/>
                                                     </Grid>
                                                     <Grid Row="0" Column="6" Margin="0 0 30 0">
@@ -67,7 +74,7 @@
 
                                                     <Grid Row="1" ColumnSpan="7">
                                                         <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                                                        Margin="0 0 30 0"/>
+                                                                        />
                                                     </Grid>
                                                 </Grid>
                                             </ControlTemplate>
@@ -159,7 +166,19 @@
                                                             <ListView Background="Transparent" 
                                                                       BorderThickness="0"
                                                                       ItemsSource="{Binding ArtistLinks}"
-                                                                      VerticalAlignment="Center">
+                                                                      VerticalAlignment="Center"
+                                                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                                      ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                                                <ListView.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <StackPanel Orientation="Horizontal"/>
+                                                                    </ItemsPanelTemplate>
+                                                                </ListView.ItemsPanel>
+                                                                <ListView.Template>
+                                                                    <ControlTemplate TargetType="ListView">
+                                                                        <ItemsPresenter/>
+                                                                    </ControlTemplate>
+                                                                </ListView.Template>
                                                                 <ListView.ItemContainerStyle>
                                                                     <Style TargetType="ListViewItem">
                                                                         <Setter Property="Template">
@@ -279,7 +298,7 @@
                                                             </Button>
                                                         </Grid>
 
-                                                        <Grid Column="6">
+                                                        <Grid Column="6" Margin="0 0 30 0">
                                                             <Button Background="Transparent" BorderThickness="0" Name="TimeText" HorizontalContentAlignment="Right">
                                                                 <Button.Style>
                                                                     <Style TargetType="Button">

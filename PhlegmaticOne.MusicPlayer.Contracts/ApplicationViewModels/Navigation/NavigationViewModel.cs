@@ -1,4 +1,5 @@
-﻿using PhlegmaticOne.MusicPlayer.WPF.Core;
+﻿using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
+using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 using PhlegmaticOne.WPF.Navigation;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Navigation;
@@ -12,30 +13,16 @@ public class NavigationViewModel : ApplicationBaseViewModel
         _chainNavigationService.DirectionCanMoveChanged += ChainNavigationServiceOnDirectionCanMoveChanged;
         _chainNavigationService.ViewModelChanged += ChainNavigationServiceOnViewModelChanged;
 
-        MoveBackCommand = new(MoveBack, _ => CanMoveBack);
-        NavigateCommand = new(Navigate, _ => true);
+        MoveBackCommand = DelegateCommandFactory.CreateCommand(MoveBack, _ => CanMoveBack);
+        NavigateCommand = DelegateCommandFactory.CreateCommand(Navigate, _ => true);
 
         Navigate(typeof(HomeViewModel));
     }
 
-    private void ChainNavigationServiceOnViewModelChanged(object? sender, ApplicationBaseViewModel e)
-    {
-        CurrentViewModel = e;
-    }
-
-    private void ChainNavigationServiceOnDirectionCanMoveChanged(object? sender, NavigationMoveDirectionChangedArgs e)
-    {
-        if (e.NavigationMoveDirection == NavigationMoveDirection.Back)
-        {
-            CanMoveBack = e.CanMove;
-            MoveBackCommand.RaiseCanExecute();
-        }
-    }
-
     public bool CanMoveBack { get; private set; }
-    public ApplicationBaseViewModel CurrentViewModel { get; private set; }
-    public DelegateCommand NavigateCommand { get; }
-    public DelegateCommand MoveBackCommand { get; }
+    public ApplicationBaseViewModel CurrentViewModel { get; private set; } = null!;
+    public IDelegateCommand NavigateCommand { get; }
+    public IDelegateCommand MoveBackCommand { get; }
     private void MoveBack(object? parameter)
     {
         _chainNavigationService.Move(NavigationMoveDirection.Back);
@@ -47,6 +34,19 @@ public class NavigationViewModel : ApplicationBaseViewModel
         {
             _chainNavigationService.Reset();
             _chainNavigationService.NavigateTo(viewModelType);
+        }
+    }
+    private void ChainNavigationServiceOnViewModelChanged(object? sender, ApplicationBaseViewModel e)
+    {
+        CurrentViewModel = e;
+    }
+
+    private void ChainNavigationServiceOnDirectionCanMoveChanged(object? sender, NavigationMoveDirectionChangedArgs e)
+    {
+        if (e.NavigationMoveDirection == NavigationMoveDirection.Back)
+        {
+            CanMoveBack = e.CanMove;
+            MoveBackCommand.RaiseCanExecute();
         }
     }
 }

@@ -1,11 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.WPF.Core;
+using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Navigation;
-using PhlegmaticOne.WPF.Navigation.EntityContainingViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContainingViewModels;
 
@@ -18,14 +17,15 @@ public class ArtistViewModel : PlayerTrackableViewModel, IEntityContainingViewMo
     {
         _entityContainingViewModelsNavigationService = entityContainingViewModelsNavigationService;
         TopTracks = new();
-        ActiveArtistNavigationCommand = new(NavigateToActiveArtist, _ => true);
-        ActiveCollectionNavigationFromTrackCommand = new(NavigateToActiveCollectionFromTrack, _ => true);
-        ActiveCollectionNavigationFromPreviewCommand = new(NavigateToActiveCollectionFromPreview, _ => true);
+
+        ActiveArtistNavigationCommand = DelegateCommandFactory.CreateCommand(NavigateToActiveArtist, _ => true);
+        ActiveCollectionNavigationFromTrackCommand = DelegateCommandFactory.CreateCommand(NavigateToActiveCollectionFromTrack, _ => true);
+        ActiveCollectionNavigationFromPreviewCommand = DelegateCommandFactory.CreateCommand(NavigateToActiveCollectionFromPreview, _ => true);
     }
 
-    public DelegateCommand ActiveArtistNavigationCommand { get; }
-    public DelegateCommand ActiveCollectionNavigationFromTrackCommand { get; }
-    public DelegateCommand ActiveCollectionNavigationFromPreviewCommand { get; }
+    public IDelegateCommand ActiveArtistNavigationCommand { get; }
+    public IDelegateCommand ActiveCollectionNavigationFromTrackCommand { get; }
+    public IDelegateCommand ActiveCollectionNavigationFromPreviewCommand { get; }
 
     private async void NavigateToActiveArtist(object? parameter)
     {

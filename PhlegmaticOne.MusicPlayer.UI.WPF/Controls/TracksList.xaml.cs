@@ -1,7 +1,6 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls;
 
@@ -30,6 +29,24 @@ public partial class TracksList
 
     public static readonly DependencyProperty ArtistLinkClickCommandProperty = DependencyProperty.Register(
         nameof(ArtistLinkClickCommand), typeof(ICommand), typeof(TracksList), new PropertyMetadata(default(ICommand)));
+
+    public static readonly DependencyProperty OnLoadCommandProperty = DependencyProperty.Register(
+        nameof(OnLoadCommand), typeof(ICommand), typeof(TracksList), new PropertyMetadata(default(ICommand)));
+
+    public static readonly DependencyProperty OnLoadCommandParameterProperty = DependencyProperty.Register(
+        nameof(OnLoadCommandParameter), typeof(object), typeof(TracksList), new PropertyMetadata(default(object)));
+
+    public object OnLoadCommandParameter
+    {
+        get => GetValue(OnLoadCommandParameterProperty);
+        set => SetValue(OnLoadCommandParameterProperty, value);
+    }
+
+    public ICommand OnLoadCommand
+    {
+        get => (ICommand)GetValue(OnLoadCommandProperty);
+        set => SetValue(OnLoadCommandProperty, value);
+    }
 
     public ICommand ArtistLinkClickCommand
     {
@@ -82,19 +99,11 @@ public partial class TracksList
     public TracksList()
     {
         InitializeComponent();
+        Loaded += OnLoaded;
     }
-}
-public delegate void ScrolledEventHandler(object sender, ScrolledEventArgs scrollChangedEventArgs);
 
-public class ScrolledEventArgs : RoutedEventArgs
-{
-    public object Sender { get; }
-    public ScrollChangedEventArgs ScrollChangedEventArgs { get; }
-
-    public ScrolledEventArgs(RoutedEvent routedEvent, object source, object sender, ScrollChangedEventArgs scrollChangedEventArgs) : 
-        base(routedEvent, source)
+    private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        Sender = sender;
-        ScrollChangedEventArgs = scrollChangedEventArgs;
+        OnLoadCommand?.Execute(OnLoadCommandParameter);
     }
 }

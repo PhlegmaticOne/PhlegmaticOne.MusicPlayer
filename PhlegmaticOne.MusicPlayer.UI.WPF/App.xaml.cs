@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.Players.DownloadSongsFeature;
@@ -18,9 +17,10 @@ using System.Windows;
 using Microsoft.Extensions.Logging;
 using PhlegmaticOne.HandMapper.Lib;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
-using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
-using PhlegmaticOne.MusicPlayer.Contracts.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.CollectionViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
+using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
@@ -33,13 +33,13 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Download;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.UI;
-using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
-using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
 using PhlegmaticOne.MusicPlayer.Contracts.HandMappers;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.MusicFactories;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.ViewModelGetters;
 using PhlegmaticOne.WPF.Navigation.Extensions;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -139,10 +139,13 @@ public partial class App
                  services.AddSingleton<IConnectionStringGetter, ConfigurationConnectionStringGetter>();
                  services.AddSingleton<ISqlClient, SqlClientSingleton>();
 
-                 services.AddScoped<ReloadViewModelBase<AlbumsCollectionViewModel>, ReloadCollectionViewModel>();
-                 services.AddScoped<ReloadViewModelBase<ArtistsCollectionViewModel>, ReloadArtistsViewModel>();
-                 services.AddScoped<SortViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel>, SortAlbumsViewModel>();
-                 services.AddScoped<SortViewModelBase<ArtistsCollectionViewModel, ArtistPreviewViewModel>, SortArtistsViewModel>();
+
+                 services.AddSingleton<ReloadViewModelBase<AlbumsCollectionViewModel>, ReloadAlbumsCollectionViewModel>();
+                 services.AddSingleton<ReloadViewModelBase<ArtistsCollectionViewModel>, ReloadArtistsCollectionViewModel>();
+                 services.AddSingleton<ReloadViewModelBase<TracksViewModel>, ReloadTracksCollectionViewModel>();
+                 services.AddSingleton<SortViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel>, SortAlbumsCollectionViewModel>();
+                 services.AddSingleton<SortViewModelBase<ArtistsCollectionViewModel, ArtistPreviewViewModel>, SortArtistsCollectionViewModel>();
+                 services.AddSingleton<SortViewModelBase<TracksViewModel, TrackBaseViewModel>, SortTracksCollectionViewModel>();
 
                  services.AddSingleton<ILanguageProvider, LanguageProvider>();
                  services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();
@@ -158,22 +161,6 @@ public partial class App
                  services.AddSingleton<IPlayerService, PlayerService>();
                  services.AddSingleton<IDownloadService<ActiveAlbumViewModel>, AlbumDownloadService>();
                  services.AddSingleton<ILocalizationService, LocalizationService>();
-
-                 //services.AddSingleton<INavigationService, NavigationService>();
-
-                 //services.AddDependencyFactory<HomeViewModel>(ServiceLifetime.Singleton);
-                 //services.AddDependencyFactory<PlayerViewModel>(ServiceLifetime.Singleton);
-                 //services.AddDependencyFactory<NavigationViewModel>(ServiceLifetime.Singleton);
-                 //services.AddDependencyFactory<AddingNewAlbumViewModel>(ServiceLifetime.Singleton);
-                 //services.AddDependencyFactory<ArtistsCollectionViewModel>(ServiceLifetime.Singleton);
-                 //services.AddDependencyFactory<AlbumsCollectionViewModel>(ServiceLifetime.Singleton);
-                 //services.AddDependencyFactory<DownloadedTracksViewModel>(ServiceLifetime.Singleton);
-                 //services.AddDependencyFactory<MainViewModel>(ServiceLifetime.Singleton);
-                 //services.AddDependencyFactory<PlaylistsViewModel>(ServiceLifetime.Singleton);
-                 //services.AddDependencyFactory<SettingsViewModel>(ServiceLifetime.Singleton);
-                 //services.AddDependencyFactory<TracksViewModel>(ServiceLifetime.Singleton);
-                 //services.AddDependencyFactory<SongQueueViewModel>(ServiceLifetime.Singleton);
-                 //services.AddSingleton<IViewModelFactoryService, ViewModelFactoryService>();
 
                  services.AddSingleton<MainWindow>();
              });

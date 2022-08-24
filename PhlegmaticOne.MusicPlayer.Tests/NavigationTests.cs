@@ -2,7 +2,6 @@
 using PhlegmaticOne.MusicPlayer.Tests.TestEntities;
 using PhlegmaticOne.WPF.Navigation;
 using PhlegmaticOne.WPF.Navigation.ChainNavigation;
-using PhlegmaticOne.WPF.Navigation.EntityContainingViewModels;
 using PhlegmaticOne.WPF.Navigation.Extensions;
 
 namespace PhlegmaticOne.MusicPlayer.Tests;
@@ -73,6 +72,5 @@ public class NavigationTests
         var serviceProvider = serviceCollection.BuildServiceProvider();
         var navigationService = serviceProvider.GetRequiredService<INavigationService>();
 
-        Assert.IsType<ChainNavigationService>(navigationService);
     }
 }

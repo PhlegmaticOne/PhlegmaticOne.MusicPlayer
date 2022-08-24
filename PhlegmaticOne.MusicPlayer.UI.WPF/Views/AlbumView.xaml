@@ -17,11 +17,12 @@
         <converters:ValuesEqualConverter x:Key="ValuesEqualConverter"/>
         <converters:FirstElementInEnumerableConverter x:Key="FirstElementInEnumerableConverter"/>
     </UserControl.Resources>
-    
+
+    <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="1.4*"/>
+                <RowDefinition Height="350"/>
+                <RowDefinition />
             </Grid.RowDefinitions>
             <Grid Row="0" ZIndex="2">
                 <Grid.ColumnDefinitions>
@@ -29,7 +30,7 @@
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <Grid ColumnSpan="2">
-                <Image Source="{Binding Entity.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}" 
+                    <Image Source="{Binding Entity.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}" 
                            Stretch="UniformToFill"
                            VerticalAlignment="Center"
                            Opacity="0.3">
@@ -38,9 +39,9 @@
                         </Image.Effect>
                     </Image>
                 </Grid>
-                <Grid Column="0" Margin="20 10">
+                <Grid Column="0" Margin="20">
                     <Grid>
-                    <Image Source="{Binding Entity.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}">
+                        <Image Source="{Binding Entity.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}">
                             <Image.Effect>
                                 <DropShadowEffect ShadowDepth="5" Color="Black" BlurRadius="8"/>
                             </Image.Effect>
@@ -56,14 +57,14 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid Row="1">
-                    <TextBlock Text="{Binding Entity.AlbumType}" 
+                        <TextBlock Text="{Binding Entity.AlbumType}" 
                                    Foreground="#999999" 
                                    FontSize="18"
                                    VerticalAlignment="Bottom"
                                    Padding="10 0 0 0"/>
                     </Grid>
                     <Grid Row="2">
-                    <TextBlock Text="{Binding Entity.Title}"
+                        <TextBlock Text="{Binding Entity.Title}"
                                    Foreground="White" 
                                    Padding="10 0 0 4"
                                    FontSize="46"
@@ -76,14 +77,14 @@
                                        FontSize="18"
                                        Padding="10 0 0 0"
                                        VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding Entity.Artists,
+                            <TextBlock Text="{Binding Entity.Artists,
                                 Converter={StaticResource CollectionOfEntitiesToStringConverter},
      ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Slash}}"
                                        Foreground="White" 
                                        FontSize="18"
                                        Padding="6 0 0 0"
                                        VerticalAlignment="Center"/>
-                        <TextBlock Text="{Binding Entity.YearReleased}"
+                            <TextBlock Text="{Binding Entity.YearReleased}"
                                        Foreground="White"
                                        FontSize="18"
                                        Padding="6 0 0 0"/>
@@ -133,45 +134,45 @@
                                 </Button.Style>
                             </Button>
 
-                        <Button Margin="20 0 0 0"
+                            <Button Margin="20 0 0 0"
                                 Command="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}"
                                 CommandParameter="{Binding DataContext.Entity, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}"
                                 DataContext="{Binding Entity}">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal"
                                                 Margin="20 0">
-                                            <RadioButton HorizontalAlignment="Center"
+                                        <RadioButton HorizontalAlignment="Center"
                                                          HorizontalContentAlignment="Center"
                                                          >
 
-                                                <RadioButton.Style>
-                                                    <Style TargetType="RadioButton">
-                                                        <Setter Property="Background" Value="Transparent"/>
-                                                        <Setter Property="Foreground" Value="#555555"/>
+                                            <RadioButton.Style>
+                                                <Style TargetType="RadioButton">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="Foreground" Value="#555555"/>
 
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate>
-                                                                    <Border Background="{TemplateBinding Background}" CornerRadius="16">
-                                                                        <Viewbox Height="30" Width="30">
-                                                                            <Canvas Width="24" Height="24" Margin="5">
-                                                                                <Path Fill="{TemplateBinding Foreground}"
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate>
+                                                                <Border Background="{TemplateBinding Background}" CornerRadius="16">
+                                                                    <Viewbox Height="30" Width="30">
+                                                                        <Canvas Width="24" Height="24" Margin="5">
+                                                                            <Path Fill="{TemplateBinding Foreground}"
                                                                                                         Data="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
-                                                                            </Canvas>
-                                                                        </Viewbox>
-                                                                    </Border>
+                                                                        </Canvas>
+                                                                    </Viewbox>
+                                                                </Border>
 
-                                                                    <ControlTemplate.Triggers>
-                                                                        <DataTrigger Binding="{Binding IsFavorite, UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                                                            <Setter Property="Foreground" Value="#FF3333"/>
-                                                                        </DataTrigger>
-                                                                    </ControlTemplate.Triggers>
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-                                                </RadioButton.Style>
-                                            </RadioButton>
+                                                                <ControlTemplate.Triggers>
+                                                                    <DataTrigger Binding="{Binding IsFavorite, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                                                                        <Setter Property="Foreground" Value="#FF3333"/>
+                                                                    </DataTrigger>
+                                                                </ControlTemplate.Triggers>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </RadioButton.Style>
+                                        </RadioButton>
                                         <TextBlock Padding="5 0 0 0" Text="Like" VerticalAlignment="Center" FontSize="16"/>
                                     </StackPanel>
                                 </Button.Content>
@@ -244,7 +245,7 @@
                                                             <Setter Property="BorderBrush" Value="#464646"/>
                                                             <Setter Property="Background" Value="#464646"/>
                                                         </Trigger>
-                                                    <DataTrigger Binding="{Binding Entity.IsDownloaded}" Value="True">
+                                                        <DataTrigger Binding="{Binding Entity.IsDownloaded}" Value="True">
                                                             <Setter Property="IsEnabled" Value="False"/>
                                                         </DataTrigger>
                                                     </ControlTemplate.Triggers>
@@ -290,7 +291,7 @@
                 </Grid>
             </Grid>
             <Grid Row="1">
-            <ListView ItemsSource="{Binding Entity.Tracks}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListView ItemsSource="{Binding Entity.Tracks}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                     <ListView.Style>
                         <Style TargetType="ListView">
                             <Setter Property="Background" Value="Transparent"/>
@@ -327,9 +328,7 @@
                                             </Grid>
 
                                             <Grid Row="1" ColumnSpan="3">
-                                                <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
-                                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                                </ScrollViewer>
+                                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                             </Grid>
                                         </Grid>
                                     </ControlTemplate>
@@ -364,7 +363,7 @@
                                                 Margin="0 0 30 0"
                                                 SnapsToDevicePixels="True">
                                             <Grid>
-                                            
+
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="60"/>
                                                     <ColumnDefinition Width="2*" />
@@ -451,7 +450,7 @@
                                                                                         <Setter Property="Foreground" Value="#FF3333"/>
                                                                                     </MultiDataTrigger.Setters>
                                                                                 </MultiDataTrigger>
-                                                                        </ControlTemplate.Triggers>
+                                                                            </ControlTemplate.Triggers>
                                                                         </ControlTemplate>
                                                                     </Setter.Value>
                                                                 </Setter>
@@ -476,7 +475,7 @@
                                                                                         Data="M12 2C17.5 2 22 6.5 22 12C22 17.5 17.5 22 12 22C6.5 22 2 17.5 2 12C2 6.5 6.5 2 12 2M8 17H16V15H8V17M16 10H13.5V6H10.5V10H8L12 14L16 10Z" />
                                                                                 </Canvas>
                                                                             </Viewbox>
-                                                                    </ControlTemplate>
+                                                                        </ControlTemplate>
                                                                     </Setter.Value>
                                                                 </Setter>
                                                             </Style>
@@ -510,7 +509,7 @@
 
                                             </Grid>
                                         </Border>
-                                        
+
                                         <ControlTemplate.Triggers>
 
                                             <Trigger Property="IsMouseOver" Value="True">
@@ -531,8 +530,8 @@
 
                                                 <Setter TargetName="TimeText" Property="Content">
                                                     <Setter.Value>
-                                                    <Menu Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right">
-                                                        <MenuItem ItemsSource="{Binding ArtistLinks}" Style="{StaticResource SongOptionsMenuStyle}">
+                                                        <Menu Background="Transparent" VerticalAlignment="Center" HorizontalAlignment="Right">
+                                                            <MenuItem ItemsSource="{Binding ArtistLinks}" Style="{StaticResource SongOptionsMenuStyle}">
                                                                 <MenuItem.Header>
                                                                     <Border Background="{Binding Background, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}"
                                                                         BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type MenuItem}}}"
@@ -621,7 +620,7 @@
                                                                              From="20" To="10" Duration="0:0:1" RepeatBehavior="Forever" AutoReverse="True"/>
                                                             <DoubleAnimation Storyboard.TargetName="PlayButton" Storyboard.TargetProperty="Content.Height"
                                                                              From="20" To="10" Duration="0:0:1" RepeatBehavior="Forever" AutoReverse="True"/>
-                                                    </Storyboard>
+                                                        </Storyboard>
                                                     </BeginStoryboard>
                                                 </MultiDataTrigger.EnterActions>
                                             </MultiDataTrigger>
@@ -657,5 +656,6 @@
                     </ListView.ItemContainerStyle>
                 </ListView>
             </Grid>
-    </Grid>
+        </Grid>
+    </ScrollViewer>
 </UserControl>
