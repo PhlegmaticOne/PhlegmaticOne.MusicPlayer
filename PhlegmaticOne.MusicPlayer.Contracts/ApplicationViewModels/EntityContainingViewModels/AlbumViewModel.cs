@@ -10,19 +10,25 @@ namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContai
 public class AlbumViewModel : PlayerTrackableViewModel, IEntityContainingViewModel<ActiveAlbumViewModel>
 {
     private readonly IDownloadService<ActiveAlbumViewModel> _downloadService;
+    private readonly IEntityContainingViewModelsNavigationService _entityContainingViewModelsNavigationService;
     private bool _isFirstSongWillPlay;
-    public AlbumViewModel(IPlayerService playerService, IDownloadService<ActiveAlbumViewModel> downloadService) : base(playerService)
+    public AlbumViewModel(IPlayerService playerService, 
+        IDownloadService<ActiveAlbumViewModel> downloadService,
+        IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService) : base(playerService)
     {
         _downloadService = downloadService;
+        _entityContainingViewModelsNavigationService = entityContainingViewModelsNavigationService;
         _isFirstSongWillPlay = true;
 
         DownloadAlbumCommand = DelegateCommandFactory.CreateCommand(DownloadAlbum, _ => true);
+        NavigateToArtistCommand = DelegateCommandFactory.CreateCommand(NavigateToArtistAction, _ => true);
 
         TrySetSong();
     }
 
     public ActiveAlbumViewModel Entity { get; set; } = null!;
-    public IDelegateCommand DownloadAlbumCommand { get; set; }
+    public IDelegateCommand DownloadAlbumCommand { get;}
+    public IDelegateCommand NavigateToArtistCommand { get; }
 
     protected override void PlaySongAction(object? parameter)
     {
@@ -39,6 +45,16 @@ public class AlbumViewModel : PlayerTrackableViewModel, IEntityContainingViewMod
         if (Entity.IsDownloaded == false)
         {
             await _downloadService.Download(Entity);
+        }
+    }
+
+    private async void NavigateToArtistAction(object? parameter)
+    {
+        if (parameter is ArtistLinkViewModel artistLinkViewModel)
+        {
+            await _entityContainingViewModelsNavigationService
+                .From<ArtistLinkViewModel, ActiveArtistViewModel>()
+                .NavigateAsync<ArtistViewModel>(artistLinkViewModel);
         }
     }
 }

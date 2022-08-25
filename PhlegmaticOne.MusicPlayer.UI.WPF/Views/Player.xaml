@@ -190,7 +190,7 @@
                         </Button.Style>
                     </Button>
 
-                    <Menu Background="Transparent" VerticalAlignment="Center" Margin="15 0 0 0">
+                    <!--<Menu Background="Transparent" VerticalAlignment="Center" Margin="15 0 0 0">
                         <MenuItem ItemsSource="{Binding AlbumActions}" 
                                           Style="{StaticResource PlayerSongOptionsMenuStyle}">
                             <MenuItem.Header>
@@ -218,7 +218,7 @@
                                 </DataTemplate>
                             </MenuItem.ItemTemplate>
                         </MenuItem>
-                    </Menu>
+                    </Menu>-->
 
                 </StackPanel>
             </Grid>

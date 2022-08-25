@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="PhlegmaticOne.MusicPlayer.UI.WPF.Controls.FullPlayButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
+             mc:Ignorable="d" 
+             x:Name="FullPlayButtonRoot"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Button Command="{Binding ClickCommand, ElementName=FullPlayButtonRoot}" 
+            CommandParameter="{Binding DataContext, ElementName=FullPlayButtonRoot}">
+        <Button.Content>
+            <StackPanel Orientation="Horizontal" MaxWidth="150" MaxHeight="50" Margin="40 5">
+                <Viewbox Width="18" Height="18">
+                    <Canvas Width="24" Height="24">
+                        <Path Fill="Black" Data="M8,5.14V19.14L19,12.14L8,5.14Z" />
+                    </Canvas>
+                </Viewbox>
+                <TextBlock Padding="5 0 0 0" Text="Play" VerticalAlignment="Center" FontSize="16"/>
+            </StackPanel>
+        </Button.Content>
+        <Button.Style>
+            <Style TargetType="Button">
+                <Setter Property="Background" Value="#FFD633"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="MaxHeight" Value="50"/>
+                <Setter Property="MaxWidth" Value="150"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border BorderThickness="{TemplateBinding BorderThickness}"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            Background="{TemplateBinding Background}"
+                                                            CornerRadius="24"
+                                                            MaxHeight="{TemplateBinding MaxHeight}"
+                                                            MaxWidth="{TemplateBinding MaxWidth}">
+                                <ContentPresenter HorizontalAlignment="Center"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" Value="#FFCC00"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Button.Style>
+    </Button>
+</UserControl>

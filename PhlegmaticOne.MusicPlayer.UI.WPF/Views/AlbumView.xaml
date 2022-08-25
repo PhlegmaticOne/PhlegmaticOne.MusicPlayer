@@ -3,19 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
-             xmlns:converters="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
-             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
              mc:Ignorable="d" 
              x:Name="AlbumViewRoot"
              d:DesignHeight="1080"
              d:DesignWidth="1600">
-    <UserControl.Resources>
-        <converters:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
-        <converters:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
-        <converters:FirstElementInEnumerableConverter x:Key="FirstElementInEnumerableConverter"/>
-    </UserControl.Resources>
 
     <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
         <Grid>
@@ -24,239 +16,114 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Grid Row="0" ZIndex="2">
+            <Grid Row="0" ZIndex="2" Name="HeaderGrid">
+
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
+
                 <Grid ColumnSpan="2">
-                    <Image Source="{Binding Entity.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}" 
-                           Stretch="UniformToFill"
-                           VerticalAlignment="Center"
-                           Opacity="0.3">
-                        <Image.Effect>
-                            <BlurEffect Radius="50"/>
-                        </Image.Effect>
-                    </Image>
+                    <controls:MoveableImageBackground Image="{Binding Entity.Cover.Cover}"
+                                                      ImageOpacity="0.3"
+                                                      BlurEffect="40"
+                                                      SlideTime="0:0:30"
+                                                      Height="{Binding ActualHeight, ElementName=HeaderGrid}"
+                                                      Width="{Binding ActualWidth, ElementName=HeaderGrid}"/>
                 </Grid>
+
                 <Grid Column="0" Margin="20">
-                    <Grid>
-                        <Image Source="{Binding Entity.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}">
-                            <Image.Effect>
-                                <DropShadowEffect ShadowDepth="5" Color="Black" BlurRadius="8"/>
-                            </Image.Effect>
-                        </Image>
-                    </Grid>
+                    <controls:ImageControl Image="{Binding Entity.Cover.Cover}"
+                                           ShadowEffect="5"
+                                           ShadowColor="Black"
+                                           BlurRadius="8"
+                                           x:Name="ImageControl"/>
                 </Grid>
-                <Grid Column="1">
+
+                <Grid Column="1" Height="{Binding ActualHeight, ElementName=ImageControl}">
+
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="1.8*"/>
                     </Grid.RowDefinitions>
-                    <Grid Row="1">
+
+                    <Grid Row="0">
                         <TextBlock Text="{Binding Entity.AlbumType}" 
                                    Foreground="#999999" 
                                    FontSize="18"
                                    VerticalAlignment="Bottom"
                                    Padding="10 0 0 0"/>
                     </Grid>
-                    <Grid Row="2">
+                    <Grid Row="1">
                         <TextBlock Text="{Binding Entity.Title}"
                                    Foreground="White" 
                                    Padding="10 0 0 4"
                                    FontSize="46"
                                    FontWeight="Bold"
-                                   VerticalAlignment="Bottom"/>
+                                   VerticalAlignment="Center"/>
+                    </Grid>
+                    <Grid Row="2">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Year:"
+                                       Padding="10 0 0  0"
+                                       Foreground="#999999" 
+                                       FontSize="18"
+                                       VerticalAlignment="Center"/>
+
+                            <TextBlock Text="{Binding Entity.YearReleased}"
+                                       Margin="10 0 0  0"
+                                       Foreground="White" 
+                                       FontSize="18"
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+
                     </Grid>
                     <Grid Row="3">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                            <TextBlock Text="Artists:" Foreground="#999999"
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Column="0">
+                            <TextBlock Text="Artists:" 
+                                       Foreground="#999999"
                                        FontSize="18"
                                        Padding="10 0 0 0"
                                        VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding Entity.Artists,
-                                Converter={StaticResource CollectionOfEntitiesToStringConverter},
-     ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Slash}}"
-                                       Foreground="White" 
-                                       FontSize="18"
-                                       Padding="6 0 0 0"
-                                       VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding Entity.YearReleased}"
-                                       Foreground="White"
-                                       FontSize="18"
-                                       Padding="6 0 0 0"/>
-                        </StackPanel>
+                        </Grid>
+                        <Grid Column="1" Margin="10 0">
+                            <controls:RunListView DataContext="{Binding Entity.Artists}"
+                                                  Foreground="White"
+                                                  ForegroundHoverColor="Gray"
+                                                  ItemClickCommand="{Binding DataContext.NavigateToArtistCommand, ElementName=AlbumViewRoot}"
+                                                  SlideTime="0:0:10"
+                                                  Height="24"
+                                                  FontSize="18"
+                                                  VerticalAlignment="Center"/>
+                        </Grid>
                     </Grid>
                     <Grid Row="4">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
-                            <Button Command="{Binding PlaySongCommand}" 
-                                    CommandParameter="{Binding Entity.Tracks, Converter={StaticResource FirstElementInEnumerableConverter}}">
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal" MaxWidth="150" MaxHeight="50" 
-                                                Margin="40 5">
-                                        <Viewbox Width="18" Height="18">
-                                            <Canvas Width="24" Height="24">
-                                                <Path Fill="Black" Data="M8,5.14V19.14L19,12.14L8,5.14Z" />
-                                            </Canvas>
-                                        </Viewbox>
-                                        <TextBlock Padding="5 0 0 0" Text="Play" VerticalAlignment="Center" FontSize="16"/>
-                                    </StackPanel>
-                                </Button.Content>
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Background" Value="#FFD633"/>
-                                        <Setter Property="BorderThickness" Value="0"/>
-                                        <Setter Property="MaxHeight" Value="50"/>
-                                        <Setter Property="MaxWidth" Value="150"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border BorderThickness="{TemplateBinding BorderThickness}"
-                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                            Background="{TemplateBinding Background}"
-                                                            CornerRadius="24"
-                                                            MaxHeight="{TemplateBinding MaxHeight}"
-                                                            MaxWidth="{TemplateBinding MaxWidth}">
-                                                        <ContentPresenter HorizontalAlignment="Center"/>
-                                                    </Border>
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsPressed" Value="True">
-                                                            <Setter Property="Background" Value="#FFCC00"></Setter>
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" MinHeight="50">
 
-                            <Button Margin="20 0 0 0"
-                                Command="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}"
-                                CommandParameter="{Binding DataContext.Entity, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AlbumView}}}"
-                                DataContext="{Binding Entity}">
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal"
-                                                Margin="20 0">
-                                        <RadioButton HorizontalAlignment="Center"
-                                                         HorizontalContentAlignment="Center"
-                                                         >
+                            <controls:FullPlayButton ClickCommand="{Binding DataContext.PlaySongCommand, ElementName=AlbumViewRoot}"
+                                                     DataContext="{Binding Entity.Tracks[0]}"/>
 
-                                            <RadioButton.Style>
-                                                <Style TargetType="RadioButton">
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="Foreground" Value="#555555"/>
+                            <controls:FullLikeButton Margin="20 0 0 0" 
+                                                     ClickCommand="{Binding DataContext.LikeCommand, ElementName=AlbumViewRoot}"
+                                                     IsFavorite="{Binding IsFavorite}"
+                                                     DataContext="{Binding Entity}"/>
+                            
+                            <controls:DownloadButton Margin="20 0 0 0"
+                                                     DataContext="{Binding Entity}"
+                                                     IsDownloaded="{Binding IsDownloaded}"
+                                                     IsDownloading="{Binding IsDownloading}"
+                                                     ClickCommand="{Binding DataContext.DownloadAlbumCommand, ElementName=AlbumViewRoot}"/>
 
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate>
-                                                                <Border Background="{TemplateBinding Background}" CornerRadius="16">
-                                                                    <Viewbox Height="30" Width="30">
-                                                                        <Canvas Width="24" Height="24" Margin="5">
-                                                                            <Path Fill="{TemplateBinding Foreground}"
-                                                                                                        Data="M12,21.35L10.55,20.03C5.4,15.36 2,12.27 2,8.5C2,5.41 4.42,3 7.5,3C9.24,3 10.91,3.81 12,5.08C13.09,3.81 14.76,3 16.5,3C19.58,3 22,5.41 22,8.5C22,12.27 18.6,15.36 13.45,20.03L12,21.35Z" />
-                                                                        </Canvas>
-                                                                    </Viewbox>
-                                                                </Border>
-
-                                                                <ControlTemplate.Triggers>
-                                                                    <DataTrigger Binding="{Binding IsFavorite, UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                                                        <Setter Property="Foreground" Value="#FF3333"/>
-                                                                    </DataTrigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </RadioButton.Style>
-                                        </RadioButton>
-                                        <TextBlock Padding="5 0 0 0" Text="Like" VerticalAlignment="Center" FontSize="16"/>
-                                    </StackPanel>
-                                </Button.Content>
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Setter Property="BorderBrush" Value="#464646"/>
-                                        <Setter Property="BorderThickness" Value="1"/>
-                                        <Setter Property="Foreground" Value="White"/>
-                                        <Setter Property="MaxHeight" Value="50"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border Background="{TemplateBinding Background}"
-                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                                            CornerRadius="24">
-                                                        <ContentPresenter />
-                                                    </Border>
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="BorderBrush" Value="White"/>
-                                                        </Trigger>
-                                                        <Trigger Property="IsPressed" Value="True">
-                                                            <Setter Property="BorderBrush" Value="#464646"/>
-                                                            <Setter Property="Background" Value="#464646"/>
-                                                        </Trigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-
-
-                            <Button Margin="20 0 0 0" Command="{Binding DownloadAlbumCommand}">
-                                <Button.Content>
-                                    <StackPanel Orientation="Horizontal"
-                                                Margin="20 0">
-                                        <Viewbox Width="18" Height="18">
-                                            <Canvas  Width="24" Height="24">
-                                                <Path Fill="White" Data="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
-                                            </Canvas>
-                                        </Viewbox>
-                                        <TextBlock Padding="5 0 0 0" Text="Download" VerticalAlignment="Center" FontSize="16"/>
-                                    </StackPanel>
-                                </Button.Content>
-                                <Button.Style>
-                                    <Style TargetType="Button">
-                                        <Setter Property="Background" Value="Transparent"/>
-                                        <Setter Property="BorderBrush" Value="#464646"/>
-                                        <Setter Property="BorderThickness" Value="1"/>
-                                        <Setter Property="Foreground" Value="White"/>
-                                        <Setter Property="MaxHeight" Value="50"/>
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Button">
-                                                    <Border Background="{TemplateBinding Background}"
-                                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                                            CornerRadius="24">
-                                                        <ContentPresenter />
-                                                    </Border>
-                                                    <ControlTemplate.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="BorderBrush" Value="White"/>
-                                                        </Trigger>
-                                                        <Trigger Property="IsPressed" Value="True">
-                                                            <Setter Property="BorderBrush" Value="#464646"/>
-                                                            <Setter Property="Background" Value="#464646"/>
-                                                        </Trigger>
-                                                        <DataTrigger Binding="{Binding Entity.IsDownloaded}" Value="True">
-                                                            <Setter Property="IsEnabled" Value="False"/>
-                                                        </DataTrigger>
-                                                    </ControlTemplate.Triggers>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-
-                            <Menu Background="Transparent" VerticalAlignment="Center" Margin="20 0 0 0">
+                            <!--TODO - Menu of actions-->
+                            <!--<Menu Background="Transparent" VerticalAlignment="Center" Margin="20 0 0 0">
                                 <MenuItem ItemsSource="{Binding AlbumActions}" 
                                           Style="{StaticResource AlbumDropdownMenuStyle}">
                                     <MenuItem.Header>
@@ -285,7 +152,8 @@
                                         </DataTemplate>
                                     </MenuItem.ItemTemplate>
                                 </MenuItem>
-                            </Menu>
+                            </Menu>-->
+
                         </StackPanel>
                     </Grid>
                 </Grid>

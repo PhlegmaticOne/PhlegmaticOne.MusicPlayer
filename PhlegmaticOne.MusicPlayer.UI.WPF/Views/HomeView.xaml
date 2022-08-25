@@ -9,6 +9,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-
+        <controls:MoveableImageBackground Image="{Binding Tracks[0].CollectionLink.Cover.Cover}"
+                                          SlideTime="0:0:10"
+                                          Width="200"
+                                          Height="200"/>
     </Grid>
 </UserControl>

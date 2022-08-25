@@ -23,7 +23,7 @@ public class AlbumsCollectionViewModel : CollectionViewModelBase<AlbumsCollectio
         ActiveAlbumNavigationCommand = DelegateCommandFactory.CreateCommand(NavigateToActiveAlbum, _ => true);
     }
     public IDelegateCommand ActiveAlbumNavigationCommand { get; }
-
+    
     private async void NavigateToActiveAlbum(object? parameter)
     {
         if (parameter is AlbumPreviewViewModel albumPreviewViewModel)

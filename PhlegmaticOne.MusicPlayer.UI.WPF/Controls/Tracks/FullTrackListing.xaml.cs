@@ -36,14 +36,21 @@ public partial class FullTrackListing
     public static readonly DependencyProperty OnLoadCommandParameterProperty = DependencyProperty.Register(
         nameof(OnLoadCommandParameter), typeof(object), typeof(FullTrackListing), new PropertyMetadata(default(object)));
 
-    
+    public static readonly DependencyProperty CanExecuteOnLoadCommandProperty = DependencyProperty.Register(
+        nameof(CanExecuteOnLoadCommand), typeof(bool), typeof(FullTrackListing), new PropertyMetadata(default(bool)));
+
+    public bool CanExecuteOnLoadCommand
+    {
+        get => (bool) GetValue(CanExecuteOnLoadCommandProperty);
+        set => SetValue(CanExecuteOnLoadCommandProperty, value);
+    }
     public object OnLoadCommandParameter
     {
         get => GetValue(OnLoadCommandParameterProperty);
         set => SetValue(OnLoadCommandParameterProperty, value);
     }
 
-    public ICommand OnLoadCommand
+    public ICommand? OnLoadCommand
     {
         get => (ICommand)GetValue(OnLoadCommandProperty);
         set => SetValue(OnLoadCommandProperty, value);
@@ -105,6 +112,9 @@ public partial class FullTrackListing
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
-        OnLoadCommand?.Execute(OnLoadCommandParameter);
+        if (CanExecuteOnLoadCommand && OnLoadCommand is not null)
+        {
+            OnLoadCommand?.Execute(OnLoadCommandParameter);
+        }
     }
 }

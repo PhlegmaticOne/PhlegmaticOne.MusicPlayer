@@ -5,8 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
              xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
+             xmlns:converters="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <converters:CollectionIsEmptyConverter x:Key="CollectionIsEmptyConverter"/>
+    </UserControl.Resources>
 
     <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
         <Grid>
@@ -20,6 +25,7 @@
             <Grid Row="1">
                 <controls:FullTrackListing DataContext="{Binding Items}"
                                            Padding="30 0"
+                                           CanExecuteOnLoadCommand="{Binding DataContext.Items, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}, Converter={StaticResource CollectionIsEmptyConverter}}"
                                            OnLoadCommand="{Binding DataContext.ReloadViewModel.ReloadCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
                                            OnLoadCommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
                                            LikeTrackCommand="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
