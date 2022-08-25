@@ -153,15 +153,16 @@
             </Grid>
 
             <Grid Row="1">
-                <local:TracksListing DataContext="{Binding TopTracks}"
-                                  LikeTrackCommand="{Binding DataContext.LikeCommand, ElementName=ArtistViewRoot}"
-                                  PlayTrackCommand="{Binding DataContext.PlaySongCommand, ElementName=ArtistViewRoot}"
-                                  PlayPauseTrackCommand="{Binding DataContext.PlayPauseCommand, ElementName=ArtistViewRoot}"
-                                  IsPaused="{Binding DataContext.IsPaused, ElementName=ArtistViewRoot}"
-                                  IsStopped="{Binding DataContext.IsStopped, ElementName=ArtistViewRoot}"
-                                  CollectionLinkClickCommand="{Binding DataContext.ActiveCollectionNavigationFromTrackCommand, ElementName=ArtistViewRoot}"
-                                  ArtistLinkClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, ElementName=ArtistViewRoot}"
-                                  CurrentTrack="{Binding DataContext.CurrentSong, ElementName=ArtistViewRoot}"/>
+                <local:FullTrackListing DataContext="{Binding TopTracks}"
+                                        Padding="30 0"
+                                        LikeTrackCommand="{Binding DataContext.LikeCommand, ElementName=ArtistViewRoot}"
+                                        PlayTrackCommand="{Binding DataContext.PlaySongCommand, ElementName=ArtistViewRoot}"
+                                        PlayPauseTrackCommand="{Binding DataContext.PlayPauseCommand, ElementName=ArtistViewRoot}"
+                                        IsPaused="{Binding DataContext.IsPaused, ElementName=ArtistViewRoot}"
+                                        IsStopped="{Binding DataContext.IsStopped, ElementName=ArtistViewRoot}"
+                                        CollectionLinkClickCommand="{Binding DataContext.ActiveCollectionNavigationFromTrackCommand, ElementName=ArtistViewRoot}"
+                                        ArtistLinkClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, ElementName=ArtistViewRoot}"
+                                        CurrentItem="{Binding DataContext.CurrentSong, ElementName=ArtistViewRoot}"/>
             </Grid>
             <Grid Row="2">
                 <local:ItemCardsListing DataContext="{Binding Entity.Albums}"

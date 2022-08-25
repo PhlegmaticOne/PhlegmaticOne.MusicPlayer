@@ -18,19 +18,19 @@
                 <controls:ViewTitle TitleText="Tracks" Padding="30" VerticalAlignment="Center"/>
             </Grid>
             <Grid Row="1">
-                <controls:TracksListing DataContext="{Binding Items}"
-                                     OnLoadCommand="{Binding DataContext.ReloadViewModel.ReloadCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
-                                     OnLoadCommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
-                                     LikeTrackCommand="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
-                                     PlayTrackCommand="{Binding DataContext.PlaySongCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
-                                     PlayPauseTrackCommand="{Binding DataContext.PlayPauseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
-                                     IsPaused="{Binding DataContext.IsPaused, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
-                                     IsStopped="{Binding DataContext.IsStopped, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
-                                     CollectionLinkClickCommand="{Binding DataContext.ActiveCollectionNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
-                                     CurrentTrack="{Binding DataContext.CurrentSong, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
-                                     ArtistLinkClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"/>
+                <controls:FullTrackListing DataContext="{Binding Items}"
+                                           Padding="30 0"
+                                           OnLoadCommand="{Binding DataContext.ReloadViewModel.ReloadCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           OnLoadCommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           LikeTrackCommand="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           PlayTrackCommand="{Binding DataContext.PlaySongCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           PlayPauseTrackCommand="{Binding DataContext.PlayPauseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           IsPaused="{Binding DataContext.IsPaused, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           IsStopped="{Binding DataContext.IsStopped, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           CollectionLinkClickCommand="{Binding DataContext.ActiveCollectionNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           CurrentItem="{Binding DataContext.CurrentSong, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           ArtistLinkClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"/>
             </Grid>
         </Grid>
     </ScrollViewer>
-    
 </UserControl>

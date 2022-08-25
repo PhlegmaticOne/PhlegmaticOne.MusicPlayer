@@ -20,5 +20,7 @@
         </Style>
     </UserControl.Resources>
 
-    <TextBlock Text="{Binding LinkText, ElementName=AlbumLinkRoot}" Style="{StaticResource AlbumLinkStyle}"/>
+    <TextBlock Text="{Binding LinkText, ElementName=AlbumLinkRoot}"
+               Style="{StaticResource AlbumLinkStyle}" 
+               MouseLeftButtonDown="UIElement_OnMouseLeftButtonDown"/>
 </UserControl>

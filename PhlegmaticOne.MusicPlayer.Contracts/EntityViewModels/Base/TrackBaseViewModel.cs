@@ -25,8 +25,5 @@ public class TrackBaseViewModel : EntityBaseViewModel
         return false;
     }
 
-    public override int GetHashCode()
-    {
-        return Title.GetHashCode() ^ CollectionLink.Title.GetHashCode();
-    }
+    public override int GetHashCode() => Title.GetHashCode() ^ CollectionLink.Title.GetHashCode();
 }
