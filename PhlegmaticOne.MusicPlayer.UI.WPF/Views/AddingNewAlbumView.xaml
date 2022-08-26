@@ -6,29 +6,31 @@
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
              xmlns:conv="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
              xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
-             d:DesignHeight="1080" d:DesignWidth="1600">
+             d:DesignHeight="2080" d:DesignWidth="1600">
 
     <UserControl.Resources>
-        <conv:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
         <conv:EntityToStringConverter x:Key="EntityToStringConverter"/>
         <conv:TimeToStringConverter x:Key="TimeToStringConverter"/>
+        <conv:ImageOfFirstAlbumConverter x:Key="ImageOfFirstAlbumConverter"/>
         <conv:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="3*"/>
-        </Grid.RowDefinitions>
-        <Grid Row="0">
-            <controls:ViewTitle Padding="30" VerticalAlignment="Center" TitleText="{DynamicResource AddNewMenuItemText}"/>
-        </Grid>
-        <Grid Row="1">
+
+    <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
+        <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="200"/>
                 <RowDefinition Height="80"/>
-                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Grid Row="0" Margin="20 0">
+
+            <Grid Row="0">
+                <controls:ViewTitle Padding="30" VerticalAlignment="Center" TitleText="{DynamicResource AddNewMenuItemText}"/>
+            </Grid>
+
+            <Grid Row="1" Margin="20 10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2.5*"/>
                     <ColumnDefinition/>
@@ -62,7 +64,7 @@
                                                          Text="{Binding Url, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                                             </DockPanel>
-                                            </Border>
+                                        </Border>
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                                                 <Setter Property="Foreground" Value="White"/>
@@ -82,57 +84,170 @@
                             FontSize="28" Margin="20 0"/>
                 </Grid>
             </Grid>
-            <Grid Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid Column="0">
+
+            <Grid Row="2" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="300"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="80"/>
+                </Grid.RowDefinitions>
+
+                <Grid Row="0">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Row="0">
+                            <controls:ImageControl Image="{Binding CurrentAlbum.AlbumCover.Cover}"
+                                                   Padding="15"
+                                                   Height="250"/>
+                        </Grid>
+                        <Grid Row="1">
+                            <controls:RunTextBlock Text="{Binding CurrentAlbum, Converter={StaticResource EntityToStringConverter}}"
+                                                   SlideTime="0:0:15"
+                                                   FontSize="18"
+                                                   Height="25"
+                                                   Padding="20 0"
+                                                   Foreground="White"/>
+                        </Grid>
+                    </Grid>
+
+                    <Grid Column="1" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Row="0">
+                            <DockPanel LastChildFill="True" Margin="30 10 0 0">
+                                <TextBlock Text="{DynamicResource AlbumText}" 
+                                           Foreground="#8E8E8E" 
+                                           FontSize="22" 
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text=":" 
+                                           Foreground="#8E8E8E" 
+                                           FontSize="22" 
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text="{Binding CurrentAlbum.Title}" 
+                                           Foreground="White" 
+                                           FontSize="22" 
+                                           VerticalAlignment="Center"
+                                           Padding="10 1 0 0"/>
+                            </DockPanel>
+                        </Grid>
+                        <Grid Row="1">
+                            <DockPanel LastChildFill="True" Margin="30 10 0 0">
+                                <TextBlock Text="{DynamicResource TypeText}" 
+                                           Foreground="#8E8E8E" 
+                                           FontSize="22" 
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text=":" 
+                                           Foreground="#8E8E8E" 
+                                           FontSize="22" 
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text="{Binding CurrentAlbum.AlbumType}" 
+                                           Foreground="White" 
+                                           FontSize="22" 
+                                           VerticalAlignment="Center"
+                                           Padding="10 1 0 0"/>
+                            </DockPanel>
+                        </Grid>
+                        <Grid Row="2">
+                            <DockPanel LastChildFill="True" Margin="30 10 0 0">
+                                <TextBlock Text="{DynamicResource YearText}" 
+                                           Foreground="#8E8E8E" 
+                                           FontSize="22" 
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text=":" 
+                                           Foreground="#8E8E8E" 
+                                           FontSize="22" 
+                                           VerticalAlignment="Center"/>
+
+                                <TextBlock Text="{Binding CurrentAlbum.YearReleased}" 
+                                           Foreground="White" 
+                                           FontSize="22" 
+                                           VerticalAlignment="Center"
+                                           Padding="10 1 0 0"/>
+                            </DockPanel>
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+
+                <Grid Row="1">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="200"/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition Height="5*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <Grid Row="0" Margin="0 30 0 0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Column="0">
-                            <Image Source="{Binding CurrentAlbum.AlbumCover.Cover, Converter={StaticResource ImageToSourceConverter}}" Width="200"/>
-                        </Grid>
-                        <Grid Column="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                            <Grid Row="0">
-                                <Button Style="{StaticResource DirectorySettingsButtonStyle}"
-                                        Margin="20 10" 
-                                        Content="{DynamicResource AddToCollectionText}"
-                                        Command="{Binding AddToCollectionCommand}"/>
-                            </Grid>
-                            <Grid Row="1">
-                                <Button Style="{StaticResource DirectorySettingsButtonStyle}"
-                                        Margin="20 10"
-                                        Content="{DynamicResource ClearText}"
-                                        Command="{Binding ClearCommand}"/>
-                            </Grid>
-                        </Grid>
+                    <Grid Row="0" HorizontalAlignment="Center" >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource ArtistsText}" 
+                                       Foreground="#8E8E8E"
+                                       FontSize="22"  
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text=":" 
+                                       Foreground="#8E8E8E" 
+                                       FontSize="22" 
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                        
                     </Grid>
-                    <Grid Row="1">
-                        <TextBlock Text="{Binding CurrentAlbum, Converter={StaticResource EntityToStringConverter}}" Foreground="White" 
-                                   Padding="20 5" TextWrapping="WrapWithOverflow" FontSize="18"/>
+                    <Grid Row="1" HorizontalAlignment="Center" Margin="0 10 0 0">
+                        <controls:CardTextListView DataContext="{Binding CurrentAlbum.Artists}"/>
                     </Grid>
-                    <Grid Row="2">
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
-                            <TextBlock Text="{DynamicResource TracksMenuItemText}" Foreground="White" FontSize="30"/>
-                            <TextBlock Text=":" Foreground="White"  FontSize="30" />
+                    <Grid Row="2" HorizontalAlignment="Center" Margin="0 10 0 0">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource GenresText}" 
+                                       Foreground="#8E8E8E"
+                                       FontSize="22"  
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text=":" 
+                                       Foreground="#8E8E8E" 
+                                       FontSize="22" 
+                                       VerticalAlignment="Center"/>
                         </StackPanel>
                     </Grid>
-                    <Grid Row="3" Margin="0 30 0 0">
-                        <ListView>
+                    <Grid Row="3" HorizontalAlignment="Center" Margin="0 10 0 0">
+                        <controls:CardTextListView DataContext="{Binding CurrentAlbum.Genres}"/>
+                    </Grid>
+                </Grid>
+
+                <Grid Row="2" Margin="0 20 0 0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid Row="0" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{DynamicResource TracksMenuItemText}" 
+                                       Foreground="#8E8E8E" 
+                                       FontSize="24" 
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text=":" 
+                                       Foreground="#8E8E8E" 
+                                       FontSize="22" 
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                        
+                    </Grid>
+                    <Grid Row="1">
+                        <ListView Margin="30 10">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="Background" Value="Transparent" />
@@ -141,12 +256,31 @@
                                         <Setter.Value>
                                             <ControlTemplate>
                                                 <Grid Background="{TemplateBinding Background}">
-                                                    <DockPanel LastChildFill="True">
-                                                        <TextBlock Text="{Binding Title}" DockPanel.Dock="Left" Foreground="White" FontSize="18"
-                                                                   Padding="20 4 0 4"/>
+                                                    <DockPanel LastChildFill="True" Margin="0 4">
+                                                        <TextBlock Text="{Binding Artists, 
+                                                        Converter={StaticResource CollectionOfEntitiesToStringConverter},
+                                                        ConverterParameter={x:Static conv:CollectionOfEntitiesToStringConverter.Slash}}"
+                                                               DockPanel.Dock="Left" 
+                                                               VerticalAlignment="Center"
+                                                               Foreground="White" FontSize="18"/>
+                                                        <TextBlock Text="-" 
+                                                               DockPanel.Dock="Left" 
+                                                               Foreground="White"
+                                                               FontSize="18"
+                                                               VerticalAlignment="Center" 
+                                                               Padding="7 0 0 0"/>
+                                                        <TextBlock Text="{Binding Title}" 
+                                                               DockPanel.Dock="Left" 
+                                                               Foreground="White" 
+                                                               FontSize="18"
+                                                               VerticalAlignment="Center"
+                                                               Padding="7 0 0 0"/>
                                                         <TextBlock Text="{Binding Duration, Converter={StaticResource TimeToStringConverter}}" 
-                                                                   DockPanel.Dock="Right" FontSize="18"
-                                                                   Foreground="White" Padding="0 4 20 4"/>
+                                                               DockPanel.Dock="Right" 
+                                                               FontSize="18"
+                                                               VerticalAlignment="Center"
+                                                               Foreground="White" 
+                                                               Padding="0 0 20 0"/>
                                                         <TextBlock Text="" />
                                                     </DockPanel>
                                                 </Grid>
@@ -167,10 +301,8 @@
                                     <Setter Property="BorderThickness" Value="0"/>
                                     <Setter Property="Template">
                                         <Setter.Value>
-                                            <ControlTemplate TargetType="ListBox">
-                                                <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
-                                                    <ItemsPresenter />
-                                                </ScrollViewer>
+                                            <ControlTemplate TargetType="ListView">
+                                                <ItemsPresenter />
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
@@ -179,137 +311,140 @@
                         </ListView>
                     </Grid>
                 </Grid>
-                <Grid Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="2.2*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid Row="0" Column="0">
-                        <TextBlock Text="{DynamicResource ArtistsText}" Foreground="White" FontSize="26"  VerticalAlignment="Center" Padding="30 0 0 0"/>
-                    </Grid>
-                    <Grid Row="1" Column="0">
-                        <TextBlock Text="{DynamicResource AlbumText}" Foreground="White" FontSize="26" VerticalAlignment="Center" Padding="30 0 0 0"/>
-                    </Grid>
-                    <Grid Row="2" Column="0">
-                        <TextBlock Text="{DynamicResource YearText}" Foreground="White" FontSize="26" VerticalAlignment="Center" Padding="30 0 0 0"/>
-                    </Grid>
-                    <Grid Row="3" Column="0">
-                        <TextBlock Text="{DynamicResource TypeText}" Foreground="White" FontSize="26" VerticalAlignment="Center" Padding="30 0 0 0"/>
-                    </Grid>
-                    <Grid Row="4" Column="0">
-                        <TextBlock Text="{DynamicResource GenresText}" Foreground="White" FontSize="26" VerticalAlignment="Center" Padding="30 0 0 0"/>
-                    </Grid>
 
-                    <Grid Row="0" Column="1" Margin="0 8 0 0">
-                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <Grid Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid Row="0" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Found some artists that may be one of current album artists" 
+                                       Foreground="#8E8E8E" 
+                                       FontSize="24" 
+                                       VerticalAlignment="Center"/>
+                            <TextBlock Text=":" 
+                                       Foreground="#8E8E8E" 
+                                       FontSize="22" 
+                                       VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Row="1">
+                        <ListView Background="Transparent"
+                              BorderThickness="0"
+                              ItemsSource="{Binding ExistingArtists}"
+                              Margin="30 10">
+
+                            <ListView.Template>
+                                <ControlTemplate TargetType="ListView">
+                                    <ItemsPresenter/>
+                                </ControlTemplate>
+                            </ListView.Template>
+
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
-                                    <Setter Property="BorderBrush" Value="#666666"/>
-                                    <Setter Property="Foreground" Value="#666666"/>
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                    <Setter Property="FontSize" Value="18"/>
                                     <Setter Property="Template">
                                         <Setter.Value>
-                                            <ControlTemplate>
-                                                <Border CornerRadius="3" Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                        Padding="8 5"
-                                                        Margin=" 10 5">
-                                                    <TextBlock Text="{Binding Name}"
-                                                               Foreground="{TemplateBinding Foreground}"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="BorderBrush" Value="White"/>
-                                                        <Setter Property="Foreground" Value="White"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
+                                            <ControlTemplate TargetType="ListViewItem">
+                                                <DockPanel LastChildFill="True">
+
+                                                    <TextBlock Text="{Binding Key}"
+                                                       Foreground="White"
+                                                       VerticalAlignment="Center"
+                                                       FontSize="18"/>
+
+                                                    <ListView Background="Transparent"
+                                                      BorderThickness="0"
+                                                      Margin="30 0 0 0"
+                                                      ItemsSource="{Binding }">
+
+                                                        <ListView.Template>
+                                                            <ControlTemplate TargetType="ListView">
+                                                                <ItemsPresenter />
+                                                            </ControlTemplate>
+                                                        </ListView.Template>
+
+                                                        <ListView.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <StackPanel Orientation="Vertical"/>
+                                                            </ItemsPanelTemplate>
+                                                        </ListView.ItemsPanel>
+
+                                                        <ListView.ItemContainerStyle>
+                                                            <Style TargetType="ListViewItem">
+                                                                <Setter Property="Background" Value="Transparent"/>
+                                                                <Setter Property="Focusable" Value="True"/>
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="ListViewItem">
+                                                                            <Border Background="{TemplateBinding Background}">
+                                                                                <DockPanel LastChildFill="True">
+
+                                                                                    <Grid Width="60" Height="60">
+                                                                                        <controls:ImageControl Image="{Binding Albums, Converter={StaticResource ImageOfFirstAlbumConverter}}"/>
+                                                                                    </Grid>
+
+                                                                                    <TextBlock Text="{Binding Name}" Padding="20 0 0 0" 
+                                                                                        Foreground="White" VerticalAlignment="Center" FontSize="18"/>
+                                                                                </DockPanel>
+
+                                                                                <b:Interaction.Triggers>
+                                                                                    <b:EventTrigger EventName="MouseLeftButtonDown" >
+                                                                                        <b:InvokeCommandAction 
+                                                                                            CommandParameter="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}}"
+                                                                                            Command="{Binding DataContext.ReplaceArtistCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AddingNewAlbumView}}}"/>
+                                                                                    </b:EventTrigger>
+                                                                                </b:Interaction.Triggers>
+                                                                            </Border>
+
+                                                                            <ControlTemplate.Triggers>
+                                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                                    <Setter Property="Background" Value="Gray"/>
+                                                                                </Trigger>
+                                                                                <Trigger Property="IsFocused" Value="True">
+                                                                                    <Setter Property="Background" Value="DarkGray"/>
+                                                                                </Trigger>
+                                                                            </ControlTemplate.Triggers>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </ListView.ItemContainerStyle>
+                                                    </ListView>
+                                                </DockPanel>
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
                                 </Style>
                             </ListView.ItemContainerStyle>
-                            <ListView.Style>
-                                <Style TargetType="ListView">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="ItemsSource" Value="{Binding CurrentAlbum.Artists}"/>
-                                    <Setter Property="ItemsPanel">
-                                        <Setter.Value>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListView.Style>
                         </ListView>
                     </Grid>
-                    <Grid Row="1" Column="1">
-                        <TextBlock Text="{Binding CurrentAlbum.Title}" Foreground="White" FontSize="20" VerticalAlignment="Center" Padding="30 0 0 0"/>
-                    </Grid>
-                    <Grid Row="2" Column="1">
-                        <TextBlock Text="{Binding CurrentAlbum.YearReleased}" Foreground="White" FontSize="20" VerticalAlignment="Center" Padding="30 0 0 0"/>
-                    </Grid>
-                    <Grid Row="3" Column="1">
-                        <TextBlock Text="{Binding CurrentAlbum.AlbumType}" Foreground="White" FontSize="20" VerticalAlignment="Center" Padding="30 0 0 0"/>
-                    </Grid>
-                    <Grid Row="4" Column="1">
-                        <ListView ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="BorderBrush" Value="#666666"/>
-                                    <Setter Property="Foreground" Value="#666666"/>
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                    <Setter Property="FontSize" Value="18"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate>
-                                                <Border CornerRadius="3" Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                        Padding="8 5"
-                                                        Margin=" 10 5">
-                                                    <TextBlock Text="{Binding Name}"
-                                                               Foreground="{TemplateBinding Foreground}"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="BorderBrush" Value="White"/>
-                                                        <Setter Property="Foreground" Value="White"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.Style>
-                                <Style TargetType="ListView">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="ItemsSource" Value="{Binding CurrentAlbum.Genres}"/>
-                                    <Setter Property="ItemsPanel">
-                                        <Setter.Value>
-                                            <ItemsPanelTemplate>
-                                                <WrapPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListView.Style>
-                        </ListView>
-                    </Grid>
+                </Grid>
+
+                <Grid Row="4" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Style="{StaticResource DirectorySettingsButtonStyle}"
+                                Margin="20 10" 
+                                Width="200"
+                                Content="{DynamicResource AddToCollectionText}"
+                                Command="{Binding AddToCollectionCommand}"/>
+                        <Button Style="{StaticResource DirectorySettingsButtonStyle}"
+                                Margin="20 10"
+                                Width="200"
+                                Content="{DynamicResource ClearText}"
+                                Command="{Binding ClearCommand}"/>
+                    </StackPanel>
+                    
                 </Grid>
             </Grid>
         </Grid>
-    </Grid>
+    </ScrollViewer>
 </UserControl>
+
+

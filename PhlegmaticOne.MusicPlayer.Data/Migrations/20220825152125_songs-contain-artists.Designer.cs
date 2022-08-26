@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 
@@ -11,9 +12,10 @@ using PhlegmaticOne.MusicPlayer.Data.Context;
 namespace PhlegmaticOne.MusicPlayer.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220825152125_songs-contain-artists")]
+    partial class songscontainartists
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,21 +54,6 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                     b.ToTable("AlbumGenre");
                 });
 
-            modelBuilder.Entity("ArtistSong", b =>
-                {
-                    b.Property<Guid>("ArtistsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SongsId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("ArtistsId", "SongsId");
-
-                    b.HasIndex("SongsId");
-
-                    b.ToTable("ArtistSong");
-                });
-
             modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.AlbumCover", b =>
                 {
                     b.Property<Guid>("Id")
@@ -85,7 +72,7 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                     b.HasIndex("AlbumId")
                         .IsUnique();
 
-                    b.ToTable("CollectionCovers", (string)null);
+                    b.ToTable("AlbumCovers", (string)null);
                 });
 
             modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Artist", b =>
@@ -104,7 +91,12 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<Guid?>("SongId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SongId");
 
                     b.ToTable("Artists", (string)null);
                 });
@@ -258,21 +250,6 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ArtistSong", b =>
-                {
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Artist", null)
-                        .WithMany()
-                        .HasForeignKey("ArtistsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Song", null)
-                        .WithMany()
-                        .HasForeignKey("SongsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.AlbumCover", b =>
                 {
                     b.HasOne("PhlegmaticOne.MusicPlayer.Entities.CollectionBase", "Album")
@@ -282,6 +259,13 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Album");
+                });
+
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Artist", b =>
+                {
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Song", null)
+                        .WithMany("Artists")
+                        .HasForeignKey("SongId");
                 });
 
             modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Song", b =>
@@ -332,6 +316,11 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                 {
                     b.Navigation("AlbumCover")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Song", b =>
+                {
+                    b.Navigation("Artists");
                 });
 
             modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Album", b =>

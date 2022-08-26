@@ -9,7 +9,7 @@ public class AlbumCoverConfiguration : IEntityTypeConfiguration<AlbumCover>
 {
     public void Configure(EntityTypeBuilder<AlbumCover> builder)
     {
-        builder.ToTable("AlbumCovers");
+        builder.ToTable("CollectionCovers");
         builder.HasKey(x => x.Id);
         builder.Property(p => p.Cover).HasConversion(
             from => (byte[])new ImageConverter().ConvertTo(from, typeof(byte[]))!,

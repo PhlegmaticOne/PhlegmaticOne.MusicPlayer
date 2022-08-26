@@ -10,6 +10,7 @@ public class ArtistConfiguration : IEntityTypeConfiguration<Artist>
     {
         builder.ToTable("Artists");
         builder.HasKey(x => x.Id);
+        builder.Property(x => x.IsFavorite).HasDefaultValue(false);
         builder.Property(p => p.Name).IsRequired().HasMaxLength(256);
     }
 }

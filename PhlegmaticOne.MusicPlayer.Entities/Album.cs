@@ -4,7 +4,6 @@ public class Album : CollectionBase, IEquatable<Album>
 {
     public ICollection<Genre> Genres { get; set; } = null!;
     public ICollection<Artist> Artists { get; set; } = null!;
-    public string OnlineUrl { get; set; } = null!;
     public int YearReleased { get; set; }
     public AlbumType AlbumType { get; init; }
     public override string ToString() => $"{string.Join("/", Artists.Select(x => x.Name))} - {Title} ({YearReleased})";
@@ -27,8 +26,5 @@ public class Album : CollectionBase, IEquatable<Album>
         return Equals((Album) obj);
     }
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Artists, YearReleased, (int) AlbumType, Title);
-    }
+    public override int GetHashCode() => HashCode.Combine(Artists, YearReleased, (int) AlbumType, Title);
 }

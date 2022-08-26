@@ -10,94 +10,88 @@ namespace PhlegmaticOne.MusicPlayer.Data.AdoNet;
 
 public class AdoNetAllTracksViewModelGet : AdoNetViewModelGetBase<AllTracksViewModel>
 {
-    public AdoNetAllTracksViewModelGet(ISqlClient sqlClient) : base(sqlClient, "Get_All_Tracks")
-    {
-    }
+    public AdoNetAllTracksViewModelGet(ISqlClient sqlClient) : base(sqlClient, "Get_All_Tracks") { }
     protected override async Task<AllTracksViewModel> Create(SqlDataReader reader)
     {
         var tracks = new List<TrackBaseViewModel>();
-
+        TrackBaseViewModel? previous = default;
         while (await reader.ReadAsync())
         {
-            var currentTracks = new List<TrackBaseViewModel>();
-            do
+            var collectionId = await reader.GetFieldValueAsync<Guid>(0);
+            var trackId = await reader.GetFieldValueAsync<Guid>(2);
+
+            if (previous?.CollectionLink.Id == collectionId)
             {
-                var trackId = await reader.GetFieldValueAsync<Guid>(0);
-                var duration = TimeSpan.FromTicks(await reader.GetFieldValueAsync<long>(1));
-                var isFavorite = await reader.GetFieldValueAsync<bool>(2);
-                var localUrl = await reader.IsDBNullAsync(3) ? null : await reader.GetFieldValueAsync<string>(3);
-                var onlineUrl = await reader.GetFieldValueAsync<string>(4);
-                var timePlayed = await reader.GetFieldValueAsync<TimeSpan>(5);
-                var trackTitle = await reader.GetFieldValueAsync<string>(6);
-                var trackViewModel = new TrackBaseViewModel
+                if (previous.Id == trackId)
                 {
-                    Duration = duration,
-                    Id = trackId,
-                    IsDownloaded = string.IsNullOrWhiteSpace(localUrl) == false,
-                    IsDownloading = false,
-                    IsFavorite = isFavorite,
-                    LocalUrl = localUrl,
-                    OnlineUrl = onlineUrl,
-                    Title = trackTitle,
-                    TimePlayed = timePlayed
-                };
-                currentTracks.Add(trackViewModel);
-
-            } while (await reader.ReadAsync());
-
-            await reader.NextResultAsync();
-
-            await reader.ReadAsync();
-
-            var artistLinkViewModels = new List<ArtistLinkViewModel>();
-            if (reader.FieldCount == 2)
-            {
-                do
-                {
-                    var artistId = await reader.GetFieldValueAsync<Guid>(0);
-                    var artistName = await reader.GetFieldValueAsync<string>(1);
-                    var artistLinkViewModel = new ArtistLinkViewModel
-                    {
-                        Id = artistId,
-                        Name = artistName
-                    };
-                    artistLinkViewModels.Add(artistLinkViewModel);
-                } while (await reader.ReadAsync());
-
-                await reader.NextResultAsync();
-
-                await reader.ReadAsync();
+                    var artist = await GetTrackArtist(reader);
+                    previous.ArtistLinks.Add(artist);
+                    continue;
+                }
+                var notFullTrack = await GetNotFullTrack(reader, trackId);
+                notFullTrack.CollectionLink = previous.CollectionLink;
+                notFullTrack.ArtistLinks = previous.ArtistLinks;
+                previous = notFullTrack;
+                tracks.Add(notFullTrack);
+                continue;
             }
 
-            var imageData = await reader.GetFieldValueAsync<byte[]>(0);
+            var collectionTitle = await reader.GetFieldValueAsync<string>(1);
+            var notFull = await GetNotFullTrack(reader, trackId);
+            var artistLink = await GetTrackArtist(reader);
+
+            var imageData = await reader.GetFieldValueAsync<byte[]>(11);
             var image = imageData.ToBitmap();
             var cover = new AlbumCover { Cover = image };
-            await reader.NextResultAsync();
 
-            await reader.ReadAsync();
-            var collectionId = await reader.GetFieldValueAsync<Guid>(0);
-            var title = await reader.GetFieldValueAsync<string>(1);
-            await reader.NextResultAsync();
-
-            var collectionLink = new CollectionLinkViewModel
+            notFull.CollectionLink = new CollectionLinkViewModel
             {
-                Id = collectionId,
                 Cover = cover,
-                Title = title
+                Id = collectionId,
+                Title = collectionTitle
             };
+            notFull.ArtistLinks = new List<ArtistLinkViewModel> {artistLink};
 
-            foreach (var trackBaseViewModel in currentTracks)
-            {
-                trackBaseViewModel.ArtistLinks = artistLinkViewModels;
-                trackBaseViewModel.CollectionLink = collectionLink;
-            }
-
-            tracks.AddRange(currentTracks);
+            previous = notFull;
+            tracks.Add(notFull);
         }
 
         return new AllTracksViewModel
         {
             Tracks = tracks
+        };
+    }
+
+    private async Task<TrackBaseViewModel> GetNotFullTrack(SqlDataReader reader, Guid id)
+    {
+        var trackTitle = await reader.GetFieldValueAsync<string>(3);
+        var trackDuration = TimeSpan.FromTicks(await reader.GetFieldValueAsync<long>(4));
+        var trackIsFavorite = await reader.GetFieldValueAsync<bool>(5);
+        var localUrl = await reader.IsDBNullAsync(6) ? null : await reader.GetFieldValueAsync<string>(6);
+        var onlineUrl = await reader.IsDBNullAsync(7) ? null : await reader.GetFieldValueAsync<string>(7);
+        var trackTimePlayed = await reader.GetFieldValueAsync<TimeSpan>(8);
+        return new()
+        {
+            Id = id,
+            Title = trackTitle,
+            IsFavorite = trackIsFavorite,
+            Duration = trackDuration,
+            IsDownloaded = string.IsNullOrEmpty(localUrl) == false,
+            IsDownloading = false,
+            LocalUrl = localUrl,
+            OnlineUrl = onlineUrl,
+            TimePlayed = trackTimePlayed
+        };
+    }
+
+    private async Task<ArtistLinkViewModel> GetTrackArtist(SqlDataReader reader)
+    {
+        var artistId = await reader.GetFieldValueAsync<Guid>(9);
+        var artistName = await reader.GetFieldValueAsync<string>(10);
+        return new()
+        {
+            Id = artistId,
+            Name = artistName
         };
     }
 }

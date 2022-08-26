@@ -22,8 +22,7 @@ public class EFAllTracksViewModelGet : ViewModelGetBase<AllTracksViewModel>
         var query = set
             .Include(x => x.Album)
             .ThenInclude(x => x.AlbumCover)
-            .Include(x => x.Album)
-            .ThenInclude(x => x.Artists)
+            .Include(x => x.Artists)
             .Include(x => x.Playlists)
             .ThenInclude(x => x.AlbumCover);
 
@@ -49,7 +48,7 @@ public class EFAllTracksViewModelGet : ViewModelGetBase<AllTracksViewModel>
                     Cover = song.Album.AlbumCover,
                     Title = song.Album.Title,
                 },
-                ArtistLinks = song.Album.Artists.Select(x => new ArtistLinkViewModel
+                ArtistLinks = song.Artists.Select(x => new ArtistLinkViewModel
                 {
                     Id = x.Id,
                     Name = x.Name

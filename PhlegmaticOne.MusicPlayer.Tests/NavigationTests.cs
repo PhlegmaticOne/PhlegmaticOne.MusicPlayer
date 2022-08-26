@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Tests.TestEntities;
 using PhlegmaticOne.WPF.Navigation;
-using PhlegmaticOne.WPF.Navigation.ChainNavigation;
 using PhlegmaticOne.WPF.Navigation.Extensions;
 
 namespace PhlegmaticOne.MusicPlayer.Tests;

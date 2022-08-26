@@ -12,6 +12,7 @@ public class CollectionBaseConfiguration : IEntityTypeConfiguration<CollectionBa
         builder.HasKey(x => x.Id);
         builder.Property(p => p.IsFavorite).HasDefaultValue(false);
         builder.Property(p => p.Title).IsRequired();
+        builder.Property(x => x.TimePlayed).HasDefaultValue(TimeSpan.Zero);
         builder.Property(p => p.DateAdded).IsRequired();
         builder.HasOne(c => c.AlbumCover).WithOne(a => a.Album)
             .HasForeignKey<AlbumCover>(p => p.AlbumId);

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls;
 
@@ -41,31 +40,7 @@ public partial class RunListView
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         var textBlock = (TextBlock)ListView.Template.FindName("Block", ListView);
-        var textBlockActualWidth = textBlock.ActualWidth;
-        var listViewActualWidth = ListView.ActualWidth;
-
-        if (listViewActualWidth >= textBlockActualWidth)
-        {
-            return;
-        }
-
-        var animation = CreateAnimation(listViewActualWidth - textBlockActualWidth - 10);
-
+        var animation = AnimationsGenerator.GenerateSlideAnimation(textBlock, ListView, SlideTime);
         textBlock.BeginAnimation(Canvas.LeftProperty, animation);
-    }
-
-    private DoubleAnimation CreateAnimation(double to)
-    {
-        var time = SlideTime == Duration.Automatic ? TimeSpan.FromSeconds(5) : SlideTime;
-        return new()
-        {
-            From = 10,
-            To = to,
-            AutoReverse = true,
-            Duration = time,
-            AccelerationRatio = 0.1,
-            DecelerationRatio = 0.1,
-            RepeatBehavior = RepeatBehavior.Forever
-        };
     }
 }

@@ -1,14 +1,11 @@
-﻿using System.Collections.ObjectModel;
-using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContainingViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
 using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
-using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Collections;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
 using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Navigation;
 

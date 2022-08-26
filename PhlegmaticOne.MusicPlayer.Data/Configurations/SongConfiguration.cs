@@ -21,5 +21,6 @@ public class SongConfiguration : IEntityTypeConfiguration<Song>
             .HasForeignKey(x => x.AlbumId);
 
         builder.HasMany(x => x.Playlists).WithMany(x => x.Songs);
+        builder.HasMany(x => x.Artists).WithMany(x => x.Songs);
     }
 }

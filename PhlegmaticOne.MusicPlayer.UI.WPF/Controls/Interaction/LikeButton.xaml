@@ -54,7 +54,7 @@
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsFavorite, UpdateSourceTrigger=PropertyChanged, ElementName=LikeButtonRoot}" Value="True"/>
-                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                        <Condition Binding="{Binding IsActive, ElementName=LikeButtonRoot}" Value="True"/>
                                     </MultiDataTrigger.Conditions>
                                     <MultiDataTrigger.Setters>
                                         <Setter Property="Foreground" Value="#FF3333"/>

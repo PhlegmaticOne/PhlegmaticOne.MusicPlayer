@@ -6,7 +6,6 @@ using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
-using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 
@@ -17,7 +16,7 @@ public class HomeViewModel : PlayerTrackableViewModel
     {
         Tracks = new();
         Play = DelegateCommandFactory.CreateCommand(PlayAction, _ => true);
-        PlayPause = DelegateCommandFactory.CreateCommand(PlayPauseAction, _ => true);
+        PlayPause = DelegateCommandFactory.CreateCommand(PlayPauseAct, _ => true);
         AddTracks();
     }
     public IDelegateCommand Play { get; set; }
@@ -32,7 +31,7 @@ public class HomeViewModel : PlayerTrackableViewModel
             IsPaused = false;
         }
     }
-    private void PlayPauseAction(object? parameter)
+    private void PlayPauseAct(object? parameter)
     {
         if (parameter is TrackBaseViewModel trackBaseViewModel)
         {

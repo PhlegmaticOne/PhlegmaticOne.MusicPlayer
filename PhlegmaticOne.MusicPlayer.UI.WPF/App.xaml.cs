@@ -40,6 +40,8 @@ using PhlegmaticOne.MusicPlayer.Data.EFCore.ViewModelGetters;
 using PhlegmaticOne.WPF.Navigation.Extensions;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Save;
+using PhlegmaticOne.MusicPlayer.Data.EFCore.Save;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -122,7 +124,8 @@ public partial class App
 
                  services.AddHandMappers(typeof(AlbumPreviewToActiveViewModelMapper).Assembly);
 
-                 services.AddEntityCollectionGetterTypes(typeof(EFAllAlbumsViewModelGet),
+                 services.AddEntityCollectionGetterTypes(
+                     typeof(EFAllAlbumsViewModelGet),
                      typeof(AdoNetAllArtistsViewModelGet), 
                      typeof(AdoNetAllTracksViewModelGet));
 
@@ -151,6 +154,8 @@ public partial class App
                  services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();
 
                  services.AddSingleton<IHttpInfoGetter<Album>, MusifyAlbumInfoGetter>();
+
+                 services.AddSingleton<IAlbumSaveService, AlbumSaveService>();
 
                  services.AddSingleton<IDownloadSettings, DownloadSettings>();
                  services.AddSingleton<IPlayer, CustomMusicPlayer>();

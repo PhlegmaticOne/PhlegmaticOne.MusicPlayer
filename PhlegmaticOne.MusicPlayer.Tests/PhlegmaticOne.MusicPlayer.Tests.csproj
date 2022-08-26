@@ -9,8 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.8" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Moq" Version="4.18.2" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,6 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.EFCore\PhlegmaticOne.MusicPlayer.Data.EFCore.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data\PhlegmaticOne.MusicPlayer.Data.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Players\PhlegmaticOne.MusicPlayer.Players.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.WPF.Core\PhlegmaticOne.MusicPlayer.WPF.Core.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.WPF.Navigation\PhlegmaticOne.WPF.Navigation.csproj" />
   </ItemGroup>

@@ -6,6 +6,9 @@ public class Artist : EntityBase, IEquatable<Artist>
 {
     public string Name { get; set; } = null!;
     public ICollection<Album> Albums { get; set; } = null!;
+    public ICollection<Song> Songs { get; set; } = null!;
+    public bool IsFavorite { get; set; }
+    public override string ToString() => Name;
 
     public bool Equals(Artist? other)
     {

@@ -26,9 +26,9 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
 
         var songs = GetSongs(domDocument).ToList();
         var genres = GetGenres(domDocument).ToList();
-        var artists = GetArtists(domDocument).ToList();
+        var artists = songs.SelectMany(x => x.Artists).Distinct().ToList();
 
-        return new Album()
+        return new Album
         {
             Artists = artists,
             Title = title,
@@ -37,7 +37,6 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
             Songs = songs,
             Genres = genres,
             AlbumCover = albumCover,
-            OnlineUrl = uri
         };
     }
 
@@ -46,16 +45,17 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
         var header = htmlDocument
             .QuerySelectorAll("h1")
             .Select(x => x.InnerHtml)
-            .First();
+            .First()
+            .Replace("&amp;", "&");
         if (header.Contains('-'))
         {
             var result = header.Split(new[] { " - ", "(", ")" }, StringSplitOptions.RemoveEmptyEntries);
-            return (result[1], int.Parse(result[2]));
+            return (result[1].Trim(), int.Parse(result[2]));
         }
         else
         {
             var result = header.Split(new[] { "(", ")" }, StringSplitOptions.RemoveEmptyEntries);
-            return (result[0], int.Parse(result[1]));
+            return (result[0].Trim(), int.Parse(result[1]));
         }
     }
 
@@ -67,7 +67,7 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
             .Select(x => x.ParentElement!.TextContent)
             .First()
             .Trim();
-        return ParseStingToAlbumType(albumType);
+        return ParseStringToAlbumType(albumType);
     }
 
     private static IEnumerable<Artist> GetArtists(IHtmlDocument htmlDocument) =>
@@ -81,6 +81,11 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
 
     private static IEnumerable<Song> GetSongs(IHtmlDocument htmlDocument)
     {
+        var songArtists = htmlDocument
+            .QuerySelectorAll("a")
+            .Where(x => x.Attributes.Any(y => y.Name == "rel") && x.InnerHtml != "Flash plugin")
+            .Select(x => x.InnerHtml);
+
         var songNames = htmlDocument
             .QuerySelectorAll("a")
             .Where(s => s.ClassName == "strong")
@@ -95,20 +100,28 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
             .Where(p => p.HasAttribute("download"))
             .Select(x => "https://musify.club" + x.GetAttribute("href"));
 
-        foreach (var songInfo in songNames.Zip(durations).Zip(onlineUrls))
+        foreach (var songInfo in (songArtists.Zip(songNames)).Zip(durations.Zip(onlineUrls)))
         {
             yield return new Song()
             {
-                Duration = songInfo.First.Second,
-                Title = songInfo.First.First,
-                OnlineUrl = songInfo.Second
+                Artists = new List<Artist>()
+                {
+                    new()
+                    {
+                        Name = songInfo.First.First,
+                        Songs = new List<Song>()
+                    },
+                },
+                Title = songInfo.First.Second,
+                Duration = songInfo.Second.First,
+                OnlineUrl = songInfo.Second.Second
             };
         }
     }
 
 
 
-    private static AlbumType ParseStingToAlbumType(string albumType) => albumType switch
+    private static AlbumType ParseStringToAlbumType(string albumType) => albumType switch
     {
         "Демо" => AlbumType.Demo,
         "EP" => AlbumType.EP,

@@ -9,28 +9,55 @@ namespace PhlegmaticOne.MusicPlayer.Data.AdoNet;
 
 public class AdoNetAllArtistsViewModelGet : AdoNetViewModelGetBase<AllArtistsPreviewViewModel>
 {
-    public AdoNetAllArtistsViewModelGet(ISqlClient sqlClient) : base(sqlClient, "Get_All_Artists_Preview")
-    {
-    }
+    public AdoNetAllArtistsViewModelGet(ISqlClient sqlClient) : base(sqlClient, "Get_All_Artists_Preview") { }
     protected override async Task<AllArtistsPreviewViewModel> Create(SqlDataReader reader)
     {
         var artists = new List<ArtistPreviewViewModel>();
 
         while (await reader.ReadAsync())
         {
-            var (id, artistName) = await GetArtistName(reader);
-            var genres = await GetGenres(reader);
-            var tracksCount = await GetTracksCount(reader);
-            var cover = await GetArtistCover(reader);
+            var id = await reader.GetFieldValueAsync<Guid>(0);
+            var artistName = await reader.GetFieldValueAsync<string>(1);
+            var tracksCount = await reader.GetFieldValueAsync<int>(2);
             var artist = new ArtistPreviewViewModel
             {
                 Id = id,
                 Name = artistName,
-                Cover = cover,
-                Genres = genres,
-                TracksCount = tracksCount
+                TracksCount = tracksCount,
+                Genres = new List<string>()
             };
             artists.Add(artist);
+        }
+
+        await reader.NextResultAsync();
+
+        var index = 0;
+        while (await reader.ReadAsync())
+        {
+            var cover = await reader.GetFieldValueAsync<byte[]>(0);
+            var image = cover.ToBitmap();
+            var albumCover = new AlbumCover {Cover = image};
+            artists[index].Cover = albumCover;
+            index++;
+        }
+
+        await reader.NextResultAsync();
+
+        index = -1;
+        var previousId = Guid.Empty;
+
+        while (await reader.ReadAsync())
+        {
+            var artistId = await reader.GetFieldValueAsync<Guid>(0);
+            var genreName = await reader.GetFieldValueAsync<string>(1);
+
+            if (artistId != previousId)
+            {
+                index++;
+            }
+
+            artists[index].Genres.Add(genreName);
+            previousId = artistId;
         }
 
         return new AllArtistsPreviewViewModel
