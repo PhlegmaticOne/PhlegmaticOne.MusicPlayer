@@ -1,4 +1,5 @@
-﻿using PhlegmaticOne.MusicPlayer.Entities.Base;
+﻿using System.Windows.Input;
+using PhlegmaticOne.MusicPlayer.Entities.Base;
 using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
@@ -15,6 +16,7 @@ public class TrackBaseViewModel : EntityBaseViewModel, IHaveId, IIsFavorite
     public bool IsFavorite { get; set; }
     public string OnlineUrl { get; set; }
     public string LocalUrl { get; set; }
+    public IDictionary<string, ICommand> Actions { get; set; }
     public override string ToString() => $"{Title} - {Duration:g}";
     public override bool Equals(object? obj)
     {

@@ -15,7 +15,6 @@ public class ObservableQueue<T> : IObservableQueue<T> where T : class
         ShuffleType = ShuffleType.ShuffleOff;
     }
 
-    public IReadOnlyCollection<T> Entities => _entities;
     public RepeatType RepeatType { get; set; }
     public ShuffleType ShuffleType { get; set; }
     public event EventHandler<CollectionChangedEventArgs<T>>? QueueChanged;
@@ -41,6 +40,11 @@ public class ObservableQueue<T> : IObservableQueue<T> where T : class
         }
         _entities.RemoveAt(songIndex);
         Invoke(entity.ToOneItemEnumerable(), CollectionChangedType.Removed);
+    }
+
+    public bool Contains(T item)
+    {
+        return _entities.Contains(item);
     }
 
     public T? Current

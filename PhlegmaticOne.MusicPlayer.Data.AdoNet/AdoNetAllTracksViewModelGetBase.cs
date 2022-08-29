@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using PhlegmaticOne.MusicPlayer.Contracts.Actions;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Collections;
@@ -10,7 +11,11 @@ namespace PhlegmaticOne.MusicPlayer.Data.AdoNet;
 
 public class AdoNetAllTracksViewModelGetBase : AdoNetViewModelGetBase<AllTracksViewModel>
 {
-    public AdoNetAllTracksViewModelGetBase(ISqlClient sqlClient) : base(sqlClient) { }
+    private readonly IEntityActionsProvider<TrackBaseViewModel> _trackActionsProvider;
+    public AdoNetAllTracksViewModelGetBase(ISqlClient sqlClient, IEntityActionsProvider<TrackBaseViewModel> trackActionsProvider) : base(sqlClient)
+    {
+        _trackActionsProvider = trackActionsProvider;
+    }
     protected override string CommandName => "Get_All_Tracks";
 
     protected override async Task<AllTracksViewModel> Create(SqlDataReader reader)
@@ -34,6 +39,7 @@ public class AdoNetAllTracksViewModelGetBase : AdoNetViewModelGetBase<AllTracksV
                 var newArtist = await GetTrackArtist(reader);
                 notFullTrack.CollectionLink = previous.CollectionLink;
                 notFullTrack.ArtistLinks = new List<ArtistLinkViewModel>() { newArtist };
+                notFullTrack.Actions = _trackActionsProvider.GetActions(notFullTrack);
                 previous = notFullTrack;
                 tracks.Add(notFullTrack);
                 continue;
@@ -54,6 +60,8 @@ public class AdoNetAllTracksViewModelGetBase : AdoNetViewModelGetBase<AllTracksV
                 Title = collectionTitle
             };
             notFull.ArtistLinks = new List<ArtistLinkViewModel> {artistLink};
+
+            notFull.Actions = _trackActionsProvider.GetActions(notFull);
 
             previous = notFull;
             tracks.Add(notFull);

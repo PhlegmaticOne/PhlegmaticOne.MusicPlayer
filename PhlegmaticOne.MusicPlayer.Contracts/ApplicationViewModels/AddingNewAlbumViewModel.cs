@@ -1,12 +1,10 @@
 ﻿using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Save;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
 using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
 using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
-using PhlegmaticOne.WPF.Navigation;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 

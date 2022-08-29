@@ -11,12 +11,12 @@ namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 public class SettingsViewModel : ApplicationBaseViewModel
 {
     private readonly ILocalizationService _localizationService;
-    private readonly IDownloadSettings _downloadSettings;
+    private readonly ILocalSystemSettings _downloadSettings;
     public ObservableCollection<DisplayCultureInfo> SupportedLanguages { get; set; } = new();
     public string CurrentLanguageName { get; set; }
     public long DirectorySize { get; set; }
     public string CurrentDownloadDirectoryFolderPath { get; set; }
-    public SettingsViewModel(ILocalizationService localizationService, IDownloadSettings downloadSettings)
+    public SettingsViewModel(ILocalizationService localizationService, ILocalSystemSettings downloadSettings)
     {
         _localizationService = localizationService;
         _downloadSettings = downloadSettings;

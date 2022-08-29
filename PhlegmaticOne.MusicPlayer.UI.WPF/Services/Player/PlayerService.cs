@@ -12,24 +12,22 @@ namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services.Player;
 public class PlayerService : IPlayerService
 {
     private readonly IPlayer _player;
-    private readonly IObservableQueue<TrackBaseViewModel> _songQueue;
-    private readonly IValueProvider<TrackBaseViewModel> _songValueProvider;
 
     public PlayerService(IPlayer player,
         IObservableQueue<TrackBaseViewModel> songQueue,
         IValueProvider<TrackBaseViewModel> songValueProvider)
     {
         _player = player;
-        _songQueue = songQueue;
-        _songValueProvider = songValueProvider;
-
+        TrackValueProvider = songValueProvider;
+        TracksQueue = songQueue;
         Subscribe();
     }
 
     public bool IsPaused { get; set; } = true;
     public bool IsStopped { get; set; } = true;
     public float Volume { get => _player.Volume; set => _player.Volume = value; }
-    public IValueProvider<TrackBaseViewModel> TrackValueProvider => _songValueProvider;
+    public IValueProvider<TrackBaseViewModel> TrackValueProvider { get; }
+    public IObservableQueue<TrackBaseViewModel> TracksQueue { get; }
 
     public event EventHandler<bool>? PauseChanged;
     public event EventHandler<bool>? StopChanged;
@@ -38,10 +36,10 @@ public class PlayerService : IPlayerService
 
     public void SetAndPlay(TrackBaseViewModel? song)
     {
-        _songValueProvider.Set(song);
+        TrackValueProvider.Set(song);
         if (song is not null)
         {
-            _songQueue.Current = song;
+            TracksQueue.Current = song;
             _player.Stop();
             _player.Play(ChooseFilePath(song));
         }
@@ -59,30 +57,30 @@ public class PlayerService : IPlayerService
 
     public void MoveNext(QueueMoveType queueMoveType)
     {
-        if (_songQueue.Any())
+        if (TracksQueue.Any())
         {
-            _songQueue.MoveNext(queueMoveType);
-            SetAndPlay(_songQueue.Current);
+            TracksQueue.MoveNext(queueMoveType);
+            SetAndPlay(TracksQueue.Current);
         }
     }
 
     public void MovePrevious()
     {
-        if (_songQueue.Any())
+        if (TracksQueue.Any())
         {
-            _songQueue.MovePrevious();
-            SetAndPlay(_songQueue.Current);
+            TracksQueue.MovePrevious();
+            SetAndPlay(TracksQueue.Current);
         }
     }
 
     public void ChangeShuffleType(ShuffleType shuffleType)
     {
-        _songQueue.ShuffleType = shuffleType;
+        TracksQueue.ShuffleType = shuffleType;
     }
 
     public void ChangeRepeatType(RepeatType repeatType)
     {
-        _songQueue.RepeatType = repeatType;
+        TracksQueue.RepeatType = repeatType;
     }
 
     public void Pause()
@@ -94,14 +92,14 @@ public class PlayerService : IPlayerService
     {
         if (isClear)
         {
-            _songQueue.Clear();
+            TracksQueue.Clear();
         }
-        _songQueue.Enqueue(songs);
+        TracksQueue.Enqueue(songs);
     }
 
     public void RaiseEvents()
     {
-        SongQueueOnQueueChanged(this, new CollectionChangedEventArgs<TrackBaseViewModel>(_songQueue.Entities, CollectionChangedType.Added));
+        SongQueueOnQueueChanged(this, new CollectionChangedEventArgs<TrackBaseViewModel>(TracksQueue, CollectionChangedType.Added));
     }
 
     private void Subscribe()
@@ -114,7 +112,7 @@ public class PlayerService : IPlayerService
 
         _player.SongEnded += OnPlayerOnSongEnded;
 
-        _songQueue.QueueChanged += SongQueueOnQueueChanged;
+        TracksQueue.QueueChanged += SongQueueOnQueueChanged;
     }
 
     private void SongQueueOnQueueChanged(object? sender, CollectionChangedEventArgs<TrackBaseViewModel> e)
@@ -129,8 +127,8 @@ public class PlayerService : IPlayerService
 
     private void OnPlayerOnSongEnded(object? _, EventArgs eventArgs)
     {
-        _songQueue.MoveNext(QueueMoveType.AccordingToRepeatType);
-        var currentSong = _songQueue.Current;
+        TracksQueue.MoveNext(QueueMoveType.AccordingToRepeatType);
+        var currentSong = TracksQueue.Current;
         if (currentSong is not null)
         {
             SetAndPlay(currentSong);

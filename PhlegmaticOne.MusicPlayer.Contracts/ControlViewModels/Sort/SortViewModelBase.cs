@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
 
-public abstract class SortViewModelBase<TViewModel, TCollectionItemType> : BaseViewModel
+public abstract class SortViewModelBase<TViewModel, TCollectionItemType> : BaseViewModel, IDisposable
     where TViewModel : ApplicationBaseViewModel
     where TCollectionItemType : EntityBaseViewModel
 {
@@ -73,4 +73,9 @@ public abstract class SortViewModelBase<TViewModel, TCollectionItemType> : BaseV
         }
     }
     private void LocalizationServiceOnLanguageChanged(object? sender, EventArgs e) => UpdateSortOptions();
+
+    public void Dispose()
+    {
+        LocalizationService.LanguageChanged -= LocalizationServiceOnLanguageChanged;
+    }
 }

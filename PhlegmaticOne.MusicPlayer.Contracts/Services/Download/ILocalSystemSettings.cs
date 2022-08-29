@@ -1,6 +1,6 @@
 ﻿namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
 
-public interface IDownloadSettings
+public interface ILocalSystemSettings
 {
     public string DownloadDirectoryPath { get; }
     public void SetNewDirectoryPath(string newDirectoryPath);

@@ -16,6 +16,7 @@ using System.Threading;
 using System.Windows;
 using Microsoft.Extensions.Logging;
 using PhlegmaticOne.HandMapper.Lib;
+using PhlegmaticOne.MusicPlayer.Contracts.Actions;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.CollectionViewModels;
@@ -29,7 +30,6 @@ using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.ViewModelGet;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Download;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.UI;
@@ -44,6 +44,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Save;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.Like;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.Save;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Download;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -160,15 +161,16 @@ public partial class App
                  services.AddSingleton<IHttpInfoGetter<Album>, MusifyAlbumInfoGetter>();
 
                  services.AddSingleton<IAlbumSaveService, AlbumSaveService>();
+                 services.AddSingleton<IEntityActionsProvider<TrackBaseViewModel>, TrackActionsProvider>();
 
-                 services.AddSingleton<IDownloadSettings, DownloadSettings>();
+                 services.AddSingleton<ILocalSystemSettings, DownloadSettings>();
                  services.AddSingleton<IPlayer, CustomMusicPlayer>();
                  services.AddSingleton<IPlayerVolumeService, PlayerVolumeService>();
                  services.AddScoped<IDownloader, HttpDownloader>(); ;
                  services.AddSingleton<IObservableQueue<TrackBaseViewModel>, ObservableQueue<TrackBaseViewModel>>();
 
                  services.AddSingleton<IPlayerService, PlayerService>();
-                 services.AddSingleton<IDownloadService<ActiveAlbumViewModel>, AlbumDownloadService>();
+                 services.AddSingleton<IFileOperatingService<TrackBaseViewModel>, TrackDownloadService>();
                  services.AddSingleton<ILocalizationService, LocalizationService>();
 
                  services.AddSingleton<MainWindow>();

@@ -7,7 +7,7 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services.Download;
 
-public class DownloadSettings : IDownloadSettings
+public class DownloadSettings : ILocalSystemSettings
 {
     private readonly string _defaultDirectoryPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
     public string DownloadDirectoryPath { get; private set; }

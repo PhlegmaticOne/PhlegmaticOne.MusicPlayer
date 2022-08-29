@@ -3,6 +3,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
+using PhlegmaticOne.WPF.Navigation;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 
@@ -11,6 +12,7 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
     private double _volume;
     private readonly IPlayerService _playerService;
     private readonly IPlayerVolumeService _playerVolumeService;
+    private readonly INavigationService _navigationService;
     public TimeSpan CurrentTime { get; set; }
     public double Volume
     {
@@ -23,12 +25,16 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         }
     }
 
-    public PlayerViewModel(IPlayerService playerService, IPlayerVolumeService playerVolumeService, ILikeService likeService) : base(playerService, likeService)
+    public PlayerViewModel(IPlayerService playerService, 
+        IPlayerVolumeService playerVolumeService,
+        ILikeService likeService,
+        INavigationService navigationService) : base(playerService, likeService)
     {
         _playerService = playerService;
         _playerVolumeService = playerVolumeService;
+        _navigationService = navigationService;
 
-        _playerService.TimeChanged += (_, newTime) => CurrentTime = newTime;
+        _playerService.TimeChanged += OnPlayerServiceOnTimeChanged;
 
         var volume = _playerVolumeService.GetVolume();
         _playerService.Volume = volume == 0 ? 0.2f : volume;
@@ -44,6 +50,11 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         SaveVolumeCommand = DelegateCommandFactory.CreateCommand(SaveVolume, _ => true);
 
         SetIsPausedAndIsStopped();
+    }
+
+    private void OnPlayerServiceOnTimeChanged(object _, TimeSpan newTime)
+    {
+        CurrentTime = newTime;
     }
 
 
@@ -68,7 +79,7 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
 
     private void OpenQueue(object? parameter)
     {
-        //_songQueueNavigation.NavigateToMusicCommand.Execute(new object());
+        _navigationService.NavigateTo<SongQueueViewModel>();
     }
 
     private void Rewind(object? parameter)
@@ -118,6 +129,7 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
 
     public void Dispose()
     {
+        _playerService.TimeChanged -= OnPlayerServiceOnTimeChanged;
         _playerService.Dispose();
     }
 }

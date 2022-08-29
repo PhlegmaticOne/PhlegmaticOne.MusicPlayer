@@ -4,7 +4,7 @@ using PhlegmaticOne.WPF.Navigation;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Navigation;
 
-public class NavigationViewModel : ApplicationBaseViewModel
+public class NavigationViewModel : ApplicationBaseViewModel, IDisposable
 {
     private readonly IChainNavigationService _chainNavigationService;
     public NavigationViewModel(IChainNavigationService chainNavigationService)
@@ -48,5 +48,11 @@ public class NavigationViewModel : ApplicationBaseViewModel
             CanMoveBack = e.CanMove;
             MoveBackCommand.RaiseCanExecute();
         }
+    }
+
+    public void Dispose()
+    {
+        _chainNavigationService.DirectionCanMoveChanged -= ChainNavigationServiceOnDirectionCanMoveChanged;
+        _chainNavigationService.ViewModelChanged -= ChainNavigationServiceOnViewModelChanged;
     }
 }

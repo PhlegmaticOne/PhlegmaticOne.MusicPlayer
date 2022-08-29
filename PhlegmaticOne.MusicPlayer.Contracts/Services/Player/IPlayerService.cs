@@ -10,6 +10,7 @@ public interface IPlayerService : IDisposable
     public bool IsStopped { get; set; }
     public float Volume { get; set; }
     public IValueProvider<TrackBaseViewModel> TrackValueProvider { get; }
+    public IObservableQueue<TrackBaseViewModel> TracksQueue { get; }
 
     public event EventHandler<bool> PauseChanged;
     public event EventHandler<bool> StopChanged;

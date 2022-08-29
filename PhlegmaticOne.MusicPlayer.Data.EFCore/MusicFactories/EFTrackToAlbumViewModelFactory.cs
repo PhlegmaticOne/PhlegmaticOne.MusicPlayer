@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.HandMapper.Lib;
+using PhlegmaticOne.MusicPlayer.Contracts.Actions;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Data.Context;
@@ -12,11 +13,14 @@ public class EFTrackToAlbumViewModelFactory : NavigationFactoryBase<TrackBaseVie
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly IHandMapperService _handMapperService;
+    private readonly IEntityActionsProvider<TrackBaseViewModel> _trackActionsProvider;
 
-    public EFTrackToAlbumViewModelFactory(ApplicationDbContext dbContext, IHandMapperService handMapperService)
+    public EFTrackToAlbumViewModelFactory(ApplicationDbContext dbContext, IHandMapperService handMapperService,
+        IEntityActionsProvider<TrackBaseViewModel> trackActionsProvider)
     {
         _dbContext = dbContext;
         _handMapperService = handMapperService;
+        _trackActionsProvider = trackActionsProvider;
     }
 
     public override async Task<ActiveAlbumViewModel> CreateViewModelAsync(TrackBaseViewModel entity)
@@ -40,7 +44,10 @@ public class EFTrackToAlbumViewModelFactory : NavigationFactoryBase<TrackBaseVie
             .AddParameter("DateAdded", other.DateAdded)
             .AddParameter("YearReleased", other.YearReleased)
             .Map<ActiveAlbumViewModel>(entity);
-
+        foreach (var trackBaseViewModel in result.Tracks)
+        {
+            trackBaseViewModel.Actions = _trackActionsProvider.GetActions(trackBaseViewModel);
+        }
         return result;
     }
 }

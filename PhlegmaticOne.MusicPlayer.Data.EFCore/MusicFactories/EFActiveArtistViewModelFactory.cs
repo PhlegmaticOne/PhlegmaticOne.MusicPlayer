@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.HandMapper.Lib;
+using PhlegmaticOne.MusicPlayer.Contracts.Actions;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.WPF.Navigation;
@@ -11,11 +13,13 @@ public class EFActiveArtistViewModelFactory : NavigationFactoryBase<ArtistPrevie
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly IHandMapperService _handMapperService;
+    private readonly IEntityActionsProvider<TrackBaseViewModel> _trackActionsProvider;
 
-    public EFActiveArtistViewModelFactory(ApplicationDbContext dbContext, IHandMapperService handMapperService)
+    public EFActiveArtistViewModelFactory(ApplicationDbContext dbContext, IHandMapperService handMapperService, IEntityActionsProvider<TrackBaseViewModel> trackActionsProvider)
     {
         _dbContext = dbContext;
         _handMapperService = handMapperService;
+        _trackActionsProvider = trackActionsProvider;
     }
 
     public override async Task<ActiveArtistViewModel> CreateViewModelAsync(ArtistPreviewViewModel entity)
@@ -30,7 +34,10 @@ public class EFActiveArtistViewModelFactory : NavigationFactoryBase<ArtistPrevie
         var result = _handMapperService
             .AddParameter("ArtistPreview", entity)
             .Map<ActiveArtistViewModel>(songs);
-
+        foreach (var trackBaseViewModel in result.Tracks)
+        {
+            trackBaseViewModel.Actions = _trackActionsProvider.GetActions(trackBaseViewModel);
+        }
         return result;
     }
 }

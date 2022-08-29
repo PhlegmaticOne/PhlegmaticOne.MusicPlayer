@@ -10,12 +10,12 @@ namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContai
 
 public class AlbumViewModel : PlayerTrackableViewModel, IEntityContainingViewModel<ActiveAlbumViewModel>
 {
-    private readonly IDownloadService<ActiveAlbumViewModel> _downloadService;
+    private readonly IFileOperatingService<ActiveAlbumViewModel> _downloadService;
     private readonly IEntityContainingViewModelsNavigationService _entityContainingViewModelsNavigationService;
     private bool _isFirstSongWillPlay;
     public AlbumViewModel(IPlayerService playerService, 
         ILikeService likeService,
-        IDownloadService<ActiveAlbumViewModel> downloadService,
+        IFileOperatingService<ActiveAlbumViewModel> downloadService,
         IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService) :
         base(playerService, likeService)
     {
