@@ -42,4 +42,7 @@
     <v:String x:Key="ByNameText">By name</v:String>
     <v:String x:Key="ByDateAddedText">By date added</v:String>
     <v:String x:Key="ByArtistText">By artist</v:String>
+
+    <v:String x:Key="ByDurationFromMaxText">By duration from max</v:String>
+    <v:String x:Key="ByDurationFromMinText">By duration from min</v:String>
 </ResourceDictionary>

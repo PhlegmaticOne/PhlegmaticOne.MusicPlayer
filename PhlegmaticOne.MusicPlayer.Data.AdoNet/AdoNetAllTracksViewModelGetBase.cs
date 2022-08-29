@@ -8,9 +8,11 @@ using PhlegmaticOne.MusicPlayer.Entities;
 
 namespace PhlegmaticOne.MusicPlayer.Data.AdoNet;
 
-public class AdoNetAllTracksViewModelGet : AdoNetViewModelGetBase<AllTracksViewModel>
+public class AdoNetAllTracksViewModelGetBase : AdoNetViewModelGetBase<AllTracksViewModel>
 {
-    public AdoNetAllTracksViewModelGet(ISqlClient sqlClient) : base(sqlClient, "Get_All_Tracks") { }
+    public AdoNetAllTracksViewModelGetBase(ISqlClient sqlClient) : base(sqlClient) { }
+    protected override string CommandName => "Get_All_Tracks";
+
     protected override async Task<AllTracksViewModel> Create(SqlDataReader reader)
     {
         var tracks = new List<TrackBaseViewModel>();
@@ -29,8 +31,9 @@ public class AdoNetAllTracksViewModelGet : AdoNetViewModelGetBase<AllTracksViewM
                     continue;
                 }
                 var notFullTrack = await GetNotFullTrack(reader, trackId);
+                var newArtist = await GetTrackArtist(reader);
                 notFullTrack.CollectionLink = previous.CollectionLink;
-                notFullTrack.ArtistLinks = previous.ArtistLinks;
+                notFullTrack.ArtistLinks = new List<ArtistLinkViewModel>() { newArtist };
                 previous = notFullTrack;
                 tracks.Add(notFullTrack);
                 continue;

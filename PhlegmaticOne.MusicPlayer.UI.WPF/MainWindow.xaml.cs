@@ -17,21 +17,11 @@ public partial class MainWindow
         SourceInitialized += OnSourceInitialized;
     }
 
-    private void OnSourceInitialized(object? sender, EventArgs e)
-    {
-        WindowSizing.WindowInitialized(this);
-    }
+    private void OnSourceInitialized(object? sender, EventArgs e) => WindowSizing.WindowInitialized(this);
 
-    private void OnLoaded(object sender, RoutedEventArgs e)
-    {
-        WindowState = WindowState.Maximized;
-    }
+    private void OnLoaded(object sender, RoutedEventArgs e) => WindowState = WindowState.Maximized;
 
-    private void MinimizeButton_OnClick(object sender, RoutedEventArgs e) =>
-        WindowState = WindowState.Minimized;
-
-    private void ExpandButton_OnClick(object sender, RoutedEventArgs e) =>
-        WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+    private void MinimizeButton_OnClick(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
 
     private void CloseButton_OnClick(object sender, RoutedEventArgs e)
     {

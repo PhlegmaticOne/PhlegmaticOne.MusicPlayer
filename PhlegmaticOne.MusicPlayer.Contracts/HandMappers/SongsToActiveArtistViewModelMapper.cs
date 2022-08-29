@@ -22,7 +22,7 @@ public class SongsToActiveArtistViewModelMapper : HandMapperBase<List<Song>, Act
         foreach (var song in from)
         {
             var album = song.Album;
-            var artistLinks = song.Album.Artists.Select(x => new ArtistLinkViewModel
+            var artistLinks = song.Artists.Select(x => new ArtistLinkViewModel
             {
                 Id = x.Id,
                 Name = x.Name

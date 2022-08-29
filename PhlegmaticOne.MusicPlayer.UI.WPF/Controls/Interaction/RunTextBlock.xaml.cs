@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using NAudio.Wave;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls;
@@ -41,6 +42,13 @@ public partial class RunTextBlock
     private void SetupAnimation()
     {
         var animation = AnimationsGenerator.GenerateSlideAnimation(Block, TextCanvas, SlideTime);
-        Block.BeginAnimation(Canvas.LeftProperty, animation);
+        if (animation is not null)
+        {
+            Block.BeginAnimation(Canvas.LeftProperty, animation);
+        }
+        else
+        {
+            Block.SetValue(TextBlock.MarginProperty, new Thickness((TextCanvas.ActualWidth - Block.ActualWidth) / 2, 0, 0, 0));
+        }
     }
 }

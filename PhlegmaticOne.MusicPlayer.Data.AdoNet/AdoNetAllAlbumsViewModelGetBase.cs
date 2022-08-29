@@ -7,9 +7,10 @@ using PhlegmaticOne.MusicPlayer.Entities;
 
 namespace PhlegmaticOne.MusicPlayer.Data.AdoNet;
 
-public class AdoNetAllAlbumsViewModelGet : AdoNetViewModelGetBase<AllAlbumsPreviewViewModel>
+public class AdoNetAllAlbumsViewModelGetBase : AdoNetViewModelGetBase<AllAlbumsPreviewViewModel>
 {
-    public AdoNetAllAlbumsViewModelGet(ISqlClient sqlClient) : base(sqlClient, "Get_All_Albums_Preview") { }
+    public AdoNetAllAlbumsViewModelGetBase(ISqlClient sqlClient) : base(sqlClient) { }
+    protected override string CommandName => "Get_All_Albums_Preview";
 
     protected override async Task<AllAlbumsPreviewViewModel> Create(SqlDataReader reader)
     {

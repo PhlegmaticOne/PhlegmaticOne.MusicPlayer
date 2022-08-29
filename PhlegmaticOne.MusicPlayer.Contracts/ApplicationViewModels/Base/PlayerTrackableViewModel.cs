@@ -1,5 +1,8 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
+using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Entities.Base;
 using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
 using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
@@ -8,13 +11,15 @@ namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 public abstract class PlayerTrackableViewModel : ApplicationBaseViewModel
 {
     protected readonly IPlayerService PlayerService;
+    protected readonly ILikeService LikeService;
     public TrackBaseViewModel CurrentSong { get; set; }
     public bool IsPaused { get; set; } = true;
     public bool IsStopped { get; set; } = true;
 
-    protected PlayerTrackableViewModel(IPlayerService playerService)
+    protected PlayerTrackableViewModel(IPlayerService playerService, ILikeService likeService)
     {
         PlayerService = playerService;
+        LikeService = likeService;
         playerService.PauseChanged += (_, isPaused) => IsPaused = isPaused;
         playerService.StopChanged += (_, isStopped) => IsStopped = isStopped;
         playerService.TrackValueProvider.ValueChanged += (_, newSong) => CurrentSong = newSong;
@@ -41,16 +46,31 @@ public abstract class PlayerTrackableViewModel : ApplicationBaseViewModel
         PlayerService.Pause();
     }
 
-    protected virtual void LikeAction(object? parameter)
+    protected virtual async void LikeAction(object? parameter)
     {
-        switch (parameter)
+        if (parameter is not IIsFavorite isFavorite) return;
+
+        var newLikeValue = !isFavorite.IsFavorite;
+        isFavorite.IsFavorite = newLikeValue;
+
+        switch (isFavorite)
         {
-            case TrackBaseViewModel song:
-                song.IsFavorite = !song.IsFavorite;
+            case TrackBaseViewModel trackBaseViewModel:
+            {
+                await LikeService.SetNewLike<Song, TrackBaseViewModel>(trackBaseViewModel, newLikeValue);
                 break;
-            case CollectionBaseViewModel album:
-                album.IsFavorite = !album.IsFavorite;
+            }
+            case CollectionBaseViewModel collectionBaseViewModel:
+            {
+                await LikeService.SetNewLike<CollectionBase, CollectionBaseViewModel>(collectionBaseViewModel,
+                    newLikeValue);
                 break;
+            }
+            case ArtistBaseViewModel artistBaseViewModel:
+            {
+                await LikeService.SetNewLike<Artist, ArtistBaseViewModel>(artistBaseViewModel, newLikeValue);
+                break;
+            }
         }
     }
 

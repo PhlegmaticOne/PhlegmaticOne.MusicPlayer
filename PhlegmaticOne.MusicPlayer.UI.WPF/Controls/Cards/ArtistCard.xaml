@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converters="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
+             xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
              x:Name="ArtistCardRoot"
              mc:Ignorable="d" 
              d:DesignHeight="450"
@@ -46,19 +47,12 @@
                            HorizontalAlignment="Center"/>
             </StackPanel>
 
-            <Canvas x:Name="TextCanvas" 
-                    Height="20"
-                    Background="Transparent" 
-                    ClipToBounds="True"
-                    Margin="0 3 0 0">
-                <TextBlock VerticalAlignment="Bottom" 
-                           FontSize="13"
-                           Foreground="#B7B7B7"
-                           Text="{Binding Genres, Converter={StaticResource CollectionOfEntitiesToStringConverter}, ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Comma}}" 
-                           Name="TextBlock">
-
-                </TextBlock>
-            </Canvas>
+            <controls:RunTextBlock 
+                SlideTime="0:0:10"
+                Height="24"
+                Foreground="#B7B7B7"
+                Margin="0 4 0 0"
+                Text="{Binding Genres, Converter={StaticResource CollectionOfEntitiesToStringConverter}, ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Comma}}"/>
         </StackPanel>
     </Border>
     <UserControl.Triggers>

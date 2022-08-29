@@ -1,6 +1,7 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Navigation;
@@ -13,8 +14,10 @@ public class AlbumViewModel : PlayerTrackableViewModel, IEntityContainingViewMod
     private readonly IEntityContainingViewModelsNavigationService _entityContainingViewModelsNavigationService;
     private bool _isFirstSongWillPlay;
     public AlbumViewModel(IPlayerService playerService, 
+        ILikeService likeService,
         IDownloadService<ActiveAlbumViewModel> downloadService,
-        IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService) : base(playerService)
+        IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService) :
+        base(playerService, likeService)
     {
         _downloadService = downloadService;
         _entityContainingViewModelsNavigationService = entityContainingViewModelsNavigationService;

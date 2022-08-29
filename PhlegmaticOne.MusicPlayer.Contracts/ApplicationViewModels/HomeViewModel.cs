@@ -3,6 +3,7 @@ using System.Drawing;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.Entities;
 using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
@@ -12,7 +13,7 @@ namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 public class HomeViewModel : PlayerTrackableViewModel
 {
     public ObservableCollection<TrackBaseViewModel> Tracks { get; set; }
-    public HomeViewModel(IPlayerService playerService) : base(playerService)
+    public HomeViewModel(IPlayerService playerService, ILikeService likeService) : base(playerService, likeService)
     {
         Tracks = new();
         Play = DelegateCommandFactory.CreateCommand(PlayAction, _ => true);

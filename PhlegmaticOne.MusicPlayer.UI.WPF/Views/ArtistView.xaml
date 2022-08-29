@@ -13,11 +13,7 @@
 
     <UserControl.Resources>
         <converters:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
-        <converters:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
-        <converters:IndexConverter x:Key="IndexConverter"/>
-        <converters:TimeToStringConverter x:Key="TimeToStringConverter"/>
-        <converters:ValuesEqualConverter x:Key="ValuesEqualConverter"/>
-        <converters:FirstElementInEnumerableConverter x:Key="FirstElementInEnumerableConverter"/>
+        <converters:CollectionIsEmptyConverter x:Key="CollectionIsEmptyConverter"/>
     </UserControl.Resources>
 
     <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
@@ -28,20 +24,18 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Grid Row="0" ZIndex="2">
+            <Grid Row="0" ZIndex="2" Name="HeaderGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <Grid ColumnSpan="2">
-                    <Image Source="{Binding Entity.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}" 
-                           Stretch="UniformToFill"
-                           VerticalAlignment="Center"
-                           Opacity="0.3">
-                        <Image.Effect>
-                            <BlurEffect Radius="50"/>
-                        </Image.Effect>
-                    </Image>
+                    <local:MoveableImageBackground Image="{Binding Entity.Cover.Cover}"
+                                                   SlideTime="0:0:30"
+                                                   BlurEffect="50"
+                                                   ImageOpacity="0.3"
+                                                   Height="{Binding ActualHeight, ElementName=HeaderGrid}"
+                                                   Width="{Binding ActualWidth, ElementName=HeaderGrid}"/>
                 </Grid>
                 <Grid Column="0" Margin="20 10">
                     <Grid>
@@ -155,6 +149,8 @@
             <Grid Row="1">
                 <local:FullTrackListing DataContext="{Binding TopTracks}"
                                         Padding="30 0"
+                                        OnLoadCommand="{Binding DataContext.SelectTopTracksCommand, ElementName=ArtistViewRoot}"
+                                        CanExecuteOnLoadCommand="{Binding DataContext.TopTracks, Converter={StaticResource CollectionIsEmptyConverter}, ElementName=ArtistViewRoot}"
                                         LikeTrackCommand="{Binding DataContext.LikeCommand, ElementName=ArtistViewRoot}"
                                         PlayTrackCommand="{Binding DataContext.PlaySongCommand, ElementName=ArtistViewRoot}"
                                         PlayPauseTrackCommand="{Binding DataContext.PlayPauseCommand, ElementName=ArtistViewRoot}"

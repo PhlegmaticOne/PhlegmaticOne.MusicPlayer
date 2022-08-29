@@ -2,6 +2,7 @@
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
@@ -9,7 +10,7 @@ namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 public class SongQueueViewModel : PlayerTrackableViewModel
 {
     public ObservableCollection<TrackBaseViewModel> Songs { get; }
-    public SongQueueViewModel(IPlayerService playerService) : base(playerService)
+    public SongQueueViewModel(IPlayerService playerService, ILikeService likeService) : base(playerService, likeService)
     {
         Songs = new();
         PlayerService.QueueChanged += SongsQueueOnQueueChanged;

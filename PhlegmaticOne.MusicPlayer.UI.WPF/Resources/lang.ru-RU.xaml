@@ -42,4 +42,6 @@
     <v:String x:Key="ByNameText">По названию</v:String>
     <v:String x:Key="ByDateAddedText">По дате добавления</v:String>
     <v:String x:Key="ByArtistText">По имени исполнителей</v:String>
+    <v:String x:Key="ByDurationFromMaxText">По длине (с наибольшей)</v:String>
+    <v:String x:Key="ByDurationFromMinText">По длине (с наименьшей)</v:String>
 </ResourceDictionary>

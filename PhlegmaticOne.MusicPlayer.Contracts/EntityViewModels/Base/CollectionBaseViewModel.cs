@@ -1,9 +1,10 @@
 ﻿using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Entities.Base;
 using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 
-public class CollectionBaseViewModel : EntityBaseViewModel
+public class CollectionBaseViewModel : EntityBaseViewModel, IHaveId, IIsFavorite
 {
     public AlbumCover Cover { get; set; } = null!;
     public DateTime DateAdded { get; set; }

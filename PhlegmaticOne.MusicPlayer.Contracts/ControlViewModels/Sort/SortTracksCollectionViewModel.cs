@@ -11,9 +11,13 @@ public class SortTracksCollectionViewModel : SortViewModelBase<TracksViewModel, 
     protected override Dictionary<string, Func<IEnumerable<TrackBaseViewModel>, IEnumerable<TrackBaseViewModel>>> GetAvailableSorts()
     {
         var byNameText = LocalizationService.GetLocalizedValue(LocalizationConstants.SortByNameTextKey)!;
+        var byDurationFromMinText = LocalizationService.GetLocalizedValue(LocalizationConstants.SortByDurationFromMinTextKey)!;
+        var byDurationFromMaxText = LocalizationService.GetLocalizedValue(LocalizationConstants.SortByDurationFromMaxTextKey)!;
         return new()
         {
-            { byNameText, (albums) => albums.OrderBy(x => x.Title)},
+            { byNameText, (tracks) => tracks.OrderBy(x => x.Title) },
+            { byDurationFromMinText, (tracks) => tracks.OrderBy(x => x.Duration) },
+            { byDurationFromMaxText, (tracks) => tracks.OrderByDescending(x => x.Duration) },
         };
     }
 

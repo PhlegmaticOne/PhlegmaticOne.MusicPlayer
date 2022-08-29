@@ -1,8 +1,9 @@
-﻿using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
+﻿using PhlegmaticOne.MusicPlayer.Entities.Base;
+using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 
-public class TrackBaseViewModel : EntityBaseViewModel
+public class TrackBaseViewModel : EntityBaseViewModel, IHaveId, IIsFavorite
 {
     public string Title { get; set; }
     public ICollection<ArtistLinkViewModel> ArtistLinks { get; set; }

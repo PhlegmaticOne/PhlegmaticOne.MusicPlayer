@@ -40,7 +40,9 @@ using PhlegmaticOne.MusicPlayer.Data.EFCore.ViewModelGetters;
 using PhlegmaticOne.WPF.Navigation.Extensions;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Save;
+using PhlegmaticOne.MusicPlayer.Data.EFCore.Like;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.Save;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
@@ -126,8 +128,8 @@ public partial class App
 
                  services.AddEntityCollectionGetterTypes(
                      typeof(EFAllAlbumsViewModelGet),
-                     typeof(AdoNetAllArtistsViewModelGet), 
-                     typeof(AdoNetAllTracksViewModelGet));
+                     typeof(AdoNetAllArtistsViewModelGetBase), 
+                     typeof(AdoNetAllFavoriteTracksViewModelGet));
 
                  services.AddChainNavigation()
                      .UsingApplicationViewModelsFrom(typeof(PlayerTrackableViewModel).Assembly)
@@ -137,6 +139,8 @@ public partial class App
 
                  services.AddValueProvider<TrackBaseViewModel>()
                      .AddValueProvider<CollectionBaseViewModel>();
+
+                 services.AddSingleton<ILikeService, EFLikeService>();
 
                  services.AddSingleton<IUIThreadInvokerService, WpfUIThreadInvokerService>();
                  services.AddSingleton<IConnectionStringGetter, ConfigurationConnectionStringGetter>();

@@ -21,12 +21,10 @@ public class EFActiveArtistViewModelFactory : NavigationFactoryBase<ArtistPrevie
     public override async Task<ActiveArtistViewModel> CreateViewModelAsync(ArtistPreviewViewModel entity)
     {
         var songs = await _dbContext.Set<Song>()
-            .Include(x => x.Album)
-            .ThenInclude(x => x.Artists)
+            .Include(x => x.Artists)
             .Include(x => x.Album)
             .ThenInclude(x => x.AlbumCover)
-            .Where(x => x.Album.Artists.Any(y => y.Id == entity.Id))
-            .OrderByDescending(x => x.Duration)
+            .Where(x => x.Artists.Any(y => y.Id == entity.Id))
             .ToListAsync();
 
         var result = _handMapperService

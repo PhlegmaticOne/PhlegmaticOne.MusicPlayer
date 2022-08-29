@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
 using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
@@ -15,11 +16,12 @@ public abstract class CollectionViewModelBase<TViewModel, TCollectionItemType> :
     protected readonly IUIThreadInvokerService UiThreadInvokerService;
     protected readonly IEntityContainingViewModelsNavigationService EntityContainingViewModelsNavigationService;
 
-    protected CollectionViewModelBase(IPlayerService playerService,
+    protected CollectionViewModelBase(IPlayerService playerService, 
+        ILikeService likeService,
         IUIThreadInvokerService uiThreadInvokerService, 
         IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService,
         ReloadViewModelBase<TViewModel> reloadViewModel,
-        SortViewModelBase<TViewModel, TCollectionItemType> sortViewModel) : base(playerService)
+        SortViewModelBase<TViewModel, TCollectionItemType> sortViewModel) : base(playerService, likeService)
     {
         ReloadViewModel = reloadViewModel;
         SortViewModel = sortViewModel;

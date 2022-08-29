@@ -3,6 +3,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContaining
 using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
 using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
@@ -13,12 +14,12 @@ namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.CollectionVi
 
 public class AlbumsCollectionViewModel : CollectionViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel>
 {
-    public AlbumsCollectionViewModel(IPlayerService playerService,
+    public AlbumsCollectionViewModel(IPlayerService playerService, ILikeService likeService,
         IUIThreadInvokerService uiThreadInvokerService,
         IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService,
         ReloadViewModelBase<AlbumsCollectionViewModel> reloadViewModel,
         SortViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel> sortViewModel) :
-        base(playerService, uiThreadInvokerService, entityContainingViewModelsNavigationService, reloadViewModel, sortViewModel)
+        base(playerService, likeService, uiThreadInvokerService, entityContainingViewModelsNavigationService, reloadViewModel, sortViewModel)
     {
         ActiveAlbumNavigationCommand = DelegateCommandFactory.CreateCommand(NavigateToActiveAlbum, _ => true);
     }

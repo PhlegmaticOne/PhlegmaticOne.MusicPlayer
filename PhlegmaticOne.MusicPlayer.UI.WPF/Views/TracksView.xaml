@@ -20,7 +20,26 @@
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Grid Row="0">
-                <controls:ViewTitle TitleText="Tracks" Padding="30" VerticalAlignment="Center"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="6*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid Column="0" Row="0">
+                    <controls:ViewTitle Padding="30" VerticalAlignment="Center" TitleText="Tracks"/>
+                </Grid>
+                <Grid Column="1" Row="0" Margin="0 0 20 0">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+
+                        <controls:SortMenu HorizontalAlignment="Center" 
+                                           DataContext="{Binding SortViewModel}"
+                                           ControlLoadCommand="{Binding LoadSortOptionsCommand}"
+                                           ViewModelToSort="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+
+                        <controls:ReloadButton DataContext="{Binding ReloadViewModel}"
+                                               ViewModelToReload="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+
+                    </StackPanel>
+                </Grid>
             </Grid>
             <Grid Row="1">
                 <controls:FullTrackListing DataContext="{Binding Items}"

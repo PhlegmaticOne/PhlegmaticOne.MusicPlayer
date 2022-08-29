@@ -21,13 +21,13 @@ public class MusicViewModelFactoriesBenchmark
         }
     }
     private EFAllArtistsViewModelGet _efAllArtistsViewModelGet;
-    private AdoNetAllArtistsViewModelGet _adoNetAllArtistsViewModelGet;
+    private AdoNetAllArtistsViewModelGetBase _adoNetAllArtistsViewModelGet;
 
     private EFAllAlbumsViewModelGet _efAlbumsViewModelGet;
-    private AdoNetAllAlbumsViewModelGet _adoNetAllAlbumsViewModelGet;
+    private AdoNetAllAlbumsViewModelGetBase _adoNetAllAlbumsViewModelGet;
 
     private EFAllTracksViewModelGet _efTracksViewModelGet;
-    private AdoNetAllTracksViewModelGet _adoNetAllTracksViewModelGet;
+    private AdoNetAllTracksViewModelGetBase _adoNetAllTracksViewModelGet;
     [GlobalSetup]
     public void Setup()
     {
@@ -37,13 +37,13 @@ public class MusicViewModelFactoriesBenchmark
         var dbContext = new ApplicationDbContext();
         var sqlClient = new SqlClientSingleton(connectionStringGetter.Object);
         _efAllArtistsViewModelGet = new EFAllArtistsViewModelGet(dbContext);
-        _adoNetAllArtistsViewModelGet = new AdoNetAllArtistsViewModelGet(sqlClient);
+        _adoNetAllArtistsViewModelGet = new AdoNetAllArtistsViewModelGetBase(sqlClient);
 
         _efAlbumsViewModelGet = new EFAllAlbumsViewModelGet(dbContext);
-        _adoNetAllAlbumsViewModelGet = new AdoNetAllAlbumsViewModelGet(sqlClient);
+        _adoNetAllAlbumsViewModelGet = new AdoNetAllAlbumsViewModelGetBase(sqlClient);
 
         _efTracksViewModelGet = new EFAllTracksViewModelGet(dbContext);
-        _adoNetAllTracksViewModelGet = new AdoNetAllTracksViewModelGet(sqlClient);
+        _adoNetAllTracksViewModelGet = new AdoNetAllTracksViewModelGetBase(sqlClient);
     }
 
 

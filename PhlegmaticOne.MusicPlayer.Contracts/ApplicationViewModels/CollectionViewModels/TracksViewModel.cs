@@ -4,6 +4,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Reload;
 using PhlegmaticOne.MusicPlayer.Contracts.ControlViewModels.Sort;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
@@ -14,12 +15,12 @@ namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.CollectionVi
 public class TracksViewModel : CollectionViewModelBase<TracksViewModel, TrackBaseViewModel>
 {
     private bool _isFirst = true;
-    public TracksViewModel(IPlayerService playerService,
+    public TracksViewModel(IPlayerService playerService, ILikeService likeService,
         IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService,
         IUIThreadInvokerService uiThreadInvokerService,
         ReloadViewModelBase<TracksViewModel> reloadViewModel,
         SortViewModelBase<TracksViewModel, TrackBaseViewModel> sortViewModel) :
-        base(playerService, uiThreadInvokerService, entityContainingViewModelsNavigationService, reloadViewModel, sortViewModel)
+        base(playerService, likeService, uiThreadInvokerService, entityContainingViewModelsNavigationService, reloadViewModel, sortViewModel)
     {
         ActiveArtistNavigationCommand = DelegateCommandFactory.CreateCommand(NavigateToActiveArtist, _ => true);
         ActiveCollectionNavigationCommand = DelegateCommandFactory.CreateCommand(NavigateToActiveCollection, _ => true);

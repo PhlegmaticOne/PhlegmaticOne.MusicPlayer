@@ -1,5 +1,6 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 using PhlegmaticOne.MusicPlayer.WPF.Core.Commands;
 
@@ -22,7 +23,7 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         }
     }
 
-    public PlayerViewModel(IPlayerService playerService, IPlayerVolumeService playerVolumeService) : base(playerService)
+    public PlayerViewModel(IPlayerService playerService, IPlayerVolumeService playerVolumeService, ILikeService likeService) : base(playerService, likeService)
     {
         _playerService = playerService;
         _playerVolumeService = playerVolumeService;
