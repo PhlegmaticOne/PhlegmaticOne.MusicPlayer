@@ -9,13 +9,13 @@ using PhlegmaticOne.WPF.Navigation;
 
 namespace PhlegmaticOne.MusicPlayer.Data.EFCore.MusicFactories;
 
-public class EFActiveAlbumViewModelFactory : NavigationFactoryBase<AlbumPreviewViewModel, ActiveAlbumViewModel>
+public class EFActiveAlbumFromAlbumPreviewViewModelFactory : NavigationFactoryBase<AlbumPreviewViewModel, ActiveAlbumViewModel>
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly IHandMapperService _handMapperProvider;
     private readonly IEntityActionsProvider<TrackBaseViewModel> _trackActionsProvider;
 
-    public EFActiveAlbumViewModelFactory(ApplicationDbContext dbContext, IHandMapperService handMapperProvider,
+    public EFActiveAlbumFromAlbumPreviewViewModelFactory(ApplicationDbContext dbContext, IHandMapperService handMapperProvider,
         IEntityActionsProvider<TrackBaseViewModel> trackActionsProvider)
     {
         _dbContext = dbContext;
@@ -26,7 +26,12 @@ public class EFActiveAlbumViewModelFactory : NavigationFactoryBase<AlbumPreviewV
     public override async Task<ActiveAlbumViewModel> CreateViewModelAsync(AlbumPreviewViewModel entity)
     {
         var set = _dbContext.Set<Album>();
-        var songs = await set.Where(x => x.Id == entity.Id).SelectMany(x => x.Songs).ToListAsync();
+        var songs = await set
+            .Where(x => x.Id == entity.Id)
+            .Include(x => x.Songs)
+            .ThenInclude(x => x.Artists)
+            .SelectMany(x => x.Songs)
+            .ToListAsync();
         var mapped = _handMapperProvider
             .AddParameter("CollectionSongs", songs)
             .Map<ActiveAlbumViewModel>(entity);

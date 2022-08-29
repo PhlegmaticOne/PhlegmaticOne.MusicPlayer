@@ -1,13 +1,9 @@
-﻿using PhlegmaticOne.MusicPlayer.Players.Player;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.ValueProviders;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
+using PhlegmaticOne.MusicPlayer.Players.Player;
 
-namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services.Player;
+namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
 
 public class PlayerService : IPlayerService
 {

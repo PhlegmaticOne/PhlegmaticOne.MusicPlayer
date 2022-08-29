@@ -5,7 +5,7 @@ using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Extensions;
 using PhlegmaticOne.MusicPlayer.Entities;
 
-namespace PhlegmaticOne.MusicPlayer.Data.AdoNet;
+namespace PhlegmaticOne.MusicPlayer.Data.AdoNet.ViewModelGetters;
 
 public class AdoNetAllArtistsViewModelGetBase : AdoNetViewModelGetBase<AllArtistsPreviewViewModel>
 {
@@ -38,7 +38,7 @@ public class AdoNetAllArtistsViewModelGetBase : AdoNetViewModelGetBase<AllArtist
         {
             var cover = await reader.GetFieldValueAsync<byte[]>(0);
             var image = cover.ToBitmap();
-            var albumCover = new AlbumCover {Cover = image};
+            var albumCover = new AlbumCover { Cover = image };
             artists[index].Cover = albumCover;
             index++;
         }

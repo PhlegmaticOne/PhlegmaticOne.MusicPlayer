@@ -2,7 +2,7 @@
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 
-namespace PhlegmaticOne.MusicPlayer.Data.AdoNet;
+namespace PhlegmaticOne.MusicPlayer.Data.AdoNet.ViewModelGetters;
 
 public class AdoNetAllFavoriteTracksViewModelGet : AdoNetAllTracksViewModelGetBase
 {

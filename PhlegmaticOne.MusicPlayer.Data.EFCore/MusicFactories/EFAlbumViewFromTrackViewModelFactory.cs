@@ -9,13 +9,13 @@ using PhlegmaticOne.WPF.Navigation;
 
 namespace PhlegmaticOne.MusicPlayer.Data.EFCore.MusicFactories;
 
-public class EFTrackToAlbumViewModelFactory : NavigationFactoryBase<TrackBaseViewModel, ActiveAlbumViewModel>
+public class EFAlbumViewFromTrackViewModelFactory : NavigationFactoryBase<TrackBaseViewModel, ActiveAlbumViewModel>
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly IHandMapperService _handMapperService;
     private readonly IEntityActionsProvider<TrackBaseViewModel> _trackActionsProvider;
 
-    public EFTrackToAlbumViewModelFactory(ApplicationDbContext dbContext, IHandMapperService handMapperService,
+    public EFAlbumViewFromTrackViewModelFactory(ApplicationDbContext dbContext, IHandMapperService handMapperService,
         IEntityActionsProvider<TrackBaseViewModel> trackActionsProvider)
     {
         _dbContext = dbContext;

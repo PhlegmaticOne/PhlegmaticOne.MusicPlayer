@@ -73,7 +73,7 @@
                             <Button Command="{Binding PlaySongCommand}">
                                 <Button.Content>
                                     <StackPanel Orientation="Horizontal" MaxWidth="150" MaxHeight="50" 
-                                                Margin="40 5">
+                                                Margin="35 5">
                                         <Viewbox Width="18" Height="18">
                                             <Canvas Width="24" Height="24">
                                                 <Path Fill="Black" Data="M8,5.14V19.14L19,12.14L8,5.14Z" />

@@ -119,8 +119,7 @@
                             <controls:DownloadButton Margin="20 0 0 0"
                                                      DataContext="{Binding Entity}"
                                                      IsDownloaded="{Binding IsDownloaded}"
-                                                     IsDownloading="{Binding IsDownloading}"
-                                                     ClickCommand="{Binding DataContext.DownloadAlbumCommand, ElementName=AlbumViewRoot}"/>
+                                                     IsDownloading="{Binding IsDownloading}"/>
 
                             <!--TODO - Menu of actions-->
                             <!--<Menu Background="Transparent" VerticalAlignment="Center" Margin="20 0 0 0">

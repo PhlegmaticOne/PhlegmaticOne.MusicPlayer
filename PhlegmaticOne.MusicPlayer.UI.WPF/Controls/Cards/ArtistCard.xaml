@@ -50,6 +50,7 @@
             <controls:RunTextBlock 
                 SlideTime="0:0:10"
                 Height="24"
+                IsAlignToCenterIfWidthLessThanActualWidth="True"
                 Foreground="#B7B7B7"
                 Margin="0 4 0 0"
                 Text="{Binding Genres, Converter={StaticResource CollectionOfEntitiesToStringConverter}, ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Comma}}"/>

@@ -1,8 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using Moq;
-using PhlegmaticOne.MusicPlayer.Data.AdoNet;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
+using PhlegmaticOne.MusicPlayer.Data.AdoNet.ViewModelGetters;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.ViewModelGetters;
 

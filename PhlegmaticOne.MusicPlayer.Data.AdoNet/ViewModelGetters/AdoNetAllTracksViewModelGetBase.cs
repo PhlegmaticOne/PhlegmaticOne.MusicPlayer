@@ -7,7 +7,7 @@ using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Extensions;
 using PhlegmaticOne.MusicPlayer.Entities;
 
-namespace PhlegmaticOne.MusicPlayer.Data.AdoNet;
+namespace PhlegmaticOne.MusicPlayer.Data.AdoNet.ViewModelGetters;
 
 public class AdoNetAllTracksViewModelGetBase : AdoNetViewModelGetBase<AllTracksViewModel>
 {
@@ -59,7 +59,7 @@ public class AdoNetAllTracksViewModelGetBase : AdoNetViewModelGetBase<AllTracksV
                 Id = collectionId,
                 Title = collectionTitle
             };
-            notFull.ArtistLinks = new List<ArtistLinkViewModel> {artistLink};
+            notFull.ArtistLinks = new List<ArtistLinkViewModel> { artistLink };
 
             notFull.Actions = _trackActionsProvider.GetActions(notFull);
 

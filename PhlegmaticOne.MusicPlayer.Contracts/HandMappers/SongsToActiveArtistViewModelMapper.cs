@@ -56,7 +56,7 @@ public class SongsToActiveArtistViewModelMapper : HandMapperBase<List<Song>, Act
                     Title = album.Title
                 },
                 IsFavorite = song.IsFavorite,
-                IsDownloaded = false,
+                IsDownloaded = string.IsNullOrEmpty(song.LocalUrl) == false,
                 IsDownloading = false,
                 LocalUrl = song.LocalUrl,
                 Title = song.Title,

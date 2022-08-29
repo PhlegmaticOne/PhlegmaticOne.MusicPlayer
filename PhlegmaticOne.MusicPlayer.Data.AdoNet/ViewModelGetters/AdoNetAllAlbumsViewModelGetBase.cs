@@ -5,7 +5,7 @@ using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Extensions;
 using PhlegmaticOne.MusicPlayer.Entities;
 
-namespace PhlegmaticOne.MusicPlayer.Data.AdoNet;
+namespace PhlegmaticOne.MusicPlayer.Data.AdoNet.ViewModelGetters;
 
 public class AdoNetAllAlbumsViewModelGetBase : AdoNetViewModelGetBase<AllAlbumsPreviewViewModel>
 {
@@ -65,7 +65,7 @@ public class AdoNetAllAlbumsViewModelGetBase : AdoNetViewModelGetBase<AllAlbumsP
             };
             allAlbums.Add(album);
         }
-        
+
         return new AllAlbumsPreviewViewModel
         {
             Albums = allAlbums

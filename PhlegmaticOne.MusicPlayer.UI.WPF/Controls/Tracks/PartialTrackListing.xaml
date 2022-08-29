@@ -11,6 +11,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <converters:IndexConverter x:Key="IndexConverter"/>
+        <converters:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
         <converters:TimeToStringConverter x:Key="TimeToStringConverter"/>
         <converters:ValuesEqualConverter x:Key="ValuesEqualConverter"/>
     </UserControl.Resources>
@@ -123,10 +124,23 @@
                                     </Grid>
 
                                     <Grid Column="1">
-                                        <TextBlock Text="{Binding Title}" 
-                                                   Foreground="White" 
-                                                   FontSize="16"
-                                                   VerticalAlignment="Center"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding ArtistLinks, Converter={StaticResource CollectionOfEntitiesToStringConverter}, ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Comma}}"
+                                                       Foreground="#999999" 
+                                                       FontSize="16"
+                                                       VerticalAlignment="Center"/>
+                                            <TextBlock Text="-" 
+                                                       Foreground="#999999"
+                                                       FontSize="16"
+                                                       VerticalAlignment="Center"
+                                                       Margin="8 0 0 0"/>
+
+                                            <TextBlock Text="{Binding Title}" 
+                                                       Foreground="White" 
+                                                       FontSize="16"
+                                                       VerticalAlignment="Center"
+                                                       Margin="8 0 0 0"/>
+                                        </StackPanel>
                                     </Grid>
 
                                     <Grid Column="2">

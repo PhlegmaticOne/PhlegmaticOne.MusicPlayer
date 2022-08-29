@@ -24,7 +24,12 @@ public class AlbumPreviewToActiveViewModelMapper : HandMapperBase<AlbumPreviewVi
             YearReleased = from.YearReleased,
             Tracks = songs!.Select(x => new TrackBaseViewModel
             {
-                ArtistLinks = from.Artists,
+                ArtistLinks = x.Artists.Select(a => new ArtistLinkViewModel
+                {
+                    Id = a.Id,
+                    IsFavorite = a.IsFavorite,
+                    Name = a.Name
+                }).ToList(),
                 CollectionLink = new CollectionLinkViewModel()
                 {
                     Cover = from.Cover,

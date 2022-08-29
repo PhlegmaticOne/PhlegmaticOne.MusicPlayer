@@ -34,7 +34,6 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.UI;
 using PhlegmaticOne.MusicPlayer.Contracts.HandMappers;
-using PhlegmaticOne.MusicPlayer.Data.AdoNet;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.MusicFactories;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.ViewModelGetters;
 using PhlegmaticOne.WPF.Navigation.Extensions;
@@ -45,6 +44,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.Services.Save;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.Like;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.Save;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Download;
+using PhlegmaticOne.MusicPlayer.Data.AdoNet.ViewModelGetters;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -119,7 +119,9 @@ public partial class App
              {
                  services.AddDbContext<ApplicationDbContext>(b =>
                  {
+                    #if DEBUG
                      b.UseLoggerFactory(_debugFactory);
+                    #endif
 
                      //b.UseInMemoryDatabase("MEMORY");
                      b.UseSqlServer(connectionString);
@@ -136,7 +138,7 @@ public partial class App
                      .UsingApplicationViewModelsFrom(typeof(PlayerTrackableViewModel).Assembly)
                      .AddEntityContainingNavigation()
                      .UsingApplicationViewModelsFrom(typeof(PlayerTrackableViewModel).Assembly)
-                     .UsingNavigationFactoriesFrom(typeof(EFActiveAlbumViewModelFactory).Assembly);
+                     .UsingNavigationFactoriesFrom(typeof(EFActiveAlbumFromAlbumPreviewViewModelFactory).Assembly);
 
                  services.AddValueProvider<TrackBaseViewModel>()
                      .AddValueProvider<CollectionBaseViewModel>();

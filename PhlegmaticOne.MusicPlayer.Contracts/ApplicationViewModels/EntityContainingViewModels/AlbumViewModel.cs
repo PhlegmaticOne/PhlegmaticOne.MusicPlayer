@@ -10,27 +10,22 @@ namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContai
 
 public class AlbumViewModel : PlayerTrackableViewModel, IEntityContainingViewModel<ActiveAlbumViewModel>
 {
-    private readonly IFileOperatingService<ActiveAlbumViewModel> _downloadService;
     private readonly IEntityContainingViewModelsNavigationService _entityContainingViewModelsNavigationService;
     private bool _isFirstSongWillPlay;
     public AlbumViewModel(IPlayerService playerService, 
         ILikeService likeService,
-        IFileOperatingService<ActiveAlbumViewModel> downloadService,
         IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService) :
         base(playerService, likeService)
     {
-        _downloadService = downloadService;
         _entityContainingViewModelsNavigationService = entityContainingViewModelsNavigationService;
         _isFirstSongWillPlay = true;
 
-        DownloadAlbumCommand = DelegateCommandFactory.CreateCommand(DownloadAlbum, _ => true);
         NavigateToArtistCommand = DelegateCommandFactory.CreateCommand(NavigateToArtistAction, _ => true);
 
         TrySetSong();
     }
 
     public ActiveAlbumViewModel Entity { get; set; } = null!;
-    public IDelegateCommand DownloadAlbumCommand { get;}
     public IDelegateCommand NavigateToArtistCommand { get; }
 
     protected override void PlaySongAction(object? parameter)
@@ -41,14 +36,6 @@ public class AlbumViewModel : PlayerTrackableViewModel, IEntityContainingViewMod
             _isFirstSongWillPlay = false;
         }
         base.PlaySongAction(parameter);
-    }
-
-    private async void DownloadAlbum(object? parameter)
-    {
-        if (Entity.IsDownloaded == false)
-        {
-            await _downloadService.Download(Entity);
-        }
     }
 
     private async void NavigateToArtistAction(object? parameter)
