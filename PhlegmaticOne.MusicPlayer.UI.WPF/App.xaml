@@ -20,7 +20,7 @@
             </ResourceDictionary.MergedDictionaries>
 
              <DataTemplate DataType="{x:Type vm:HomeViewModel}">
-                 <v:HomeView/>
+                 <v:HomeView />
              </DataTemplate>
 
              <DataTemplate DataType="{x:Type vm:AddingNewAlbumViewModel}">

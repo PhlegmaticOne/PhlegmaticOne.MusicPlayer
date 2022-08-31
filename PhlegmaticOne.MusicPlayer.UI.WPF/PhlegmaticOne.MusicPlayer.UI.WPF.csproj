@@ -6,10 +6,11 @@
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
     <NeutralLanguage>en-US</NeutralLanguage>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\logo.png" />
+    <Content Include="favicon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,10 +35,6 @@
     <Reference Include="System.Windows.Forms">
       <HintPath>C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\5.0.0\ref\net5.0\System.Windows.Forms.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Images\logo.png" />
   </ItemGroup>
 
   <ItemGroup>

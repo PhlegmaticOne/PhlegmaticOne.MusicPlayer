@@ -19,7 +19,10 @@ internal class ChainNavigationService : NavigationService, IChainNavigationServi
             InvokeViewModelChanged();
         }
     }
-    public void Reset() => _navigationHistory.Reset();
+    public void Reset()
+    {
+        _navigationHistory.Reset();
+    }
 
     protected override void PostNavigateAction() => _navigationHistory.Add(CurrentViewModel);
 

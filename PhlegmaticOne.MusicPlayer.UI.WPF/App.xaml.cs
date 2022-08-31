@@ -40,11 +40,13 @@ using PhlegmaticOne.WPF.Navigation.Extensions;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Logo;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Save;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.Like;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.Save;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Download;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.ViewModelGetters;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Logo;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -169,10 +171,11 @@ public partial class App
                  services.AddSingleton<IPlayer, CustomMusicPlayer>();
                  services.AddSingleton<IPlayerVolumeService, PlayerVolumeService>();
                  services.AddScoped<IDownloader, HttpDownloader>(); ;
+                 services.AddScoped<ILogoProvider, WpfLogoProvider>(); ;
                  services.AddSingleton<IObservableQueue<TrackBaseViewModel>, ObservableQueue<TrackBaseViewModel>>();
 
                  services.AddSingleton<IPlayerService, PlayerService>();
-                 services.AddSingleton<IFileOperatingService<TrackBaseViewModel>, TrackDownloadService>();
+                 services.AddSingleton<IFileOperatingService<TrackBaseViewModel>, TrackFileOperatingService>();
                  services.AddSingleton<ILocalizationService, LocalizationService>();
 
                  services.AddSingleton<MainWindow>();

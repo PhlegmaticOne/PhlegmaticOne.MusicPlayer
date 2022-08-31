@@ -9,13 +9,13 @@ using PhlegmaticOne.WPF.Navigation;
 
 namespace PhlegmaticOne.MusicPlayer.Data.EFCore.MusicFactories;
 
-public class EFActiveArtistFromAritstPreviewViewModelFactory : NavigationFactoryBase<ArtistPreviewViewModel, ActiveArtistViewModel>
+public class EFActiveArtistFromArtistPreviewViewModelFactory : NavigationFactoryBase<ArtistPreviewViewModel, ActiveArtistViewModel>
 {
     private readonly ApplicationDbContext _dbContext;
     private readonly IHandMapperService _handMapperService;
     private readonly IEntityActionsProvider<TrackBaseViewModel> _trackActionsProvider;
 
-    public EFActiveArtistFromAritstPreviewViewModelFactory(ApplicationDbContext dbContext, IHandMapperService handMapperService, IEntityActionsProvider<TrackBaseViewModel> trackActionsProvider)
+    public EFActiveArtistFromArtistPreviewViewModelFactory(ApplicationDbContext dbContext, IHandMapperService handMapperService, IEntityActionsProvider<TrackBaseViewModel> trackActionsProvider)
     {
         _dbContext = dbContext;
         _handMapperService = handMapperService;
@@ -28,6 +28,8 @@ public class EFActiveArtistFromAritstPreviewViewModelFactory : NavigationFactory
             .Include(x => x.Artists)
             .Include(x => x.Album)
             .ThenInclude(x => x.AlbumCover)
+            .Include(x => x.Album)
+            .ThenInclude(x => x.Artists)
             .Where(x => x.Artists.Any(y => y.Id == entity.Id))
             .ToListAsync();
 

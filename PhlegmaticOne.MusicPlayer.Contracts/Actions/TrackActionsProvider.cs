@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Extensions;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
@@ -37,7 +38,7 @@ public class TrackActionsProvider : IEntityActionsProvider<TrackBaseViewModel>
     public IDictionary<string, ICommand> GetActions(TrackBaseViewModel entity)
     {
         var addToQueueText = "Add to queue";
-        var removeFromQueueText = "Remove to queue";
+        var removeFromQueueText = "Remove from queue";
         var downloadTrackText = "Download track";
         var deleteTrackText = "Delete track";
         var result = new Dictionary<string, ICommand>();

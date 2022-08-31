@@ -47,16 +47,10 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
             .Select(x => x.InnerHtml)
             .First()
             .Replace("&amp;", "&");
-        if (header.Contains('-'))
-        {
-            var result = header.Split(new[] { " - ", "(", ")" }, StringSplitOptions.RemoveEmptyEntries);
-            return (result[1].Trim(), int.Parse(result[2]));
-        }
-        else
-        {
-            var result = header.Split(new[] { "(", ")" }, StringSplitOptions.RemoveEmptyEntries);
-            return (result[0].Trim(), int.Parse(result[1]));
-        }
+        var firstDashIndex = header.IndexOf('-');
+        var titleInfo = header.Substring(firstDashIndex + 2, header.Length - firstDashIndex - 2);
+        var splitted = titleInfo.Split(new[]{'(', ')'}, StringSplitOptions.RemoveEmptyEntries);
+        return (splitted[0], int.Parse(splitted[1]));
     }
 
     private static AlbumType GetAlbumType(IHtmlDocument htmlDocument)
@@ -69,15 +63,6 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
             .Trim();
         return ParseStringToAlbumType(albumType);
     }
-
-    private static IEnumerable<Artist> GetArtists(IHtmlDocument htmlDocument) =>
-        htmlDocument
-            .QuerySelectorAll("a")
-            .Where(s => s.HasAttribute("rel"))
-            .Select(x => x.InnerHtml)
-            .Where(i => i != string.Empty && i != "Flash plugin")
-            .Distinct()
-            .Select(x => new Artist() {Name = x});
 
     private static IEnumerable<Song> GetSongs(IHtmlDocument htmlDocument)
     {

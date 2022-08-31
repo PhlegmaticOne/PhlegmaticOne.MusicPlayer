@@ -136,6 +136,7 @@ public class ObservableQueue<T> : IObservableQueue<T> where T : class
 
     public void Clear()
     {
+        Invoke(_entities, CollectionChangedType.Removed);
         _entities.Clear();
     }
 

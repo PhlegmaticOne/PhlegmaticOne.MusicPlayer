@@ -19,6 +19,7 @@ public class SongsToActiveArtistViewModelMapper : HandMapperBase<List<Song>, Act
             Tracks = new List<TrackBaseViewModel>()
         };
 
+
         foreach (var song in from)
         {
             var album = song.Album;
@@ -30,11 +31,17 @@ public class SongsToActiveArtistViewModelMapper : HandMapperBase<List<Song>, Act
 
             if (result.Albums.Any(x => x.Id == album.Id) == false)
             {
+                var albumArtists = song.Album.Artists.Select(x => new ArtistLinkViewModel
+                {
+                    Id = x.Id,
+                    IsFavorite = x.IsFavorite,
+                    Name = x.Name
+                }).ToList();
                 var albumViewModel = new AlbumPreviewViewModel
                 {
                     Id = album.Id,
                     Title = album.Title,
-                    Artists = artistLinks,
+                    Artists = albumArtists,
                     Cover = album.AlbumCover,
                     IsFavorite = album.IsFavorite,
                     IsDownloaded = false,

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using PhlegmaticOne.MusicPlayer.Contracts.Actions;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationQueue;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContainingViewModels;
@@ -11,14 +12,17 @@ using PhlegmaticOne.WPF.Navigation;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;
 
-public class SongQueueViewModel : PlayerTrackableViewModel, IDisposable
+public class SongQueueViewModel : PlayerTrackableViewModel
 {
     private readonly IEntityContainingViewModelsNavigationService _entityContainingViewModelsNavigationService;
+    private readonly IEntityActionsProvider<TrackBaseViewModel> _trackActionsProvider;
     public ObservableCollection<TrackBaseViewModel> Songs { get; }
     public SongQueueViewModel(IPlayerService playerService, ILikeService likeService, 
-        IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService) : base(playerService, likeService)
+        IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService,
+        IEntityActionsProvider<TrackBaseViewModel> trackActionsProvider) : base(playerService, likeService)
     {
         _entityContainingViewModelsNavigationService = entityContainingViewModelsNavigationService;
+        _trackActionsProvider = trackActionsProvider;
         Songs = new();
         PlayerService.QueueChanged += SongsQueueOnQueueChanged;
         PlayerService.RaiseEvents();
@@ -49,14 +53,17 @@ public class SongQueueViewModel : PlayerTrackableViewModel, IDisposable
     {
         foreach (var entity in songs)
         {
+            entity.Actions = _trackActionsProvider.GetActions(entity);
             Songs.Add(entity);
         }
+        TrySetSong();
     }
 
     private void RemoveSongs(IEnumerable<TrackBaseViewModel> songs)
     {
         foreach (var entity in songs)
         {
+            entity.Actions = _trackActionsProvider.GetActions(entity);
             Songs.Remove(entity);
         }
     }
@@ -81,11 +88,5 @@ public class SongQueueViewModel : PlayerTrackableViewModel, IDisposable
                 .From<TrackBaseViewModel, ActiveAlbumViewModel>()
                 .NavigateAsync<AlbumViewModel>(trackBaseViewModel);
         }
-    }
-
-    public new void Dispose()
-    {
-        base.Dispose();
-        PlayerService.QueueChanged -= SongsQueueOnQueueChanged;
     }
 }

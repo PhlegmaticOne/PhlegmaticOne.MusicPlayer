@@ -32,6 +32,7 @@
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
 
+
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsCurrent, ElementName=PlayButtonRoot}" Value="True"/>
@@ -62,34 +63,46 @@
                                     <MultiDataTrigger.Setters>
                                         <Setter TargetName="ContentPresenter" Property="Content">
                                            <Setter.Value>
-                                               <Border Width="20"
-                                                       Height="20"
-                                                       CornerRadius="20" 
-                                                       Background="#F4D12C"/>
+
+                                                   <Border CornerRadius="40" 
+                                                           Background="#F4D12C" 
+                                                           Width="40"
+                                                           Height="40">
+                                                       <Viewbox Width="18" Height="18">
+                                                           <Canvas Width="24" Height="24">
+                                                               <Path Fill="Black" Data="M14,19H18V5H14M6,19H10V5H6V19Z" />
+                                                           </Canvas>
+                                                       </Viewbox>
+                                                   </Border>
+
+                                                <!--<Border Width="23"
+                                                       Height="23"
+                                                       CornerRadius="23" 
+                                                       Background="#F4D12C"/>-->
                                            </Setter.Value>
                                         </Setter>
                                     </MultiDataTrigger.Setters>
-                                    <MultiDataTrigger.EnterActions>
+                                    <!--<MultiDataTrigger.EnterActions>
                                         <BeginStoryboard>
                                             <Storyboard>
                                                 <DoubleAnimation Storyboard.TargetProperty="Content.Width"
                                                                  Storyboard.TargetName="ContentPresenter"
-                                                                 From="20" To="10" 
+                                                                 From="23" To="14" 
                                                                  Duration="0:0:1" 
                                                                  RepeatBehavior="Forever" 
                                                                  AutoReverse="True"/>
                                                 <DoubleAnimation Storyboard.TargetProperty="Content.Height"
                                                                  Storyboard.TargetName="ContentPresenter"
-                                                                 From="20" To="10" 
+                                                                 From="23" To="14" 
                                                                  Duration="0:0:1" 
                                                                  RepeatBehavior="Forever" 
                                                                  AutoReverse="True"/>
                                             </Storyboard>
                                         </BeginStoryboard>
-                                    </MultiDataTrigger.EnterActions>
+                                    </MultiDataTrigger.EnterActions>-->
                                 </MultiDataTrigger>
 
-                                <MultiDataTrigger>
+                                <!--<MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsActive, ElementName=PlayButtonRoot}" Value="True"/>
                                         <Condition Binding="{Binding IsCurrent, ElementName=PlayButtonRoot}" Value="True"/>
@@ -111,7 +124,7 @@
                                             </Setter.Value>
                                         </Setter>
                                     </MultiDataTrigger.Setters>
-                                </MultiDataTrigger>
+                                </MultiDataTrigger>-->
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>

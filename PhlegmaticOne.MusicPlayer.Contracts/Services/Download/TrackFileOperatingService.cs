@@ -6,13 +6,13 @@ using PhlegmaticOne.MusicPlayer.Players.DownloadSongsFeature;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
 
-public class TrackDownloadService : IFileOperatingService<TrackBaseViewModel>
+public class TrackFileOperatingService : IFileOperatingService<TrackBaseViewModel>
 {
     private readonly ILocalSystemSettings _downloadSettings;
     private readonly IDownloader _downloader;
     private readonly ApplicationDbContext _dbContext;
 
-    public TrackDownloadService(ILocalSystemSettings downloadSettings, IDownloader downloader, ApplicationDbContext dbContext)
+    public TrackFileOperatingService(ILocalSystemSettings downloadSettings, IDownloader downloader, ApplicationDbContext dbContext)
     {
         _downloadSettings = downloadSettings;
         _downloader = downloader;

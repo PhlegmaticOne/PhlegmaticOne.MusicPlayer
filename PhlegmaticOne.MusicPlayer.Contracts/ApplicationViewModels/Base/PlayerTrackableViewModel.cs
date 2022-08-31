@@ -1,4 +1,5 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Actions;
+using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Extensions;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Player;
@@ -9,7 +10,7 @@ using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.Base;
 
-public abstract class PlayerTrackableViewModel : ApplicationBaseViewModel, IDisposable
+public abstract class PlayerTrackableViewModel : ApplicationBaseViewModel
 {
     protected readonly IPlayerService PlayerService;
     protected readonly ILikeService LikeService;

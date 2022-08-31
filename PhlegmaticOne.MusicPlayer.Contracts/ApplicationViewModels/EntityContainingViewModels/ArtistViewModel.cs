@@ -12,6 +12,7 @@ namespace PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.EntityContai
 
 public class ArtistViewModel : PlayerTrackableViewModel, IEntityContainingViewModel<ActiveArtistViewModel>
 {
+    private bool _isFirst;
     private readonly IEntityContainingViewModelsNavigationService _entityContainingViewModelsNavigationService;
     private readonly IUIThreadInvokerService _uiThreadInvokerService;
     public ActiveArtistViewModel Entity { get; set; }
@@ -21,6 +22,7 @@ public class ArtistViewModel : PlayerTrackableViewModel, IEntityContainingViewMo
         IUIThreadInvokerService uiThreadInvokerService,
         ILikeService likeService) : base(playerService, likeService)
     {
+        _isFirst = true;
         _entityContainingViewModelsNavigationService = entityContainingViewModelsNavigationService;
         _uiThreadInvokerService = uiThreadInvokerService;
         TopTracks = new();
@@ -29,6 +31,8 @@ public class ArtistViewModel : PlayerTrackableViewModel, IEntityContainingViewMo
         ActiveCollectionNavigationFromTrackCommand = DelegateCommandFactory.CreateCommand(NavigateToActiveCollectionFromTrack, _ => true);
         ActiveCollectionNavigationFromPreviewCommand = DelegateCommandFactory.CreateCommand(NavigateToActiveCollectionFromPreview, _ => true);
         SelectTopTracksCommand = DelegateCommandFactory.CreateCommand(SelectTopTracks, _ => true);
+
+        TrySetSong();
     }
 
     public IDelegateCommand ActiveArtistNavigationCommand { get; }
@@ -50,6 +54,14 @@ public class ArtistViewModel : PlayerTrackableViewModel, IEntityContainingViewMo
             });
         });
     }
+
+    protected override void PlaySongAction(object? parameter)
+    {
+        PlayerService.TracksQueue.Clear();
+        PlayerService.TracksQueue.Enqueue(TopTracks);
+        base.PlaySongAction(parameter);
+    }
+
     private async void NavigateToActiveArtist(object? parameter)
     {
         if (parameter is ArtistLinkViewModel artistLinkViewModel && artistLinkViewModel.Id != Entity.Id)

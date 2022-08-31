@@ -7,7 +7,7 @@ internal class NavigationService : INavigationService
 {
     private readonly IViewModelFactoryService _viewModelFactoryService;
 
-    protected ApplicationBaseViewModel CurrentViewModel = null!;
+    public ApplicationBaseViewModel CurrentViewModel { get; protected set; } = null!;
     public NavigationService(IViewModelFactoryService viewModelFactoryService) => _viewModelFactoryService = viewModelFactoryService;
 
     public void NavigateTo(Type applicationViewModelType) => TryCreateNewViewModel(applicationViewModelType);

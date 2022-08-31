@@ -22,7 +22,7 @@ public class TrackBaseViewModel : EntityBaseViewModel, IHaveId, IIsFavorite
     {
         if (obj is TrackBaseViewModel trackBaseViewModel)
         {
-            return Title == trackBaseViewModel.Title && CollectionLink.Title == trackBaseViewModel.CollectionLink.Title;
+            return Id == trackBaseViewModel.Id;
         }
 
         return false;

@@ -205,7 +205,7 @@
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="Background" Value="#2b2b2b"/>
-                                    <Setter TargetName="LikeButton" Property="IsActive" Value="True"></Setter>
+                                    <Setter TargetName="LikeButton" Property="IsActive" Value="True"/>
                                     <Setter TargetName="PlayButton" Property="IsActive" Value="True"/>
                                     <Setter TargetName="ChangeableControl" Property="IsContentChanging" Value="True"/>
                                 </Trigger>
