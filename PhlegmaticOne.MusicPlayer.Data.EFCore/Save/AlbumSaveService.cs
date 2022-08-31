@@ -16,17 +16,17 @@ public class AlbumSaveService : IAlbumSaveService
     public async Task<IList<IGrouping<string, Artist>>> GetExistingArtistsAsync(Album album)
     {
         var artistNames = album.Artists.Select(x => x.Name);
+        var genreNames = album.Genres.Select(x => x.Name);
         var artists = await _dbContext.Set<Artist>()
             .Include(x => x.Albums)
-            .ThenInclude(x => x.Genres)
-            .Include(x => x.Albums)
             .ThenInclude(x => x.AlbumCover)
-            //.Include(x => x.Songs)
             .Where(x => artistNames.Contains(x.Name))
             .ToListAsync();
 
         _existingArtists = artists;
-        _existingGenres = artists.SelectMany(x => x.Albums).SelectMany(x => x.Genres).Distinct().ToList();
+        _existingGenres = await _dbContext.Set<Genre>()
+            .Where(x => genreNames.Contains(x.Name))
+            .ToListAsync();
 
         return artists.GroupBy(x => x.Name).ToList();
     }

@@ -21,7 +21,7 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
 
         var cover = await GetAlbumCover(domDocument);
         var (title, yearReleased) = GetRepresentationInfo(domDocument);
-        var albumCover = new AlbumCover() {Cover = cover};
+        var albumCover = new AlbumCover {Cover = cover};
         var albumType = GetAlbumType(domDocument);
 
         var songs = GetSongs(domDocument).ToList();
@@ -85,23 +85,36 @@ public class MusifyAlbumInfoGetter : IHttpInfoGetter<Album>, IDisposable
             .Where(p => p.HasAttribute("download"))
             .Select(x => "https://musify.club" + x.GetAttribute("href"));
 
+        var result = new List<Song>();
         foreach (var songInfo in (songArtists.Zip(songNames)).Zip(durations.Zip(onlineUrls)))
         {
-            yield return new Song()
+            var song = new Song
             {
-                Artists = new List<Artist>()
+                Title = songInfo.First.Second,
+                Duration = songInfo.Second.First,
+                OnlineUrl = songInfo.Second.Second
+            };
+            var newSongArtist = songInfo.First.First;
+            var existingSongWithArtist = result.FirstOrDefault(x => x.Artists.Any(y => y.Name == newSongArtist));
+            if (existingSongWithArtist is not null)
+            {
+                song.Artists = existingSongWithArtist.Artists;
+            }
+            else
+            {
+                song.Artists = new List<Artist>()
                 {
                     new()
                     {
                         Name = songInfo.First.First,
                         Songs = new List<Song>()
                     },
-                },
-                Title = songInfo.First.Second,
-                Duration = songInfo.Second.First,
-                OnlineUrl = songInfo.Second.Second
-            };
+                };
+            }
+            result.Add(song);
         }
+
+        return result;
     }
 
 
