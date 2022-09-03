@@ -13,25 +13,13 @@ public class EFLikeService : ILikeService
     public EFLikeService(ApplicationDbContext dbContext) => 
         _dbContext = dbContext;
 
+    public Task SetNewLike<TEntity>(TEntity entity, bool likeValue) where TEntity : IHaveId, IIsFavorite
+    {
+        throw new NotImplementedException();
+    }
+
     public event EventHandler<LikeEventArgs>? LikeChanged;
 
-    public async Task SetNewLike<TSet, TEntity>(TEntity entity, bool likeValue) 
-        where TSet : EntityBase, IIsFavorite 
-        where TEntity : IHaveId, IIsFavorite
-    {
-        var set = _dbContext.Set<TSet>();
-        var found = await set
-            .Where(x => x.Id == entity.Id)
-            .FirstOrDefaultAsync();
-
-        if (found is not null)
-        {
-            found.IsFavorite = likeValue;
-            set.Update(found);
-            await _dbContext.SaveChangesAsync();
-            InvokeOnLikeChanged(entity, likeValue);
-        }
-    }
 
     private void InvokeOnLikeChanged(IIsFavorite entity, bool newIsFavoriteValue) =>
         LikeChanged?.Invoke(this, new(entity, newIsFavoriteValue));

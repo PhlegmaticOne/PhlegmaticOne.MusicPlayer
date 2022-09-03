@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.HandMapper.Lib;
-using PhlegmaticOne.MusicPlayer.Contracts.Actions;
 using PhlegmaticOne.MusicPlayer.Contracts.Models;
 using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Data.Models;
 using PhlegmaticOne.WPF.Navigation;
@@ -34,8 +34,8 @@ public class EFActiveArtistFromArtistLinkViewModelFactory : NavigationFactoryBas
         var artistPreviewViewModel = new ArtistPreviewViewModel
         {
             Id = entity.Id,
-            Name = entity.Name,
-            Cover = songs.First().Album.AlbumCover
+            Title = entity.Title,
+            Cover = songs.First().Album.AlbumCover.Cover
         };
 
         var result = _handMapperService

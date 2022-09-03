@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Contracts\PhlegmaticOne.MusicPlayer.Contracts.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data\PhlegmaticOne.MusicPlayer.Data.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.WPF.Navigation\PhlegmaticOne.WPF.Navigation.csproj" />
   </ItemGroup>
 

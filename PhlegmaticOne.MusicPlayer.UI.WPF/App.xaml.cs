@@ -2,8 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PhlegmaticOne.MusicPlayer.Data.Context;
-using PhlegmaticOne.MusicPlayer.Players.DownloadSongsFeature;
-using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
 using System;
 using System.Collections.Generic;
@@ -15,7 +13,6 @@ using System.Windows;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using PhlegmaticOne.HandMapper.Lib;
-using PhlegmaticOne.MusicPlayer.Contracts.Actions;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
@@ -24,23 +21,27 @@ using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.UI;
-using PhlegmaticOne.MusicPlayer.Contracts.HandMappers;
 using PhlegmaticOne.MusicPlayer.Contracts.Mediatr.Handlers;
 using PhlegmaticOne.MusicPlayer.Contracts.Mediatr.Queries;
 using PhlegmaticOne.MusicPlayer.Contracts.Models;
 using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.MusicFactories;
 using PhlegmaticOne.WPF.Navigation.Extensions;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Logo;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.PagedList;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Save;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.PagedList;
+using PhlegmaticOne.MusicPlayer.Data.EFCore.Download;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.Like;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.Save;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Download;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.PagedList;
+using PhlegmaticOne.MusicPlayer.Data.HandMappers;
 using PhlegmaticOne.MusicPlayer.Data.Models;
+using PhlegmaticOne.MusicPlayer.Data.Other.DownloadSongsFeature;
+using PhlegmaticOne.MusicPlayer.Data.Other.HttpInfoRetrieveFeature;
+using PhlegmaticOne.MusicPlayer.Data.Save;
 using PhlegmaticOne.MusicPlayer.UI.WPF.MediatrConfig;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Logo;
 using PhlegmaticOne.MusicPlayer.ViewModels.Base;
@@ -132,11 +133,11 @@ public partial class App
                      b.UseSqlServer(connectionString);
                  });
 
-                 services.AddMediatR(typeof(GenericPagedListQuery<>).Assembly)
+                 services.AddMediatR(typeof(GenericGetPagedListQuery<>).Assembly)
                      .AddTransient<IMediatorServiceTypeConverter, PagedListGenericQueryToHandlerConverter>()
                      .AddTransient(sp => MediatrServiceFactory.Wrap(sp.GetService, 
                          sp.GetServices<IMediatorServiceTypeConverter>()))
-                     .AddTransient(typeof(GenericPagedListQueryHandler<>));
+                     .AddTransient(typeof(GenericGetPagedListQueryHandler<>));
 
 
                  services.AddHandMappers(typeof(AlbumPreviewToActiveViewModelMapper).Assembly);
@@ -158,7 +159,7 @@ public partial class App
 
                  services.AddSingleton<ILikeService, EFLikeService>();
 
-                 services.AddSingleton<IUIThreadInvokerService, WpfUIThreadInvokerService>();
+                 services.AddSingleton<IUiThreadInvokerService, WpfUIThreadInvokerService>();
                  services.AddSingleton<IConnectionStringGetter, ConfigurationConnectionStringGetter>();
                  services.AddSingleton<ISqlClient, SqlClientSingleton>();
 

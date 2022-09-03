@@ -1,12 +1,11 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
-using PhlegmaticOne.MusicPlayer.Data.Models;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Models;
 
-public class AlbumPreviewViewModel : CollectionBaseViewModel, ICollectionItem
+public class AlbumPreviewViewModel : CollectionBaseViewModel, IHaveYear
 {
-    public AlbumType AlbumType { get; set; }
+    public string AlbumType { get; set; }
     public ICollection<ArtistLinkViewModel> Artists { get; set; }
     public int YearReleased { get; set; }
 }

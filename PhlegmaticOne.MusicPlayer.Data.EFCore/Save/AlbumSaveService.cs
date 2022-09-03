@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Save;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Data.Models;
+using PhlegmaticOne.MusicPlayer.Data.Save;
 
 namespace PhlegmaticOne.MusicPlayer.Data.EFCore.Save;
 
@@ -15,20 +15,20 @@ public class AlbumSaveService : IAlbumSaveService
 
     public async Task<IList<IGrouping<string, Artist>>> GetExistingArtistsAsync(Album album)
     {
-        var artistNames = album.Artists.Select(x => x.Name);
-        var genreNames = album.Genres.Select(x => x.Name);
+        var artistNames = album.Artists.Select(x => x.Title);
+        var genreNames = album.Genres.Select(x => x.Title);
         var artists = await _dbContext.Set<Artist>()
             .Include(x => x.Albums)
             .ThenInclude(x => x.AlbumCover)
-            .Where(x => artistNames.Contains(x.Name))
+            .Where(x => artistNames.Contains(x.Title))
             .ToListAsync();
 
         _existingArtists = artists;
         _existingGenres = await _dbContext.Set<Genre>()
-            .Where(x => genreNames.Contains(x.Name))
+            .Where(x => genreNames.Contains(x.Title))
             .ToListAsync();
 
-        return artists.GroupBy(x => x.Name).ToList();
+        return artists.GroupBy(x => x.Title).ToList();
     }
 
     public Album AdaptWithArtists(Album album, ICollection<Artist> artists)
@@ -38,7 +38,7 @@ public class AlbumSaveService : IAlbumSaveService
             if (_existingArtists.Contains(artist))
             {
                 var artistSongsInAlbum = album.Songs
-                    .Where(x => x.Artists.Any(n => n.Name == artist.Name))
+                    .Where(x => x.Artists.Any(n => n.Title == artist.Title))
                     .ToList();
 
                 ReplaceArtistInSongs(artistSongsInAlbum, artist);
@@ -49,7 +49,7 @@ public class AlbumSaveService : IAlbumSaveService
 
         foreach (var existingGenre in _existingGenres)
         {
-            if (album.Genres.Any(x => x.Name == existingGenre.Name))
+            if (album.Genres.Any(x => x.Title == existingGenre.Title))
             {
                 ReplaceGenreInAlbum(album, existingGenre);
             }
@@ -69,7 +69,7 @@ public class AlbumSaveService : IAlbumSaveService
     {
         foreach (var song in songs)
         {
-            var existingArtistInSong = song.Artists.First(x => x.Name == artist.Name);
+            var existingArtistInSong = song.Artists.First(x => x.Title == artist.Title);
             song.Artists.Remove(existingArtistInSong);
             song.Artists.Add(artist);
         }
@@ -77,13 +77,13 @@ public class AlbumSaveService : IAlbumSaveService
 
     private static void ReplaceArtistInAlbum(Album album, Artist artist)
     {
-        var existingArtistInAlbum = album.Artists.First(x => x.Name == artist.Name);
+        var existingArtistInAlbum = album.Artists.First(x => x.Title == artist.Title);
         album.Artists.Remove(existingArtistInAlbum);
         album.Artists.Add(artist);
     }
     private static void ReplaceGenreInAlbum(Album album, Genre genre)
     {
-        var existingGenreInAlbum = album.Genres.First(x => x.Name == genre.Name);
+        var existingGenreInAlbum = album.Genres.First(x => x.Title == genre.Title);
         album.Genres.Remove(existingGenreInAlbum);
         album.Genres.Add(genre);
     }

@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Forms;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Save;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.Data.Models;
-using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
+using PhlegmaticOne.MusicPlayer.Data.Other.HttpInfoRetrieveFeature;
+using PhlegmaticOne.MusicPlayer.Data.Save;
 using PhlegmaticOne.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Core.ViewModels;
 
@@ -13,7 +13,7 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
 {
     private readonly List<Artist> _currentAlbumNewArtists;
     private readonly IHttpInfoGetter<Album> _albumInfoGetter;
-    private readonly IUIThreadInvokerService _uiThreadInvokerService;
+    private readonly IUiThreadInvokerService _uiThreadInvokerService;
 
     private string _url;
     private Album? _currentAlbum;
@@ -42,7 +42,7 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
     }
     public ObservableCollection<IGrouping<string, Artist>> ExistingArtists { get; set; }
     public AddingNewAlbumViewModel(IHttpInfoGetter<Album> albumInfoGetter,
-        IUIThreadInvokerService uiThreadInvokerService,
+        IUiThreadInvokerService uiThreadInvokerService,
         IAlbumSaveService albumSaveService)
     {
         _albumInfoGetter = albumInfoGetter;
@@ -66,7 +66,7 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
     {
         if (parameter is Artist artist)
         {
-            var existingArtist = _currentAlbumNewArtists.First(x => x.Name == artist.Name);
+            var existingArtist = _currentAlbumNewArtists.First(x => x.Title == artist.Title);
             _currentAlbumNewArtists.Remove(existingArtist);
             _currentAlbumNewArtists.Add(artist);
         }

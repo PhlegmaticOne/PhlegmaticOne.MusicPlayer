@@ -1,20 +1,21 @@
-﻿using PhlegmaticOne.MusicPlayer.Data.Models.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Base;
+using PhlegmaticOne.MusicPlayer.Data.Models.Base;
 
 namespace PhlegmaticOne.MusicPlayer.Data.Models;
 
-public class Artist : EntityBase, IEquatable<Artist>
+public class Artist : EntityBase, IEquatable<Artist>, IIsFavorite
 {
-    public string Name { get; set; } = null!;
+    public string Title { get; set; } = null!;
     public ICollection<Album> Albums { get; set; } = null!;
     public ICollection<Song> Songs { get; set; } = null!;
     public bool IsFavorite { get; set; }
-    public override string ToString() => Name;
+    public override string ToString() => Title;
 
     public bool Equals(Artist? other)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return Name.Equals(other.Name, StringComparison.InvariantCultureIgnoreCase);
+        return Title.Equals(other.Title, StringComparison.InvariantCultureIgnoreCase);
     }
 
     public override bool Equals(object? obj)
@@ -25,5 +26,5 @@ public class Artist : EntityBase, IEquatable<Artist>
         return Equals((Artist) obj);
     }
 
-    public override int GetHashCode() => HashCode.Combine(Name);
+    public override int GetHashCode() => HashCode.Combine(Title);
 }

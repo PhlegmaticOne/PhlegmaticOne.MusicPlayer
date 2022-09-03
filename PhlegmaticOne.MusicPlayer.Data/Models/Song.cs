@@ -1,8 +1,9 @@
-﻿using PhlegmaticOne.MusicPlayer.Data.Models.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Base;
+using PhlegmaticOne.MusicPlayer.Data.Models.Base;
 
 namespace PhlegmaticOne.MusicPlayer.Data.Models;
 
-public class Song : EntityBase
+public class Song : EntityBase, IHaveTitle, IIsFavorite, IIsDownloaded, IHaveDuration
 {
     public string Title { get; set; } = null!;
     public TimeSpan Duration { get; set; }
@@ -15,4 +16,5 @@ public class Song : EntityBase
     public string LocalUrl { get; set; }
     public string OnlineUrl { get; set; }
     public override string ToString() => $"{Title} - {Duration:g}";
+    public bool IsDownloaded => string.IsNullOrEmpty(LocalUrl) == false;
 }

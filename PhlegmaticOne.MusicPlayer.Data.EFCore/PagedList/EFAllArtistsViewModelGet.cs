@@ -1,5 +1,4 @@
 ﻿using Calabonga.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.MusicPlayer.Contracts.Models;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.PagedList;
 using PhlegmaticOne.MusicPlayer.Data.Context;
@@ -22,10 +21,10 @@ public class EFAllArtistsViewModelGet : EntityPagedListGetBase<ArtistPreviewView
         var info = await artists.Select(x => new ArtistPreviewViewModel
         {
             Id = x.Id,
-            Name = x.Name,
-            Cover = x.Albums.Last().AlbumCover,
+            Title = x.Title,
+            Cover = x.Albums.Last().AlbumCover.Cover,
             TracksCount = x.Albums.SelectMany(y => y.Songs).Count(),
-            Genres = x.Albums.SelectMany(y => y.Genres).Distinct().Select(i => i.Name).ToList()
+            Genres = x.Albums.SelectMany(y => y.Genres).Distinct().Select(i => i.Title).ToList()
         }).ToPagedListAsync(pageSize:pageSize, pageIndex:pageIndex);
 
         return info;

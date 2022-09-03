@@ -24,16 +24,16 @@ public class EFAllAlbumsViewModelGet : EntityPagedListGetBase<AlbumPreviewViewMo
             Artists = x.Artists.Select(a => new ArtistLinkViewModel
             {
                 Id = a.Id,
-                Name = a.Name
+                Title = a.Title
             }).ToList(),
             Title = x.Title,
-            Cover = x.AlbumCover,
+            Cover = x.AlbumCover.Cover,
             IsFavorite = x.IsFavorite,
             IsDownloaded = false,
             IsDownloading = false,
             DateAdded = x.DateAdded,
             YearReleased = x.YearReleased,
-            AlbumType = x.AlbumType
+            AlbumType = x.AlbumType.ToString()
         }).ToPagedListAsync(pageSize:pageSize, pageIndex:pageIndex);
         return result;
     }

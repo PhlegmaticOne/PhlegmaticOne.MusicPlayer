@@ -1,6 +1,6 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.Actions;
-using PhlegmaticOne.MusicPlayer.Contracts.Models;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Models;
 using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
@@ -13,14 +13,14 @@ namespace PhlegmaticOne.MusicPlayer.ViewModels.EntityContainingViewModels;
 
 public class AlbumViewModel : PlayerTrackableViewModel, IEntityContainingViewModel<ActiveAlbumViewModel>
 {
-    private readonly IUIThreadInvokerService _uiThreadInvokerService;
+    private readonly IUiThreadInvokerService _uiThreadInvokerService;
     private readonly IFileOperatingService<TrackBaseViewModel> _trackOperatingService;
     private readonly IEntityActionsProvider<TrackBaseViewModel> _trackActionsProvider;
     private readonly IEntityContainingViewModelsNavigationService _entityContainingViewModelsNavigationService;
     private bool _isFirstSongWillPlay;
     public AlbumViewModel(IPlayerService<TrackBaseViewModel> playerService, 
         ILikeService likeService,
-        IUIThreadInvokerService uiThreadInvokerService,
+        IUiThreadInvokerService uiThreadInvokerService,
         IFileOperatingService<TrackBaseViewModel> trackOperatingService,
         IEntityActionsProvider<TrackBaseViewModel> trackActionsProvider,
         IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService) :

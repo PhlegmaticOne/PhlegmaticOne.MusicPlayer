@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
 using PhlegmaticOne.WPF.Core.ViewModels;
 
-namespace PhlegmaticOne.MusicPlayer.Contracts.Actions;
+namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;
 
 public interface IEntityActionsProvider<in T> where T: EntityBaseViewModel
 {

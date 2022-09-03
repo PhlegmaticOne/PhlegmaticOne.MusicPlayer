@@ -11,11 +11,10 @@
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="PhlegmaticOne.HandMapper.Lib" Version="1.0.6" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data\PhlegmaticOne.MusicPlayer.Data.csproj" />
-    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Players\PhlegmaticOne.MusicPlayer.Players.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.PlayerService\PhlegmaticOne.PlayerService.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.WPF.Core\PhlegmaticOne.WPF.Core.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.WPF.Navigation\PhlegmaticOne.WPF.Navigation.csproj" />

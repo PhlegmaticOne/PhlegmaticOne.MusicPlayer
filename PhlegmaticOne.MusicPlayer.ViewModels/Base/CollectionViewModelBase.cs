@@ -2,6 +2,7 @@
 using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
+using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.PagedList;
 using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.Reload;
 using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.Sort;
 using PhlegmaticOne.PlayerService.Base;
@@ -14,18 +15,20 @@ public abstract class CollectionViewModelBase<TViewModel, TCollectionItemType> :
     where TViewModel : CollectionViewModelBase<TViewModel, TCollectionItemType>
     where TCollectionItemType : EntityBaseViewModel
 {
-    protected readonly IUIThreadInvokerService UiThreadInvokerService;
+    protected readonly IUiThreadInvokerService UiThreadInvokerService;
     protected readonly IEntityContainingViewModelsNavigationService EntityContainingViewModelsNavigationService;
 
     protected CollectionViewModelBase(IPlayerService<TrackBaseViewModel> playerService, 
         ILikeService likeService,
-        IUIThreadInvokerService uiThreadInvokerService, 
+        IUiThreadInvokerService uiThreadInvokerService, 
         IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService,
         ReloadViewModelBase<TViewModel> reloadViewModel,
-        SortViewModelBase<TViewModel, TCollectionItemType> sortViewModel) : base(playerService, likeService)
+        SortViewModelBase<TViewModel, TCollectionItemType> sortViewModel,
+        PagedListViewModelBase<TCollectionItemType> pagedListViewModel) : base(playerService, likeService)
     {
         ReloadViewModel = reloadViewModel;
         SortViewModel = sortViewModel;
+        PagedListViewModel = pagedListViewModel;
         UiThreadInvokerService = uiThreadInvokerService;
         EntityContainingViewModelsNavigationService = entityContainingViewModelsNavigationService;
         Items = new();
@@ -34,6 +37,7 @@ public abstract class CollectionViewModelBase<TViewModel, TCollectionItemType> :
     public ObservableCollection<TCollectionItemType> Items { get; }
     public ReloadViewModelBase<TViewModel> ReloadViewModel { get; }
     public SortViewModelBase<TViewModel, TCollectionItemType> SortViewModel { get; }
+    public PagedListViewModelBase<TCollectionItemType> PagedListViewModel { get; }
 
     internal async Task UpdateItems(IEnumerable<TCollectionItemType> newItems)
     {

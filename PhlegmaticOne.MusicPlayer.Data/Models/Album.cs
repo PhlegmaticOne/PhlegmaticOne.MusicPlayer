@@ -1,12 +1,14 @@
-﻿namespace PhlegmaticOne.MusicPlayer.Data.Models;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Base;
 
-public class Album : CollectionBase, IEquatable<Album>
+namespace PhlegmaticOne.MusicPlayer.Data.Models;
+
+public class Album : CollectionBase, IEquatable<Album>, IHaveYear
 {
     public ICollection<Genre> Genres { get; set; } = null!;
     public ICollection<Artist> Artists { get; set; } = null!;
     public int YearReleased { get; set; }
     public AlbumType AlbumType { get; init; }
-    public override string ToString() => $"{string.Join("/", Artists.Select(x => x.Name))} - {Title} ({YearReleased})";
+    public override string ToString() => $"{string.Join("/", Artists.Select(x => x.Title))} - {Title} ({YearReleased})";
 
     public bool Equals(Album? other)
     {

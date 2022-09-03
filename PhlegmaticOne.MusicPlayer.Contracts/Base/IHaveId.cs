@@ -2,5 +2,5 @@
 
 public interface IHaveId
 {
-    Guid Id { get; set; }
+    Guid Id { get; }
 }

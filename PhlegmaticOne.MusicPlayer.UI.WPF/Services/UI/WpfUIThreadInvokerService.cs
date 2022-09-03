@@ -6,7 +6,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services.UI;
 
-public class WpfUIThreadInvokerService : IUIThreadInvokerService
+public class WpfUIThreadInvokerService : IUiThreadInvokerService
 {
     public async Task InvokeAsync(Action action) => await Application.Current.Dispatcher.InvokeAsync(action, DispatcherPriority.Background);
 }

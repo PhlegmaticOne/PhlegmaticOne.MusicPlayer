@@ -3,6 +3,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.PagedList;
 using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.Reload;
 using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.Sort;
 using PhlegmaticOne.MusicPlayer.ViewModels.EntityContainingViewModels;
@@ -15,23 +16,22 @@ namespace PhlegmaticOne.MusicPlayer.ViewModels.CollectionViewModels;
 public class AlbumsCollectionViewModel : CollectionViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel>
 {
     public AlbumsCollectionViewModel(IPlayerService<TrackBaseViewModel> playerService, ILikeService likeService,
-        IUIThreadInvokerService uiThreadInvokerService,
+        IUiThreadInvokerService uiThreadInvokerService,
         IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService,
         ReloadViewModelBase<AlbumsCollectionViewModel> reloadViewModel,
-        SortViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel> sortViewModel) :
-        base(playerService, likeService, uiThreadInvokerService, entityContainingViewModelsNavigationService, reloadViewModel, sortViewModel)
+        SortViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel> sortViewModel,
+        PagedListViewModelBase<AlbumPreviewViewModel> pagedListViewModel) :
+        base(playerService, likeService, uiThreadInvokerService, entityContainingViewModelsNavigationService, reloadViewModel, sortViewModel, pagedListViewModel)
     {
-        ActiveAlbumNavigationCommand = RelayCommandFactory.CreateCommand(NavigateToActiveAlbum, _ => true);
+        ActiveAlbumNavigationCommand = RelayCommandFactory
+            .CreateRequiredParameterAsyncCommand<AlbumPreviewViewModel>(NavigateToActiveAlbum, _ => true);
     }
     public IRelayCommand ActiveAlbumNavigationCommand { get; }
     
-    private async void NavigateToActiveAlbum(object? parameter)
+    private async Task NavigateToActiveAlbum(AlbumPreviewViewModel parameter)
     {
-        if (parameter is AlbumPreviewViewModel albumPreviewViewModel)
-        {
-            await EntityContainingViewModelsNavigationService
-                .From<AlbumPreviewViewModel, ActiveAlbumViewModel>()
-                .NavigateAsync<AlbumViewModel>(albumPreviewViewModel);
-        }
+        await EntityContainingViewModelsNavigationService
+            .From<AlbumPreviewViewModel, ActiveAlbumViewModel>()
+            .NavigateAsync<AlbumViewModel>(parameter);
     }
 }

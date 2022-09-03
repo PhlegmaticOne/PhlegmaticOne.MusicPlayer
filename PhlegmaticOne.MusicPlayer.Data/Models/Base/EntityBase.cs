@@ -1,6 +1,8 @@
-﻿namespace PhlegmaticOne.MusicPlayer.Data.Models.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Base;
 
-public class EntityBase
+namespace PhlegmaticOne.MusicPlayer.Data.Models.Base;
+
+public class EntityBase : IHaveId
 {
     public Guid Id { get; set; }
 }

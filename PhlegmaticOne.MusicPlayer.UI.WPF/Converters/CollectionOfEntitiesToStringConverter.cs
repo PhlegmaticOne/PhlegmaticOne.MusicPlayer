@@ -19,10 +19,10 @@ public class CollectionOfEntitiesToStringConverter : IValueConverter
 
         return value switch
         {
-            ICollection<Artist> artists => string.Join(separator, artists.Select(x => x.Name)),
-            ICollection<Genre> genres => string.Join(separator, genres.Select(x => x.Name)),
+            ICollection<Artist> artists => string.Join(separator, artists.Select(x => x.Title)),
+            ICollection<Genre> genres => string.Join(separator, genres.Select(x => x.Title)),
             ICollection<string> names => string.Join(separator, names),
-            ICollection<ArtistLinkViewModel> artists => string.Join(separator, artists.Select(x => x.Name)),
+            ICollection<ArtistLinkViewModel> artists => string.Join(separator, artists.Select(x => x.Title)),
             _ => string.Empty
         };
     }

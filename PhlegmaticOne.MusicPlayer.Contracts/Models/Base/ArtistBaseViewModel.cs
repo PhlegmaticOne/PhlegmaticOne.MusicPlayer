@@ -3,9 +3,9 @@ using PhlegmaticOne.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
 
-public class ArtistBaseViewModel : EntityBaseViewModel, IHaveId, IIsFavorite
+public class ArtistBaseViewModel : EntityBaseViewModel, IHaveId, IIsFavorite, IHaveTitle
 {
-    public string Name { get; set; }
+    public string Title { get; set; }
     public bool IsFavorite { get; set; }
-    public override string ToString() => Name;
+    public override string ToString() => Title;
 }

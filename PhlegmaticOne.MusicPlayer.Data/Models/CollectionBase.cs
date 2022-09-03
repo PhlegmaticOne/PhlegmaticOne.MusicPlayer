@@ -1,8 +1,9 @@
-﻿using PhlegmaticOne.MusicPlayer.Data.Models.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Base;
+using PhlegmaticOne.MusicPlayer.Data.Models.Base;
 
 namespace PhlegmaticOne.MusicPlayer.Data.Models;
 
-public class CollectionBase : EntityBase
+public class CollectionBase : EntityBase, IHaveTitle, IIsFavorite, IHaveDateAdded
 {
     public ICollection<Song> Songs { get; set; } = null!;
     public AlbumCover AlbumCover { get; set; } = null!;

@@ -1,0 +1,17 @@
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Helpers;
+using PhlegmaticOne.MusicPlayer.Contracts.Models;
+
+namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Sort;
+
+public class AlbumsSortOptionsProvider : ISortOptionsProvider<AlbumPreviewViewModel>
+{
+    public IDictionary<string, Func<AlbumPreviewViewModel, object>> GetSortOptions()
+    {
+        return new Dictionary<string, Func<AlbumPreviewViewModel, object>>()
+        {
+            { "By title", OrderingFuncsCollection.OrderByTitle },
+            { "By date added", OrderingFuncsCollection.OrderByDateAdded },
+            { "By year", OrderingFuncsCollection.OrderByYear },
+        };
+    }
+}

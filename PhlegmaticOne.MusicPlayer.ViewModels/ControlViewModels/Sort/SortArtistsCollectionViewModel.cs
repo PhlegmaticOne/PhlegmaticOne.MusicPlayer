@@ -14,7 +14,7 @@ public class SortArtistsCollectionViewModel : SortViewModelBase<ArtistsCollectio
         var byNameText = LocalizationService.GetLocalizedValue(LocalizationConstants.SortByNameTextKey)!;
         return new()
         {
-            { byNameText, (albums) => albums.OrderBy(x => x.Name)},
+            { byNameText, (albums) => albums.OrderBy(x => x.Title)},
         };
     }
 

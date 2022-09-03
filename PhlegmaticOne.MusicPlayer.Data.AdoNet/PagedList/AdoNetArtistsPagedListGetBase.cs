@@ -24,7 +24,7 @@ public class AdoNetArtistsPagedListGetBase : AdoNetViewModelGetBase<ArtistPrevie
             var artist = new ArtistPreviewViewModel
             {
                 Id = id,
-                Name = artistName,
+                Title = artistName,
                 TracksCount = tracksCount,
                 Genres = new List<string>()
             };
@@ -39,7 +39,7 @@ public class AdoNetArtistsPagedListGetBase : AdoNetViewModelGetBase<ArtistPrevie
             var cover = await reader.GetFieldValueAsync<byte[]>(0);
             var image = cover.ToBitmap();
             var albumCover = new AlbumCover { Cover = image };
-            artists[index].Cover = albumCover;
+            artists[index].Cover = albumCover.Cover;
             index++;
         }
 

@@ -67,7 +67,7 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                     b.ToTable("ArtistSong");
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.AlbumCover", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.AlbumCover", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,7 +88,7 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                     b.ToTable("CollectionCovers", (string)null);
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Artist", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.Artist", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,7 +99,7 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -109,7 +109,7 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                     b.ToTable("Artists", (string)null);
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.CollectionBase", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.CollectionBase", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -137,13 +137,13 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                     b.ToTable("Collections", (string)null);
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Genre", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.Genre", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -153,7 +153,7 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                     b.ToTable("Genres", (string)null);
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Song", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.Song", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -207,9 +207,9 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                     b.ToTable("PlaylistSong");
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Album", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.Album", b =>
                 {
-                    b.HasBaseType("PhlegmaticOne.MusicPlayer.Entities.CollectionBase");
+                    b.HasBaseType("PhlegmaticOne.MusicPlayer.Data.Models.CollectionBase");
 
                     b.Property<string>("AlbumType")
                         .IsRequired()
@@ -221,22 +221,22 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
                     b.ToTable("Albums", (string)null);
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Playlist", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.Playlist", b =>
                 {
-                    b.HasBaseType("PhlegmaticOne.MusicPlayer.Entities.CollectionBase");
+                    b.HasBaseType("PhlegmaticOne.MusicPlayer.Data.Models.CollectionBase");
 
                     b.ToTable("Playlists", (string)null);
                 });
 
             modelBuilder.Entity("AlbumArtist", b =>
                 {
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Album", null)
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Data.Models.Album", null)
                         .WithMany()
                         .HasForeignKey("AlbumsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Artist", null)
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Data.Models.Artist", null)
                         .WithMany()
                         .HasForeignKey("ArtistsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -245,13 +245,13 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
 
             modelBuilder.Entity("AlbumGenre", b =>
                 {
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Album", null)
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Data.Models.Album", null)
                         .WithMany()
                         .HasForeignKey("AlbumsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Genre", null)
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Data.Models.Genre", null)
                         .WithMany()
                         .HasForeignKey("GenresId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -260,33 +260,33 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
 
             modelBuilder.Entity("ArtistSong", b =>
                 {
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Artist", null)
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Data.Models.Artist", null)
                         .WithMany()
                         .HasForeignKey("ArtistsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Song", null)
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Data.Models.Song", null)
                         .WithMany()
                         .HasForeignKey("SongsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.AlbumCover", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.AlbumCover", b =>
                 {
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.CollectionBase", "Album")
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Data.Models.CollectionBase", "Album")
                         .WithOne("AlbumCover")
-                        .HasForeignKey("PhlegmaticOne.MusicPlayer.Entities.AlbumCover", "AlbumId")
+                        .HasForeignKey("PhlegmaticOne.MusicPlayer.Data.Models.AlbumCover", "AlbumId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Album");
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Song", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.Song", b =>
                 {
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Album", "Album")
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Data.Models.Album", "Album")
                         .WithMany("Songs")
                         .HasForeignKey("AlbumId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -297,44 +297,44 @@ namespace PhlegmaticOne.MusicPlayer.Data.Migrations
 
             modelBuilder.Entity("PlaylistSong", b =>
                 {
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Playlist", null)
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Data.Models.Playlist", null)
                         .WithMany()
                         .HasForeignKey("PlaylistsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.Song", null)
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Data.Models.Song", null)
                         .WithMany()
                         .HasForeignKey("SongsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Album", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.Album", b =>
                 {
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.CollectionBase", null)
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Data.Models.CollectionBase", null)
                         .WithOne()
-                        .HasForeignKey("PhlegmaticOne.MusicPlayer.Entities.Album", "Id")
+                        .HasForeignKey("PhlegmaticOne.MusicPlayer.Data.Models.Album", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Playlist", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.Playlist", b =>
                 {
-                    b.HasOne("PhlegmaticOne.MusicPlayer.Entities.CollectionBase", null)
+                    b.HasOne("PhlegmaticOne.MusicPlayer.Data.Models.CollectionBase", null)
                         .WithOne()
-                        .HasForeignKey("PhlegmaticOne.MusicPlayer.Entities.Playlist", "Id")
+                        .HasForeignKey("PhlegmaticOne.MusicPlayer.Data.Models.Playlist", "Id")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.CollectionBase", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.CollectionBase", b =>
                 {
                     b.Navigation("AlbumCover")
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Entities.Album", b =>
+            modelBuilder.Entity("PhlegmaticOne.MusicPlayer.Data.Models.Album", b =>
                 {
                     b.Navigation("Songs");
                 });

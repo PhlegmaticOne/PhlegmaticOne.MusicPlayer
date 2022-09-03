@@ -5,7 +5,7 @@ using PhlegmaticOne.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
 
-public class TrackBaseViewModel : EntityBaseViewModel, IHaveId, IIsFavorite, IHaveUrl
+public class TrackBaseViewModel : EntityBaseViewModel, IHaveId, IIsFavorite, IHaveUrl, IIsDownloaded, IHaveDuration, IHaveTitle, IHaveTimePlayed
 {
     public string Title { get; set; }
     public ICollection<ArtistLinkViewModel> ArtistLinks { get; set; }

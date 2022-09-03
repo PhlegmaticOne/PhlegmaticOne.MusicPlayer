@@ -2,5 +2,5 @@
 
 public interface IIsFavorite
 {
-    bool IsFavorite { get; set; }
+    bool IsFavorite { get; }
 }

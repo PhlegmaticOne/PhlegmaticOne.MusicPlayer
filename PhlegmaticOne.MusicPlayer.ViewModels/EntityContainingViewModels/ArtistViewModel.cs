@@ -14,12 +14,12 @@ public class ArtistViewModel : PlayerTrackableViewModel, IEntityContainingViewMo
 {
     private bool _isFirst;
     private readonly IEntityContainingViewModelsNavigationService _entityContainingViewModelsNavigationService;
-    private readonly IUIThreadInvokerService _uiThreadInvokerService;
+    private readonly IUiThreadInvokerService _uiThreadInvokerService;
     public ActiveArtistViewModel Entity { get; set; }
     public ObservableCollection<TrackBaseViewModel> TopTracks { get; set; }
     public ArtistViewModel(IPlayerService<TrackBaseViewModel> playerService,
         IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService, 
-        IUIThreadInvokerService uiThreadInvokerService,
+        IUiThreadInvokerService uiThreadInvokerService,
         ILikeService likeService) : base(playerService, likeService)
     {
         _isFirst = true;

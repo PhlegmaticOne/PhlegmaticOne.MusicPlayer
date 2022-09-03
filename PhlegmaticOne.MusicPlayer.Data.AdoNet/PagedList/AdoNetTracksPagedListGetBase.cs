@@ -1,11 +1,10 @@
 ﻿using Calabonga.UnitOfWork;
 using Microsoft.Data.SqlClient;
-using PhlegmaticOne.MusicPlayer.Contracts.Actions;
 using PhlegmaticOne.MusicPlayer.Contracts.Models;
 using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Extensions;
-using PhlegmaticOne.MusicPlayer.Data.Models;
 
 namespace PhlegmaticOne.MusicPlayer.Data.AdoNet.PagedList;
 
@@ -51,7 +50,7 @@ public class AdoNetTracksPagedListGetBase : AdoNetViewModelGetBase<TrackBaseView
 
             var imageData = await reader.GetFieldValueAsync<byte[]>(11);
             var image = imageData.ToBitmap();
-            var cover = new AlbumCover { Cover = image };
+            var cover = image;
 
             notFull.CollectionLink = new CollectionLinkViewModel
             {
@@ -99,7 +98,7 @@ public class AdoNetTracksPagedListGetBase : AdoNetViewModelGetBase<TrackBaseView
         return new()
         {
             Id = artistId,
-            Name = artistName
+            Title = artistName
         };
     }
 }

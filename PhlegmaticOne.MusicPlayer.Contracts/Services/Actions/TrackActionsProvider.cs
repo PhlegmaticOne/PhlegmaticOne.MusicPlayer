@@ -6,14 +6,14 @@ using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.PlayerService.Base;
 using PhlegmaticOne.WPF.Core.Commands;
 
-namespace PhlegmaticOne.MusicPlayer.Contracts.Actions;
+namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;
 
 public class TrackActionsProvider : IEntityActionsProvider<TrackBaseViewModel>
 {
     private readonly ILocalizationService _localizationService;
     private readonly IPlayerService<TrackBaseViewModel> _playerService;
     private readonly IFileOperatingService<TrackBaseViewModel> _trackDownloadService;
-    private readonly IUIThreadInvokerService _uiThreadInvokerService;
+    private readonly IUiThreadInvokerService _uiThreadInvokerService;
     private readonly IRelayCommand _addToQueueCommand;
     private readonly IRelayCommand _removeFromCollectionCommand;
     private readonly IRelayCommand _downloadTrackCommand;
@@ -21,7 +21,7 @@ public class TrackActionsProvider : IEntityActionsProvider<TrackBaseViewModel>
     public TrackActionsProvider(ILocalizationService localizationService,
         IPlayerService<TrackBaseViewModel> playerService, 
         IFileOperatingService<TrackBaseViewModel> trackDownloadService,
-        IUIThreadInvokerService uiThreadInvokerService)
+        IUiThreadInvokerService uiThreadInvokerService)
     {
         _localizationService = localizationService;
         _playerService = playerService;

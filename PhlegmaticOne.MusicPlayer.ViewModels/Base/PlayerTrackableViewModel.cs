@@ -66,7 +66,7 @@ public abstract class PlayerTrackableViewModel : ApplicationBaseViewModel, IDisp
         if (parameter is not IIsFavorite isFavorite) return;
 
         var newLikeValue = !isFavorite.IsFavorite;
-        isFavorite.IsFavorite = newLikeValue;
+        //isFavorite.IsFavorite = newLikeValue;
 
         switch (isFavorite)
         {

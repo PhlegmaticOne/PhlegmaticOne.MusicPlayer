@@ -44,7 +44,7 @@ public class AdoNetAlbumsPagedListGetBase : AdoNetViewModelGetBase<AlbumPreviewV
                 artistNames.Add(new ArtistLinkViewModel
                 {
                     Id = artistId,
-                    Name = artistName
+                    Title = artistName
                 });
             }
 
@@ -54,14 +54,14 @@ public class AdoNetAlbumsPagedListGetBase : AdoNetViewModelGetBase<AlbumPreviewV
             {
                 Artists = artistNames,
                 Id = id,
-                Cover = cover,
+                Cover = cover.Cover,
                 Title = albumName,
                 IsFavorite = isFavorite,
                 IsDownloaded = false,
                 IsDownloading = string.IsNullOrEmpty(onlineUrl) == false,
                 DateAdded = dateAdded,
                 YearReleased = yearReleased,
-                AlbumType = albumType
+                AlbumType = albumType.ToString()
             };
             allAlbums.Add(album);
         }

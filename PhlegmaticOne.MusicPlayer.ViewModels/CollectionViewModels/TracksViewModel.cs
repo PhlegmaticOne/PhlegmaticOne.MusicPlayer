@@ -3,6 +3,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.ViewModels.Base;
+using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.PagedList;
 using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.Reload;
 using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.Sort;
 using PhlegmaticOne.MusicPlayer.ViewModels.EntityContainingViewModels;
@@ -17,10 +18,11 @@ public class TracksViewModel : CollectionViewModelBase<TracksViewModel, TrackBas
     private bool _isFirst = true;
     public TracksViewModel(IPlayerService<TrackBaseViewModel> playerService, ILikeService likeService,
         IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService,
-        IUIThreadInvokerService uiThreadInvokerService,
+        IUiThreadInvokerService uiThreadInvokerService,
         ReloadViewModelBase<TracksViewModel> reloadViewModel,
-        SortViewModelBase<TracksViewModel, TrackBaseViewModel> sortViewModel) :
-        base(playerService, likeService, uiThreadInvokerService, entityContainingViewModelsNavigationService, reloadViewModel, sortViewModel)
+        SortViewModelBase<TracksViewModel, TrackBaseViewModel> sortViewModel,
+        PagedListViewModelBase<TrackBaseViewModel> pagedListViewModel) :
+        base(playerService, likeService, uiThreadInvokerService, entityContainingViewModelsNavigationService, reloadViewModel, sortViewModel, pagedListViewModel)
     {
         ActiveArtistNavigationCommand = RelayCommandFactory.CreateCommand(NavigateToActiveArtist, _ => true);
         ActiveCollectionNavigationCommand = RelayCommandFactory.CreateCommand(NavigateToActiveCollection, _ => true);

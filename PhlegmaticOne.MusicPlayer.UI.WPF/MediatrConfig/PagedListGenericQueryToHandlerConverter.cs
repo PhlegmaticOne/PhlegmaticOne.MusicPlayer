@@ -15,9 +15,9 @@ public class PagedListGenericQueryToHandlerConverter : IMediatorServiceTypeConve
 
         var requestType = sourceType.GenericTypeArguments[0];
         var shouldConvertType = requestType.IsGenericType &&
-                                requestType.GetGenericTypeDefinition() == typeof(GenericPagedListQuery<>);
+                                requestType.GetGenericTypeDefinition() == typeof(GenericGetPagedListQuery<>);
         if (!shouldConvertType) return next();
         var returnType = requestType.GenericTypeArguments[0];
-        return typeof(GenericPagedListQueryHandler<>).MakeGenericType(returnType);
+        return typeof(GenericGetPagedListQueryHandler<>).MakeGenericType(returnType);
     }
 }

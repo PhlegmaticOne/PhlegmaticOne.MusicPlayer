@@ -27,7 +27,6 @@
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.AdoNet\PhlegmaticOne.MusicPlayer.Data.AdoNet.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.EFCore\PhlegmaticOne.MusicPlayer.Data.EFCore.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data\PhlegmaticOne.MusicPlayer.Data.csproj" />
-    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Players\PhlegmaticOne.MusicPlayer.Players.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.ViewModels\PhlegmaticOne.MusicPlayer.ViewModels.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.PlayerService\PhlegmaticOne.PlayerService.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.Players\PhlegmaticOne.Players.csproj" />

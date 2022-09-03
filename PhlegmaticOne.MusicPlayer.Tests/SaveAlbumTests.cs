@@ -3,7 +3,7 @@ using Moq;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.Save;
 using PhlegmaticOne.MusicPlayer.Data.Models;
-using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
+using PhlegmaticOne.MusicPlayer.Data.Other.HttpInfoRetrieveFeature;
 
 namespace PhlegmaticOne.MusicPlayer.Tests;
 
@@ -34,11 +34,11 @@ public class SaveAlbumTests
     {
         var artistOne = new Artist()
         {
-            Name = "ArtistOne"
+            Title = "ArtistOne"
         };
         var artistTwo = new Artist()
         {
-            Name = "ArtistTwo"
+            Title = "ArtistTwo"
         };
         var mock = new Mock<IHttpInfoGetter<Album>>();
         mock.Setup(x => x.GetInfoAsync(string.Empty))
@@ -52,7 +52,7 @@ public class SaveAlbumTests
                 IsFavorite = false,
                 Artists = new List<Artist>() { artistOne, artistTwo },
                 AlbumCover = new AlbumCover(),
-                Genres = new List<Genre>() { new() { Name = "Genre" }},
+                Genres = new List<Genre>() { new() { Title = "Genre" }},
                 AlbumType = AlbumType.Compilation,
                 Songs = new List<Song>()
                 {

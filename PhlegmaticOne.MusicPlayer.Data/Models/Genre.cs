@@ -4,15 +4,15 @@ namespace PhlegmaticOne.MusicPlayer.Data.Models;
 
 public class Genre : EntityBase, IEquatable<Genre>
 {
-    public string Name { get; set; } = null!;
+    public string Title { get; set; } = null!;
     public ICollection<Album> Albums { get; set; } = null!;
-    public override string ToString() => Name;
+    public override string ToString() => Title;
 
     public bool Equals(Genre? other)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return Name == other.Name;
+        return Title == other.Title;
     }
 
     public override bool Equals(object? obj)
@@ -23,5 +23,5 @@ public class Genre : EntityBase, IEquatable<Genre>
         return Equals((Genre) obj);
     }
 
-    public override int GetHashCode() => HashCode.Combine(Name);
+    public override int GetHashCode() => HashCode.Combine(Title);
 }
