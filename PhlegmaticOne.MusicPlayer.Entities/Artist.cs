@@ -2,7 +2,7 @@
 
 namespace PhlegmaticOne.MusicPlayer.Entities;
 
-public class Artist : EntityBase, IEquatable<Artist>, IIsFavorite
+public class Artist : EntityBase, IEquatable<Artist>
 {
     public string Name { get; set; } = null!;
     public ICollection<Album> Albums { get; set; } = null!;

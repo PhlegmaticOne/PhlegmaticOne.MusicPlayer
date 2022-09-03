@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Entities\PhlegmaticOne.MusicPlayer.Entities.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data\PhlegmaticOne.MusicPlayer.Data.csproj" />
   </ItemGroup>
 
 </Project>

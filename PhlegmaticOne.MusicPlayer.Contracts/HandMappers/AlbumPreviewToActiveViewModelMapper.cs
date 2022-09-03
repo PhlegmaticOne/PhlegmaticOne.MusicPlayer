@@ -1,7 +1,7 @@
 ﻿using PhlegmaticOne.HandMapper.Lib;
-using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
-using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
-using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Contracts.Models;
+using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
+using PhlegmaticOne.MusicPlayer.Data.Models;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.HandMappers;
 
@@ -16,7 +16,7 @@ public class AlbumPreviewToActiveViewModelMapper : HandMapperBase<AlbumPreviewVi
             Title = from.Title,
             Cover = from.Cover,
             IsFavorite = from.IsFavorite,
-            IsDownloaded = from.IsDownloaded,
+            IsDownloaded = songs.All(s => string.IsNullOrEmpty(s.LocalUrl) == false),
             IsDownloading = false,
             Id = from.Id,
             AlbumType = from.AlbumType,

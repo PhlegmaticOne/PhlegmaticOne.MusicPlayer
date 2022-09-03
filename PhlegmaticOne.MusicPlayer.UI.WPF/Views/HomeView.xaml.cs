@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views;
+﻿namespace PhlegmaticOne.MusicPlayer.UI.WPF.Views;
 
 public partial class HomeView
 { 

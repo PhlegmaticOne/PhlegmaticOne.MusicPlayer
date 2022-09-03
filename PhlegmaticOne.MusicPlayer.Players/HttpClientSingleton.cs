@@ -3,5 +3,5 @@
 internal class HttpClientSingleton
 {
     private static HttpClient? _httpClient;
-    internal static HttpClient Instance => _httpClient ??= new HttpClient();
+    internal static HttpClient Instance => _httpClient ??= new();
 }

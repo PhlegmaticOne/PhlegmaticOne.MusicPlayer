@@ -9,16 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Button Command="{Binding ClickCommand, ElementName=DownloadButtonRoot}"
             CommandParameter="{Binding DataContext, ElementName=DownloadButtonRoot}">
-        <Button.Content>
-            <StackPanel Orientation="Horizontal" Margin="20 0">
-                <Viewbox Width="18" Height="18">
-                    <Canvas  Width="24" Height="24">
-                        <Path Fill="White" Data="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
-                    </Canvas>
-                </Viewbox>
-                <TextBlock Padding="5 0 0 0" Text="Download" VerticalAlignment="Center" FontSize="16"/>
-            </StackPanel>
-        </Button.Content>
+
         <Button.Style>
             <Style TargetType="Button">
                 <Setter Property="Background" Value="Transparent"/>
@@ -34,13 +25,26 @@
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     CornerRadius="24">
-                                <ContentPresenter />
+                                <StackPanel Orientation="Horizontal" Margin="20 0">
+                                    <Viewbox Width="18" Height="18">
+                                        <Canvas  Width="24" Height="24">
+                                            <Path Fill="{TemplateBinding Foreground}" Data="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z" />
+                                        </Canvas>
+                                    </Viewbox>
+                                    <TextBlock Padding="5 0 0 0" Text="Download" VerticalAlignment="Center" FontSize="16"/>
+                                </StackPanel>
                             </Border>
                             <ControlTemplate.Triggers>
 
                                 <Trigger Property="IsMouseOver" Value="True">
                                     <Setter Property="BorderBrush" Value="White"/>
                                 </Trigger>
+                                
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="BorderBrush" Value="#464646"/>
+                                    <Setter Property="Foreground" Value="#666666"/>
+                                </Trigger>
+                                
 
                                 <Trigger Property="IsPressed" Value="True">
                                     <Setter Property="BorderBrush" Value="#464646"/>
@@ -54,6 +58,17 @@
                                 <DataTrigger Binding="{Binding IsDownloaded, ElementName=DownloadButtonRoot}" Value="True">
                                     <Setter Property="IsEnabled" Value="False"/>
                                 </DataTrigger>
+
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsEnabled" Value="False"/>
+                                        <Condition Property="IsMouseOver" Value="True"/>
+                                    </MultiTrigger.Conditions>
+                                    <MultiTrigger.Setters>
+                                        <Setter Property="BorderBrush" Value="#464646"/>
+                                        <Setter Property="Foreground" Value="#666666"/>
+                                    </MultiTrigger.Setters>
+                                </MultiTrigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>

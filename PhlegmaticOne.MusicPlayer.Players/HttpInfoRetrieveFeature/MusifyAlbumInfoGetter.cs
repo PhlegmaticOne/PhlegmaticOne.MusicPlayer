@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
-using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Data.Models;
 using PhlegmaticOne.MusicPlayer.Players.Helpers;
 
 namespace PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;

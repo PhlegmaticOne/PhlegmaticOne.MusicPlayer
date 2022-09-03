@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.Entities.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Base;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 

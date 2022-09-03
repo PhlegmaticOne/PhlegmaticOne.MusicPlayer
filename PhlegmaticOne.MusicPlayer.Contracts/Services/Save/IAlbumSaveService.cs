@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.Entities;
+﻿using PhlegmaticOne.MusicPlayer.Data.Models;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Save;
 

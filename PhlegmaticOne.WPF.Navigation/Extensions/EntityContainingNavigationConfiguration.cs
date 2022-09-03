@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
+using PhlegmaticOne.WPF.Core.ViewModels;
 using PhlegmaticOne.WPF.Navigation.Exceptions;
 using PhlegmaticOne.WPF.Navigation.ViewModelFactories;
 

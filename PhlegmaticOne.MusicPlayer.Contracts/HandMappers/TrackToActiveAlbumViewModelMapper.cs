@@ -1,7 +1,7 @@
 ﻿using PhlegmaticOne.HandMapper.Lib;
-using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
-using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
-using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Contracts.Models;
+using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
+using PhlegmaticOne.MusicPlayer.Data.Models;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.HandMappers;
 
@@ -20,7 +20,7 @@ public class TrackToActiveAlbumViewModelMapper : HandMapperBase<TrackBaseViewMod
             Id = from.CollectionLink.Id,
             Title = from.CollectionLink.Title,
             Cover = from.CollectionLink.Cover,
-            IsDownloaded = false,
+            IsDownloaded = songs.All(s => string.IsNullOrEmpty(s.LocalUrl) == false),
             IsDownloading = false,
             IsFavorite = isFavorite,
             AlbumType = albumType,

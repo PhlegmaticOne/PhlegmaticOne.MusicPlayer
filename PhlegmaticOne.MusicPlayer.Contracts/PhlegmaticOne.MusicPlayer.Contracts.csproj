@@ -7,15 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Calabonga.UnitOfWork" Version="3.0.0" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="PhlegmaticOne.HandMapper.Lib" Version="1.0.6" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data\PhlegmaticOne.MusicPlayer.Data.csproj" />
-    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Entities\PhlegmaticOne.MusicPlayer.Entities.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Players\PhlegmaticOne.MusicPlayer.Players.csproj" />
-    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.WPF.Core\PhlegmaticOne.MusicPlayer.WPF.Core.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.PlayerService\PhlegmaticOne.PlayerService.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.WPF.Core\PhlegmaticOne.WPF.Core.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.WPF.Navigation\PhlegmaticOne.WPF.Navigation.csproj" />
   </ItemGroup>
 
@@ -23,6 +25,10 @@
     <Reference Include="System.Windows.Forms">
       <HintPath>C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\5.0.0\ref\net5.0\System.Windows.Forms.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Dtos\" />
   </ItemGroup>
 
 </Project>

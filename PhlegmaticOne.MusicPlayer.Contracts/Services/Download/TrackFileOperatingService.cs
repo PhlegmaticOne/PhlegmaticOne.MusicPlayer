@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
+using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
 using PhlegmaticOne.MusicPlayer.Data.Context;
-using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Data.Models;
 using PhlegmaticOne.MusicPlayer.Players.DownloadSongsFeature;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Download;

@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:conv="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
              xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
-             xmlns:vm="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts"
-             xmlns:collectionViewModels="clr-namespace:PhlegmaticOne.MusicPlayer.Contracts.ApplicationViewModels.CollectionViewModels;assembly=PhlegmaticOne.MusicPlayer.Contracts"
+             xmlns:vm="clr-namespace:PhlegmaticOne.MusicPlayer.ViewModels;assembly=PhlegmaticOne.MusicPlayer.ViewModels"
+             xmlns:collectionViewModels="clr-namespace:PhlegmaticOne.MusicPlayer.ViewModels.CollectionViewModels;assembly=PhlegmaticOne.MusicPlayer.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="315">
@@ -50,7 +50,8 @@
                                                                 Width="20"
                                                                 Height="20"
                                                                 Margin="10 2 0 2"/>
-                                                        </Setter.Value>                                                    </Setter>
+                                                        </Setter.Value>
+                                                    </Setter>
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding CanMoveBack}" Value="True">
                                                     <Setter TargetName="ContentPresenter" Property="ContentPresenter.Content">

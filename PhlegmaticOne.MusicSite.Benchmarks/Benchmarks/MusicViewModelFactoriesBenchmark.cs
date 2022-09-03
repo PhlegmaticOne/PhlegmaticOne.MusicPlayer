@@ -1,10 +1,13 @@
-﻿using BenchmarkDotNet.Attributes;
+﻿using System.Windows.Input;
+using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using Moq;
+using PhlegmaticOne.MusicPlayer.Contracts.Actions;
+using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
-using PhlegmaticOne.MusicPlayer.Data.AdoNet.ViewModelGetters;
+using PhlegmaticOne.MusicPlayer.Data.AdoNet.PagedList;
 using PhlegmaticOne.MusicPlayer.Data.Context;
-using PhlegmaticOne.MusicPlayer.Data.EFCore.ViewModelGetters;
+using PhlegmaticOne.MusicPlayer.Data.EFCore.PagedList;
 
 namespace PhlegmaticOne.MusicSite.Benchmarks.Benchmarks;
 
@@ -21,69 +24,72 @@ public class MusicViewModelFactoriesBenchmark
         }
     }
     private EFAllArtistsViewModelGet _efAllArtistsViewModelGet;
-    private AdoNetAllArtistsViewModelGetBase _adoNetAllArtistsViewModelGet;
+    private AdoNetArtistsPagedListGetBase _adoNetAllArtistsViewModelGet;
 
     private EFAllAlbumsViewModelGet _efAlbumsViewModelGet;
-    private AdoNetAllAlbumsViewModelGetBase _adoNetAllAlbumsViewModelGet;
+    private AdoNetAlbumsPagedListGetBase _adoNetAllAlbumsViewModelGet;
 
     private EFAllTracksViewModelGet _efTracksViewModelGet;
-    private AdoNetAllTracksViewModelGetBase _adoNetAllTracksViewModelGet;
+    private AdoNetTracksPagedListGetBase _adoNetAllTracksViewModelGet;
     [GlobalSetup]
     public void Setup()
     {
         var connectionStringGetter = new Mock<IConnectionStringGetter>();
         connectionStringGetter.Setup(x => x.GetConnectionString()).Returns(_connectionString);
 
+        var entityActionsProvider = new Mock<IEntityActionsProvider<TrackBaseViewModel>>();
+        entityActionsProvider.Setup(x => x.GetActions(It.IsAny<TrackBaseViewModel>()))
+            .Returns(new Dictionary<string, ICommand>());
         var dbContext = new ApplicationDbContext();
         var sqlClient = new SqlClientSingleton(connectionStringGetter.Object);
         _efAllArtistsViewModelGet = new EFAllArtistsViewModelGet(dbContext);
-        _adoNetAllArtistsViewModelGet = new AdoNetAllArtistsViewModelGetBase(sqlClient);
+        _adoNetAllArtistsViewModelGet = new AdoNetArtistsPagedListGetBase(sqlClient);
 
         _efAlbumsViewModelGet = new EFAllAlbumsViewModelGet(dbContext);
-        _adoNetAllAlbumsViewModelGet = new AdoNetAllAlbumsViewModelGetBase(sqlClient);
+        _adoNetAllAlbumsViewModelGet = new AdoNetAlbumsPagedListGetBase(sqlClient);
 
         _efTracksViewModelGet = new EFAllTracksViewModelGet(dbContext);
-        _adoNetAllTracksViewModelGet = new AdoNetAllTracksViewModelGetBase(sqlClient);
+        _adoNetAllTracksViewModelGet = new AdoNetTracksPagedListGetBase(sqlClient, entityActionsProvider.Object);
     }
 
 
     [Benchmark(Description = "Create AllArtistsPreviewViewModel from EF")]
     public async Task CreateAllArtistsPreviewViewModelFromEF()
     {
-        await _efAllArtistsViewModelGet.GetAsync();
+        await _efAllArtistsViewModelGet.GetPagedListAsync(0, 0);
     }
 
 
     [Benchmark(Description = "Create AllArtistsPreviewViewModel from ADO.NET")]
     public async Task CreateAllArtistsPreviewViewModelFromAdoNet()
     {
-        await _adoNetAllArtistsViewModelGet.GetAsync();
+        await _adoNetAllArtistsViewModelGet.GetPagedListAsync(0, 0);
     }
 
     [Benchmark(Description = "Create AllAlbumsPreviewViewModel from EF")]
     public async Task CreateAllAlbumsPreviewViewModelFromEF()
     {
-        await _efAlbumsViewModelGet.GetAsync();
+        await _efAlbumsViewModelGet.GetPagedListAsync(0, 0);
     }
 
 
     [Benchmark(Description = "Create AllAlbumsPreviewViewModel from ADO.NET")]
     public async Task CreateAllAlbumsPreviewViewModelFromAdoNet()
     {
-        await _adoNetAllAlbumsViewModelGet.GetAsync();
+        await _adoNetAllAlbumsViewModelGet.GetPagedListAsync(0, 0);
     }
 
 
     [Benchmark(Description = "Create AllTracksViewModel from EF")]
     public async Task CreateAllTracksViewModelFromEF()
     {
-        await _efTracksViewModelGet.GetAsync();
+        await _efTracksViewModelGet.GetPagedListAsync(0, 0);
     }
 
 
     [Benchmark(Description = "Create AllTracksViewModel from ADO.NET")]
     public async Task CreateAllTracksViewModelFromAdoNet()
     {
-        await _adoNetAllTracksViewModelGet.GetAsync();
+        await _adoNetAllTracksViewModelGet.GetPagedListAsync(0, 0);
     }
 }

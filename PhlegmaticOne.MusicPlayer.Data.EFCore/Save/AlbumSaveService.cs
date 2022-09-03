@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Save;
 using PhlegmaticOne.MusicPlayer.Data.Context;
-using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Data.Models;
 
 namespace PhlegmaticOne.MusicPlayer.Data.EFCore.Save;
 

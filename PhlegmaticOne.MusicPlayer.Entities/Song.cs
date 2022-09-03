@@ -2,7 +2,7 @@
 
 namespace PhlegmaticOne.MusicPlayer.Entities;
 
-public class Song : EntityBase, IIsFavorite, IUrlContaining
+public class Song : EntityBase
 {
     public string Title { get; set; } = null!;
     public TimeSpan Duration { get; set; }

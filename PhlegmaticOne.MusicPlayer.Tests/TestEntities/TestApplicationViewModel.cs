@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
+﻿using PhlegmaticOne.WPF.Core.ViewModels;
 using PhlegmaticOne.WPF.Navigation;
 
 namespace PhlegmaticOne.MusicPlayer.Tests.TestEntities;

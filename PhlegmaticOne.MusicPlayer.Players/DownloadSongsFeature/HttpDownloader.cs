@@ -10,7 +10,6 @@ public class HttpDownloader : IDownloader
         {
             Directory.CreateDirectory(localFolderPathToSave);
         }
-
         var fullPath = Path.Combine(localFolderPathToSave, fileName);
         await File.WriteAllBytesAsync(fullPath, songBytes);
     }

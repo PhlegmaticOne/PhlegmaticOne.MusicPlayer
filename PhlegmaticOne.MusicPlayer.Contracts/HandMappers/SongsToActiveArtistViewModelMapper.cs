@@ -1,7 +1,7 @@
 ﻿using PhlegmaticOne.HandMapper.Lib;
-using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels;
-using PhlegmaticOne.MusicPlayer.Contracts.EntityViewModels.Base;
-using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Contracts.Models;
+using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
+using PhlegmaticOne.MusicPlayer.Data.Models;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.HandMappers;
 

@@ -5,36 +5,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
              xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
-             xmlns:converters="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="1000" d:DesignWidth="1600">
-    <UserControl.Resources>
-        <converters:EntityToStringConverter x:Key="EntityToStringConverter"/>
-        <converters:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
-        <converters:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
-        <converters:IndexConverter x:Key="IndexConverter"/>
-        <converters:TimeToStringConverter x:Key="TimeToStringConverter"/>
-        <converters:ValuesEqualConverter x:Key="ValuesEqualConverter"/>
-    </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="3*"/>
-        </Grid.RowDefinitions>
-        <Grid Row="0">
-            <controls:ViewTitle Padding="30" VerticalAlignment="Center" TitleText="Playback queue"/>
+
+    <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="3*"/>
+            </Grid.RowDefinitions>
+            <Grid Row="0">
+                <controls:ViewTitle Padding="30" VerticalAlignment="Center" TitleText="Playback queue"/>
+            </Grid>
+            <Grid Row="1">
+                <controls:FullTrackListing DataContext="{Binding Songs}"
+                                           Padding="30 0"
+                                           LikeTrackCommand="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
+                                           PlayTrackCommand="{Binding DataContext.PlaySongCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
+                                           PlayPauseTrackCommand="{Binding DataContext.PlayPauseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
+                                           IsPaused="{Binding DataContext.IsPaused, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
+                                           IsStopped="{Binding DataContext.IsStopped, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
+                                           CollectionLinkClickCommand="{Binding DataContext.ActiveCollectionNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
+                                           CurrentItem="{Binding DataContext.CurrentSong, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
+                                           ArtistLinkClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"/>
+            </Grid>
         </Grid>
-        <Grid Row="1">
-            <controls:FullTrackListing DataContext="{Binding Songs}"
-                                       Padding="30 0"
-                                       LikeTrackCommand="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
-                                       PlayTrackCommand="{Binding DataContext.PlaySongCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
-                                       PlayPauseTrackCommand="{Binding DataContext.PlayPauseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
-                                       IsPaused="{Binding DataContext.IsPaused, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
-                                       IsStopped="{Binding DataContext.IsStopped, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
-                                       CollectionLinkClickCommand="{Binding DataContext.ActiveCollectionNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
-                                       CurrentItem="{Binding DataContext.CurrentSong, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"
-                                       ArtistLinkClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:SongQueueView}}}"/>
-        </Grid>
-    </Grid>
+    </ScrollViewer>
+    
 </UserControl>

@@ -1,5 +1,5 @@
-﻿using PhlegmaticOne.MusicPlayer.WPF.Core.ViewModels;
-using System.Windows;
+﻿using System.Windows;
+using PhlegmaticOne.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Controls;
 

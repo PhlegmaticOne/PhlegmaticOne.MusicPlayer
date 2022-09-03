@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Moq;
 using PhlegmaticOne.MusicPlayer.Data.Context;
 using PhlegmaticOne.MusicPlayer.Data.EFCore.Save;
-using PhlegmaticOne.MusicPlayer.Entities;
+using PhlegmaticOne.MusicPlayer.Data.Models;
 using PhlegmaticOne.MusicPlayer.Players.HttpInfoRetrieveFeature;
 
 namespace PhlegmaticOne.MusicPlayer.Tests;

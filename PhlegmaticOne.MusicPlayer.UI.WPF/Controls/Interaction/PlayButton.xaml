@@ -32,7 +32,6 @@
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
 
-
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
                                         <Condition Binding="{Binding IsCurrent, ElementName=PlayButtonRoot}" Value="True"/>
@@ -43,6 +42,7 @@
                                                 Value="{Binding PlayPauseCommand, ElementName=PlayButtonRoot}"/>
                                     </MultiDataTrigger.Setters>
                                 </MultiDataTrigger>
+
 
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>

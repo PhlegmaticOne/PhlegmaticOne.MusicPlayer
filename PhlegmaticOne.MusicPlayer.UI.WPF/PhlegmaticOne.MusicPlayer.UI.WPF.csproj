@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.7" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
@@ -27,7 +28,9 @@
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.EFCore\PhlegmaticOne.MusicPlayer.Data.EFCore.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data\PhlegmaticOne.MusicPlayer.Data.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Players\PhlegmaticOne.MusicPlayer.Players.csproj" />
-    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.WPF.Core\PhlegmaticOne.MusicPlayer.WPF.Core.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.ViewModels\PhlegmaticOne.MusicPlayer.ViewModels.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.PlayerService\PhlegmaticOne.PlayerService.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.Players\PhlegmaticOne.Players.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.WPF.Navigation\PhlegmaticOne.WPF.Navigation.csproj" />
   </ItemGroup>
 

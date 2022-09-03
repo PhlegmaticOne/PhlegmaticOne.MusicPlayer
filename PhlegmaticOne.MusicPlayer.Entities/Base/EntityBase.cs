@@ -1,6 +1,6 @@
 ﻿namespace PhlegmaticOne.MusicPlayer.Entities.Base;
 
-public class EntityBase : IHaveId
+public class EntityBase
 {
     public Guid Id { get; set; }
 }

@@ -118,6 +118,7 @@
                             
                             <controls:DownloadButton Margin="20 0 0 0"
                                                      DataContext="{Binding Entity}"
+                                                     ClickCommand="{Binding DataContext.DownloadAlbumCommand, ElementName=AlbumViewRoot}"
                                                      IsDownloaded="{Binding IsDownloaded}"
                                                      IsDownloading="{Binding IsDownloading}"/>
 

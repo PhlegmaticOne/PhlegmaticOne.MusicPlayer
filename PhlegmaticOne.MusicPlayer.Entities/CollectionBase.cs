@@ -2,7 +2,7 @@
 
 namespace PhlegmaticOne.MusicPlayer.Entities;
 
-public class CollectionBase : EntityBase, IIsFavorite
+public class CollectionBase : EntityBase
 {
     public ICollection<Song> Songs { get; set; } = null!;
     public AlbumCover AlbumCover { get; set; } = null!;

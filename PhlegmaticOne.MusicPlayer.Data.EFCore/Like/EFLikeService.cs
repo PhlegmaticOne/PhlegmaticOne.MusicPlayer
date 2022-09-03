@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PhlegmaticOne.MusicPlayer.Contracts.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Data.Context;
-using PhlegmaticOne.MusicPlayer.Entities.Base;
+using PhlegmaticOne.MusicPlayer.Data.Models.Base;
 
 namespace PhlegmaticOne.MusicPlayer.Data.EFCore.Like;
 

@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.WPF.Core\PhlegmaticOne.MusicPlayer.WPF.Core.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.WPF.Core\PhlegmaticOne.WPF.Core.csproj" />
   </ItemGroup>
 
 </Project>
