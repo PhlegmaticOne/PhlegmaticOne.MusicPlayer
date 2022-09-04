@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
+using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Other.HttpInfoRetrieveFeature;
+using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Save;
 using PhlegmaticOne.MusicPlayer.Data.Models;
-using PhlegmaticOne.MusicPlayer.Data.Other.HttpInfoRetrieveFeature;
-using PhlegmaticOne.MusicPlayer.Data.Save;
 using PhlegmaticOne.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Core.ViewModels;
 

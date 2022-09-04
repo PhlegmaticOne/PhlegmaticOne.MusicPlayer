@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.Models;
+﻿using PhlegmaticOne.MusicPlayer.Models;
 using PhlegmaticOne.WPF.Core.ViewModels;
 using PhlegmaticOne.WPF.Navigation;
 

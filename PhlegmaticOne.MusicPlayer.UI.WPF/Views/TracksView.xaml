@@ -42,7 +42,24 @@
                 </Grid>
             </Grid>
             <Grid Row="1">
-                <controls:FullTrackListing DataContext="{Binding Items}"
+
+                <controls:PagedListControl DataContext="{Binding PagedListViewModel}"
+                                           OnLoadCommand="{Binding LoadCommand}"
+                                           Margin="30 0 30 20">
+                    <controls:PagedListControl.ItemsView>
+                        <controls:FullTrackListing 
+                                           LikeTrackCommand="{Binding DataContext.LikeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           PlayTrackCommand="{Binding DataContext.PlaySongCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           PlayPauseTrackCommand="{Binding DataContext.PlayPauseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           IsPaused="{Binding DataContext.IsPaused, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           IsStopped="{Binding DataContext.IsStopped, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           CollectionLinkClickCommand="{Binding DataContext.ActiveCollectionNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           CurrentItem="{Binding DataContext.CurrentSong, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
+                                           ArtistLinkClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"/>
+                    </controls:PagedListControl.ItemsView>
+                </controls:PagedListControl>
+
+                <!--<controls:FullTrackListing DataContext="{Binding Items}"
                                            Padding="30 0"
                                            CanExecuteOnLoadCommand="{Binding DataContext.Items, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}, Converter={StaticResource CollectionIsEmptyConverter}}"
                                            OnLoadCommand="{Binding DataContext.ReloadViewModel.ReloadCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
@@ -54,7 +71,7 @@
                                            IsStopped="{Binding DataContext.IsStopped, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
                                            CollectionLinkClickCommand="{Binding DataContext.ActiveCollectionNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
                                            CurrentItem="{Binding DataContext.CurrentSong, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"
-                                           ArtistLinkClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"/>
+                                           ArtistLinkClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TracksView}}}"/>-->
             </Grid>
         </Grid>
     </ScrollViewer>

@@ -1,9 +1,9 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.Models;
-using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
+using PhlegmaticOne.MusicPlayer.Models;
+using PhlegmaticOne.MusicPlayer.Models.Base;
 using PhlegmaticOne.MusicPlayer.ViewModels.Base;
 using PhlegmaticOne.PlayerService.Base;
 using PhlegmaticOne.WPF.Core.Commands;

@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.AdoNet\PhlegmaticOne.MusicPlayer.Data.AdoNet.csproj" />
-    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.EFCore\PhlegmaticOne.MusicPlayer.Data.EFCore.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.EntityFramework\PhlegmaticOne.MusicPlayer.Data.EntityFramework.csproj" />
   </ItemGroup>
 
 </Project>

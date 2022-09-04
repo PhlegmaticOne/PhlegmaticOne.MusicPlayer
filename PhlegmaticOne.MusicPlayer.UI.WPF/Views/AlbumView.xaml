@@ -24,7 +24,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid ColumnSpan="2">
-                    <controls:MoveableImageBackground Image="{Binding Entity.Cover.Cover}"
+                    <controls:MoveableImageBackground Image="{Binding Entity.Cover}"
                                                       ImageOpacity="0.3"
                                                       BlurEffect="40"
                                                       SlideTime="0:0:30"
@@ -33,7 +33,7 @@
                 </Grid>
 
                 <Grid Column="0" Margin="20">
-                    <controls:ImageControl Image="{Binding Entity.Cover.Cover}"
+                    <controls:ImageControl Image="{Binding Entity.Cover}"
                                            ShadowEffect="5"
                                            ShadowColor="Black"
                                            BlurRadius="8"

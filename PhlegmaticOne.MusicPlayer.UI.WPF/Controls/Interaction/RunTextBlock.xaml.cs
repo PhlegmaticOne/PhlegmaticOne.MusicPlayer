@@ -54,10 +54,7 @@ public partial class RunTextBlock
         {
             Block.BeginAnimation(Canvas.LeftProperty, animation);
         }
-        else
-        {
-            var marginLeft = IsAlignToCenterIfWidthLessThanActualWidth ? (TextCanvas.ActualWidth - Block.ActualWidth) / 2 : 0;
-            Block.SetValue(TextBlock.MarginProperty, new Thickness(marginLeft, Margin.Top, Margin.Right, Margin.Bottom));
-        }
+        var margin = IsAlignToCenterIfWidthLessThanActualWidth ? (TextCanvas.ActualWidth - Block.ActualWidth) / 2 : 0;
+        Block.SetValue(TextBlock.MarginProperty, new Thickness(margin, Margin.Top, Margin.Right, Margin.Bottom));
     }
 }

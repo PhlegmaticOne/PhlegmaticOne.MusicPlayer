@@ -19,7 +19,7 @@
                     <ControlTemplate TargetType="local:AlbumCard">
                         <Grid>
                             <StackPanel HorizontalAlignment="Center">
-                                <local:ImageControl Image="{Binding Cover.Cover}"
+                                <local:ImageControl Image="{Binding Cover}"
                                                     MaxWidth="200"
                                                     x:Name="CoverImage"
                                                     MaxHeight="{TemplateBinding ImageHeight}"/>

@@ -1,9 +1,9 @@
 ﻿using Calabonga.UnitOfWork;
 using Microsoft.Data.SqlClient;
-using PhlegmaticOne.MusicPlayer.Contracts.Models;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Extensions;
 using PhlegmaticOne.MusicPlayer.Data.Models;
+using PhlegmaticOne.MusicPlayer.Models;
 
 namespace PhlegmaticOne.MusicPlayer.Data.AdoNet.PagedList;
 

@@ -58,19 +58,6 @@
                         </controls:ItemCardsListing>
                     </controls:PagedListControl.ItemsView>
                 </controls:PagedListControl>
-
-                <!--<controls:ItemCardsListing Margin="30 30 30 20"
-                                           DataContext="{Binding Items}"
-                                           ItemClickCommand="{Binding DataContext.ActiveAlbumNavigationCommand, ElementName=AlbumsCollectionViewRoot}"
-                                           OnLoadCommandParameter="{Binding DataContext, ElementName=AlbumsCollectionViewRoot}"
-                                           OnLoadCommand="{Binding DataContext.ReloadViewModel.ReloadCommand, ElementName=AlbumsCollectionViewRoot}"
-                                           CanExecuteOnLoadCommand="{Binding DataContext.Items, ElementName=AlbumsCollectionViewRoot, Converter={StaticResource CollectionIsEmptyConverter}}">
-                    <controls:ItemCardsListing.CardControlTemplate>
-                        <ControlTemplate>
-                            <controls:AlbumCard ImageHeight="200" Margin="10 10"/>
-                        </ControlTemplate>
-                    </controls:ItemCardsListing.CardControlTemplate>
-                </controls:ItemCardsListing>-->
             </Grid>
         </Grid>
     </ScrollViewer>

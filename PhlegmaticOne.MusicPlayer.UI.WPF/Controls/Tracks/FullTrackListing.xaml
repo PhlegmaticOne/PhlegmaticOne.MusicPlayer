@@ -119,7 +119,7 @@
                                     <Grid Column="0">
                                         <Grid>
 
-                                            <Image Source="{Binding CollectionLink.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}" 
+                                            <Image Source="{Binding CollectionLink.Cover, Converter={StaticResource ImageToSourceConverter}}" 
                                                    Height="60"
                                                    Name="CollectionCover"/>
 

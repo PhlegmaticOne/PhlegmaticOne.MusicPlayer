@@ -30,7 +30,7 @@
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
                 <Grid ColumnSpan="2">
-                    <local:MoveableImageBackground Image="{Binding Entity.Cover.Cover}"
+                    <local:MoveableImageBackground Image="{Binding Entity.Cover}"
                                                    SlideTime="0:0:30"
                                                    BlurEffect="50"
                                                    ImageOpacity="0.3"
@@ -41,7 +41,7 @@
                     <Grid>
                         <Ellipse Width="175" Height="175">
                             <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding Entity.Cover.Cover, Converter={StaticResource ImageToSourceConverter}}"/>
+                                <ImageBrush ImageSource="{Binding Entity.Cover, Converter={StaticResource ImageToSourceConverter}}"/>
                             </Ellipse.Fill>
                         </Ellipse>
                     </Grid>
@@ -60,7 +60,7 @@
                                    Padding="10 0 0 0"/>
                     </Grid>
                     <Grid Row="1">
-                        <TextBlock Text="{Binding Entity.Name}"
+                        <TextBlock Text="{Binding Entity.Title}"
                                    Foreground="White" 
                                    Padding="10 0 0 4"
                                    FontSize="46"

@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Abstractions;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 

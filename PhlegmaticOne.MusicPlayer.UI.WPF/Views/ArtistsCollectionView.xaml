@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:controls="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Controls"
              xmlns:converters="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Converters"
+             xmlns:views="clr-namespace:PhlegmaticOne.MusicPlayer.UI.WPF.Views"
              x:Name="ArtistsCollectionViewRoot"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -43,18 +44,19 @@
             </Grid>
 
             <Grid Row="1">
-                <controls:ItemCardsListing Margin="30 30 0 0 "
-                                           DataContext="{Binding Items}"
-                                           ItemClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, ElementName=ArtistsCollectionViewRoot}"
-                                           OnLoadCommandParameter="{Binding DataContext, ElementName=ArtistsCollectionViewRoot}"
-                                           OnLoadCommand="{Binding DataContext.ReloadViewModel.ReloadCommand, ElementName=ArtistsCollectionViewRoot}"
-                                           CanExecuteOnLoadCommand="{Binding DataContext.Items, ElementName=ArtistsCollectionViewRoot, Converter={StaticResource CollectionIsEmptyConverter}}">
-                    <controls:ItemCardsListing.CardControlTemplate>
-                        <ControlTemplate>
-                            <controls:ArtistCard Margin="5 10"/>
-                        </ControlTemplate>
-                    </controls:ItemCardsListing.CardControlTemplate>
-                </controls:ItemCardsListing>
+                <controls:PagedListControl DataContext="{Binding PagedListViewModel}"
+                                           OnLoadCommand="{Binding LoadCommand}"
+                                           Margin="30 0 30 20">
+                    <controls:PagedListControl.ItemsView>
+                        <controls:ItemCardsListing ItemClickCommand="{Binding DataContext.ActiveArtistNavigationCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type views:ArtistsCollectionView}}}">
+                            <controls:ItemCardsListing.CardControlTemplate>
+                                <ControlTemplate>
+                                    <controls:ArtistCard Margin="5 10"/>
+                                </ControlTemplate>
+                            </controls:ItemCardsListing.CardControlTemplate>
+                        </controls:ItemCardsListing>
+                    </controls:PagedListControl.ItemsView>
+                </controls:PagedListControl>
             </Grid>
         </Grid>
     </ScrollViewer>

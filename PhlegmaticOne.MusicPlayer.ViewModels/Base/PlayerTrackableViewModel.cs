@@ -1,6 +1,6 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.Base;
-using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Abstractions;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
+using PhlegmaticOne.MusicPlayer.Models.Base;
 using PhlegmaticOne.Players.Models;
 using PhlegmaticOne.PlayerService.Base;
 using PhlegmaticOne.WPF.Core.Commands;

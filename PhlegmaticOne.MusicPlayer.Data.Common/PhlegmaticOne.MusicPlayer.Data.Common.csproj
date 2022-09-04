@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="PhlegmaticOne.HandMapper.Lib" Version="1.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.Models\PhlegmaticOne.MusicPlayer.Data.Models.csproj" />
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Models\PhlegmaticOne.MusicPlayer.Models.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -13,7 +13,6 @@
     <UserControl.Resources>
         <converters:ImageToSourceConverter x:Key="ImageToSourceConverter"/>
         <converters:CollectionOfEntitiesToStringConverter x:Key="CollectionOfEntitiesToStringConverter"/>
-        <converters:NegatingConverter x:Key="NegatingConverter"/>
     </UserControl.Resources>
 
     <Border Background="Transparent">
@@ -22,11 +21,11 @@
                      Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
                      Name="ImageEllipse">
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="{Binding Cover.Cover, Converter={StaticResource ImageToSourceConverter}}"/>
+                    <ImageBrush ImageSource="{Binding Cover, Converter={StaticResource ImageToSourceConverter}}"/>
                 </Ellipse.Fill>
             </Ellipse>
 
-            <TextBlock Text="{Binding Name}" 
+            <TextBlock Text="{Binding Title}" 
                        Foreground="#D2D2D2" 
                        FontSize="16"
                        HorizontalAlignment="Center"
@@ -52,7 +51,7 @@
                 Height="24"
                 IsAlignToCenterIfWidthLessThanActualWidth="True"
                 Foreground="#B7B7B7"
-                Margin="0 4 0 0"
+                Margin="0 3 0 0"
                 Text="{Binding Genres, Converter={StaticResource CollectionOfEntitiesToStringConverter}, ConverterParameter={x:Static converters:CollectionOfEntitiesToStringConverter.Comma}}"/>
         </StackPanel>
     </Border>

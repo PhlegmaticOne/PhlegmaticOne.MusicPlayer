@@ -1,7 +1,6 @@
 ﻿using System.Data;
 using Calabonga.UnitOfWork;
 using Microsoft.Data.SqlClient;
-using PhlegmaticOne.MusicPlayer.Contracts.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.PagedList;
 using PhlegmaticOne.WPF.Core.ViewModels;
 

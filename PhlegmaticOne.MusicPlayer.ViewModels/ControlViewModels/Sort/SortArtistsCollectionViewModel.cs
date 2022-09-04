@@ -1,6 +1,6 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts;
-using PhlegmaticOne.MusicPlayer.Contracts.Models;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
+using PhlegmaticOne.MusicPlayer.Models;
 using PhlegmaticOne.MusicPlayer.ViewModels.CollectionViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.Sort;

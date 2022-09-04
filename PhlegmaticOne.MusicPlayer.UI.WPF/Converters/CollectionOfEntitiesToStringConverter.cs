@@ -4,8 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Data;
-using PhlegmaticOne.MusicPlayer.Contracts.Models;
 using PhlegmaticOne.MusicPlayer.Data.Models;
+using PhlegmaticOne.MusicPlayer.Models;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Converters;
 

@@ -1,5 +1,5 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.Helpers;
-using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
+using PhlegmaticOne.MusicPlayer.Models.Base;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Select;
 

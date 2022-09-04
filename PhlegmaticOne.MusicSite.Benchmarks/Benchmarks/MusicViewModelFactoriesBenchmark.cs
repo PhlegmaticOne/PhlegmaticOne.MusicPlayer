@@ -2,12 +2,12 @@
 using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
 using Moq;
-using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.PagedList;
-using PhlegmaticOne.MusicPlayer.Data.Context;
-using PhlegmaticOne.MusicPlayer.Data.EFCore.PagedList;
+using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Context;
+using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Services.PagedList;
+using PhlegmaticOne.MusicPlayer.Models.Base;
 
 namespace PhlegmaticOne.MusicSite.Benchmarks.Benchmarks;
 

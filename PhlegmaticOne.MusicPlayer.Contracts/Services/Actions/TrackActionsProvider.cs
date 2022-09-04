@@ -1,8 +1,8 @@
 ﻿using System.Windows.Input;
-using PhlegmaticOne.MusicPlayer.Contracts.Models.Base;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
+using PhlegmaticOne.MusicPlayer.Models.Base;
 using PhlegmaticOne.PlayerService.Base;
 using PhlegmaticOne.WPF.Core.Commands;
 
