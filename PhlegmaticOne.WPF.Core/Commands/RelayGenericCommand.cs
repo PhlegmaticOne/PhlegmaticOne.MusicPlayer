@@ -1,6 +1,6 @@
 ﻿namespace PhlegmaticOne.WPF.Core.Commands;
 
-internal class RelayGenericCommand<T> : IRelayCommand where T : class
+internal class RelayGenericCommand<T> : IRelayCommand
 {
     private bool _isExecuting;
     private readonly Action<T?> _action;
@@ -16,11 +16,12 @@ internal class RelayGenericCommand<T> : IRelayCommand where T : class
     public bool CanExecute(object? parameter) => !_isExecuting && _canExecute.Invoke(parameter);
     public void Execute(object? parameter)
     {
-        var generic = parameter as T;
-        if (_isRequired && generic is null)
+        if (parameter is not T && _isRequired )
         {
             return;
         }
+        var generic = (T)parameter!;
+
         SetIsExecuting(true);
         _action.Invoke(generic);
         SetIsExecuting(false);

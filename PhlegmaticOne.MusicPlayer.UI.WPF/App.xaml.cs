@@ -23,12 +23,10 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Services.UI;
 using PhlegmaticOne.MusicPlayer.Contracts.Mediatr.Handlers;
 using PhlegmaticOne.MusicPlayer.Contracts.Mediatr.Queries;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Count;
 using PhlegmaticOne.WPF.Navigation.Extensions;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Logo;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.PagedList;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Select;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Sort;
 using PhlegmaticOne.MusicPlayer.Data.AdoNet.PagedList;
 using PhlegmaticOne.MusicPlayer.Data.Common.HandMappers;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Context;
@@ -36,6 +34,7 @@ using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Navigation;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Other.DownloadSongsFeature;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Other.HttpInfoRetrieveFeature;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Save;
+using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Services.Count;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Services.Download;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Services.Like;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Services.PagedList;
@@ -47,12 +46,13 @@ using PhlegmaticOne.MusicPlayer.Models.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.MediatrConfig;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Logo;
 using PhlegmaticOne.MusicPlayer.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.ViewModels.CollectionViewModels;
-using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.Reload;
-using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.Sort;
 using PhlegmaticOne.Players.Models;
 using PhlegmaticOne.PlayerService.Base;
 using PhlegmaticOne.PlayerService.Extensions;
+using PhlegmaticOne.MusicPlayer.Contracts.PagedList;
+using PhlegmaticOne.MusicPlayer.Contracts.PagedList.PageSizes;
+using PhlegmaticOne.MusicPlayer.Contracts.PagedList.Select;
+using PhlegmaticOne.MusicPlayer.Contracts.PagedList.Sort;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -137,20 +137,16 @@ public partial class App
 
                  services.AddMediatR(typeof(GenericGetPagedListQuery<>).Assembly)
                      .AddTransient<IMediatorServiceTypeConverter, PagedListGenericQueryToHandlerConverter>()
-                     .AddTransient(sp => MediatrServiceFactory.Wrap(sp.GetService, 
-                         sp.GetServices<IMediatorServiceTypeConverter>()))
-                     .AddTransient(typeof(GenericGetPagedListQueryHandler<>));
+                     .AddTransient<IMediatorServiceTypeConverter, EntitiesCountGenericQueryToHandlerConverter>()
+                     .AddTransient(sp => MediatrServiceFactory.Wrap(sp.GetService, sp.GetServices<IMediatorServiceTypeConverter>()))
+                     .AddTransient(typeof(GenericGetPagedListQueryHandler<>))
+                     .AddTransient(typeof(GenericGetEntitiesCountQueryHandler<>));
 
 
                  services.AddHandMappers(typeof(AlbumPreviewToActiveViewModelMapper).Assembly);
 
                  services.AddPlayerService<TrackBaseViewModel>()
                      .UsingPlayer<NAudioMusicPlayer>();
-
-                 services.AddEntityCollectionGetterTypes(
-                     typeof(EFAllAlbumsViewModelGet),
-                     typeof(AdoNetArtistsPagedListGetBase), 
-                     typeof(AdoNetAllFavoriteTracksViewModelGet));
 
                  services.AddChainNavigation()
                      .UsingApplicationViewModelsFrom(typeof(PlayerTrackableViewModel).Assembly)
@@ -165,13 +161,7 @@ public partial class App
                  services.AddSingleton<IConnectionStringGetter, ConfigurationConnectionStringGetter>();
                  services.AddSingleton<ISqlClient, SqlClientSingleton>();
 
-
-                 services.AddSingleton<ReloadViewModelBase<AlbumsCollectionViewModel>, ReloadAlbumsCollectionViewModel>();
-                 services.AddSingleton<ReloadViewModelBase<ArtistsCollectionViewModel>, ReloadArtistsCollectionViewModel>();
-                 services.AddSingleton<ReloadViewModelBase<TracksViewModel>, ReloadTracksCollectionViewModel>();
-                 services.AddSingleton<SortViewModelBase<AlbumsCollectionViewModel, AlbumPreviewViewModel>, SortAlbumsCollectionViewModel>();
-                 services.AddSingleton<SortViewModelBase<ArtistsCollectionViewModel, ArtistPreviewViewModel>, SortArtistsCollectionViewModel>();
-                 services.AddSingleton<SortViewModelBase<TracksViewModel, TrackBaseViewModel>, SortTracksCollectionViewModel>();
+                 #region PagedList
 
                  services.AddSingleton<ISortOptionsProvider<AlbumPreviewViewModel>, AlbumsSortOptionsProvider>();
                  services.AddSingleton<ISortOptionsProvider<ArtistPreviewViewModel>, ArtistsSortOptionsProvider>();
@@ -180,6 +170,16 @@ public partial class App
                  services.AddSingleton<ISelectOptionsProvider<AlbumPreviewViewModel>, AlbumsSelectOptionsProvider>();
                  services.AddSingleton<ISelectOptionsProvider<ArtistPreviewViewModel>, ArtistsSelectOptionsProvider>();
                  services.AddSingleton<ISelectOptionsProvider<TrackBaseViewModel>, TracksSelectOptionsProvider>();
+
+                 services.AddSingleton<IEntityPagedListGet<AlbumPreviewViewModel>, EFAllAlbumsViewModelGet>();
+                 services.AddSingleton<IEntityPagedListGet<ArtistPreviewViewModel>, AdoNetArtistsPagedListGetBase>();
+                 services.AddSingleton<IEntityPagedListGet<TrackBaseViewModel>, AdoNetAllFavoriteTracksViewModelGet>();
+
+                 services.AddSingleton<IGetEntitiesCountGetService<AlbumPreviewViewModel>, AlbumsEntityCountGetService>();
+                 services.AddSingleton<IAvailablePageSizesProvider, AvailablePageSizesProvider>();
+
+                 #endregion
+
 
                  services.AddSingleton<ILanguageProvider, LanguageProvider>();
                  services.AddSingleton<ILocalizeValuesGetter, LocalizeValuesGetter>();

@@ -22,169 +22,321 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <Grid Row="0">
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Column="0">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
 
-                                        <Button Command="{Binding MoveToFirstPageCommand}">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Foreground" Value="White"/>
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="Button">
-                                                                <Border Background="{TemplateBinding Background}">
-                                                                    <Viewbox Width="30" Height="30">
-                                                                        <Canvas Width="24" Height="24">
-                                                                            <Path Fill="{TemplateBinding Foreground}" Data="M17,5H14V19H17V5M12,5L1,12L12,19V5M22,5H19V19H22V5Z" />
-                                                                        </Canvas>
+                                            <Button Command="{Binding RestoreCommand}" ToolTip="Restore">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="Button">
+
+                                                                    <Viewbox Width="40" Height="40">
+                                                                        <Border Background="{TemplateBinding Background}"
+                                                                            CornerRadius="40">
+                                                                            <Canvas Width="24" Height="24" Margin="3">
+                                                                                <Path Fill="White" Data="M13,3A9,9 0 0,0 4,12H1L4.89,15.89L4.96,16.03L9,12H6A7,7 0 0,1 13,5A7,7 0 0,1 20,12A7,7 0 0,1 13,19C11.07,19 9.32,18.21 8.06,16.94L6.64,18.36C8.27,20 10.5,21 13,21A9,9 0 0,0 22,12A9,9 0 0,0 13,3Z" />
+                                                                            </Canvas>
+                                                                        </Border>
                                                                     </Viewbox>
-                                                                </Border>
 
-                                                                <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter Property="Background" Value="#212121"/>
-                                                                    </Trigger>
-                                                                    <DataTrigger Binding="{Binding CanMoveBack}" Value="False">
-                                                                        <Setter Property="Foreground" Value="#8F8F8F"/>
-                                                                    </DataTrigger>
-                                                                    <MultiDataTrigger>
-                                                                        <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
-                                                                            <Condition Binding="{Binding CanMoveBack}" Value="False"/>
-                                                                        </MultiDataTrigger.Conditions>
-                                                                        <MultiDataTrigger.Setters>
-                                                                            <Setter Property="Background" Value="Transparent"/>
-                                                                        </MultiDataTrigger.Setters>
-                                                                    </MultiDataTrigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="#313131"/>
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
 
-                                        <Button Command="{Binding MovePreviousPageCommand}">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Foreground" Value="White"/>
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="Button">
-                                                                <Border Background="{TemplateBinding Background}">
-                                                                    <Viewbox Width="30" Height="30">
-                                                                        <Canvas Width="24" Height="24">
-                                                                            <Path Fill="{TemplateBinding Foreground}" Data="M19,5V19H16V5M14,5V19L3,12" />
-                                                                        </Canvas>
+                                            <Button Command="{Binding ReloadCurrentPageCommand}" ToolTip="Reload page">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="Button">
+
+                                                                    <Viewbox Width="40" Height="40">
+                                                                        <Border Background="{TemplateBinding Background}"
+                                                                            CornerRadius="40">
+                                                                            <Canvas Width="24" Height="24" Margin="3">
+                                                                                <Path Fill="White" 
+                                                                                Data="M21,10.12H14.22L16.96,7.3C14.23,4.6 9.81,4.5 7.08,7.2C4.35,9.91 4.35,14.28 7.08,17C9.81,19.7 14.23,19.7 16.96,17C18.32,15.65 19,14.08 19,12.1H21C21,14.08 20.12,16.65 18.36,18.39C14.85,21.87 9.15,21.87 5.64,18.39C2.14,14.92 2.11,9.28 5.62,5.81C9.13,2.34 14.76,2.34 18.27,5.81L21,3V10.12M12.5,8V12.25L16,14.33L15.28,15.54L11,13V8H12.5Z" />
+                                                                            </Canvas>
+                                                                        </Border>
                                                                     </Viewbox>
-                                                                </Border>
-                                                                
-                                                                <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter Property="Background" Value="#212121"/>
-                                                                    </Trigger>
-                                                                    <DataTrigger Binding="{Binding CanMoveBack}" Value="False">
-                                                                        <Setter Property="Foreground" Value="#8F8F8F"/>
-                                                                    </DataTrigger>
-                                                                    <MultiDataTrigger>
-                                                                        <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
-                                                                            <Condition Binding="{Binding CanMoveBack}" Value="False"/>
-                                                                        </MultiDataTrigger.Conditions>
-                                                                        <MultiDataTrigger.Setters>
-                                                                            <Setter Property="Background" Value="Transparent"/>
-                                                                        </MultiDataTrigger.Setters>
-                                                                    </MultiDataTrigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
 
-                                        <Button Command="{Binding MoveNextPageCommand}">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Foreground" Value="White"/>
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="Button">
-                                                                <Border Background="{TemplateBinding Background}">
-                                                                    <Viewbox Width="30" Height="30">
-                                                                        <Canvas Width="24" Height="24">
-                                                                            <Path Fill="{TemplateBinding Foreground}" Data="M5,5V19H8V5M10,5V19L21,12" />
-                                                                        </Canvas>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="#313131"/>
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+
+                                            <local:ButtonWithPopup DataContext="{Binding SelectOptions}"
+                                                               VerticalAlignment="Center"
+                                                               ToolTip="Select"
+                                                               ClickCommand="{Binding DataContext.SelectCommand, ElementName=PagedListControlRoot}">
+                                                <local:ButtonWithPopup.ButtonContent>
+                                                    <Viewbox Width="40" Height="40" Margin="3">
+                                                        <Canvas Width="24" Height="24">
+                                                            <Path Fill="White" Data="M9,5A7,7 0 0,0 2,12A7,7 0 0,0 9,19C10.04,19 11.06,18.76 12,18.32C12.94,18.76 13.96,19 15,19A7,7 0 0,0 22,12A7,7 0 0,0 15,5C13.96,5 12.94,5.24 12,5.68C11.06,5.24 10.04,5 9,5M9,7C9.34,7 9.67,7.03 10,7.1C8.72,8.41 8,10.17 8,12C8,13.83 8.72,15.59 10,16.89C9.67,16.96 9.34,17 9,17A5,5 0 0,1 4,12A5,5 0 0,1 9,7M15,7A5,5 0 0,1 20,12A5,5 0 0,1 15,17C14.66,17 14.33,16.97 14,16.9C15.28,15.59 16,13.83 16,12C16,10.17 15.28,8.41 14,7.11C14.33,7.04 14.66,7 15,7Z" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                </local:ButtonWithPopup.ButtonContent>
+                                            </local:ButtonWithPopup>
+
+                                            <local:ButtonWithPopup DataContext="{Binding SortOptions}"
+                                                                   ToolTip="Sort"
+                                                               VerticalAlignment="Center"
+                                                               ClickCommand="{Binding DataContext.SortCommand, ElementName=PagedListControlRoot}">
+                                                <local:ButtonWithPopup.ButtonContent>
+                                                    <Viewbox Width="40" Height="40">
+                                                        <Canvas Width="24" Height="24" Margin="3">
+                                                            <Path Fill="White" Data="M3,13H15V11H3M3,6V8H21V6M3,18H9V16H3V18Z" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                                </local:ButtonWithPopup.ButtonContent>
+                                            </local:ButtonWithPopup>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid Column="1">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding FromItemIndex}" Foreground="White" FontSize="14" Padding="5 0 0 0"/>
+
+                                            <TextBlock Text="-" Foreground="White" FontSize="14" Padding="5 0 0 0"/>
+
+                                            <TextBlock Text="{Binding ToItemIndex}" Foreground="White" FontSize="14" Padding="5 0 0 0"/>
+
+                                            <TextBlock Text="of" Foreground="White" FontSize="14" Padding="5 0 0 0"/>
+
+                                            <TextBlock Text="{Binding TotalItems}" Foreground="White" FontSize="14" Padding="5 0 0 0"/>
+                                            
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Grid Column="2">
+                                        <Menu Background="Transparent" 
+                                              HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center" 
+                                              Margin="10 0 0 0">
+                                            <MenuItem Header="{Binding PageSize}" 
+                                                      Height="34" 
+                                                      MinWidth="50"
+                                                      Width="Auto"
+                                                      ItemsSource="{Binding AvailablePageSizes}"
+                                                      Style="{StaticResource DropdownMenuItem}">
+                                                <MenuItem.ItemContainerStyle>
+                                                    <Style TargetType="MenuItem" BasedOn="{StaticResource MenuItemStyle}"/>
+                                                </MenuItem.ItemContainerStyle>
+                                                <MenuItem.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding }" Foreground="White">
+                                                            <b:Interaction.Triggers>
+                                                                <b:EventTrigger EventName="MouseLeftButtonDown">
+                                                                    <b:InvokeCommandAction CommandParameter="{Binding }" 
+                                                                        Command="{Binding DataContext.ChangePageSizeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:PagedListControl}}}"/>
+                                                                </b:EventTrigger>
+                                                            </b:Interaction.Triggers>
+                                                        </TextBlock>
+                                                    </DataTemplate>
+                                                </MenuItem.ItemTemplate>
+                                            </MenuItem>
+                                        </Menu>
+                                    </Grid>
+
+                                    <Grid Column="3">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+
+                                            <Button Command="{Binding MoveToFirstPageCommand}" ToolTip="Move to first page">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="Button">
+
+                                                                    <Viewbox Width="40" Height="40">
+                                                                        <Border Background="{TemplateBinding Background}"
+                                                                            CornerRadius="40">
+                                                                            <Canvas Width="24" Height="24" Margin="3">
+                                                                                <Path Fill="{TemplateBinding Foreground}" Data="M17,5H14V19H17V5M12,5L1,12L12,19V5M22,5H19V19H22V5Z" />
+                                                                            </Canvas>
+                                                                        </Border>
                                                                     </Viewbox>
-                                                                </Border>
 
-                                                                <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter Property="Background" Value="#212121"/>
-                                                                    </Trigger>
-                                                                    <DataTrigger Binding="{Binding CanMoveForward}" Value="False">
-                                                                        <Setter Property="Foreground" Value="#8F8F8F"/>
-                                                                    </DataTrigger>
-                                                                    <MultiDataTrigger>
-                                                                        <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
-                                                                            <Condition Binding="{Binding CanMoveForward}" Value="False"/>
-                                                                        </MultiDataTrigger.Conditions>
-                                                                        <MultiDataTrigger.Setters>
-                                                                            <Setter Property="Background" Value="Transparent"/>
-                                                                        </MultiDataTrigger.Setters>
-                                                                    </MultiDataTrigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="#313131"/>
+                                                                        </Trigger>
+                                                                        <DataTrigger Binding="{Binding CanMoveBack}" Value="False">
+                                                                            <Setter Property="Foreground" Value="#8F8F8F"/>
+                                                                        </DataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                                                                <Condition Binding="{Binding CanMoveBack}" Value="False"/>
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+                                                                                <Setter Property="Background" Value="Transparent"/>
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
 
-                                        <Button Command="{Binding MoveToLastPageCommand}">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Foreground" Value="White"/>
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="Template">
-                                                        <Setter.Value>
-                                                            <ControlTemplate TargetType="Button">
-                                                                <Border Background="{TemplateBinding Background}">
-                                                                    <Viewbox Width="30" Height="30">
-                                                                        <Canvas Width="24" Height="24">
-                                                                            <Path Fill="{TemplateBinding Foreground}" Data="M7,5H10V19H7V5M12,5L23,12L12,19V5M2,5H5V19H2V5Z" />
-                                                                        </Canvas>
+                                            <Button Command="{Binding MovePreviousPageCommand}" ToolTip="Move previous">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="Button">
+
+                                                                    <Viewbox Width="40" Height="40">
+                                                                        <Border Background="{TemplateBinding Background}"
+                                                                            CornerRadius="40">
+                                                                            <Canvas Width="24" Height="24" Margin="3">
+                                                                                <Path Fill="{TemplateBinding Foreground}" Data="M19,5V19H16V5M14,5V19L3,12" />
+                                                                            </Canvas>
+                                                                        </Border>
                                                                     </Viewbox>
-                                                                </Border>
 
-                                                                <ControlTemplate.Triggers>
-                                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                                        <Setter Property="Background" Value="#212121"/>
-                                                                    </Trigger>
-                                                                    <DataTrigger Binding="{Binding CanMoveForward}" Value="False">
-                                                                        <Setter Property="Foreground" Value="#8F8F8F"/>
-                                                                    </DataTrigger>
-                                                                    <MultiDataTrigger>
-                                                                        <MultiDataTrigger.Conditions>
-                                                                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
-                                                                            <Condition Binding="{Binding CanMoveForward}" Value="False"/>
-                                                                        </MultiDataTrigger.Conditions>
-                                                                        <MultiDataTrigger.Setters>
-                                                                            <Setter Property="Background" Value="Transparent"/>
-                                                                        </MultiDataTrigger.Setters>
-                                                                    </MultiDataTrigger>
-                                                                </ControlTemplate.Triggers>
-                                                            </ControlTemplate>
-                                                        </Setter.Value>
-                                                    </Setter>
-                                                </Style>
-                                            </Button.Style>
-                                        </Button>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="#313131"/>
+                                                                        </Trigger>
+                                                                        <DataTrigger Binding="{Binding CanMoveBack}" Value="False">
+                                                                            <Setter Property="Foreground" Value="#8F8F8F"/>
+                                                                        </DataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                                                                <Condition Binding="{Binding CanMoveBack}" Value="False"/>
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+                                                                                <Setter Property="Background" Value="Transparent"/>
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
 
-                                    </StackPanel>
+                                            <Button Command="{Binding MoveNextPageCommand}" ToolTip="Move next">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="Button">
+
+                                                                    <Viewbox Width="40" Height="40">
+                                                                        <Border Background="{TemplateBinding Background}"
+                                                                            CornerRadius="40">
+                                                                            <Canvas Width="24" Height="24" Margin="3">
+                                                                                <Path Fill="{TemplateBinding Foreground}" Data="M5,5V19H8V5M10,5V19L21,12" />
+                                                                            </Canvas>
+                                                                        </Border>
+                                                                    </Viewbox>
+
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="#313131"/>
+                                                                        </Trigger>
+                                                                        <DataTrigger Binding="{Binding CanMoveForward}" Value="False">
+                                                                            <Setter Property="Foreground" Value="#8F8F8F"/>
+                                                                        </DataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                                                                <Condition Binding="{Binding CanMoveForward}" Value="False"/>
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+                                                                                <Setter Property="Background" Value="Transparent"/>
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+
+                                            <Button Command="{Binding MoveToLastPageCommand}" ToolTip="Move to last page">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="Button">
+
+                                                                    <Viewbox Width="40" Height="40">
+                                                                        <Border Background="{TemplateBinding Background}"
+                                                                            CornerRadius="40">
+                                                                            <Canvas Width="24" Height="24" Margin="3">
+                                                                                <Path Fill="{TemplateBinding Foreground}" Data="M7,5H10V19H7V5M12,5L23,12L12,19V5M2,5H5V19H2V5Z" />
+                                                                            </Canvas>
+                                                                        </Border>
+                                                                    </Viewbox>
+
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Background" Value="#313131"/>
+                                                                        </Trigger>
+                                                                        <DataTrigger Binding="{Binding CanMoveForward}" Value="False">
+                                                                            <Setter Property="Foreground" Value="#8F8F8F"/>
+                                                                        </DataTrigger>
+                                                                        <MultiDataTrigger>
+                                                                            <MultiDataTrigger.Conditions>
+                                                                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True"/>
+                                                                                <Condition Binding="{Binding CanMoveForward}" Value="False"/>
+                                                                            </MultiDataTrigger.Conditions>
+                                                                            <MultiDataTrigger.Setters>
+                                                                                <Setter Property="Background" Value="Transparent"/>
+                                                                            </MultiDataTrigger.Setters>
+                                                                        </MultiDataTrigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
                                 </Grid>
 
                                 <Grid Row="1">

@@ -1,6 +1,6 @@
 ﻿namespace PhlegmaticOne.WPF.Core.Commands;
 
-internal class AsyncRelayGenericCommand<T> : IRelayCommand where T: class
+internal class AsyncRelayGenericCommand<T> : IRelayCommand
 {
     private bool _isExecuting;
     private readonly Func<T?, Task> _action;
@@ -22,11 +22,11 @@ internal class AsyncRelayGenericCommand<T> : IRelayCommand where T: class
 
     public async void Execute(object? parameter)
     {
-        var generic = parameter as T;
-        if (_isRequired && generic is null)
+        if (parameter is not T && _isRequired)
         {
             return;
         }
+        var generic = (T)parameter!;
         SetIsExecuting(true);
         try
         {
@@ -37,6 +37,7 @@ internal class AsyncRelayGenericCommand<T> : IRelayCommand where T: class
             _onException.Invoke(exception);
         }
         SetIsExecuting(false);
+        
     }
 
     public void RaiseCanExecute() => CanExecuteChanged?.Invoke(this, EventArgs.Empty);

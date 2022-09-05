@@ -2,5 +2,5 @@
 
 public interface IHaveYear
 {
-    int YearReleased { get; set; }
+    int YearReleased { get; }
 }

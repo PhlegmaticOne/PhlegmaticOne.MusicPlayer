@@ -12,7 +12,8 @@ public class AdoNetAlbumsPagedListGetBase : AdoNetViewModelGetBase<AlbumPreviewV
     public AdoNetAlbumsPagedListGetBase(ISqlClient sqlClient) : base(sqlClient) { }
     protected override string CommandName => "Get_All_Albums_Preview";
 
-    protected override async Task<IPagedList<AlbumPreviewViewModel>> Create(SqlDataReader reader,int pageSize, int pageIndex)
+    protected override async Task<IPagedList<AlbumPreviewViewModel>> Create(SqlDataReader reader, int pageSize, int pageIndex,
+        Func<AlbumPreviewViewModel, object>? sortFunc = null, Func<AlbumPreviewViewModel, bool>? selectFunc = null)
     {
         var allAlbums = new List<AlbumPreviewViewModel>();
         

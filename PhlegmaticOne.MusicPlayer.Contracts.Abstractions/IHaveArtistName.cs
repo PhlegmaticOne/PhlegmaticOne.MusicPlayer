@@ -2,5 +2,5 @@
 
 public interface IHaveArtistName
 {
-    string ArtistName { get; set; }
+    string ArtistName { get; }
 }

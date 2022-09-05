@@ -12,7 +12,8 @@ public class AdoNetArtistsPagedListGetBase : AdoNetViewModelGetBase<ArtistPrevie
     public AdoNetArtistsPagedListGetBase(ISqlClient sqlClient) : base(sqlClient) { }
     protected override string CommandName => "Get_All_Artists_Preview";
 
-    protected override async Task<IPagedList<ArtistPreviewViewModel>> Create(SqlDataReader reader, int pageSize, int pageIndex)
+    protected override async Task<IPagedList<ArtistPreviewViewModel>> Create(SqlDataReader reader, int pageSize, int pageIndex,
+        Func<ArtistPreviewViewModel, object>? sortFunc = null, Func<ArtistPreviewViewModel, bool>? selectFunc = null)
     {
         var artists = new List<ArtistPreviewViewModel>();
 

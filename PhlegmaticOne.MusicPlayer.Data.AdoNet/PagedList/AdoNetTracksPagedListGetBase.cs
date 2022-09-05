@@ -17,7 +17,8 @@ public class AdoNetTracksPagedListGetBase : AdoNetViewModelGetBase<TrackBaseView
     }
     protected override string CommandName => "Get_All_Tracks";
 
-    protected override async Task<IPagedList<TrackBaseViewModel>> Create(SqlDataReader reader, int pageSize, int pageIndex)
+    protected override async Task<IPagedList<TrackBaseViewModel>> Create(SqlDataReader reader, int pageSize, int pageIndex,
+        Func<TrackBaseViewModel, object>? sortFunc = null, Func<TrackBaseViewModel, bool>? selectFunc = null)
     {
         var tracks = new List<TrackBaseViewModel>();
         TrackBaseViewModel? previous = default;

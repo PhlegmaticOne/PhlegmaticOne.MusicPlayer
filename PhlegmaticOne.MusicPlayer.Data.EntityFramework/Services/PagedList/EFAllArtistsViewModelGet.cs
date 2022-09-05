@@ -1,12 +1,12 @@
 ﻿using Calabonga.UnitOfWork;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.PagedList;
+using PhlegmaticOne.MusicPlayer.Contracts.PagedList;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Context;
 using PhlegmaticOne.MusicPlayer.Data.Models;
 using PhlegmaticOne.MusicPlayer.Models;
 
 namespace PhlegmaticOne.MusicPlayer.Data.EntityFramework.Services.PagedList;
 
-public class EFAllArtistsViewModelGet : EntityPagedListGetBase<ArtistPreviewViewModel>
+public class EFAllArtistsViewModelGet : IEntityPagedListGet<ArtistPreviewViewModel>
 {
     private readonly ApplicationDbContext _applicationDb;
 
@@ -14,7 +14,8 @@ public class EFAllArtistsViewModelGet : EntityPagedListGetBase<ArtistPreviewView
     {
         _applicationDb = applicationDb;
     }
-    public override async Task<IPagedList<ArtistPreviewViewModel>> GetPagedListAsync(int pageSize, int pageIndex)
+    public async Task<IPagedList<ArtistPreviewViewModel>> GetPagedListAsync(int pageSize, int pageIndex,
+        Func<ArtistPreviewViewModel, object>? sortFunc = null, Func<ArtistPreviewViewModel, bool>? selectFunc = null)
     {
         var artists = _applicationDb.Set<Artist>();
         

@@ -1,7 +1,7 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.Helpers;
 using PhlegmaticOne.MusicPlayer.Models.Base;
 
-namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Sort;
+namespace PhlegmaticOne.MusicPlayer.Contracts.PagedList.Sort;
 
 public class TracksSortOptionsProvider : ISortOptionsProvider<TrackBaseViewModel>
 {

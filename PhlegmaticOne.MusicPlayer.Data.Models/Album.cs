@@ -1,13 +1,15 @@
-﻿using PhlegmaticOne.MusicPlayer.Contracts.Abstractions;
+﻿using System.Security.Cryptography.X509Certificates;
+using PhlegmaticOne.MusicPlayer.Contracts.Abstractions;
 
 namespace PhlegmaticOne.MusicPlayer.Data.Models;
 
-public class Album : CollectionBase, IEquatable<Album>, IHaveYear
+public class Album : CollectionBase, IEquatable<Album>, IHaveYear, IHaveArtistName
 {
     public ICollection<Genre> Genres { get; set; } = null!;
     public ICollection<Artist> Artists { get; set; } = null!;
     public int YearReleased { get; set; }
     public AlbumType AlbumType { get; init; }
+    public string ArtistName => Artists is null ? string.Empty : string.Join(' ', Artists.Select(x => x.Title));
     public override string ToString() => $"{string.Join("/", Artists.Select(x => x.Title))} - {Title} ({YearReleased})";
 
     public bool Equals(Album? other)

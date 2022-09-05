@@ -1,7 +1,7 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.Helpers;
 using PhlegmaticOne.MusicPlayer.Models.Base;
 
-namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Select;
+namespace PhlegmaticOne.MusicPlayer.Contracts.PagedList.Select;
 
 public class TracksSelectOptionsProvider : ISelectOptionsProvider<TrackBaseViewModel>
 {

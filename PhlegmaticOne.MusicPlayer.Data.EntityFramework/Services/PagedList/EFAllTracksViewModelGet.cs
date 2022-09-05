@@ -1,13 +1,13 @@
 ﻿using Calabonga.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.PagedList;
+using PhlegmaticOne.MusicPlayer.Contracts.PagedList;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Context;
 using PhlegmaticOne.MusicPlayer.Data.Models;
 using PhlegmaticOne.MusicPlayer.Models.Base;
 
 namespace PhlegmaticOne.MusicPlayer.Data.EntityFramework.Services.PagedList;
 
-public class EFAllTracksViewModelGet : EntityPagedListGetBase<TrackBaseViewModel>
+public class EFAllTracksViewModelGet : IEntityPagedListGet<TrackBaseViewModel>
 {
     private readonly ApplicationDbContext _dbContext;
 
@@ -15,7 +15,8 @@ public class EFAllTracksViewModelGet : EntityPagedListGetBase<TrackBaseViewModel
     {
         _dbContext = dbContext;
     }
-    public override async Task<IPagedList<TrackBaseViewModel>> GetPagedListAsync(int pageSize, int pageIndex)
+    public async Task<IPagedList<TrackBaseViewModel>> GetPagedListAsync(int pageSize, int pageIndex, 
+        Func<TrackBaseViewModel, object>? sortFunc = null, Func<TrackBaseViewModel, bool>? selectFunc = null)
     {
         var set = _dbContext.Set<Song>();
         var query = await set

@@ -15,6 +15,14 @@ public partial class SortMenu
         set => SetValue(ViewModelToSortProperty, value);
     }
 
+    public static readonly DependencyProperty ItemClickCommandProperty = DependencyProperty.Register(
+        nameof(ItemClickCommand), typeof(ICommand), typeof(SortMenu), new PropertyMetadata(default(ICommand)));
+
+    public ICommand ItemClickCommand
+    {
+        get => (ICommand) GetValue(ItemClickCommandProperty);
+        set => SetValue(ItemClickCommandProperty, value);
+    }
     public static readonly DependencyProperty ControlLoadCommandProperty = DependencyProperty.Register(
         nameof(ControlLoadCommand), typeof(ICommand), typeof(SortMenu), new PropertyMetadata(default(ICommand)));
 

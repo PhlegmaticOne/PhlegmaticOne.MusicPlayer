@@ -1,12 +1,13 @@
 ﻿using System.Data;
 using Calabonga.UnitOfWork;
 using Microsoft.Data.SqlClient;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.PagedList;
+using PhlegmaticOne.MusicPlayer.Contracts.PagedList;
+using PhlegmaticOne.MusicPlayer.Models;
 using PhlegmaticOne.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
 
-public abstract class AdoNetViewModelGetBase<T> : EntityPagedListGetBase<T> where T: EntityBaseViewModel
+public abstract class AdoNetViewModelGetBase<T> : IEntityPagedListGet<T> where T: EntityBaseViewModel
 {
     private readonly SqlConnection _connection;
 
@@ -14,7 +15,8 @@ public abstract class AdoNetViewModelGetBase<T> : EntityPagedListGetBase<T> wher
     {
         _connection = sqlClient.GetConnection();
     }
-    public override async Task<IPagedList<T>> GetPagedListAsync(int pageSize, int pageIndex)
+    public async Task<IPagedList<T>> GetPagedListAsync(int pageSize, int pageIndex,
+        Func<T, object>? sortFunc = null, Func<T, bool>? selectFunc = null)
     {
         await using var command = new SqlCommand(CommandName, _connection)
         {
@@ -24,5 +26,6 @@ public abstract class AdoNetViewModelGetBase<T> : EntityPagedListGetBase<T> wher
         return await Create(reader, pageSize, pageIndex);
     }
     protected abstract string CommandName { get; }
-    protected abstract Task<IPagedList<T>> Create(SqlDataReader reader, int pageSize, int pageIndex);
+    protected abstract Task<IPagedList<T>> Create(SqlDataReader reader, int pageSize, int pageIndex,
+        Func<T, object>? sortFunc = null, Func<T, bool>? selectFunc = null);
 }

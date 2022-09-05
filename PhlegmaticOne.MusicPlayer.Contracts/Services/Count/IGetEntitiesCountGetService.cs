@@ -2,8 +2,8 @@
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Count;
 
-public interface IGetEntitiesCountGetService<T> where T : EntityBaseViewModel
+public interface IGetEntitiesCountGetService<out T> where T : EntityBaseViewModel
 {
-    Task<int> GetEntitiesCountAsync();
-    int GetEntitiesCount();
+    Task<int> GetEntitiesCountAsync(Func<T, bool>? selectFunc = null);
+    int GetEntitiesCount(Func<T, bool>? selectFunc = null);
 }

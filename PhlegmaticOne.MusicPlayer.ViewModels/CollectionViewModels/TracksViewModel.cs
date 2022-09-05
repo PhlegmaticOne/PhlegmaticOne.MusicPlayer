@@ -1,12 +1,9 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.Models;
 using PhlegmaticOne.MusicPlayer.Models.Base;
 using PhlegmaticOne.MusicPlayer.ViewModels.Base;
-using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.PagedList;
-using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.Reload;
-using PhlegmaticOne.MusicPlayer.ViewModels.ControlViewModels.Sort;
 using PhlegmaticOne.MusicPlayer.ViewModels.EntityContainingViewModels;
+using PhlegmaticOne.MusicPlayer.ViewModels.PagedList;
 using PhlegmaticOne.PlayerService.Base;
 using PhlegmaticOne.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Navigation;
@@ -18,14 +15,14 @@ public class TracksViewModel : CollectionViewModelBase<TracksViewModel, TrackBas
     private bool _isFirst = true;
     public TracksViewModel(IPlayerService<TrackBaseViewModel> playerService, ILikeService likeService,
         IEntityContainingViewModelsNavigationService entityContainingViewModelsNavigationService,
-        IUiThreadInvokerService uiThreadInvokerService,
-        ReloadViewModelBase<TracksViewModel> reloadViewModel,
-        SortViewModelBase<TracksViewModel, TrackBaseViewModel> sortViewModel,
         PagedListViewModelBase<TrackBaseViewModel> pagedListViewModel) :
-        base(playerService, likeService, uiThreadInvokerService, entityContainingViewModelsNavigationService, reloadViewModel, sortViewModel, pagedListViewModel)
+        base(playerService, likeService, entityContainingViewModelsNavigationService, pagedListViewModel)
     {
-        ActiveArtistNavigationCommand = RelayCommandFactory.CreateCommand(NavigateToActiveArtist, _ => true);
-        ActiveCollectionNavigationCommand = RelayCommandFactory.CreateCommand(NavigateToActiveCollection, _ => true);
+        ActiveArtistNavigationCommand = RelayCommandFactory
+            .CreateRequiredParameterAsyncCommand<ArtistLinkViewModel>(NavigateToActiveArtist, _ => true);
+
+        ActiveCollectionNavigationCommand = RelayCommandFactory
+            .CreateRequiredParameterAsyncCommand<TrackBaseViewModel>(NavigateToActiveCollection, _ => true);
     }
     public IRelayCommand ActiveArtistNavigationCommand { get; }
     public IRelayCommand ActiveCollectionNavigationCommand { get; }
@@ -40,23 +37,17 @@ public class TracksViewModel : CollectionViewModelBase<TracksViewModel, TrackBas
         base.PlaySongAction(parameter);
     }
 
-    private async void NavigateToActiveArtist(object? parameter)
+    private async Task NavigateToActiveArtist(ArtistLinkViewModel parameter)
     {
-        if (parameter is ArtistLinkViewModel artistLinkViewModel)
-        {
-            await EntityContainingViewModelsNavigationService
-                .From<ArtistLinkViewModel, ActiveArtistViewModel>()
-                .NavigateAsync<ArtistViewModel>(artistLinkViewModel);
-        }
+        await EntityContainingViewModelsNavigationService
+            .From<ArtistLinkViewModel, ActiveArtistViewModel>()
+            .NavigateAsync<ArtistViewModel>(parameter);
     }
 
-    private async void NavigateToActiveCollection(object? parameter)
+    private async Task NavigateToActiveCollection(TrackBaseViewModel parameter)
     {
-        if (parameter is TrackBaseViewModel trackBaseViewModel)
-        {
-            await EntityContainingViewModelsNavigationService
-                .From<TrackBaseViewModel, ActiveAlbumViewModel>()
-                .NavigateAsync<AlbumViewModel>(trackBaseViewModel);
-        }
+        await EntityContainingViewModelsNavigationService
+            .From<TrackBaseViewModel, ActiveAlbumViewModel>()
+            .NavigateAsync<AlbumViewModel>(parameter);
     }
 }
