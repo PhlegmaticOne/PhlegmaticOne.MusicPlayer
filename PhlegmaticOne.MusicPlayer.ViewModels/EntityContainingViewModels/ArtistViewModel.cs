@@ -27,9 +27,15 @@ public class ArtistViewModel : PlayerTrackableViewModel, IEntityContainingViewMo
         _uiThreadInvokerService = uiThreadInvokerService;
         TopTracks = new();
 
-        ActiveArtistNavigationCommand = RelayCommandFactory.CreateCommand(NavigateToActiveArtist, _ => true);
-        ActiveCollectionNavigationFromTrackCommand = RelayCommandFactory.CreateCommand(NavigateToActiveCollectionFromTrack, _ => true);
-        ActiveCollectionNavigationFromPreviewCommand = RelayCommandFactory.CreateCommand(NavigateToActiveCollectionFromPreview, _ => true);
+        ActiveArtistNavigationCommand = RelayCommandFactory
+            .CreateRequiredParameterAsyncCommand<ArtistLinkViewModel>(NavigateToActiveArtist, _ => true);
+
+        ActiveCollectionNavigationFromTrackCommand = RelayCommandFactory
+            .CreateRequiredParameterAsyncCommand<TrackBaseViewModel>(NavigateToActiveCollectionFromTrack, _ => true);
+
+        ActiveCollectionNavigationFromPreviewCommand = RelayCommandFactory
+            .CreateRequiredParameterAsyncCommand<AlbumPreviewViewModel>(NavigateToActiveCollectionFromPreview, _ => true);
+
         SelectTopTracksCommand = RelayCommandFactory.CreateCommand(SelectTopTracks, _ => true);
 
         TrySetSong();
@@ -62,33 +68,27 @@ public class ArtistViewModel : PlayerTrackableViewModel, IEntityContainingViewMo
         base.PlaySongAction(parameter);
     }
 
-    private async void NavigateToActiveArtist(object? parameter)
+    private async Task NavigateToActiveArtist(ArtistLinkViewModel parameter)
     {
-        if (parameter is ArtistLinkViewModel artistLinkViewModel && artistLinkViewModel.Id != Entity.Id)
+        if (parameter.Id != Entity.Id)
         {
             await _entityContainingViewModelsNavigationService
                 .From<ArtistLinkViewModel, ActiveArtistViewModel>()
-                .NavigateAsync<ArtistViewModel>(artistLinkViewModel);
+                .NavigateAsync<ArtistViewModel>(parameter);
         }
     }
 
-    private async void NavigateToActiveCollectionFromTrack(object? parameter)
+    private async Task NavigateToActiveCollectionFromTrack(TrackBaseViewModel parameter)
     {
-        if (parameter is TrackBaseViewModel trackBaseViewModel)
-        {
-            await _entityContainingViewModelsNavigationService
-                .From<TrackBaseViewModel, ActiveAlbumViewModel>()
-                .NavigateAsync<AlbumViewModel>(trackBaseViewModel);
-        }
+        await _entityContainingViewModelsNavigationService
+            .From<TrackBaseViewModel, ActiveAlbumViewModel>()
+            .NavigateAsync<AlbumViewModel>(parameter);
     }
 
-    private async void NavigateToActiveCollectionFromPreview(object? parameter)
+    private async Task NavigateToActiveCollectionFromPreview(AlbumPreviewViewModel parameter)
     {
-        if (parameter is AlbumPreviewViewModel albumPreviewViewModel)
-        {
-            await _entityContainingViewModelsNavigationService
-                .From<AlbumPreviewViewModel, ActiveAlbumViewModel>()
-                .NavigateAsync<AlbumViewModel>(albumPreviewViewModel);
-        }
+        await _entityContainingViewModelsNavigationService
+            .From<AlbumPreviewViewModel, ActiveAlbumViewModel>()
+            .NavigateAsync<AlbumViewModel>(parameter);
     }
 }

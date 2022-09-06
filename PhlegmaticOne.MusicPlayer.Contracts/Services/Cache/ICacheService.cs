@@ -1,11 +1,12 @@
-﻿using PhlegmaticOne.WPF.Core.ViewModels;
+﻿using System.Drawing;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Cache;
 
-public interface ICacheService
+public interface ICacheService<T>
 {
-    public bool ContainsKey<T>(Guid id);
-    public bool TryGetCachedValue<T>(Guid id, out T viewModel) where T : BaseViewModel;
-    public void Set<T>(Guid id, T viewModel) where T : BaseViewModel;
-    public ICollection<T> GetAllCached<T>() where T : BaseViewModel;
+    ICollection<Guid> ExistingKeys { get; }
+    bool ContainsKey(Guid id);
+    bool TryGetCachedValue(Guid id, out T value);
+    void Set(Guid id, T value);
+    Bitmap Get(Guid id);
 }

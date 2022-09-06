@@ -15,7 +15,9 @@ public class EFActiveArtistFromArtistPreviewViewModelFactory : NavigationFactory
     private readonly IHandMapperService _handMapperService;
     private readonly IEntityActionsProvider<TrackBaseViewModel> _trackActionsProvider;
 
-    public EFActiveArtistFromArtistPreviewViewModelFactory(ApplicationDbContext dbContext, IHandMapperService handMapperService, IEntityActionsProvider<TrackBaseViewModel> trackActionsProvider)
+    public EFActiveArtistFromArtistPreviewViewModelFactory(ApplicationDbContext dbContext,
+        IHandMapperService handMapperService,
+        IEntityActionsProvider<TrackBaseViewModel> trackActionsProvider)
     {
         _dbContext = dbContext;
         _handMapperService = handMapperService;

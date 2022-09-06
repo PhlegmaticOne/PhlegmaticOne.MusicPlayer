@@ -16,7 +16,7 @@ public class NavigationViewModel : ApplicationBaseViewModel, IDisposable
         _chainNavigationService.ViewModelChanged += ChainNavigationServiceOnViewModelChanged;
 
         MoveBackCommand = RelayCommandFactory.CreateCommand(MoveBack, _ => CanMoveBack);
-        NavigateCommand = RelayCommandFactory.CreateCommand(Navigate, _ => true);
+        NavigateCommand = RelayCommandFactory.CreateRequiredParameterCommand<Type>(Navigate, _ => true);
         Logo = logoProvider.GetApplicationLogo();
         Navigate(typeof(HomeViewModel));
     }
@@ -27,20 +27,13 @@ public class NavigationViewModel : ApplicationBaseViewModel, IDisposable
     public IRelayCommand MoveBackCommand { get; }
     private void MoveBack(object? parameter)
     {
-        //if (_chainNavigationService.CurrentViewModel is IDisposable disposable)
-        //{
-        //    disposable.Dispose();
-        //}
         _chainNavigationService.Move(NavigationMoveDirection.Back);
     }
 
-    private void Navigate(object? parameter)
+    private void Navigate(Type parameter)
     {
-        if (parameter is Type viewModelType)
-        {
-            _chainNavigationService.Reset();
-            _chainNavigationService.NavigateTo(viewModelType);
-        }
+        _chainNavigationService.Reset();
+        _chainNavigationService.NavigateTo(parameter);
     }
     private void ChainNavigationServiceOnViewModelChanged(object? sender, ApplicationBaseViewModel e)
     {

@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Contracts\PhlegmaticOne.MusicPlayer.Contracts.csproj" />
-    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.AdoNet\PhlegmaticOne.MusicPlayer.Data.AdoNet.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.Common\PhlegmaticOne.MusicPlayer.Data.Common.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.EntityFramework\PhlegmaticOne.MusicPlayer.Data.EntityFramework.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.ViewModels\PhlegmaticOne.MusicPlayer.ViewModels.csproj" />

@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.MusicPlayer.T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.MusicPlayer.Contracts", "PhlegmaticOne.MusicPlayer.Contracts\PhlegmaticOne.MusicPlayer.Contracts.csproj", "{B654088A-5236-408A-9F8C-18EEC3CAAEEC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.MusicPlayer.Data.AdoNet", "PhlegmaticOne.MusicPlayer.Data.AdoNet\PhlegmaticOne.MusicPlayer.Data.AdoNet.csproj", "{145BE5FC-08C8-413B-B960-DD7EDDAC6694}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.MusicSite.Benchmarks", "PhlegmaticOne.MusicSite.Benchmarks\PhlegmaticOne.MusicSite.Benchmarks.csproj", "{AD3D33AF-E27D-40DF-AD6E-18192F7705A3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.WPF.Navigation", "PhlegmaticOne.WPF.Navigation\PhlegmaticOne.WPF.Navigation.csproj", "{790E5A75-A5F9-43AC-A880-E8E31E9DC1C0}"
@@ -39,11 +37,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.MusicPlayer.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.MusicPlayer.Contracts.Abstractions", "PhlegmaticOne.MusicPlayer.Contracts.Abstractions\PhlegmaticOne.MusicPlayer.Contracts.Abstractions.csproj", "{4330EECA-E26F-43CF-B555-01D219299334}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.MusicPlayer.Data.Common", "PhlegmaticOne.MusicPlayer.Data.Common\PhlegmaticOne.MusicPlayer.Data.Common.csproj", "{8DBB7CF1-EF68-4138-B101-F802425400EA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.MusicPlayer.Models", "PhlegmaticOne.MusicPlayer.Models\PhlegmaticOne.MusicPlayer.Models.csproj", "{FBE11707-E544-4CA5-AAB3-49725A80897C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.MusicPlayer.Data.EntityFramework", "PhlegmaticOne.MusicPlayer.Data.EntityFramework\PhlegmaticOne.MusicPlayer.Data.EntityFramework.csproj", "{7E4D482E-B43F-4A42-A340-7AA4EE542A42}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.MusicPlayer.Data.Common", "PhlegmaticOne.MusicPlayer.Data.Common\PhlegmaticOne.MusicPlayer.Data.Common.csproj", "{90FB5BA9-F988-4E52-A39B-8BBF521C0368}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,10 +61,6 @@ Global
 		{B654088A-5236-408A-9F8C-18EEC3CAAEEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B654088A-5236-408A-9F8C-18EEC3CAAEEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B654088A-5236-408A-9F8C-18EEC3CAAEEC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{145BE5FC-08C8-413B-B960-DD7EDDAC6694}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{145BE5FC-08C8-413B-B960-DD7EDDAC6694}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{145BE5FC-08C8-413B-B960-DD7EDDAC6694}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{145BE5FC-08C8-413B-B960-DD7EDDAC6694}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AD3D33AF-E27D-40DF-AD6E-18192F7705A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AD3D33AF-E27D-40DF-AD6E-18192F7705A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD3D33AF-E27D-40DF-AD6E-18192F7705A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -99,10 +93,6 @@ Global
 		{4330EECA-E26F-43CF-B555-01D219299334}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4330EECA-E26F-43CF-B555-01D219299334}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4330EECA-E26F-43CF-B555-01D219299334}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DBB7CF1-EF68-4138-B101-F802425400EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DBB7CF1-EF68-4138-B101-F802425400EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8DBB7CF1-EF68-4138-B101-F802425400EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8DBB7CF1-EF68-4138-B101-F802425400EA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FBE11707-E544-4CA5-AAB3-49725A80897C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FBE11707-E544-4CA5-AAB3-49725A80897C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBE11707-E544-4CA5-AAB3-49725A80897C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -111,6 +101,10 @@ Global
 		{7E4D482E-B43F-4A42-A340-7AA4EE542A42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E4D482E-B43F-4A42-A340-7AA4EE542A42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E4D482E-B43F-4A42-A340-7AA4EE542A42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90FB5BA9-F988-4E52-A39B-8BBF521C0368}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90FB5BA9-F988-4E52-A39B-8BBF521C0368}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90FB5BA9-F988-4E52-A39B-8BBF521C0368}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90FB5BA9-F988-4E52-A39B-8BBF521C0368}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,7 +112,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{AC150088-B9FB-4B11-947D-C26FCADF483C} = {30F0ABB2-F18C-4EAE-BEB6-E426E9F957BB}
 		{31B39765-F88C-423B-A1CD-91E529AD2F51} = {DE313284-C101-498F-A860-60B3995B5617}
-		{145BE5FC-08C8-413B-B960-DD7EDDAC6694} = {32C36E95-22A3-4843-8FB2-5B9C6B6FE0BB}
 		{AD3D33AF-E27D-40DF-AD6E-18192F7705A3} = {DE313284-C101-498F-A860-60B3995B5617}
 		{790E5A75-A5F9-43AC-A880-E8E31E9DC1C0} = {E7B4F5BD-B9A6-4587-9FA2-2295411D462A}
 		{4596F1F1-7505-49A0-8D03-764BD610DA0C} = {FEFE9A5D-5395-41E5-BBF1-9085AD8E8314}
@@ -127,8 +120,8 @@ Global
 		{30F0ABB2-F18C-4EAE-BEB6-E426E9F957BB} = {19F2FF3D-9BA1-470C-A988-6A6956361C8A}
 		{00235B8D-517E-43C8-8CB0-7F9E449B227D} = {E7B4F5BD-B9A6-4587-9FA2-2295411D462A}
 		{42AB09ED-6694-4B9B-8BB2-A3E25EDE6CFC} = {32C36E95-22A3-4843-8FB2-5B9C6B6FE0BB}
-		{8DBB7CF1-EF68-4138-B101-F802425400EA} = {32C36E95-22A3-4843-8FB2-5B9C6B6FE0BB}
 		{7E4D482E-B43F-4A42-A340-7AA4EE542A42} = {32C36E95-22A3-4843-8FB2-5B9C6B6FE0BB}
+		{90FB5BA9-F988-4E52-A39B-8BBF521C0368} = {32C36E95-22A3-4843-8FB2-5B9C6B6FE0BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {95E1D00D-E51A-4BA8-A915-E1CE5FDBC193}

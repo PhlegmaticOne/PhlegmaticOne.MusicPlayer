@@ -32,8 +32,10 @@ public class AlbumViewModel : PlayerTrackableViewModel, IEntityContainingViewMod
         _entityContainingViewModelsNavigationService = entityContainingViewModelsNavigationService;
         _isFirstSongWillPlay = true;
 
-        NavigateToArtistCommand = RelayCommandFactory.CreateCommand(NavigateToArtistAction, _ => true);
-        DownloadAlbumCommand = RelayCommandFactory.CreateCommand(DownloadAlbum, _ => Entity.IsDownloaded == false || Entity.IsDownloading == false);
+        NavigateToArtistCommand = RelayCommandFactory
+            .CreateRequiredParameterAsyncCommand<ArtistLinkViewModel>(NavigateToArtistAction, _ => true);
+        DownloadAlbumCommand = RelayCommandFactory
+            .CreateCommand(DownloadAlbum, _ => Entity.IsDownloaded == false || Entity.IsDownloading == false);
         TrySetSong();
     }
 
@@ -52,14 +54,11 @@ public class AlbumViewModel : PlayerTrackableViewModel, IEntityContainingViewMod
         base.PlaySongAction(parameter);
     }
 
-    private async void NavigateToArtistAction(object? parameter)
+    private async Task NavigateToArtistAction(ArtistLinkViewModel parameter)
     {
-        if (parameter is ArtistLinkViewModel artistLinkViewModel)
-        {
-            await _entityContainingViewModelsNavigationService
-                .From<ArtistLinkViewModel, ActiveArtistViewModel>()
-                .NavigateAsync<ArtistViewModel>(artistLinkViewModel);
-        }
+        await _entityContainingViewModelsNavigationService
+            .From<ArtistLinkViewModel, ActiveArtistViewModel>()
+            .NavigateAsync<ArtistViewModel>(parameter);
     }
 
     private async void DownloadAlbum(object? parameter)

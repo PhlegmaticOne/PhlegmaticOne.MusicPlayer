@@ -3,7 +3,7 @@ using PhlegmaticOne.MusicPlayer.Data.Models.Base;
 
 namespace PhlegmaticOne.MusicPlayer.Data.Models;
 
-public class Song : EntityBase, IHaveTitle, IIsFavorite, IIsDownloaded, IHaveDuration
+public class Song : EntityBase, IHaveTitle, IIsFavorite, IIsDownloaded, IHaveDuration, IHaveTimePlayed
 {
     public string Title { get; set; } = null!;
     public TimeSpan Duration { get; set; }

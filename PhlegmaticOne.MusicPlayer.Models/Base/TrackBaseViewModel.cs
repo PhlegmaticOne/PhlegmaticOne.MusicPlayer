@@ -29,5 +29,5 @@ public class TrackBaseViewModel : EntityBaseViewModel, IHaveId, IIsFavorite, IHa
         return false;
     }
 
-    public override int GetHashCode() => Title.GetHashCode() ^ CollectionLink.Title.GetHashCode();
+    public override int GetHashCode() => Id.GetHashCode();
 }

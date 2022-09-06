@@ -10,7 +10,7 @@ public partial class ArtistsCollectionView
 
     public static readonly DependencyProperty OnLoadCommandParameterProperty = DependencyProperty.Register(
         nameof(OnLoadCommandParameter), typeof(object), typeof(ArtistsCollectionView), new PropertyMetadata(default(object)));
-
+    
     public object OnLoadCommandParameter
     {
         get => GetValue(OnLoadCommandParameterProperty);

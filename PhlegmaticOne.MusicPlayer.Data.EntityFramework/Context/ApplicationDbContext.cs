@@ -18,17 +18,17 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(modelBuilder);
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.UseLoggerFactory(_debugFactory);
-        optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=music-player-db;Integrated Security=True;");
-        base.OnConfiguring(optionsBuilder);
-    }
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //{
+    //    optionsBuilder.UseLoggerFactory(_debugFactory);
+    //    optionsBuilder.UseSqlServer(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=music-player-db;Integrated Security=True;");
+    //    base.OnConfiguring(optionsBuilder);
+    //}
 
-    private static readonly ILoggerFactory _debugFactory = LoggerFactory.Create(builder =>
-    {
-        builder.ClearProviders();
-        builder.AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name)
-            .AddConsole();
-    });
+    //private static readonly ILoggerFactory _debugFactory = LoggerFactory.Create(builder =>
+    //{
+    //    builder.ClearProviders();
+    //    builder.AddFilter((category, level) => category == DbLoggerCategory.Database.Command.Name)
+    //        .AddConsole();
+    //});
 }

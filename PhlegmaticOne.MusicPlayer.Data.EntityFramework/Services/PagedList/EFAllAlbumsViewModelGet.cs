@@ -1,6 +1,6 @@
-﻿using System.Linq.Expressions;
+﻿using System.Drawing;
 using Calabonga.UnitOfWork;
-using PhlegmaticOne.MusicPlayer.Contracts.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Context;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Helpers.Expressions;
@@ -12,7 +12,7 @@ namespace PhlegmaticOne.MusicPlayer.Data.EntityFramework.Services.PagedList;
 public class EFAllAlbumsViewModelGet : IEntityPagedListGet<AlbumPreviewViewModel>
 {
     private readonly ApplicationDbContext _dbContext;
-
+    
     public EFAllAlbumsViewModelGet(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;

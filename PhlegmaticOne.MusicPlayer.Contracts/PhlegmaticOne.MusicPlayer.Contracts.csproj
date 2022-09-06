@@ -30,6 +30,8 @@
 
   <ItemGroup>
     <Folder Include="Dtos\" />
+    <Folder Include="Mediatr\Handlers\" />
+    <Folder Include="Mediatr\Queries\" />
   </ItemGroup>
 
 </Project>

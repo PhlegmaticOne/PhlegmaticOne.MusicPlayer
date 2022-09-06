@@ -3,7 +3,7 @@ using PhlegmaticOne.MusicPlayer.Data.Models.Base;
 
 namespace PhlegmaticOne.MusicPlayer.Data.Models;
 
-public class Artist : EntityBase, IEquatable<Artist>, IIsFavorite
+public class Artist : EntityBase, IEquatable<Artist>, IIsFavorite, IHaveTitle
 {
     public string Title { get; set; } = null!;
     public ICollection<Album> Albums { get; set; } = null!;

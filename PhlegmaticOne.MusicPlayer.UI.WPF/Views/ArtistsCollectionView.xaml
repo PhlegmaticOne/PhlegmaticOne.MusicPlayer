@@ -17,30 +17,11 @@
     <ScrollViewer Style="{StaticResource NavigationScrollViewStyle}">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
             <Grid Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="6*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid Column="0" Row="0">
-                    <controls:ViewTitle Padding="30" VerticalAlignment="Center" TitleText="Artists"/>
-                </Grid>
-                <Grid Column="1" Row="0" Margin="0 0 20 0">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-
-                        <controls:SortMenu HorizontalAlignment="Center" 
-                                           DataContext="{Binding SortViewModel}"
-                                           ControlLoadCommand="{Binding LoadSortOptionsCommand}"
-                                           ViewModelToSort="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
-
-                        <controls:ReloadButton DataContext="{Binding ReloadViewModel}"
-                                               ViewModelToReload="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
-
-                    </StackPanel>
-                </Grid>
+                <controls:ViewTitle Padding="30" VerticalAlignment="Center" TitleText="Artists"/>
             </Grid>
 
             <Grid Row="1">

@@ -1,9 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using MediatR;
-using PhlegmaticOne.MusicPlayer.Contracts.Mediatr.Queries;
+using PhlegmaticOne.MusicPlayer.Contracts.PagedList;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.PageSizes;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.Select;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.Sort;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Count;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Core.ViewModels;
@@ -12,7 +13,8 @@ namespace PhlegmaticOne.MusicPlayer.ViewModels.PagedList;
 
 public class PagedListViewModelBase<TCollectionItem> : ApplicationBaseViewModel where TCollectionItem : EntityBaseViewModel
 {
-    private readonly IMediator _mediator;
+    private readonly IEntityPagedListGet<TCollectionItem> _entityPagedListGet;
+    private readonly IGetEntitiesCountGetService<TCollectionItem> _entitiesCountGetService;
     private readonly IUiThreadInvokerService _uiThreadInvokerService;
     
     private readonly IDictionary<string, Func<TCollectionItem, object>> _sortOptions;
@@ -20,13 +22,15 @@ public class PagedListViewModelBase<TCollectionItem> : ApplicationBaseViewModel 
 
     private Func<TCollectionItem, object>? _sortingFunc;
     private Func<TCollectionItem, bool>? _selectingFunc;
-    public PagedListViewModelBase(IMediator mediator,
+    public PagedListViewModelBase(IEntityPagedListGet<TCollectionItem> entityPagedListGet,
+        IGetEntitiesCountGetService<TCollectionItem> entitiesCountGetService,
         IUiThreadInvokerService uiThreadInvokerService,
         ISortOptionsProvider<TCollectionItem> sortOptionsProvider,
         ISelectOptionsProvider<TCollectionItem> selectOptionsProvider,
         IAvailablePageSizesProvider availablePageSizesProvider)
     {
-        _mediator = mediator;
+        _entityPagedListGet = entityPagedListGet;
+        _entitiesCountGetService = entitiesCountGetService;
         _uiThreadInvokerService = uiThreadInvokerService;
         _sortOptions = sortOptionsProvider.GetSortOptions();
         _selectOptions = selectOptionsProvider.GetSelectOptions();
@@ -76,10 +80,11 @@ public class PagedListViewModelBase<TCollectionItem> : ApplicationBaseViewModel 
         {
             if (updateItemsCount)
             {
-                TotalItems = await _mediator.Send(new GenericGetEntitiesCountQuery<TCollectionItem>(_selectingFunc));
+                TotalItems = await _entitiesCountGetService.GetEntitiesCountAsync(_selectingFunc);
             }
-            var newItems = await _mediator
-                .Send(new GenericGetPagedListQuery<TCollectionItem>(PageSize, pageIndex, _sortingFunc, _selectingFunc));
+
+            var newItems =
+                await _entityPagedListGet.GetPagedListAsync(PageSize, pageIndex, _sortingFunc, _selectingFunc);
             await UpdateItems(newItems.Items);
         });
     }
@@ -165,8 +170,9 @@ public class PagedListViewModelBase<TCollectionItem> : ApplicationBaseViewModel 
     {
         _selectingFunc = null;
         _sortingFunc = null;
-        Reset();
         await GetPage(0, true);
+        Reset();
+        UpdateItemIndexes();
     }
 
     private async Task ChangePageSize(int newPageSize)

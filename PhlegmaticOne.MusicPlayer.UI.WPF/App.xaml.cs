@@ -12,22 +12,17 @@ using System.Windows;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using PhlegmaticOne.HandMapper.Lib;
-using PhlegmaticOne.MusicPlayer.Data.AdoNet.Base;
-using PhlegmaticOne.MusicPlayer.UI.WPF.Helpers;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Localization;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Player;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.UI;
-using PhlegmaticOne.MusicPlayer.Contracts.Mediatr.Handlers;
-using PhlegmaticOne.MusicPlayer.Contracts.Mediatr.Queries;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Count;
 using PhlegmaticOne.WPF.Navigation.Extensions;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Logo;
-using PhlegmaticOne.MusicPlayer.Data.AdoNet.PagedList;
 using PhlegmaticOne.MusicPlayer.Data.Common.HandMappers;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Context;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Navigation;
@@ -43,7 +38,6 @@ using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Download;
 using PhlegmaticOne.MusicPlayer.Data.Models;
 using PhlegmaticOne.MusicPlayer.Models;
 using PhlegmaticOne.MusicPlayer.Models.Base;
-using PhlegmaticOne.MusicPlayer.UI.WPF.MediatrConfig;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Logo;
 using PhlegmaticOne.MusicPlayer.ViewModels.Base;
 using PhlegmaticOne.Players.Models;
@@ -53,6 +47,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.PagedList;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.PageSizes;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.Select;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.Sort;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.Cache;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -127,21 +122,15 @@ public partial class App
              {
                  services.AddDbContext<ApplicationDbContext>(b =>
                  {
-                    #if DEBUG
                      b.UseLoggerFactory(_debugFactory);
-                    #endif
 
                      //b.UseInMemoryDatabase("MEMORY");
                      b.UseSqlServer(connectionString);
                  });
 
-                 services.AddMediatR(typeof(GenericGetPagedListQuery<>).Assembly)
-                     .AddTransient<IMediatorServiceTypeConverter, PagedListGenericQueryToHandlerConverter>()
-                     .AddTransient<IMediatorServiceTypeConverter, EntitiesCountGenericQueryToHandlerConverter>()
-                     .AddTransient(sp => MediatrServiceFactory.Wrap(sp.GetService, sp.GetServices<IMediatorServiceTypeConverter>()))
-                     .AddTransient(typeof(GenericGetPagedListQueryHandler<>))
-                     .AddTransient(typeof(GenericGetEntitiesCountQueryHandler<>));
+                 //services.AddMediatR(typeof(GenericGetPagedListQuery<>).Assembly);
 
+                 services.AddCacheService();
 
                  services.AddHandMappers(typeof(AlbumPreviewToActiveViewModelMapper).Assembly);
 
@@ -158,8 +147,6 @@ public partial class App
                  services.AddSingleton<ILikeService, EFLikeService>();
 
                  services.AddSingleton<IUiThreadInvokerService, WpfUIThreadInvokerService>();
-                 services.AddSingleton<IConnectionStringGetter, ConfigurationConnectionStringGetter>();
-                 services.AddSingleton<ISqlClient, SqlClientSingleton>();
 
                  #region PagedList
 
@@ -172,10 +159,13 @@ public partial class App
                  services.AddSingleton<ISelectOptionsProvider<TrackBaseViewModel>, TracksSelectOptionsProvider>();
 
                  services.AddSingleton<IEntityPagedListGet<AlbumPreviewViewModel>, EFAllAlbumsViewModelGet>();
-                 services.AddSingleton<IEntityPagedListGet<ArtistPreviewViewModel>, AdoNetArtistsPagedListGetBase>();
-                 services.AddSingleton<IEntityPagedListGet<TrackBaseViewModel>, AdoNetAllFavoriteTracksViewModelGet>();
+                 services.AddSingleton<IEntityPagedListGet<ArtistPreviewViewModel>, EFAllArtistsViewModelGet>();
+                 services.AddSingleton<IEntityPagedListGet<TrackBaseViewModel>, EFAllTracksViewModelGet>();
 
                  services.AddSingleton<IGetEntitiesCountGetService<AlbumPreviewViewModel>, AlbumsEntityCountGetService>();
+                 services.AddSingleton<IGetEntitiesCountGetService<ArtistPreviewViewModel>, ArtistsEntityCountGetService>();
+                 services.AddSingleton<IGetEntitiesCountGetService<TrackBaseViewModel>, TracksEntityCountGetService>();
+
                  services.AddSingleton<IAvailablePageSizesProvider, AvailablePageSizesProvider>();
 
                  #endregion

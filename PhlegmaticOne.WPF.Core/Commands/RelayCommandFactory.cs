@@ -10,7 +10,8 @@ public static class RelayCommandFactory
     public static IRelayCommand CreateRequiredParameterCommand<T>(Action<T> action, Predicate<object?> predicate) =>
         new RelayGenericCommand<T>(action, predicate, true);
 
-    public static IRelayCommand CreateAsyncCommand(Func<object?, Task> action, Predicate<object?> predicate, Action<Exception>? onException = null) => 
+    public static IRelayCommand CreateAsyncCommand(Func<object?, Task> action, Predicate<object?> predicate,
+        Action<Exception>? onException = null) => 
         new AsyncRelayGenericCommand<object>(action, predicate, onException);
 
     public static IRelayCommand CreateAsyncCommand<T>(Func<T?, Task> action, Predicate<object?> predicate,

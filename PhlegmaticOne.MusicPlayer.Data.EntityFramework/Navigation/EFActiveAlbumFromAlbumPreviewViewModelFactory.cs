@@ -15,7 +15,8 @@ public class EFActiveAlbumFromAlbumPreviewViewModelFactory : NavigationFactoryBa
     private readonly IHandMapperService _handMapperProvider;
     private readonly IEntityActionsProvider<TrackBaseViewModel> _trackActionsProvider;
 
-    public EFActiveAlbumFromAlbumPreviewViewModelFactory(ApplicationDbContext dbContext, IHandMapperService handMapperProvider,
+    public EFActiveAlbumFromAlbumPreviewViewModelFactory(ApplicationDbContext dbContext,
+        IHandMapperService handMapperProvider,
         IEntityActionsProvider<TrackBaseViewModel> trackActionsProvider)
     {
         _dbContext = dbContext;
