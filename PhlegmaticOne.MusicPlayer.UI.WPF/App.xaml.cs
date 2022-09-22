@@ -47,7 +47,6 @@ using PhlegmaticOne.MusicPlayer.Contracts.PagedList;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.PageSizes;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.Select;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.Sort;
-using PhlegmaticOne.MusicPlayer.Contracts.Services.Cache;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -129,8 +128,6 @@ public partial class App
                  });
 
                  //services.AddMediatR(typeof(GenericGetPagedListQuery<>).Assembly);
-
-                 services.AddCacheService();
 
                  services.AddHandMappers(typeof(AlbumPreviewToActiveViewModelMapper).Assembly);
 

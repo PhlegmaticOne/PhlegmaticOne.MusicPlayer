@@ -13,8 +13,11 @@ internal class PlayerService<T> : IPlayerService<T> where T : class, IHaveUrl
     public PlayerService(IPlayer player)
     {
         Player = player;
+        Player.SongEnded += PlayerOnSongEnded;
         _playerQueue = new();
     }
+
+
     public event EventHandler<T>? CurrentEntityChanged;
     public event EventHandler<PlayerQueueChangedEventArgs<T>>? EntitiesChanged;
 
@@ -95,7 +98,11 @@ internal class PlayerService<T> : IPlayerService<T> where T : class, IHaveUrl
 
         return isRemoved;
     }
-    public void Dispose() => Player.Dispose();
+    public void Dispose()
+    {
+        Player.SongEnded -= PlayerOnSongEnded;
+        Player.Dispose();
+    }
 
     public IEnumerator<T> GetEnumerator() => _playerQueue.GetEnumerator();
 
@@ -106,6 +113,8 @@ internal class PlayerService<T> : IPlayerService<T> where T : class, IHaveUrl
     private void InvokeOnQueueChanged(IEnumerable<T> entities, PlayerQueueChangedType collectionChangedType) =>
         EntitiesChanged?.Invoke(this, new PlayerQueueChangedEventArgs<T>(entities, collectionChangedType));
     private void InvokeOnEntityChanged() => CurrentEntityChanged?.Invoke(this, _currentEntity);
-
+    private void PlayerOnSongEnded(object? sender, EventArgs e) => MoveNext(QueueMoveType.AccordingToRepeatType);
     public void CopyTo(T[] array, int arrayIndex) => throw new NotImplementedException();
+
+    
 }
