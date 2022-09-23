@@ -25,6 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.Common\PhlegmaticOne.MusicPlayer.Data.Common.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.EntityFramework\PhlegmaticOne.MusicPlayer.Data.EntityFramework.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.WPF.Core\PhlegmaticOne.WPF.Core.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.WPF.Navigation\PhlegmaticOne.WPF.Navigation.csproj" />

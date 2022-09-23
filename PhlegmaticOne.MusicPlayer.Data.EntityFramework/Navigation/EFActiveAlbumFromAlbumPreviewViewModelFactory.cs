@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PhlegmaticOne.HandMapper.Lib;
+using PhlegmaticOne.HandMapper;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;
 using PhlegmaticOne.MusicPlayer.Data.EntityFramework.Context;
 using PhlegmaticOne.MusicPlayer.Data.Models;

@@ -43,6 +43,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.MusicPlayer.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.MusicPlayer.Data.Common", "PhlegmaticOne.MusicPlayer.Data.Common\PhlegmaticOne.MusicPlayer.Data.Common.csproj", "{90FB5BA9-F988-4E52-A39B-8BBF521C0368}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PhlegmaticOne.HandMapper", "PhlegmaticOne.HandMapper\PhlegmaticOne.HandMapper.csproj", "{6B549866-782E-423F-9B4D-ADA77BCF57B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{90FB5BA9-F988-4E52-A39B-8BBF521C0368}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90FB5BA9-F988-4E52-A39B-8BBF521C0368}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90FB5BA9-F988-4E52-A39B-8BBF521C0368}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B549866-782E-423F-9B4D-ADA77BCF57B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B549866-782E-423F-9B4D-ADA77BCF57B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B549866-782E-423F-9B4D-ADA77BCF57B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B549866-782E-423F-9B4D-ADA77BCF57B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{42AB09ED-6694-4B9B-8BB2-A3E25EDE6CFC} = {32C36E95-22A3-4843-8FB2-5B9C6B6FE0BB}
 		{7E4D482E-B43F-4A42-A340-7AA4EE542A42} = {32C36E95-22A3-4843-8FB2-5B9C6B6FE0BB}
 		{90FB5BA9-F988-4E52-A39B-8BBF521C0368} = {32C36E95-22A3-4843-8FB2-5B9C6B6FE0BB}
+		{6B549866-782E-423F-9B4D-ADA77BCF57B0} = {32C36E95-22A3-4843-8FB2-5B9C6B6FE0BB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {95E1D00D-E51A-4BA8-A915-E1CE5FDBC193}

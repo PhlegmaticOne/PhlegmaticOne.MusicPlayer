@@ -7,9 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dtos\**" />
+    <Compile Remove="Mediatr\**" />
+    <EmbeddedResource Remove="Dtos\**" />
+    <EmbeddedResource Remove="Mediatr\**" />
+    <None Remove="Dtos\**" />
+    <None Remove="Mediatr\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Calabonga.UnitOfWork" Version="3.0.0" />
     <PackageReference Include="MediatR" Version="10.0.1" />
-    <PackageReference Include="PhlegmaticOne.HandMapper.Lib" Version="1.0.6" />
     <PackageReference Include="PropertyChanged.Fody" Version="3.4.1" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
@@ -20,18 +28,6 @@
     <ProjectReference Include="..\PhlegmaticOne.PlayerService\PhlegmaticOne.PlayerService.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.WPF.Core\PhlegmaticOne.WPF.Core.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.WPF.Navigation\PhlegmaticOne.WPF.Navigation.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms">
-      <HintPath>C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\5.0.0\ref\net5.0\System.Windows.Forms.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Dtos\" />
-    <Folder Include="Mediatr\Handlers\" />
-    <Folder Include="Mediatr\Queries\" />
   </ItemGroup>
 
 </Project>

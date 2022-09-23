@@ -7,7 +7,10 @@ namespace PhlegmaticOne.MusicPlayer.Data.EntityFramework.Context;
 public class ApplicationDbContext : DbContext
 {
     public ApplicationDbContext() { }
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    {
+        Database.EnsureCreated();
+    }
     public DbSet<CollectionBase> Albums { get; set; }
     public DbSet<Artist> Artists { get; set; }
     public DbSet<Song> Songs { get; set; }

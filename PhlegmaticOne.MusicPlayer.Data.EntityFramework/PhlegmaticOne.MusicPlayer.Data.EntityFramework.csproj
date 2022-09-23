@@ -20,11 +20,11 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="6.0.0" />
-    <PackageReference Include="PhlegmaticOne.HandMapper.Lib" Version="1.0.6" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PhlegmaticOne.HandMapper\PhlegmaticOne.HandMapper.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Contracts\PhlegmaticOne.MusicPlayer.Contracts.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.Models\PhlegmaticOne.MusicPlayer.Data.Models.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Models\PhlegmaticOne.MusicPlayer.Models.csproj" />

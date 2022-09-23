@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.HandMapper.Lib;
+﻿using PhlegmaticOne.HandMapper;
 using PhlegmaticOne.MusicPlayer.Data.Models;
 using PhlegmaticOne.MusicPlayer.Models;
 using PhlegmaticOne.MusicPlayer.Models.Base;
@@ -7,7 +7,7 @@ namespace PhlegmaticOne.MusicPlayer.Data.Common.HandMappers;
 
 public class AlbumPreviewToActiveViewModelMapper : HandMapperBase<AlbumPreviewViewModel, ActiveAlbumViewModel>
 {
-    public override ActiveAlbumViewModel? Map(AlbumPreviewViewModel from)
+    public override ActiveAlbumViewModel Map(AlbumPreviewViewModel from)
     {
         var songs = Parameters["CollectionSongs"] as List<Song>;
         return new ActiveAlbumViewModel()

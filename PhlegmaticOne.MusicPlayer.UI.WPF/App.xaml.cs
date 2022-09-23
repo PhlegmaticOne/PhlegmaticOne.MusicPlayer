@@ -11,7 +11,6 @@ using System.Threading;
 using System.Windows;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using PhlegmaticOne.HandMapper.Lib;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
@@ -47,6 +46,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.PagedList;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.PageSizes;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.Select;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.Sort;
+using PhlegmaticOne.HandMapper.Extensions;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 

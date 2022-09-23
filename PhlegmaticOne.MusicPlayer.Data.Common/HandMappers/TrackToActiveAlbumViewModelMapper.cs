@@ -1,4 +1,4 @@
-﻿using PhlegmaticOne.HandMapper.Lib;
+﻿using PhlegmaticOne.HandMapper;
 using PhlegmaticOne.MusicPlayer.Data.Models;
 using PhlegmaticOne.MusicPlayer.Models;
 using PhlegmaticOne.MusicPlayer.Models.Base;
