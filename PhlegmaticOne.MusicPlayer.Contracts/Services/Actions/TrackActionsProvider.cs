@@ -3,7 +3,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.Services.Download;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Localization;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.Models.Base;
-using PhlegmaticOne.PlayerService.Base;
+using PhlegmaticOne.MusicPlayerService.Base;
 using PhlegmaticOne.WPF.Core.Commands;
 
 namespace PhlegmaticOne.MusicPlayer.Contracts.Services.Actions;

@@ -39,14 +39,15 @@ using PhlegmaticOne.MusicPlayer.Models;
 using PhlegmaticOne.MusicPlayer.Models.Base;
 using PhlegmaticOne.MusicPlayer.UI.WPF.Services.Logo;
 using PhlegmaticOne.MusicPlayer.ViewModels.Base;
-using PhlegmaticOne.Players.Models;
-using PhlegmaticOne.PlayerService.Base;
-using PhlegmaticOne.PlayerService.Extensions;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.PageSizes;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.Select;
 using PhlegmaticOne.MusicPlayer.Contracts.PagedList.Sort;
 using PhlegmaticOne.HandMapper.Extensions;
+using PhlegmaticOne.MusicPlayer.Contracts.KeyHandlers;
+using PhlegmaticOne.MusicPlayerService.Extensions;
+using PhlegmaticOne.MusicPlayers.Models;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.PlayerVolume;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
@@ -183,6 +184,8 @@ public partial class App
 
                  services.AddSingleton<IFileOperatingService<TrackBaseViewModel>, TrackFileOperatingService>();
                  services.AddSingleton<ILocalizationService, LocalizationService>();
+
+                 services.AddSingleton<IGlobalKeyHandler, GlobalKeyHandler>();
 
                  services.AddSingleton<MainWindow>();
              });

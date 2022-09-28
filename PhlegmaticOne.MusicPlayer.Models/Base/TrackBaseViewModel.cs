@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 using PhlegmaticOne.MusicPlayer.Contracts.Abstractions;
-using PhlegmaticOne.PlayerService.Base;
+using PhlegmaticOne.MusicPlayerService.Base;
 using PhlegmaticOne.WPF.Core.ViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.Models.Base;

@@ -26,9 +26,6 @@
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.Common\PhlegmaticOne.MusicPlayer.Data.Common.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Data.EntityFramework\PhlegmaticOne.MusicPlayer.Data.EntityFramework.csproj" />
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.ViewModels\PhlegmaticOne.MusicPlayer.ViewModels.csproj" />
-    <ProjectReference Include="..\PhlegmaticOne.PlayerService\PhlegmaticOne.PlayerService.csproj" />
-    <ProjectReference Include="..\PhlegmaticOne.Players\PhlegmaticOne.Players.csproj" />
-    <ProjectReference Include="..\PhlegmaticOne.WPF.Navigation\PhlegmaticOne.WPF.Navigation.csproj" />
   </ItemGroup>
 
   <ItemGroup>

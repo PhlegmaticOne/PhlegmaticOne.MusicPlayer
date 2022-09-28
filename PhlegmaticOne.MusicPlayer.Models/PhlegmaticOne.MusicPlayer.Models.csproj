@@ -7,13 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="PhlegmaticOne.MusicPlayerService" Version="1.0.0" />
+    <PackageReference Include="PhlegmaticOne.WPF.Core" Version="1.0.0" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PhlegmaticOne.MusicPlayer.Contracts.Abstractions\PhlegmaticOne.MusicPlayer.Contracts.Abstractions.csproj" />
-    <ProjectReference Include="..\PhlegmaticOne.PlayerService\PhlegmaticOne.PlayerService.csproj" />
-    <ProjectReference Include="..\PhlegmaticOne.WPF.Core\PhlegmaticOne.WPF.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,7 +5,7 @@ using PhlegmaticOne.MusicPlayer.Contracts.Services.UI;
 using PhlegmaticOne.MusicPlayer.Models;
 using PhlegmaticOne.MusicPlayer.Models.Base;
 using PhlegmaticOne.MusicPlayer.ViewModels.Base;
-using PhlegmaticOne.PlayerService.Base;
+using PhlegmaticOne.MusicPlayerService.Base;
 using PhlegmaticOne.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Navigation;
 

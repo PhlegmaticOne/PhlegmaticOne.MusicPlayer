@@ -5,8 +5,8 @@ using PhlegmaticOne.MusicPlayer.Models;
 using PhlegmaticOne.MusicPlayer.Models.Base;
 using PhlegmaticOne.MusicPlayer.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.ViewModels.EntityContainingViewModels;
-using PhlegmaticOne.PlayerService.Base;
-using PhlegmaticOne.PlayerService.Models;
+using PhlegmaticOne.MusicPlayerService.Base;
+using PhlegmaticOne.MusicPlayerService.Models;
 using PhlegmaticOne.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Navigation;
 

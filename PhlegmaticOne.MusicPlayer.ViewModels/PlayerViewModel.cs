@@ -1,8 +1,9 @@
 ﻿using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
+using PhlegmaticOne.MusicPlayer.Contracts.Services.PlayerVolume;
 using PhlegmaticOne.MusicPlayer.Models.Base;
 using PhlegmaticOne.MusicPlayer.ViewModels.Base;
-using PhlegmaticOne.PlayerService.Base;
-using PhlegmaticOne.PlayerService.Models;
+using PhlegmaticOne.MusicPlayerService.Base;
+using PhlegmaticOne.MusicPlayerService.Models;
 using PhlegmaticOne.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Navigation;
 

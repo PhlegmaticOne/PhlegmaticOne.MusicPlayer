@@ -4,7 +4,7 @@ using PhlegmaticOne.MusicPlayer.Models.Base;
 using PhlegmaticOne.MusicPlayer.ViewModels.Base;
 using PhlegmaticOne.MusicPlayer.ViewModels.EntityContainingViewModels;
 using PhlegmaticOne.MusicPlayer.ViewModels.PagedList;
-using PhlegmaticOne.PlayerService.Base;
+using PhlegmaticOne.MusicPlayerService.Base;
 using PhlegmaticOne.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Navigation;
 

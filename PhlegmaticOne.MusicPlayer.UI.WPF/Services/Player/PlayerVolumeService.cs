@@ -1,5 +1,5 @@
-﻿using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
-using PhlegmaticOne.PlayerService.Base;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Services.PlayerVolume;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Properties;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF.Services.Player;
 

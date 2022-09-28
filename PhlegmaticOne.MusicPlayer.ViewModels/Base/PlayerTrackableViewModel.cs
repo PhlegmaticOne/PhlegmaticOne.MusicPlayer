@@ -1,9 +1,8 @@
-﻿using NAudio.MediaFoundation;
-using PhlegmaticOne.MusicPlayer.Contracts.Abstractions;
+﻿using PhlegmaticOne.MusicPlayer.Contracts.Abstractions;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.Like;
 using PhlegmaticOne.MusicPlayer.Models.Base;
-using PhlegmaticOne.Players.Models;
-using PhlegmaticOne.PlayerService.Base;
+using PhlegmaticOne.MusicPlayers.Base;
+using PhlegmaticOne.MusicPlayerService.Base;
 using PhlegmaticOne.WPF.Core.Commands;
 using PhlegmaticOne.WPF.Core.ViewModels;
 
