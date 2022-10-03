@@ -48,10 +48,15 @@ using PhlegmaticOne.MusicPlayer.Contracts.KeyHandlers;
 using PhlegmaticOne.MusicPlayerService.Extensions;
 using PhlegmaticOne.MusicPlayers.Models;
 using PhlegmaticOne.MusicPlayer.Contracts.Services.PlayerVolume;
+using PhlegmaticOne.MusicPlayer.ViewModels;
+using PhlegmaticOne.MusicPlayer.UI.WPF.Views;
+using PhlegmaticOne.WPF.Navigation.ViewModelsBinding;
+using PhlegmaticOne.MusicPlayer.ViewModels.CollectionViewModels;
+using PhlegmaticOne.MusicPlayer.ViewModels.EntityContainingViewModels;
 
 namespace PhlegmaticOne.MusicPlayer.UI.WPF;
 
-public partial class App
+public partial class App : Application
 {
     private IHost _host = null!;
 
@@ -104,6 +109,9 @@ public partial class App
         Language = new CultureInfo(Settings.Default.DefaultLanguage);
         SetResourceDictionary();
         _host = ConfigureServices().Build();
+
+        var r = App.Current.Resources;
+
         var mainWindow = _host.Services.GetRequiredService<MainWindow>();
         mainWindow.Show();
     }
@@ -135,11 +143,25 @@ public partial class App
                  services.AddPlayerService<TrackBaseViewModel>()
                      .UsingPlayer<NAudioMusicPlayer>();
 
-                 services.AddChainNavigation()
-                     .UsingApplicationViewModelsFrom(typeof(PlayerTrackableViewModel).Assembly)
-                     .AddEntityContainingNavigation()
-                     .UsingApplicationViewModelsFrom(typeof(PlayerTrackableViewModel).Assembly)
-                     .UsingNavigationFactoriesFrom(typeof(EFActiveAlbumFromAlbumPreviewViewModelFactory).Assembly);
+                 services.AddNavigation(typeof(HomeViewModel).Assembly, typeof(HomeView).Assembly, b =>
+                 {
+                     var bindingProvider = new HandViewModelsToViewsBindingInfoProvider()
+                        .Bind<HomeViewModel, HomeView>()
+                        .Bind<AddingNewAlbumViewModel, AddingNewAlbumView>()
+                        .Bind<ArtistsCollectionViewModel, ArtistsCollectionView>()
+                        .Bind<AlbumsCollectionViewModel, AlbumsCollectionView>()
+                        .Bind<DownloadedTracksViewModel, DownloadedTracksView>()
+                        .Bind<PlaylistViewModel, PlaylistsCollectionView>()
+                        .Bind<SettingsViewModel, SettingsView>()
+                        .Bind<TracksViewModel, TracksView>()
+                        .Bind<AlbumViewModel, AlbumView>()
+                        .Bind<ArtistViewModel, ArtistView>()
+                        .Bind<SongQueueViewModel, SongQueueView>();
+
+                     b.UseChainNavigation();
+                     b.AddEntityContainingNavigation(typeof(EFActiveAlbumFromAlbumPreviewViewModelFactory).Assembly);
+                     b.BindViewModelsToViews(Current, bindingProvider);
+                 });
 
 
                  services.AddSingleton<ILikeService, EFLikeService>();
