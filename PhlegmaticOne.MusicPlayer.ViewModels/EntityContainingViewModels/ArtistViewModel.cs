@@ -36,7 +36,7 @@ public class ArtistViewModel : PlayerTrackableViewModel, IEntityContainingViewMo
         ActiveCollectionNavigationFromPreviewCommand = RelayCommandFactory
             .CreateRequiredParameterAsyncCommand<AlbumPreviewViewModel>(NavigateToActiveCollectionFromPreview, _ => true);
 
-        SelectTopTracksCommand = RelayCommandFactory.CreateCommand(SelectTopTracks, _ => true);
+        SelectTopTracksCommand = RelayCommandFactory.CreateEmptyAsyncCommand(SelectTopTracks);
 
         TrySetSong();
     }
@@ -46,11 +46,12 @@ public class ArtistViewModel : PlayerTrackableViewModel, IEntityContainingViewMo
     public IRelayCommand ActiveCollectionNavigationFromPreviewCommand { get; }
     public IRelayCommand SelectTopTracksCommand { get; }
 
-    private async void SelectTopTracks(object? parameter)
+    private async Task SelectTopTracks()
     {
+        var tracks = Entity.Tracks.OrderBy(x => x.TimePlayed).Take(10);
+
         await Task.Run(async () =>
         {
-            var tracks = Entity.Tracks.OrderBy(x => x.TimePlayed).Take(10);
             await _uiThreadInvokerService.InvokeAsync(() =>
             {
                 foreach (var trackBaseViewModel in tracks)
@@ -61,7 +62,7 @@ public class ArtistViewModel : PlayerTrackableViewModel, IEntityContainingViewMo
         });
     }
 
-    protected override void PlaySongAction(TrackBaseViewModel? parameter)
+    protected override void PlaySongAction(TrackBaseViewModel parameter)
     {
         PlayerService.Clear();
         PlayerService.AddRange(TopTracks);

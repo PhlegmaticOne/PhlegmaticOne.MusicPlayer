@@ -42,14 +42,17 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         _playerService.Player.Volume = volume == 0 ? 0.2f : volume;
         Volume = _playerService.Player.Volume;
 
-        RewindCommand = RelayCommandFactory.CreateCommand(Rewind, _ => true);
-        OpenSongsQueueCommand = RelayCommandFactory.CreateCommand(OpenQueue, _ => true);
-        MoveNextCommand = RelayCommandFactory.CreateCommand(MoveNextAction, _ => true);
-        MovePreviousCommand = RelayCommandFactory.CreateCommand(MovePreviousAction, _ => true);
-        ChangeQueueRepeatTypeCommand = RelayCommandFactory.CreateCommand(ChangeQueueRepeatType, _ => true);
-        ChangeQueueShuffleTypeCommand = RelayCommandFactory.CreateCommand(ChangeQueueShuffleType, _ => true);
-        MuteCommand = RelayCommandFactory.CreateCommand(Mute, _ => true);
-        SaveVolumeCommand = RelayCommandFactory.CreateCommand(SaveVolume, _ => true);
+        RewindCommand = RelayCommandFactory.CreateRequiredParameterCommand<double>(Rewind);
+        OpenSongsQueueCommand = RelayCommandFactory.CreateEmptyCommand(OpenQueue);
+
+        MoveNextCommand = RelayCommandFactory.CreateEmptyCommand(MoveNextAction);
+        MovePreviousCommand = RelayCommandFactory.CreateEmptyCommand(MovePreviousAction);
+
+        ChangeQueueRepeatTypeCommand = RelayCommandFactory.CreateCommand(ChangeQueueRepeatType);
+        ChangeQueueShuffleTypeCommand = RelayCommandFactory.CreateRequiredParameterCommand<bool>(ChangeQueueShuffleType);
+
+        MuteCommand = RelayCommandFactory.CreateEmptyCommand(Mute);
+        SaveVolumeCommand = RelayCommandFactory.CreateEmptyCommand(SaveVolume);
 
         SetIsPausedAndIsStopped();
     }
@@ -63,34 +66,27 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
     public IRelayCommand SaveVolumeCommand { get; set; }
     public IRelayCommand MuteCommand { get; set; }
 
-    private void SaveVolume(object? parameter) => 
-        _playerVolumeService.SetVolume((float)Volume);
+    private void SaveVolume() => _playerVolumeService.SetVolume((float)Volume);
 
-    private void Mute(object? parameter) => 
-        Volume = 0;
+    private void Mute() =>  Volume = 0;
 
-    private void OpenQueue(object? parameter) => 
-        _navigationService.NavigateTo<SongQueueViewModel>();
+    private void OpenQueue() => _navigationService.NavigateTo<SongQueueViewModel>();
 
-    private void Rewind(object? parameter)
+    private void Rewind(double ticks)
     {
         if (CurrentSong is null) return;
 
-        if (parameter is double ticks)
-        {
-            _playerService.Player.Rewind(ParseTime(ticks));
-        }
+        _playerService.Player.Rewind(ParseTime(ticks));
     }
 
-    private void MoveNextAction(object? parameter) => 
-        _playerService.MoveNext(QueueMoveType.MoveAnyway);
+    private void MoveNextAction() => _playerService.MoveNext(QueueMoveType.MoveAnyway);
 
-    private void MovePreviousAction(object? parameter) => 
-        _playerService.MovePrevious();
+    private void MovePreviousAction() => _playerService.MovePrevious();
 
     private void ChangeQueueRepeatType(object? parameter)
     {
         RepeatType repeatType;
+
         if (parameter is bool isChecked)
         {
             repeatType = isChecked ? RepeatType.RepeatQueue : RepeatType.RepeatOff;
@@ -102,13 +98,10 @@ public class PlayerViewModel : PlayerTrackableViewModel, IDisposable
         _playerService.RepeatType = repeatType;
     }
 
-    private void ChangeQueueShuffleType(object? parameter)
+    private void ChangeQueueShuffleType(bool isChecked)
     {
-        if (parameter is bool isChecked)
-        {
-            var shuffleType = isChecked ? ShuffleType.ShuffleOn : ShuffleType.ShuffleOff;
-            _playerService.ShuffleType = shuffleType;
-        }
+        var shuffleType = isChecked ? ShuffleType.ShuffleOn : ShuffleType.ShuffleOff;
+        _playerService.ShuffleType = shuffleType;
     }
 
     private TimeSpan ParseTime(double value) => TimeSpan.FromTicks(Convert.ToInt64(value));

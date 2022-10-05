@@ -18,7 +18,7 @@ public class ArtistsCollectionViewModel : CollectionViewModelBase<ArtistsCollect
         base(playerService, likeService, entityContainingViewModelsNavigationService, pagedListViewModel)
     {
         ActiveArtistNavigationCommand = RelayCommandFactory
-            .CreateRequiredParameterAsyncCommand<ArtistPreviewViewModel>(NavigateToArtist, _ => true);
+            .CreateRequiredParameterAsyncCommand<ArtistPreviewViewModel>(NavigateToArtist);
     }
     public IRelayCommand ActiveArtistNavigationCommand { get; }
 

@@ -24,10 +24,10 @@ public abstract class PlayerTrackableViewModel : ApplicationBaseViewModel, IDisp
         playerService.CurrentEntityChanged += PlayerServiceOnCurrentEntityChanged;
         playerService.Player.PlayerStateChanged += PlayerOnPlayerStateChanged;
 
-        PlaySongCommand =  RelayCommandFactory.CreateCommand<TrackBaseViewModel>(PlaySongAction, _ => true);
-        PlayPauseCommand = RelayCommandFactory.CreateCommand<TrackBaseViewModel>(PlayPauseAction, _ => true);
-        AddToQueueCommand = RelayCommandFactory.CreateCommand<TrackBaseViewModel>(AddToQueue, _ => true);
-        LikeCommand = RelayCommandFactory.CreateCommand(LikeAction, _ => true);
+        PlaySongCommand =  RelayCommandFactory.CreateRequiredParameterCommand<TrackBaseViewModel>(PlaySongAction);
+        PlayPauseCommand = RelayCommandFactory.CreateRequiredParameterCommand<TrackBaseViewModel>(PlayPauseAction);
+        AddToQueueCommand = RelayCommandFactory.CreateRequiredParameterCommand<TrackBaseViewModel>(AddToQueue);
+        LikeCommand = RelayCommandFactory.CreateRequiredParameterCommand<IIsFavorite>(LikeAction);
     }
 
     public IRelayCommand PlaySongCommand { get; set; }
@@ -40,53 +40,24 @@ public abstract class PlayerTrackableViewModel : ApplicationBaseViewModel, IDisp
         PlayerService.CurrentEntityChanged -= PlayerServiceOnCurrentEntityChanged;
         PlayerService.Player.PlayerStateChanged -= PlayerOnPlayerStateChanged;
     }
-    protected void AddToQueue(TrackBaseViewModel? parameter)
+    protected void AddToQueue(TrackBaseViewModel parameter)
     {
-        if (parameter is null) return;
-
         PlayerService.Add(parameter);
     }
 
-    protected virtual void PlaySongAction(TrackBaseViewModel? parameter)
+    protected virtual void PlaySongAction(TrackBaseViewModel parameter)
     {
-        if (parameter is null) return;
-
         PlayerService.SetAndPlay(parameter);
     }
 
-    protected virtual void PlayPauseAction(TrackBaseViewModel? parameter)
+    protected virtual void PlayPauseAction(TrackBaseViewModel parameter)
     {
-        if(parameter is null) return;
-        
         PlayerService.Player.PauseOrUnpause();
     }
 
-    protected virtual async void LikeAction(object? parameter)
+    protected virtual void LikeAction(IIsFavorite parameter)
     {
-        if (parameter is not IIsFavorite isFavorite) return;
-
-        var newLikeValue = !isFavorite.IsFavorite;
-        //isFavorite.IsFavorite = newLikeValue;
-
-        switch (isFavorite)
-        {
-            //case TrackBaseViewModel trackBaseViewModel:
-            //{
-            //    await LikeService.SetNewLike<Song, TrackBaseViewModel>(trackBaseViewModel, newLikeValue);
-            //    break;
-            //}
-            //case CollectionBaseViewModel collectionBaseViewModel:
-            //{
-            //    await LikeService.SetNewLike<CollectionBase, CollectionBaseViewModel>(collectionBaseViewModel,
-            //        newLikeValue);
-            //    break;
-            //}
-            //case ArtistBaseViewModel artistBaseViewModel:
-            //{
-            //    await LikeService.SetNewLike<Artist, ArtistBaseViewModel>(artistBaseViewModel, newLikeValue);
-            //    break;
-            //}
-        }
+        parameter.IsFavorite = !parameter.IsFavorite;
     }
 
     protected void TrySetSong()

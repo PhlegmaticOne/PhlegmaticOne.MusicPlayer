@@ -16,7 +16,7 @@ public class NavigationViewModel : ApplicationBaseViewModel, IDisposable
         _chainNavigationService.ViewModelChanged += ChainNavigationServiceOnViewModelChanged;
 
         MoveBackCommand = RelayCommandFactory.CreateCommand(MoveBack, _ => CanMoveBack);
-        NavigateCommand = RelayCommandFactory.CreateRequiredParameterCommand<Type>(Navigate, _ => true);
+        NavigateCommand = RelayCommandFactory.CreateRequiredParameterCommand<Type>(Navigate);
         Logo = logoProvider.GetApplicationLogo();
         Navigate(typeof(HomeViewModel));
     }

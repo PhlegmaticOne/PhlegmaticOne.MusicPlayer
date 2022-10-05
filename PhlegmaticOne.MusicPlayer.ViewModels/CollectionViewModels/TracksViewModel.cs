@@ -19,14 +19,14 @@ public class TracksViewModel : CollectionViewModelBase<TracksViewModel, TrackBas
         base(playerService, likeService, entityContainingViewModelsNavigationService, pagedListViewModel)
     {
         ActiveArtistNavigationCommand = RelayCommandFactory
-            .CreateRequiredParameterAsyncCommand<ArtistLinkViewModel>(NavigateToActiveArtist, _ => true);
+            .CreateRequiredParameterAsyncCommand<ArtistLinkViewModel>(NavigateToActiveArtist);
 
         ActiveCollectionNavigationCommand = RelayCommandFactory
-            .CreateRequiredParameterAsyncCommand<TrackBaseViewModel>(NavigateToActiveCollection, _ => true);
+            .CreateRequiredParameterAsyncCommand<TrackBaseViewModel>(NavigateToActiveCollection);
     }
     public IRelayCommand ActiveArtistNavigationCommand { get; }
     public IRelayCommand ActiveCollectionNavigationCommand { get; }
-    protected override void PlaySongAction(TrackBaseViewModel? parameter)
+    protected override void PlaySongAction(TrackBaseViewModel parameter)
     {
         if (_isFirst)
         {

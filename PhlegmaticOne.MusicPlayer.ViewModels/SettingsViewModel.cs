@@ -24,25 +24,23 @@ public class SettingsViewModel : ApplicationBaseViewModel
         UpdateDirectoryMenu();
         UpdateLanguageMenu();
 
-        ChangeLanguageCommand = RelayCommandFactory.CreateCommand(ChangeLanguage, _ => true);
-        SetNewDownloadDirectoryPathCommand = RelayCommandFactory.CreateCommand(SetNewDownloadDirectory, _ => true);
-        DeleteTracksFromDeviceCommand = RelayCommandFactory.CreateCommand(DeleteTracksFromDevice, _ => DirectorySize > 0);
+        ChangeLanguageCommand = RelayCommandFactory.CreateRequiredParameterCommand<string>(ChangeLanguage);
+        SetNewDownloadDirectoryPathCommand = RelayCommandFactory.CreateEmptyCommand(SetNewDownloadDirectory);
+        DeleteTracksFromDeviceCommand = RelayCommandFactory.CreateEmptyAsyncCommand(DeleteTracksFromDevice, _ => DirectorySize > 0);
     }
     public IRelayCommand ChangeLanguageCommand { get; set; }
     public IRelayCommand SetNewDownloadDirectoryPathCommand { get; set; }
     public IRelayCommand DeleteTracksFromDeviceCommand { get; set; }
 
-    private void ChangeLanguage(object? parameter)
+    private void ChangeLanguage(string language)
     {
-        if (parameter is not string language) return;
-
         if (_localizationService.SetLanguage(language))
         {
             UpdateLanguageMenu();
         }
     }
 
-    private void SetNewDownloadDirectory(object? parameter)
+    private void SetNewDownloadDirectory()
     {
         using var dialog = new FolderBrowserDialog();
         if (dialog.ShowDialog() == DialogResult.OK)
@@ -52,7 +50,7 @@ public class SettingsViewModel : ApplicationBaseViewModel
         }
         UpdateDirectoryMenu();
     }
-    private async void DeleteTracksFromDevice(object? parameter)
+    private async Task DeleteTracksFromDevice()
     {
         await _downloadSettings.DeleteTracksAsync();
         UpdateDirectoryMenu();

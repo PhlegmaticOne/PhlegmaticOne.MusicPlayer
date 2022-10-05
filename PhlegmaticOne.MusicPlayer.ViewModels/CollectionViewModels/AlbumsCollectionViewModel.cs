@@ -18,7 +18,7 @@ public class AlbumsCollectionViewModel : CollectionViewModelBase<AlbumsCollectio
         base(playerService, likeService, entityContainingViewModelsNavigationService, pagedListViewModel)
     {
         ActiveAlbumNavigationCommand = RelayCommandFactory
-            .CreateRequiredParameterAsyncCommand<AlbumPreviewViewModel>(NavigateToActiveAlbum, _ => true);
+            .CreateRequiredParameterAsyncCommand<AlbumPreviewViewModel>(NavigateToActiveAlbum);
     }
     public IRelayCommand ActiveAlbumNavigationCommand { get; }
     

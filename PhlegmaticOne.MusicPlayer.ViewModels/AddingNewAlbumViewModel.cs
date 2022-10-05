@@ -51,10 +51,11 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
         _url = string.Empty;
         ExistingArtists = new();
         _currentAlbumNewArtists = new();
-        GetAlbumInfoCommand = RelayCommandFactory.CreateCommand(GetAlbumInfo, _ => string.IsNullOrEmpty(Url) == false);
-        AddToCollectionCommand = RelayCommandFactory.CreateCommand(AddToCollection, _ => CurrentAlbum is not null);
-        ClearCommand = RelayCommandFactory.CreateCommand(Clear, _ => CurrentAlbum is not null);
-        ReplaceArtistCommand = RelayCommandFactory.CreateCommand(ReplaceArtist, _ => CurrentAlbum is not null);
+
+        GetAlbumInfoCommand = RelayCommandFactory.CreateEmptyAsyncCommand(GetAlbumInfo, _ => string.IsNullOrEmpty(Url) == false);
+        AddToCollectionCommand = RelayCommandFactory.CreateEmptyAsyncCommand(AddToCollection, _ => CurrentAlbum is not null);
+        ClearCommand = RelayCommandFactory.CreateEmptyCommand(Clear, _ => CurrentAlbum is not null);
+        ReplaceArtistCommand = RelayCommandFactory.CreateRequiredParameterCommand<Artist>(ReplaceArtist, _ => CurrentAlbum is not null);
     }
 
     public IRelayCommand GetAlbumInfoCommand { get; set; }
@@ -62,16 +63,13 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
     public IRelayCommand ClearCommand { get; set; }
     public IRelayCommand ReplaceArtistCommand { get; }
 
-    private void ReplaceArtist(object? parameter)
+    private void ReplaceArtist(Artist parameter)
     {
-        if (parameter is Artist artist)
-        {
-            var existingArtist = _currentAlbumNewArtists.First(x => x.Title == artist.Title);
-            _currentAlbumNewArtists.Remove(existingArtist);
-            _currentAlbumNewArtists.Add(artist);
-        }
+        var existingArtist = _currentAlbumNewArtists.First(x => x.Title == parameter.Title);
+        _currentAlbumNewArtists.Remove(existingArtist);
+        _currentAlbumNewArtists.Add(parameter);
     }
-    private async void GetAlbumInfo(object? parameter)
+    private async Task GetAlbumInfo()
     {
         try
         {
@@ -94,7 +92,7 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
         }
     }
 
-    private async void AddToCollection(object? parameter)
+    private async Task AddToCollection()
     {
         await Task.Run(async () =>
         {
@@ -104,7 +102,7 @@ public class AddingNewAlbumViewModel : ApplicationBaseViewModel
         Clear(null);
     }
 
-    private void Clear(object? parameter)
+    private void Clear()
     {
         Url = string.Empty;
         CurrentAlbum = null;

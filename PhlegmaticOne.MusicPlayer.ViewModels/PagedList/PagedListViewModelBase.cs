@@ -45,12 +45,12 @@ public class PagedListViewModelBase<TCollectionItem> : ApplicationBaseViewModel 
         MoveNextPageCommand = RelayCommandFactory.CreateAsyncCommand(MoveNextPage, _ => CanMoveForward);
         MoveToFirstPageCommand = RelayCommandFactory.CreateAsyncCommand(MoveToFirstPage, _ => CanMoveBack);
         MoveToLastPageCommand = RelayCommandFactory.CreateAsyncCommand(MoveToLastPage, _ => CanMoveForward);
-        SelectCommand = RelayCommandFactory.CreateRequiredParameterAsyncCommand<string>(Select, _ => true);
-        SortCommand = RelayCommandFactory.CreateRequiredParameterAsyncCommand<string>(Sort, _ => true);
-        ReloadCurrentPageCommand = RelayCommandFactory.CreateAsyncCommand(ReloadCurrentPage, _ => true);
-        RestoreCommand = RelayCommandFactory.CreateAsyncCommand(Restore, _ => true);
-        ChangePageSizeCommand = RelayCommandFactory.CreateRequiredParameterAsyncCommand<int>(ChangePageSize, _ => true);
-        LoadCommand = RelayCommandFactory.CreateAsyncCommand(Loaded, _ => true);
+        SelectCommand = RelayCommandFactory.CreateRequiredParameterAsyncCommand<string>(Select);
+        SortCommand = RelayCommandFactory.CreateRequiredParameterAsyncCommand<string>(Sort);
+        ReloadCurrentPageCommand = RelayCommandFactory.CreateAsyncCommand(ReloadCurrentPage);
+        RestoreCommand = RelayCommandFactory.CreateAsyncCommand(Restore);
+        ChangePageSizeCommand = RelayCommandFactory.CreateRequiredParameterAsyncCommand<int>(ChangePageSize);
+        LoadCommand = RelayCommandFactory.CreateAsyncCommand(Loaded);
     }
     public ObservableCollection<TCollectionItem> Items { get; }
     public List<int> AvailablePageSizes { get; }
@@ -83,8 +83,9 @@ public class PagedListViewModelBase<TCollectionItem> : ApplicationBaseViewModel 
                 TotalItems = await _entitiesCountGetService.GetEntitiesCountAsync(_selectingFunc);
             }
 
-            var newItems =
-                await _entityPagedListGet.GetPagedListAsync(PageSize, pageIndex, _sortingFunc, _selectingFunc);
+            var newItems = await _entityPagedListGet
+                .GetPagedListAsync(PageSize, pageIndex, _sortingFunc, _selectingFunc);
+
             await UpdateItems(newItems.Items);
         });
     }
